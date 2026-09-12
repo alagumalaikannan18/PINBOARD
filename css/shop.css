@@ -1,0 +1,374 @@
+/* =============================================
+   PINBOARD — Dedicated 3D Shop Gallery Styling
+   Digital 3D Poster Showroom & Exhibition Layout
+   ============================================= */
+
+/* Main Gallery Container */
+.shop-hero-banner {
+  padding: 120px 48px 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.shop-tag-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.shop-tag-line .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 8px rgba(228, 64, 42, 0.6);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.shop-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.shop-main-heading {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(42px, 6.5vw, 76px);
+  line-height: 0.95;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.shop-intro-sub {
+  font-size: 15px;
+  color: rgba(21, 20, 15, 0.65);
+  max-width: 580px;
+  line-height: 1.45;
+  margin-bottom: 28px;
+}
+
+/* Category Filter Bar */
+.gallery-filter-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+  margin-bottom: 44px;
+  flex-wrap: wrap;
+}
+
+.gallery-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: none;
+}
+.gallery-filter-pills::-webkit-scrollbar { display: none; }
+
+.gallery-pill {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+}
+
+.gallery-pill:hover {
+  border-color: var(--ink);
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.gallery-pill.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: 0 4px 16px rgba(21, 20, 15, 0.2);
+}
+
+.gallery-status-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(21, 20, 15, 0.5);
+  letter-spacing: 0.5px;
+}
+
+/* =============================================
+   3D POSTER GALLERY SHOWROOM GRID
+   ============================================= */
+.shop-showroom-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 48px 120px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 48px 36px;
+}
+
+/* 3D Poster Perspective Card */
+.poster-3d-wrap {
+  perspective: 1000px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
+.poster-3d-card {
+  position: relative;
+  background: #ECE9DF;
+  border: 1px solid rgba(21, 20, 15, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 10px 30px rgba(21, 20, 15, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.poster-3d-wrap:hover .poster-3d-card {
+  border-color: rgba(21, 20, 15, 0.3);
+  box-shadow: 0 24px 50px rgba(21, 20, 15, 0.14), 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Framed Matting Chamber */
+.poster-mat-frame {
+  position: relative;
+  background: #F5F3EC;
+  border-radius: 8px;
+  padding: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transform-style: preserve-3d;
+}
+
+/* Floating Artwork Sheet */
+.poster-artwork-float {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #15140F;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22), 0 4px 10px rgba(0, 0, 0, 0.12);
+  transform: translateZ(14px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.poster-3d-wrap:hover .poster-artwork-float {
+  transform: translateZ(24px) scale(1.02);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.32), 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.poster-artwork-float img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.poster-3d-wrap:hover .poster-artwork-float img {
+  transform: scale(1.04);
+}
+
+/* Corner Matte Clips / Shadow accents */
+.poster-art-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.2) 100%);
+}
+
+/* Museum Badge */
+.gallery-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  z-index: 5;
+  transform: translateZ(28px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.gallery-badge.sale {
+  background: var(--red);
+  color: #fff;
+}
+
+.gallery-badge.trending {
+  background: #d97706;
+  color: #fff;
+}
+
+/* Gallery Placard Info Section */
+.gallery-placard {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(21, 20, 15, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translateZ(10px);
+}
+
+.placard-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.placard-cat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: rgba(21, 20, 15, 0.55);
+  text-transform: uppercase;
+}
+
+.placard-size {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(21, 20, 15, 0.45);
+  background: rgba(21, 20, 15, 0.05);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.placard-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 19px;
+  line-height: 1.15;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.poster-3d-wrap:hover .placard-title {
+  color: var(--red);
+}
+
+.placard-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.placard-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.placard-price-active {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.placard-price-regular {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: line-through;
+  color: rgba(21, 20, 15, 0.4);
+}
+
+.placard-cta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.25s ease;
+}
+
+.poster-3d-wrap:hover .placard-cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+@media (max-width: 1024px) {
+  .shop-hero-banner {
+    padding: 100px 32px 20px;
+  }
+  .shop-showroom-grid {
+    padding: 0 32px 80px;
+    gap: 32px 24px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .shop-hero-banner {
+    padding: 90px 20px 16px;
+  }
+  .shop-showroom-grid {
+    padding: 0 20px 60px;
+    gap: 24px 16px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  .poster-3d-card {
+    padding: 10px;
+  }
+  .poster-mat-frame {
+    padding: 8px;
+  }
+  .placard-title {
+    font-size: 15px;
+  }
+  .placard-price-active {
+    font-size: 13px;
+  }
+  .gallery-status-count {
+    display: none;
+  }
+}

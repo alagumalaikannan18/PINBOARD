@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PINBOARD — Wall Posters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=12" />
+</head>
+
+<body>
+  <header>
+    <div class="logo"><a href="index.html"
+        style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px"><span
+          class="pin"></span>PINBOARD</a></div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" onerror="this.onerror=null;this.src='cat_movies.jpg'" alt="Movies category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" onerror="this.onerror=null;this.src='cat_cars.jpg'" alt="Cars category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" onerror="this.onerror=null;this.src='cat_motivation.jpg'"
+              alt="Motivation category" loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" onerror="this.onerror=null;this.src='cat_gaming.jpg'" alt="Gaming category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" onerror="this.onerror=null;this.src='cat_sports.jpg'" alt="Sports category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-overlay" id="mobileOverlay">
+    <a href="shop.html">Shop All</a>
+    <a href="index.html#collections">Collections</a>
+    <a href="custom-posters.html">Custom Posters</a>
+    <a href="index.html#about">About</a>
+    <a href="account.html">My Account</a>
+  </div>
+
+  <section class="hero">
+    <a href="product.html?id=11" class="pinned-link">
+      <div class="pinned p1"><img src="1554016.webp" onerror="this.onerror=null;this.src='1554016.png'"
+          alt="GOAT10 — Messi tribute poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=12" class="pinned-link">
+      <div class="pinned p2"><img src="1553256_1.webp" onerror="this.onerror=null;this.src='1553256_1.jpg.jpeg'"
+          alt="Crimson Stage — concert poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=13" class="pinned-link">
+      <div class="pinned p3"><img src="1553164.webp" onerror="this.onerror=null;this.src='1553164.jpg.jpeg'"
+          alt="Hellme — dark art poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=14" class="pinned-link">
+      <div class="pinned p4"><img src="1551192.webp" onerror="this.onerror=null;this.src='1551192.png'"
+          alt="When The Dream Became Immortal — football poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+
+    <div class="hero-copy">
+      <span class="hero-eyebrow mono">NEW DROP — VOL. 04</span>
+      <h1 class="hero-title display">
+        <span>YOUR WALL</span>
+        <span class="outline">DESERVES</span>
+        <span>BETTER</span>
+      </h1>
+      <p class="hero-sub">
+        Curated in tight collections and shipped flat in 3 days. Pin it up plain or let us frame it for you.
+      </p>
+      <div class="hero-cta">
+        <a href="#shop" class="btn btn-solid">Shop the Wall</a>
+        <button type="button" class="btn btn-ghost" id="heroViewCollectionsBtn">View Collections</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>FREE SHIPPING OVER ₹1999</span>
+      <span>CUSTOM DESIGN</span>
+      <span>PRINTED ON 300GSM MATTE</span>
+      <span>ROLLED & PACKED IN 24HRS</span>
+      <span>FREE SHIPPING OVER ₹1999</span>
+      <span>CUSTOM DESIGNS</span>
+      <span>PRINTED ON 300GSM MATTE</span>
+      <span>ROLLED & PACKED IN 24HRS</span>
+    </div>
+  </div>
+
+  <section class="section" id="collections">
+    <div class="section-head">
+      <div>
+        <span class="section-tag mono">01 — BROWSE BY MOOD</span>
+        <h2 class="section-title display">Collections</h2>
+      </div>
+      <p class="section-desc">
+        Each set is grouped by feeling, not just subject — pick the wall you
+        want to wake up to.
+      </p>
+    </div>
+    <div class="collections-viewport">
+      <div class="collections-track-wrap">
+        <div class="collections" id="collectionsTrack">
+          <div class="collection-card" data-product-id="5">
+            <img src="New Project 22 [94A5EEE]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [94A5EEE].png'" alt="Minimal" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">01</span>
+              <span class="name">Minimal Line</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="6">
+            <img src="New Project 22 [B720BE2]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [B720BE2].png'" alt="Nature" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">02</span>
+              <span class="name">Wild &amp; Green</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="7">
+            <img src="New Project 22 [D8D9C72]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [D8D9C72].png'" alt="Retro" loading="lazy" width="280"
+              height="380" />
+            <div class="collection-label">
+              <span class="num mono">03</span>
+              <span class="name">Riso Retro</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="8">
+            <img src="New Project 22 [E742D9E]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [E742D9E].png'" alt="Urban Grit" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">04</span>
+              <span class="name">Urban Grit</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="9">
+            <img src="New Project 22 [A7FF5A7]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [A7FF5A7].png'" alt="Neon Bloom" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">05</span>
+              <span class="name">Neon Bloom</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="10">
+            <img src="New Project 22 [5627475] (1)-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [5627475] (1).png'" alt="Analog Film" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">06</span>
+              <span class="name">Analog Film</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Carousel Back Button -->
+      <button class="carousel-btn carousel-btn--prev is-hidden" id="carouselPrevBtn" aria-label="Previous collection">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 6l-6 6 6 6" />
+        </svg>
+      </button>
+      <!-- Carousel Next Button -->
+      <button class="carousel-btn carousel-btn--next" id="carouselNextBtn" aria-label="Next collection">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="section grid-wrap" id="shop">
+    <div class="section-head">
+      <div>
+        <span class="section-tag mono">02 — FRESH OFF THE PRESS</span>
+        <h2 class="section-title display">Best Sellers</h2>
+      </div>
+      <p class="section-desc">
+        The prints people keep coming back for — restocked weekly.
+      </p>
+    </div>
+    <div class="products">
+      <div class="product" data-product-id="1">
+        <div class="product-tape"></div>
+        <div class="badge">NEW</div>
+        <div class="product-img">
+          <img src="New Project 22 [FA6B4A7].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Sunset Ridge</div>
+            <div class="cat">Nature · A3</div>
+          </div>
+          <div class="price">₹649</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="2">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="New Project 22 [27E5039].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Bauhaus No.7</div>
+            <div class="cat">Abstract · A2</div>
+          </div>
+          <div class="price">₹899</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="3">
+        <div class="product-tape"></div>
+        <div class="badge">BESTSELLER</div>
+        <div class="product-img">
+          <img src="New Project 22 [029A006].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Tokyo Nights</div>
+            <div class="cat">Cityscape · A3</div>
+          </div>
+          <div class="price">₹749</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="4">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="New Project 22 [534B54A].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Golden Hour</div>
+            <div class="cat">Photography · A2</div>
+          </div>
+          <div class="price">₹999</div>
+        </div>
+      </div>
+      <div class="product" data-product-id="4">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="WhatsApp Image 2026-09-05 at 11.39.33 PM (1).jpeg" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Golden Hour</div>
+            <div class="cat">Photography · A2</div>
+          </div>
+          <div class="price">₹999</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="configurator" id="frame">
+    <div class="visual">
+      <div class="frame-demo oak" id="frameDemo">
+        <img src="New Project 22 [37F3EB1].png" alt="preview" />
+      </div>
+    </div>
+    <div>
+      <span class="section-tag mono" style="color: var(--red)">03 — MAKE IT YOURS</span>
+      <h2>Build Your Print</h2>
+      <p class="config-desc">
+        Pick a size, choose a frame or go frameless — every poster on the site
+        runs through the same simple configurator before it ships.
+      </p>
+
+      <div class="options-row">
+        <span class="label mono">FRAME</span>
+        <div class="swatches">
+          <div class="swatch sw-none" title="No frame"></div>
+          <div class="swatch sw-black active" title="Black frame"></div>
+          <div class="swatch sw-oak" title="Oak frame"></div>
+        </div>
+      </div>
+
+      <div class="options-row">
+        <span class="label mono">SIZE</span>
+        <div>
+          <button class="size-pill">A4</button>
+          <button class="size-pill active">A3</button>
+          <button class="size-pill">A2</button>
+          <button class="size-pill">A1</button>
+        </div>
+      </div>
+
+      <button class="btn btn-solid btn-cart">Add to Cart — ₹899</button>
+    </div>
+  </section>
+
+  <section class="placards">
+    <div class="placard">
+      <p class="quote">
+        Ordered four prints for my studio and the paper quality alone made it
+        feel like an actual gallery shop, not a print-on-demand site.
+      </p>
+      <div class="who mono"><span>R. NAIR</span><span>CHENNAI</span></div>
+    </div>
+    <div class="placard">
+      <p class="quote">
+        The frame configurator sold me instantly — I could see exactly what I
+        was getting before I paid a rupee.
+      </p>
+      <div class="who mono"><span>A. MEHTA</span><span>PUNE</span></div>
+    </div>
+    <div class="placard">
+      <p class="quote">
+        Shipping was genuinely fast and nothing arrived bent. Reordering for
+        the whole hallway next.
+      </p>
+      <div class="who mono"><span>S. IYER</span><span>BENGALURU</span></div>
+    </div>
+  </section>
+
+  <!-- ========== NEW INTERACTIVE 3D PINBOARD WEBSITE SECTION ========== -->
+  <section class="interactive-3d-space" id="space3d">
+    <div class="space3d-head">
+      <div class="space3d-head-left">
+        <div class="space3d-tag">
+          <span class="live-dot"></span>
+          <span>CURATED FOR YOUR WALL</span>
+        </div>
+        <h2 class="space3d-title">BRING YOUR WALL TO LIFE</h2>
+        <p class="space3d-desc">
+          Discover premium prints, iconic moments, cinematic artwork, sports, abstract designs, and statement pieces
+          curated for your wall.
+        </p>
+      </div>
+      <div class="space3d-head-right">
+        <div class="space3d-modes">
+          <button class="space3d-mode-pill active" data-mode="cluster">CLUSTER 3D</button>
+          <button class="space3d-mode-pill" data-mode="wide">WIDE VIEW</button>
+          <button class="space3d-mode-pill" data-mode="focus">MINIMAL</button>
+        </div>
+        <div class="space3d-cta-row">
+          <a href="shop.html" class="btn btn-solid">Shop the Wall</a>
+          <a href="shop.html" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,0.3)">Explore All Posters</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Interactive Stage Viewport -->
+    <div class="space3d-viewport" id="space3dViewport">
+      <div class="space3d-stage" id="space3dStage">
+        <!-- Centerpiece Hero Poster -->
+        <div class="space3d-card hero-center" data-product-id="12" data-base-x="0" data-base-y="0" data-base-z="60"
+          data-base-rx="0" data-base-ry="0" data-base-rz="0" data-depth="1">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge">TRENDING</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1553256_1.jpg.jpeg" alt="Spider-Man Rebirth" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">REBIRTH | Spider-Man</span>
+              <span class="space3d-card-price">₹699</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Wing Card -->
+        <div class="space3d-card" data-product-id="2" data-base-x="-320" data-base-y="-30" data-base-z="-30"
+          data-base-rx="-4" data-base-ry="18" data-base-rz="-2" data-depth="1.4">
+          <div class="space3d-card-inner">
+            <div class="space3d-card-img-wrap">
+              <img src="New Project 22 [27E5039].png" alt="Bauhaus No.7" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Bauhaus No.7</span>
+              <span class="space3d-card-price">₹899</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Wing Card -->
+        <div class="space3d-card" data-product-id="14" data-base-x="320" data-base-y="30" data-base-z="-20"
+          data-base-rx="4" data-base-ry="-16" data-base-rz="2" data-depth="1.3">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge">IMMORTAL</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1551192.png" alt="Messi Immortal" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Messi Immortal</span>
+              <span class="space3d-card-price">₹799</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ambient Depth Left -->
+        <div class="space3d-card" data-product-id="1" data-base-x="-540" data-base-y="-100" data-base-z="-120"
+          data-base-rx="-8" data-base-ry="24" data-base-rz="-4" data-depth="2.1">
+          <div class="space3d-card-inner">
+            <div class="space3d-card-img-wrap">
+              <img src="New Project 22 [FA6B4A7].png" alt="Sunset Ridge" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Sunset Ridge</span>
+              <span class="space3d-card-price">₹649</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ambient Depth Right -->
+        <div class="space3d-card" data-product-id="13" data-base-x="540" data-base-y="90" data-base-z="-100"
+          data-base-rx="6" data-base-ry="-22" data-base-rz="3" data-depth="2.0">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge" style="background:#059669">MARVEL</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1553164.jpg.jpeg" alt="Doctor Doom" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Doctor Doom</span>
+              <span class="space3d-card-price">₹749</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter" id="about">
+    <span class="section-tag mono">STAY PINNED</span>
+    <h2 class="display">Get first look<br />at every new drop</h2>
+    <p>
+      One email a week. New collections, restocks, the occasional discount.
+    </p>
+    <form class="news-form">
+      <input type="email" placeholder="your@email.com" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html"
+            style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#about">Artists</a></li>
+          <li><a href="#about">Wholesale</a></li>
+          <li><a href="#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="#frame">Shipping</a></li>
+          <li><a href="#frame">Returns</a></li>
+          <li><a href="#frame">Care Guide</a></li>
+          <li><a href="#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/script.js?v=3"></script>
+  <script src="js/space3d.js"></script>
+</body>
+
+</html>

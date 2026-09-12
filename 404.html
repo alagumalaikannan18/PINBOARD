@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — PINBOARD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // SPA / Deep-link redirect helper for GitHub Pages
+    (function () {
+      var path = window.location.pathname;
+      var clean = path.replace(/^\/+/, '').split('/')[0];
+      var routes = {
+        'shop': 'shop.html',
+        'cart': 'cart.html',
+        'account': 'account.html',
+        'custom-posters': 'custom-posters.html',
+        'movies': 'movies.html',
+        'cars': 'cars.html',
+        'motivation': 'motivation.html',
+        'anime': 'motivation.html',
+        'gaming': 'gaming.html',
+        'sports': 'sports.html',
+        'product': 'product.html'
+      };
+      if (routes[clean]) {
+        var newUrl = routes[clean] + window.location.search + window.location.hash;
+        window.location.replace(newUrl);
+      }
+    })();
+  </script>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;font-family:'Inter',sans-serif;background:#f5f4f0;color:#111;text-align:center;">
+  <div style="padding:40px;max-width:520px;">
+    <div style="font-family:'Anton',sans-serif;font-size:72px;line-height:1;margin-bottom:12px;letter-spacing:1px;">404</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:2px;color:rgba(17,17,17,0.6);margin-bottom:16px;">PAGE NOT FOUND</div>
+    <p style="font-size:16px;color:#666;margin-bottom:28px;line-height:1.5;">The requested page or poster could not be found. Let's get you back to the collection.</p>
+    <a href="index.html" style="display:inline-block;background:#111;color:#fff;padding:14px 32px;text-decoration:none;font-weight:700;font-size:13px;letter-spacing:1.5px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;border-radius:2px;transition:background 0.2s ease;">Back to Home &rarr;</a>
+  </div>
+</body>
+</html>

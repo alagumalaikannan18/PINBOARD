@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop All Posters — PINBOARD Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/shop.css?v=1" />
+</head>
+
+<body>
+  <!-- ========== MAIN NAVBAR (ONE CLEAN SYSTEM) ========== -->
+  <header>
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+        <span class="pin"></span>PINBOARD
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="shop.html" class="active">Shop All</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" alt="Movies category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_movies.jpg'" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" alt="Cars category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_cars.jpg'" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" alt="Motivation category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_motivation.jpg'" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" alt="Gaming category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_gaming.jpg'" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" alt="Sports category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_sports.jpg'" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Overlay (Corrected class name so it is hidden on desktop) -->
+  <div class="mobile-overlay" id="mobileOverlay">
+    <a href="shop.html">Shop All</a>
+    <a href="index.html#collections">Collections</a>
+    <a href="custom-posters.html">Custom Posters</a>
+    <a href="index.html#about">About</a>
+    <a href="account.html">My Account</a>
+  </div>
+
+  <!-- ========== SHOP 3D GALLERY HEADER ========== -->
+  <section class="shop-hero-banner">
+    <div class="page-nav-bar">
+      <button type="button" class="pinboard-back-btn" data-fallback="index.html" aria-label="Go back to previous page">
+        <span class="back-btn-inner">
+          <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span class="back-btn-text">BACK</span>
+          <span class="back-btn-dot" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="shop-tag-line">
+      <span class="live-dot"></span>
+      <span>EXHIBITION CATALOG · 300 GSM ARCHIVAL PRINTS</span>
+    </div>
+
+    <div class="shop-title-row">
+      <h1 class="shop-main-heading">SHOP ALL POSTERS</h1>
+    </div>
+    <p class="shop-intro-sub">Explore our full rotation of museum-grade matte prints across movies, sports, motivation, abstract, and nature. Interact in 3D perspective below.</p>
+
+    <!-- Interactive Category Filter Bar -->
+    <div class="gallery-filter-wrap">
+      <div class="gallery-filter-pills" id="shopFilterBar">
+        <button class="gallery-pill active" data-category="all">ALL PRINTS</button>
+        <button class="gallery-pill" data-category="motivation">MOTIVATION</button>
+        <button class="gallery-pill" data-category="sports">SPORTS</button>
+        <button class="gallery-pill" data-category="movies">MOVIES</button>
+        <button class="gallery-pill" data-category="abstract">ABSTRACT</button>
+        <button class="gallery-pill" data-category="nature">NATURE</button>
+        <button class="gallery-pill" data-category="retro">RETRO</button>
+        <button class="gallery-pill" data-category="neon">NEON</button>
+      </div>
+      <div class="gallery-status-count" id="shopCountBadge">
+        14 PRINTS IN ROTATION
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3D POSTER GALLERY SHOWROOM GRID ========== -->
+  <section class="shop-showroom-grid" id="shopGrid">
+    <!-- Dynamic 3D interactive gallery cards rendered by js/shop.js -->
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="index.html#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#about">Artists</a></li>
+          <li><a href="index.html#about">Wholesale</a></li>
+          <li><a href="index.html#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="index.html#frame">Shipping</a></li>
+          <li><a href="index.html#frame">Returns</a></li>
+          <li><a href="index.html#frame">Care Guide</a></li>
+          <li><a href="index.html#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+
+</html>

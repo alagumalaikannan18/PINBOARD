@@ -1,0 +1,388 @@
+{
+  "environment": {
+    "url": "http://localhost:3000",
+    "browser": "Google Chrome (Headless via Puppeteer-Core)",
+    "timestamp": "2026-09-12T08:24:59.699Z"
+  },
+  "summary": {
+    "total": 69,
+    "passed": 69,
+    "failed": 0,
+    "warnings": 0
+  },
+  "phases": {
+    "pages": [
+      {
+        "name": "Direct URL access: index.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"PINBOARD — Wall Posters\", Time: 1125ms"
+      },
+      {
+        "name": "Direct URL access: shop.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Shop All Posters — PINBOARD Gallery\", Time: 855ms"
+      },
+      {
+        "name": "Direct URL access: movies.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Movies Poster Collection — PINBOARD Gallery\", Time: 626ms"
+      },
+      {
+        "name": "Direct URL access: cars.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Cars & Supercars Poster Collection — PINBOARD Gallery\", Time: 579ms"
+      },
+      {
+        "name": "Direct URL access: motivation.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Motivation Poster Collection — PINBOARD Gallery\", Time: 596ms"
+      },
+      {
+        "name": "Direct URL access: gaming.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Gaming & Esports Poster Collection — PINBOARD Gallery\", Time: 594ms"
+      },
+      {
+        "name": "Direct URL access: sports.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Sports & Legends Poster Collection — PINBOARD Gallery\", Time: 580ms"
+      },
+      {
+        "name": "Direct URL access: custom-posters.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Custom Posters Studio — Turn Memories into Art — PINBOARD\", Time: 645ms"
+      },
+      {
+        "name": "Direct URL access: cart.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Your Cart — PINBOARD Wall Posters\", Time: 627ms"
+      },
+      {
+        "name": "Direct URL access: account.html",
+        "passed": true,
+        "details": "Status: 200, Title: \"Account — PINBOARD\", Time: 899ms"
+      },
+      {
+        "name": "Direct URL access: product.html?id=11",
+        "passed": true,
+        "details": "Status: 200, Title: \"JUGADOR 10 | Leo Messi Poster — PINBOARD\", Time: 859ms"
+      }
+    ],
+    "navigation": [
+      {
+        "name": "Clicking \"Shop All\" navigates to shop.html",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking \"Custom Posters\" navigates to custom-posters.html",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking Cart icon navigates to cart.html",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking Account icon navigates to account.html",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Browser Back returns to previous route (cart.html)",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Browser Forward returns to account.html",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Page Refresh preserves active view without crash",
+        "passed": true,
+        "details": ""
+      }
+    ],
+    "search": [
+      {
+        "name": "Click #searchToggleBtn opens search box",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Search input accepts and retains user query string",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Search submission executed cleanly without error",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Click #searchCloseBtn closes search bar",
+        "passed": true,
+        "details": ""
+      }
+    ],
+    "categories": [
+      {
+        "name": "Category \"Movies\" displays dynamic posters",
+        "passed": true,
+        "details": "Rendered 184 poster cards with prices & images"
+      },
+      {
+        "name": "Subcategory filter pill \"MARVEL\" filters grid",
+        "passed": true,
+        "details": "Active items: 26"
+      },
+      {
+        "name": "Category \"Cars\" displays dynamic posters",
+        "passed": true,
+        "details": "Rendered 24 poster cards with prices & images"
+      },
+      {
+        "name": "Subcategory filter pill \"LAMBORGHINI\" filters grid",
+        "passed": true,
+        "details": "Active items: 0"
+      },
+      {
+        "name": "Category \"Motivation\" displays dynamic posters",
+        "passed": true,
+        "details": "Rendered 30 poster cards with prices & images"
+      },
+      {
+        "name": "Subcategory filter pill \"DISCIPLINE\" filters grid",
+        "passed": true,
+        "details": "Active items: 10"
+      },
+      {
+        "name": "Category \"Gaming\" displays dynamic posters",
+        "passed": true,
+        "details": "Rendered 10 poster cards with prices & images"
+      },
+      {
+        "name": "Subcategory filter pill \"GTA\" filters grid",
+        "passed": true,
+        "details": "Active items: 1"
+      },
+      {
+        "name": "Category \"Sports\" displays dynamic posters",
+        "passed": true,
+        "details": "Rendered 54 poster cards with prices & images"
+      },
+      {
+        "name": "Subcategory filter pill \"FOOTBALL\" filters grid",
+        "passed": true,
+        "details": "Active items: 27"
+      }
+    ],
+    "pdp": [
+      {
+        "name": "PDP ID 11 renders title, price, image & CTA buttons",
+        "passed": true,
+        "details": "Title: \"JUGADOR 10 | LEO MESSI POSTER\", Price: \"Rs. 749.00\""
+      },
+      {
+        "name": "PDP ID 12 renders title, price, image & CTA buttons",
+        "passed": true,
+        "details": "Title: \"REBIRTH | SPIDER-MAN MARVEL POSTER\", Price: \"Rs. 699.00\""
+      },
+      {
+        "name": "PDP ID 13 renders title, price, image & CTA buttons",
+        "passed": true,
+        "details": "Title: \"ANSWERS TO HELLME | DOCTOR DOOM POSTER\", Price: \"Rs. 749.00\""
+      },
+      {
+        "name": "PDP ID 1 renders title, price, image & CTA buttons",
+        "passed": true,
+        "details": "Title: \"DISCIPLINE MAKES YOU UNFORGETTABLE | CRISTIANO RONALDO\", Price: \"Rs. 649.00\""
+      },
+      {
+        "name": "PDP ID 5 renders title, price, image & CTA buttons",
+        "passed": true,
+        "details": "Title: \"MEN ARE BRAVE | THE DARK KNIGHT EMBLEM\", Price: \"Rs. 1399.00\""
+      },
+      {
+        "name": "Selecting size \"A3\" marks pill active",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Quantity Stepper (+) increments to 2",
+        "passed": true,
+        "details": "Value: 2"
+      },
+      {
+        "name": "Quantity Stepper (-) decrements back to 1",
+        "passed": true,
+        "details": "Value: 1"
+      }
+    ],
+    "cart": [
+      {
+        "name": "Guest user clicking Add to Cart triggers login prompt modal",
+        "passed": true,
+        "details": "Auth protection verified"
+      },
+      {
+        "name": "Authenticated user Add to Cart increments navbar badge >= 1",
+        "passed": true,
+        "details": "Badge: 1"
+      },
+      {
+        "name": "Cart page lists item with title, price & quantity stepper",
+        "passed": true,
+        "details": "Found 1 item(s): \"JUGADOR 10 | LEO MESSI POSTER\""
+      },
+      {
+        "name": "Cart quantity increment (+) updates item quantity in DOM",
+        "passed": true,
+        "details": "Quantity: 2"
+      },
+      {
+        "name": "Promo coupon code PINBOARD10 applies discount successfully",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Cart items persist after page refresh with zero flicker",
+        "passed": true,
+        "details": "Persisted count: 1"
+      },
+      {
+        "name": "Clicking \"Remove\" removes item from cart DOM",
+        "passed": true,
+        "details": ""
+      }
+    ],
+    "auth": [
+      {
+        "name": "Account page renders Sign In tab in logged out state",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Account page renders Create Account tab in logged out state",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Account page renders \"Continue with Google\" OAuth button",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking Create Account switches to registration form",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking Sign In switches back to login form",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "HTML5 validation rejects malformed email input",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Logged in user renders profile card with name, email & logout action",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Clicking Logout terminates session and restores Sign In form",
+        "passed": true,
+        "details": ""
+      }
+    ],
+    "customPosters": [
+      {
+        "name": "Template 5-Posters card selects and activates",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Template 8-Posters card selects and activates",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Template 10-Posters card selects and activates",
+        "passed": true,
+        "details": ""
+      },
+      {
+        "name": "Template 12-Posters card selects and activates",
+        "passed": true,
+        "details": ""
+      }
+    ],
+    "upload": [
+      {
+        "name": "Upload instructions explicitly state 100MB limit (no legacy 25MB mention)",
+        "passed": true,
+        "details": "100MB limit verified"
+      }
+    ],
+    "buttons": [
+      {
+        "name": "Discovered interactive action buttons across shop catalog",
+        "passed": true,
+        "details": "Total interactive buttons: 15"
+      }
+    ],
+    "network": [
+      {
+        "name": "Backend Cart API responds with valid HTTP status",
+        "passed": true,
+        "details": "Status: 200"
+      },
+      {
+        "name": "Backend Orders API responds with valid HTTP status",
+        "passed": true,
+        "details": "Status: 200"
+      },
+      {
+        "name": "Backend Products API responds with valid HTTP status",
+        "passed": true,
+        "details": "Status: 200"
+      }
+    ],
+    "performance": [
+      {
+        "name": "Homepage First Meaningful Paint under 2.5 seconds",
+        "passed": true,
+        "details": "Load Time: 588ms"
+      }
+    ],
+    "responsive": [
+      {
+        "name": "Viewport Desktop (1920x1080) renders with zero horizontal overflow",
+        "passed": true,
+        "details": "Clean layout"
+      },
+      {
+        "name": "Viewport Tablet (768x1024) renders with zero horizontal overflow",
+        "passed": true,
+        "details": "Clean layout"
+      },
+      {
+        "name": "Viewport Mobile (375x667) renders with zero horizontal overflow",
+        "passed": true,
+        "details": "Clean layout"
+      }
+    ],
+    "security": [
+      {
+        "name": "Local asset paths exist with correct case sensitivity",
+        "passed": true,
+        "details": "Broken assets: 0"
+      }
+    ]
+  }
+}

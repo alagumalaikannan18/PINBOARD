@@ -1,0 +1,800 @@
+/* ==========================================================================
+   PINBOARD — Dedicated 3D Category Exhibition Gallery System
+   Tailored 3D Atmospheres, Perspective Heroes & Interactive Showroom
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Tokens & Universal Category Base
+   -------------------------------------------------------------------------- */
+:root {
+  --cat-hero-bg: #11100C;
+  --cat-hero-text: #F5F4F0;
+  --cat-accent-glow: rgba(228, 64, 42, 0.35);
+  --cat-accent-color: #E4402A;
+  --cat-card-bg: #ECE9DF;
+  --cat-mat-bg: #F5F3EC;
+  --cat-border-color: rgba(21, 20, 15, 0.12);
+}
+
+/* Category Specific Themes */
+.theme-movies {
+  --cat-hero-bg: radial-gradient(circle at 75% 30%, #1c1410 0%, #0d0a08 60%, #050403 100%);
+  --cat-hero-text: #FAF8F5;
+  --cat-accent-glow: rgba(230, 81, 0, 0.3);
+  --cat-accent-color: #F59E0B;
+  --cat-tag-pill: rgba(245, 158, 11, 0.15);
+  --cat-tag-border: rgba(245, 158, 11, 0.4);
+}
+
+.theme-cars {
+  --cat-hero-bg: radial-gradient(circle at 70% 35%, #151a24 0%, #0c0f17 55%, #05070a 100%);
+  --cat-hero-text: #F8FAFC;
+  --cat-accent-glow: rgba(14, 165, 233, 0.32);
+  --cat-accent-color: #38BDF8;
+  --cat-tag-pill: rgba(56, 189, 248, 0.15);
+  --cat-tag-border: rgba(56, 189, 248, 0.4);
+}
+
+.theme-motivation,
+.theme-anime {
+  --cat-hero-bg: radial-gradient(circle at 75% 30%, #20170d 0%, #120d06 55%, #080502 100%);
+  --cat-hero-text: #FFF9F2;
+  --cat-accent-glow: rgba(245, 158, 11, 0.35);
+  --cat-accent-color: #F59E0B;
+  --cat-tag-pill: rgba(245, 158, 11, 0.15);
+  --cat-tag-border: rgba(245, 158, 11, 0.4);
+}
+
+.theme-gaming {
+  --cat-hero-bg: radial-gradient(circle at 75% 30%, #0f1c24 0%, #071018 55%, #03080d 100%);
+  --cat-hero-text: #ECFDF5;
+  --cat-accent-glow: rgba(16, 185, 129, 0.3);
+  --cat-accent-color: #10B981;
+  --cat-tag-pill: rgba(16, 185, 129, 0.15);
+  --cat-tag-border: rgba(16, 185, 129, 0.4);
+}
+
+.theme-sports {
+  --cat-hero-bg: radial-gradient(circle at 70% 30%, #171d13 0%, #0d120a 55%, #050803 100%);
+  --cat-hero-text: #F7FEE7;
+  --cat-accent-glow: rgba(132, 204, 22, 0.32);
+  --cat-accent-color: #84CC16;
+  --cat-tag-pill: rgba(132, 204, 22, 0.15);
+  --cat-tag-border: rgba(132, 204, 22, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Category Hero Section
+   -------------------------------------------------------------------------- */
+.category-hero-section {
+  position: relative;
+  background: var(--cat-hero-bg);
+  color: var(--cat-hero-text);
+  padding: 130px 48px 60px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.category-hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: 5%;
+  width: 650px;
+  height: 650px;
+  background: var(--cat-accent-glow);
+  filter: blur(140px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.category-hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.category-hero-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Top Back Navigation Bar */
+.category-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.back-to-collections-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--cat-hero-text);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-to-collections-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateX(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-collections-btn svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s ease;
+}
+
+.back-to-collections-btn:hover svg {
+  transform: translateX(-3px);
+}
+
+.category-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--cat-accent-color);
+  background: var(--cat-tag-pill);
+  border: 1px solid var(--cat-tag-border);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.category-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cat-accent-color);
+  box-shadow: 0 0 8px var(--cat-accent-color);
+  animation: catPulse 2s infinite ease-in-out;
+}
+
+@keyframes catPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Category Hero Left Content */
+.category-hero-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-tagline-top {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cat-accent-color);
+  margin-bottom: 12px;
+}
+
+.category-main-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(52px, 8.5vw, 108px);
+  line-height: 0.88;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0 0 20px 0;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.category-hero-quote {
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 580px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--cat-accent-color);
+  padding-left: 18px;
+}
+
+.category-hero-subtext {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 540px;
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* Category Hero Right 3D Visual Chamber */
+.category-3d-hero-visual {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-3d-stage {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4 / 3.4;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-3d-card-main {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transform: translateZ(30px) rotateY(-4deg) rotateX(3deg);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  background: #000;
+}
+
+.hero-3d-card-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-3d-card-glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+  pointer-events: none;
+}
+
+.hero-3d-floating-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(15, 15, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  transform: translateZ(50px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.hero-badge-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--cat-accent-color);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hero-badge-desc {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Category Accent Corner Frame */
+.hero-3d-frame-deco {
+  position: absolute;
+  inset: -12px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 22px;
+  pointer-events: none;
+  transform: translateZ(10px) rotateY(-4deg) rotateX(3deg);
+}
+
+/* --------------------------------------------------------------------------
+   Filter, Search & Toolbar Area
+   -------------------------------------------------------------------------- */
+.category-control-area {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  padding: 24px 48px;
+  position: relative !important;
+  top: auto !important;
+  z-index: 10 !important;
+  backdrop-filter: none !important;
+  transition: all 0.3s ease;
+}
+
+
+.category-control-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-pills-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cat-filter-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-filter-track::-webkit-scrollbar { display: none; }
+
+.cat-filter-pill {
+  background: #FFFFFF;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.cat-filter-pill:hover {
+  border-color: var(--ink);
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.cat-filter-pill.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: 0 4px 16px rgba(21, 20, 15, 0.22);
+}
+
+/* Secondary Search & Sort Toolbar */
+.category-tools-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(21, 20, 15, 0.1);
+}
+
+.cat-search-box {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 14px;
+  gap: 10px;
+  min-width: 260px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cat-search-box:focus-within {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(21, 20, 15, 0.06);
+}
+
+.cat-search-box svg {
+  width: 16px;
+  height: 16px;
+  stroke: rgba(21, 20, 15, 0.5);
+}
+
+.cat-search-input {
+  border: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: var(--ink);
+  outline: none;
+  width: 100%;
+}
+
+.category-tools-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cat-sort-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: rgba(21, 20, 15, 0.7);
+}
+
+.cat-sort-select {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink);
+  cursor: pointer;
+  outline: none;
+}
+
+.cat-item-counter {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--ink);
+  background: rgba(21, 20, 15, 0.06);
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   3D Poster Showroom Exhibition Grid
+   -------------------------------------------------------------------------- */
+.category-gallery-section {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 48px 120px;
+  min-height: 500px;
+}
+
+.category-poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 48px 36px;
+}
+
+/* 3D Poster Perspective Card (Inherits & Enhances PINBOARD 3D Card) */
+.cat-poster-wrap {
+  perspective: 1100px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
+
+.cat-poster-card {
+  position: relative;
+  background: var(--cat-card-bg);
+  border: 1px solid var(--cat-border-color);
+  border-radius: 12px;
+  padding: 16px;
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 10px 30px rgba(21, 20, 15, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cat-poster-wrap:hover .cat-poster-card {
+  border-color: rgba(21, 20, 15, 0.3);
+  box-shadow: 0 26px 54px rgba(21, 20, 15, 0.16), 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.cat-poster-mat {
+  position: relative;
+  background: var(--cat-mat-bg);
+  border-radius: 8px;
+  padding: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transform-style: preserve-3d;
+}
+
+.cat-poster-artwork {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #15140F;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22), 0 4px 10px rgba(0, 0, 0, 0.12);
+  transform: translateZ(14px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.cat-poster-wrap:hover .cat-poster-artwork {
+  transform: translateZ(26px) scale(1.02);
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.32), 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cat-poster-artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cat-poster-wrap:hover .cat-poster-artwork img {
+  transform: scale(1.05);
+}
+
+.cat-poster-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.25) 100%);
+}
+
+.cat-poster-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  z-index: 5;
+  transform: translateZ(30px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.cat-poster-badge.sale {
+  background: var(--red);
+  color: #fff;
+}
+
+.cat-poster-badge.trending {
+  background: #d97706;
+  color: #fff;
+}
+
+/* Placard Info */
+.cat-poster-placard {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(21, 20, 15, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translateZ(10px);
+}
+
+.cat-placard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.cat-placard-cat {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.cat-placard-size {
+  color: rgba(21, 20, 15, 0.5);
+}
+
+.cat-placard-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 19px;
+  line-height: 1.15;
+  letter-spacing: 0.4px;
+  color: var(--ink);
+  margin: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat-placard-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.cat-placard-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cat-placard-active-price {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cat-placard-regular-price {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  color: rgba(21, 20, 15, 0.4);
+  text-decoration: line-through;
+}
+
+.cat-placard-cta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.cat-poster-wrap:hover .cat-placard-cta {
+  color: var(--red);
+  transform: translateX(4px);
+}
+
+/* Empty State */
+.category-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 24px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.empty-state-icon {
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.empty-state-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+
+.empty-state-text {
+  font-size: 14.5px;
+  color: rgba(21, 20, 15, 0.6);
+  max-width: 480px;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .category-hero-section {
+    padding: 110px 32px 50px;
+  }
+  .category-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .category-3d-hero-visual {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .category-control-area {
+    padding: 20px 32px;
+  }
+  .category-gallery-section {
+    padding: 36px 32px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-hero-section {
+    padding: 100px 20px 40px;
+  }
+  .category-main-title {
+    font-size: 44px;
+  }
+  .category-hero-quote {
+    font-size: 16px;
+  }
+  .category-control-area {
+    padding: 16px 20px;
+    position: relative !important;
+    top: auto !important;
+  }
+
+  .category-tools-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .cat-search-box {
+    width: 100%;
+  }
+  .category-tools-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .category-gallery-section {
+    padding: 28px 20px 80px;
+  }
+  .category-poster-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 14px;
+  }
+  .cat-poster-card {
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .cat-poster-mat {
+    padding: 8px;
+    border-radius: 6px;
+  }
+  .cat-placard-title {
+    font-size: 15px;
+  }
+  .cat-placard-active-price {
+    font-size: 14px;
+  }
+  .cat-placard-cta {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-poster-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 10px;
+  }
+  .cat-poster-card {
+    padding: 8px;
+  }
+  .cat-poster-mat {
+    padding: 6px;
+  }
+  .cat-placard-title {
+    font-size: 13.5px;
+  }
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  .cat-poster-card,
+  .cat-poster-artwork,
+  .hero-3d-stage,
+  .hero-3d-card-main {
+    transition: none !important;
+    transform: none !important;
+  }
+}

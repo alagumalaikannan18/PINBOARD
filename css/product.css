@@ -1,0 +1,850 @@
+/* =========================================================================
+   PINBOARD — Classic Product Details Experience
+   Warm Beige Studio Wall · Two-Column Layout · Verified Editorial Styling
+   ========================================================================= */
+
+:root {
+  --pdp-bg: #F5F3EC;
+  --pdp-surface: #ffffff;
+  --pdp-ink: #111111;
+  --pdp-ink-muted: #666666;
+  --pdp-ink-subtle: #888888;
+  --pdp-border: rgba(17, 17, 17, 0.12);
+  --pdp-gold: #f59e0b;
+  --pdp-yellow-badge: #eab308;
+  --pdp-green: #2e7d32;
+  --pdp-red: #e4402a;
+  --pdp-radius: 8px;
+  --pdp-transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  background-color: var(--pdp-bg);
+  color: var(--pdp-ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+}
+
+/* ---------- MAIN PAGE WRAPPER ---------- */
+.pdp-wrap {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 36px 32px 72px;
+  background-color: var(--pdp-bg);
+}
+
+.pdp-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: start;
+}
+
+/* ---------- LEFT COLUMN: FRAMED ARTWORK ON STUDIO WALL ---------- */
+.pdp-gallery-column {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pdp-wall-stage {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+  background: #e5e0d4;
+  perspective: 1200px;
+}
+
+.pdp-wall-bg {
+  position: relative;
+  width: 100%;
+  padding: 44px 36px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 35% 25%, #f1eee6 0%, #e6e1d4 60%, #d7d1c1 100%);
+  min-height: 520px;
+}
+
+/* Subtle architectural window sunlight shadow */
+.pdp-sunlight-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.12) 100%);
+  opacity: 0.75;
+}
+
+/* The Framed Poster Art */
+.pdp-frame-container {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 7px solid #ffffff;
+  box-shadow:
+    0 22px 48px -10px rgba(0, 0, 0, 0.26),
+    0 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.pdp-frame-container:hover {
+  box-shadow:
+    0 28px 56px -12px rgba(0, 0, 0, 0.32),
+    0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.pdp-framed-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: contain;
+  border-radius: 1px;
+  transition: opacity 0.2s ease;
+}
+
+.pdp-main-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+.pdp-main-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdp-framed-img.fade-out {
+  opacity: 0.3;
+}
+
+.pdp-poster-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 55%);
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
+}
+
+/* Thumbnails (shown only if product has multiple authentic images) */
+.pdp-thumbs {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  justify-content: center;
+}
+
+.pdp-thumb {
+  width: 68px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.pdp-thumb:hover {
+  transform: translateY(-2px);
+  border-color: rgba(17, 17, 17, 0.4);
+}
+
+.pdp-thumb.active {
+  border-color: var(--pdp-ink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.pdp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- RIGHT COLUMN: EDITORIAL PRODUCT INFORMATION ---------- */
+.pdp-info-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. Breadcrumb */
+.pdp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  color: var(--pdp-ink-subtle);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pdp-breadcrumb a {
+  color: var(--pdp-ink-subtle);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.pdp-breadcrumb a:hover {
+  color: var(--pdp-ink);
+}
+
+.breadcrumb-sep {
+  opacity: 0.5;
+}
+
+.breadcrumb-current {
+  color: var(--pdp-ink-muted);
+}
+
+/* 2. Product Title */
+.pdp-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 46px;
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+  color: var(--pdp-ink);
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+}
+
+/* 3. Subtitle / Description */
+.pdp-subtitle {
+  font-size: 15px;
+  color: var(--pdp-ink-muted);
+  margin: 0 0 16px 0;
+  font-weight: 400;
+}
+
+/* 4. Badges Row */
+.pdp-badges-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.pdp-badge-pill {
+  padding: 4px 11px;
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: #333333;
+  background: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+}
+
+/* 5. Rating Row */
+.pdp-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  margin-bottom: 16px;
+}
+
+.pdp-rating-score {
+  font-weight: 700;
+  color: var(--pdp-ink);
+}
+
+.pdp-rating-stars {
+  color: var(--pdp-gold);
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+
+.pdp-rating-count {
+  color: var(--pdp-ink-muted);
+  font-size: 13px;
+}
+
+/* 6. Price Row */
+.pdp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.pdp-original-mrp {
+  text-decoration: line-through;
+  color: var(--pdp-ink-subtle);
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.pdp-current-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--pdp-ink);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.pdp-sale-tag {
+  background: var(--pdp-ink);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+/* 7. Tax & Per-Poster Info */
+.pdp-tax-note {
+  font-size: 12px;
+  color: #777777;
+  margin-bottom: 4px;
+}
+
+.pdp-per-poster {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pdp-green);
+  margin-bottom: 18px;
+}
+
+/* 8. Delivery Information Box */
+.pdp-delivery-card {
+  background: #fdfaf3;
+  border: 1px solid rgba(17, 17, 17, 0.09);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.pdp-delivery-timeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--pdp-ink);
+  font-weight: 500;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.delivery-track {
+  color: #c4975e;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.delivery-date-pill {
+  background: var(--pdp-yellow-badge);
+  color: #111111;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-left: auto;
+}
+
+.pdp-delivery-promo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555555;
+}
+
+.delivery-bolt {
+  color: var(--pdp-gold);
+}
+
+/* 9. Build Your Own Poster Wall Banner */
+.pdp-wall-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #181818;
+  color: #ffffff;
+  padding: 14px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.pdp-wall-banner:hover {
+  background: #0f0f0f;
+  transform: translateY(-2px);
+}
+
+.pdp-wall-icon {
+  display: grid;
+  grid-template-columns: repeat(2, 10px);
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.wall-tile {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.tile-yellow {
+  background: var(--pdp-gold);
+}
+
+.tile-gray {
+  background: #555555;
+}
+
+.pdp-wall-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pdp-wall-eyebrow {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--pdp-gold);
+  margin-bottom: 2px;
+}
+
+.pdp-wall-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2px 0;
+}
+
+.pdp-wall-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.pdp-wall-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--pdp-gold);
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.pdp-wall-banner:hover .pdp-wall-arrow {
+  transform: translateX(3px);
+}
+
+/* Size Selector */
+.pdp-size-section {
+  margin-bottom: 18px;
+}
+
+.pdp-size-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pdp-size-title {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+  color: #555555;
+}
+
+.pdp-size-readout {
+  font-size: 12px;
+  color: #777777;
+}
+
+.pdp-size-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.pdp-size-pill {
+  flex: 1;
+  padding: 7px 12px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 17, 17, 0.16);
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pdp-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pdp-size-pill:hover {
+  border-color: var(--pdp-ink);
+}
+
+.pdp-size-pill.active {
+  background: var(--pdp-ink);
+  color: #ffffff;
+  border-color: var(--pdp-ink);
+}
+
+/* 10. Quantity Stepper */
+.pdp-qty-section {
+  margin-bottom: 20px;
+}
+
+.pdp-qty-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 8px;
+}
+
+.pdp-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 6px;
+  height: 42px;
+  width: 130px;
+}
+
+.pdp-stepper-btn {
+  width: 40px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--pdp-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.pdp-stepper-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.pdp-stepper-val {
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--pdp-ink);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* 11 & 12. Action Buttons */
+.pdp-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.pdp-cta-btn {
+  width: 100%;
+  height: 50px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pdp-btn-cart {
+  background: var(--pdp-ink);
+  color: #ffffff;
+  border: none;
+}
+
+.pdp-btn-cart:hover {
+  background: #282828;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.pdp-btn-cart.is-added {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.pdp-btn-buy {
+  background: transparent;
+  color: var(--pdp-ink);
+  border: 1.5px solid var(--pdp-ink);
+}
+
+.pdp-btn-buy:hover {
+  background: var(--pdp-ink);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Auth prompt */
+.pdp-auth-prompt {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- BELOW THE FOLD: CONTENT, SPECIFICATIONS & DETAILS ---------- */
+.pdp-content-container {
+  max-width: 1260px;
+  margin: 48px auto 0;
+  padding: 0 32px;
+}
+
+.pdp-content-inner {
+  border-top: 1px solid var(--pdp-border);
+  padding-top: 48px;
+}
+
+.pdp-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.pdp-content-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--pdp-ink);
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.pdp-content-body {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #444444;
+  margin: 0 0 20px 0;
+}
+
+.pdp-feature-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #333333;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.pdp-feature-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--pdp-red);
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+/* Specifications Table */
+.pdp-specs-card {
+  background: #ffffff;
+  border: 1px solid var(--pdp-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pdp-specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pdp-specs-table tr {
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+}
+
+.pdp-specs-table tr:last-child {
+  border-bottom: none;
+}
+
+.pdp-specs-table td {
+  padding: 12px 16px;
+  font-size: 13.5px;
+}
+
+.pdp-specs-table td:first-child {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 11.5px;
+  color: #666666;
+  width: 35%;
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.pdp-specs-table td:last-child {
+  color: var(--pdp-ink);
+}
+
+/* ---------- RELATED POSTERS SECTION ---------- */
+.pdp-related {
+  max-width: 1260px;
+  margin: 64px auto 0;
+  padding: 0 32px;
+}
+
+.pdp-related-inner {
+  border-top: 1px solid var(--pdp-border);
+  padding-top: 48px;
+}
+
+.pdp-related-header {
+  margin-bottom: 28px;
+}
+
+.pdp-related-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  color: var(--pdp-ink);
+  margin: 0 0 4px 0;
+}
+
+.pdp-related-sub {
+  font-size: 13px;
+  color: var(--pdp-ink-muted);
+}
+
+.pdp-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.pdp-related-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--pdp-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pdp-related-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.pdp-related-card-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.pdp-related-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdp-related-card-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--pdp-ink);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pdp-related-card-price {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pdp-ink);
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 968px) {
+  .pdp-wrap {
+    padding: 20px 16px 48px;
+  }
+
+  .pdp-main {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .pdp-gallery-column {
+    position: static;
+  }
+
+  .pdp-wall-bg {
+    padding: 28px 16px;
+    min-height: 380px;
+  }
+
+  .pdp-frame-container {
+    max-width: 320px;
+  }
+
+  .pdp-title {
+    font-size: 34px;
+  }
+
+  .pdp-content-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .pdp-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}

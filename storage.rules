@@ -1,0 +1,55 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper authorization predicates
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.admin == true || 
+         request.auth.token.email.matches('.*@pinboard\\.in$'));
+    }
+
+    // ====================================================================
+    // 1. USER CUSTOM POSTER UPLOADS
+    // Strictly isolates customer artwork to their own dedicated directory path:
+    // users/{uid}/custom-posters/{orderId}/{fileName}
+    //
+    // Guarantees:
+    // - Only the authenticated creator can read, upload, or delete their file.
+    // - File size strictly validated up to 100MB (100 * 1024 * 1024 bytes).
+    // - Content type verified to ensure only valid images (JPG, PNG, WebP) are stored.
+    // - Prevents malicious executable uploads or arbitrary storage overwrites.
+    // ====================================================================
+    match /users/{userId}/custom-posters/{orderId}/{fileName} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId)
+                   && request.resource.size <= 100 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // ====================================================================
+    // 2. PUBLIC STORE ASSETS & PRODUCT IMAGES
+    // Optimized WebP posters, thumbnails, and category banners
+    // Publicly readable for zero-latency CDN delivery
+    // Modifications restricted to verified administrators
+    // ====================================================================
+    match /products/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /categories/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

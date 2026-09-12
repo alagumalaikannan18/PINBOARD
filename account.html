@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account — PINBOARD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/account.css?v=1" />
+</head>
+
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <header>
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+        <span class="pin"></span>PINBOARD
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" alt="Movies category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_movies.jpg'" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" alt="Cars category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_cars.jpg'" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" alt="Motivation category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_motivation.jpg'" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" alt="Gaming category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_gaming.jpg'" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" alt="Sports category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_sports.jpg'" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-overlay" id="mobileOverlay">
+    <a href="shop.html">Shop All</a>
+    <a href="index.html#collections">Collections</a>
+    <a href="custom-posters.html">Custom Posters</a>
+    <a href="index.html#about">About</a>
+  </div>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="account-page-wrap">
+    <div class="page-nav-bar account-nav-bar">
+      <button type="button" class="pinboard-back-btn" data-fallback="index.html" aria-label="Go back to previous page">
+        <span class="back-btn-inner">
+          <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span class="back-btn-text">BACK</span>
+          <span class="back-btn-dot" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Pending Action Banner (Injected dynamically if customer came from Add to Cart or Buy Now) -->
+    <div class="auth-pending-banner" id="authPendingBanner" style="display: none;">
+      <div class="auth-pending-icon">📌</div>
+      <div class="auth-pending-info">
+        <span class="auth-pending-tag" id="authPendingTag">LOGIN REQUIRED TO CONTINUE</span>
+        <p class="auth-pending-text" id="authPendingText">
+          Please sign in or create an account to proceed with your order.
+        </p>
+      </div>
+    </div>
+
+    <!-- State A: Authentication Form Card (When Logged Out) -->
+    <div class="auth-card" id="authCard">
+      <div class="auth-card-head">
+        <span class="auth-card-tag mono">PINBOARD ACCOUNT</span>
+        <h1 class="auth-card-title display" id="authTitle">Sign In</h1>
+        <p class="auth-card-sub" id="authSub">
+          Access your saved posters, orders, and curated collections.
+        </p>
+      </div>
+
+      <!-- Tabs Toggle -->
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab-btn active" id="tabSignIn" type="button" role="tab" aria-selected="true">Sign
+          In</button>
+        <button class="auth-tab-btn" id="tabRegister" type="button" role="tab" aria-selected="false">Create
+          Account</button>
+      </div>
+
+      <!-- Alert / Error message container -->
+      <div class="auth-alert" id="authAlert" role="alert"></div>
+
+      <!-- SIGN IN FORM -->
+      <form class="auth-form" id="signInForm" autocomplete="on">
+        <div class="auth-field">
+          <label class="auth-label" for="loginEmail">Email / Gmail</label>
+          <input type="email" class="auth-input" id="loginEmail" placeholder="your.name@gmail.com" required
+            autocomplete="email" />
+        </div>
+
+        <div class="auth-field">
+          <div class="auth-label-row">
+            <label class="auth-label" for="loginPassword">Password</label>
+            <button type="button" class="auth-forgot-btn" id="btnForgotPassword">Forgot / Set Password?</button>
+          </div>
+          <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" required
+            autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="btnSignInSubmit">
+          Sign In
+        </button>
+
+        <div class="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <!-- Google OAuth UI Button -->
+        <button type="button" class="auth-google-btn" id="btnGoogleAuth">
+          <svg class="auth-google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4" />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853" />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              fill="#FBBC05" />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              fill="#EA4335" />
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-switch">
+          <span>Don't have an account?</span>
+          <a class="auth-switch-link" id="linkToRegister">CREATE NEW ACCOUNT</a>
+        </div>
+      </form>
+
+      <!-- CREATE ACCOUNT FORM (Hidden by default) -->
+      <form class="auth-form" id="registerForm" style="display: none;" autocomplete="on">
+        <div class="auth-field">
+          <label class="auth-label" for="regName">Full Name</label>
+          <input type="text" class="auth-input" id="regName" placeholder="Alex Morgan" required autocomplete="name" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regEmail">Email / Gmail</label>
+          <input type="email" class="auth-input" id="regEmail" placeholder="your.name@gmail.com" required
+            autocomplete="email" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regPassword">Password</label>
+          <input type="password" class="auth-input" id="regPassword" placeholder="••••••••" required
+            autocomplete="new-password" />
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="regConfirmPassword">Confirm Password</label>
+          <input type="password" class="auth-input" id="regConfirmPassword" placeholder="••••••••" required
+            autocomplete="new-password" />
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="btnRegisterSubmit">
+          Create Account
+        </button>
+
+        <div class="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <button type="button" class="auth-google-btn" id="btnGoogleAuthReg">
+          <svg class="auth-google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4" />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853" />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              fill="#FBBC05" />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              fill="#EA4335" />
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="auth-switch">
+          <span>Already have an account?</span>
+          <a class="auth-switch-link" id="linkToSignIn">SIGN IN</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- State B: Logged-in Profile Dashboard (When Logged In) -->
+    <div class="profile-wrap" id="profileWrap" style="display: none;">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-user-info">
+            <div class="profile-avatar" id="profileAvatar">A</div>
+            <div>
+              <h2 class="profile-name" id="profileName">User Name</h2>
+              <div class="profile-email" id="profileEmail">user@example.com</div>
+              <div class="profile-meta-badges">
+                <span class="profile-badge verified">Verified Member ✓</span>
+                <span class="profile-badge" id="profileJoined">Joined Sep 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-header-actions">
+            <a href="index.html#shop" class="btn btn-solid"
+              style="text-decoration:none;display:inline-flex;align-items:center;padding:10px 20px;font-size:13px">Shop
+              Posters</a>
+            <button class="btn-logout" id="btnLogout">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Logout
+            </button>
+          </div>
+        </div>
+
+        <!-- MY ORDERS SECTION -->
+        <div class="orders-section">
+          <div class="orders-head">
+            <h3 class="orders-title display">My Orders</h3>
+            <span class="orders-count" id="ordersCount">2 Orders</span>
+          </div>
+
+          <div class="orders-list" id="ordersList">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="index.html#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#about">Artists</a></li>
+          <li><a href="index.html#about">Wholesale</a></li>
+          <li><a href="index.html#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="index.html#frame">Shipping</a></li>
+          <li><a href="index.html#frame">Returns</a></li>
+          <li><a href="index.html#frame">Care Guide</a></li>
+          <li><a href="index.html#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    // =============================================
+    // Account Page Specific Interaction Logic
+    // =============================================
+    (function () {
+      var authCard = document.getElementById('authCard');
+      var profileWrap = document.getElementById('profileWrap');
+      var authPendingBanner = document.getElementById('authPendingBanner');
+      var authPendingTag = document.getElementById('authPendingTag');
+      var authPendingText = document.getElementById('authPendingText');
+      var authAlert = document.getElementById('authAlert');
+
+      var tabSignIn = document.getElementById('tabSignIn');
+      var tabRegister = document.getElementById('tabRegister');
+      var signInForm = document.getElementById('signInForm');
+      var registerForm = document.getElementById('registerForm');
+      var authTitle = document.getElementById('authTitle');
+      var authSub = document.getElementById('authSub');
+
+      var linkToRegister = document.getElementById('linkToRegister');
+      var linkToSignIn = document.getElementById('linkToSignIn');
+      var btnGoogleAuth = document.getElementById('btnGoogleAuth');
+      var btnGoogleAuthReg = document.getElementById('btnGoogleAuthReg');
+      var btnLogout = document.getElementById('btnLogout');
+      var btnSignInSubmit = document.getElementById('btnSignInSubmit');
+      var btnRegisterSubmit = document.getElementById('btnRegisterSubmit');
+
+      // --- TAB SWITCHING ---
+      function showSignIn() {
+        tabSignIn.classList.add('active');
+        tabSignIn.setAttribute('aria-selected', 'true');
+        tabRegister.classList.remove('active');
+        tabRegister.setAttribute('aria-selected', 'false');
+        signInForm.style.display = 'flex';
+        registerForm.style.display = 'none';
+        authTitle.textContent = 'Sign In';
+        authSub.textContent = 'Access your saved posters, orders, and curated collections.';
+        clearAlert();
+      }
+
+      function showRegister() {
+        tabRegister.classList.add('active');
+        tabRegister.setAttribute('aria-selected', 'true');
+        tabSignIn.classList.remove('active');
+        tabSignIn.setAttribute('aria-selected', 'false');
+        signInForm.style.display = 'none';
+        registerForm.style.display = 'flex';
+        authTitle.textContent = 'Create Account';
+        authSub.textContent = 'Exclusive drops, order tracking, and fast checkout.';
+        clearAlert();
+      }
+
+      if (tabSignIn) tabSignIn.addEventListener('click', showSignIn);
+      if (tabRegister) tabRegister.addEventListener('click', showRegister);
+      if (linkToRegister) linkToRegister.addEventListener('click', showRegister);
+      if (linkToSignIn) linkToSignIn.addEventListener('click', showSignIn);
+
+      function showAlert(msg, isSuccess) {
+        if (!authAlert) return;
+        authAlert.textContent = msg;
+        authAlert.className = 'auth-alert ' + (isSuccess ? 'success' : 'error');
+        authAlert.style.display = 'block';
+      }
+
+      function clearAlert() {
+        if (!authAlert) return;
+        authAlert.textContent = '';
+        authAlert.style.display = 'none';
+      }
+
+      // --- RENDER CURRENT VIEW ---
+      function renderView() {
+        if (!window.Auth) return;
+        var user = Auth.getUser();
+        var pending = Auth.getPendingAction();
+
+        if (user && user.isLoggedIn) {
+          // USER IS LOGGED IN -> Show Profile
+          if (authPendingBanner) authPendingBanner.style.display = 'none';
+          if (authCard) authCard.style.display = 'none';
+          if (profileWrap) profileWrap.style.display = 'block';
+
+          // Populate Profile
+          document.getElementById('profileName').textContent = user.name || 'Pinboard Member';
+          document.getElementById('profileEmail').textContent = user.email || '';
+          var avatarEl = document.getElementById('profileAvatar');
+          if (avatarEl) {
+            if (user.photoURL) {
+              avatarEl.innerHTML = '<img src="' + user.photoURL + '" alt="' + (user.name || 'Profile') + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" referrerpolicy="no-referrer" />';
+            } else {
+              var safeName = String(user.name || 'Pinboard Member');
+              var initial = user.avatarInitial || (safeName.length > 0 ? safeName.charAt(0) : 'P');
+              avatarEl.textContent = initial.toUpperCase();
+            }
+          }
+          if (user.joinedDate) {
+            document.getElementById('profileJoined').textContent = 'Joined ' + user.joinedDate;
+          }
+
+          renderOrders();
+        } else {
+          // USER IS LOGGED OUT -> Show Auth Forms
+          if (profileWrap) profileWrap.style.display = 'none';
+          if (authCard) authCard.style.display = 'block';
+
+          // Check for pending purchase action
+          if (pending && pending.productId) {
+            var prod = typeof getProductById === 'function' ? getProductById(pending.productId) : null;
+            var title = prod ? prod.title : ('Poster #' + pending.productId);
+            var actionLabel = (pending.action === 'buy') ? 'BUY IT NOW' : 'ADD TO CART';
+
+            if (authPendingBanner) {
+              authPendingBanner.style.display = 'flex';
+              authPendingTag.textContent = actionLabel + ' ACTION PENDING';
+              authPendingText.innerHTML = 'Sign in or create an account to proceed with <strong>' + title + ' (' + (pending.quantity || 1) + 'x)</strong>.';
+            }
+          } else {
+            if (authPendingBanner) authPendingBanner.style.display = 'none';
+          }
+        }
+      }
+
+      // --- RENDER ORDERS LIST ---
+      function renderOrders() {
+        var ordersList = document.getElementById('ordersList');
+        var ordersCount = document.getElementById('ordersCount');
+        if (!ordersList || !window.Auth) return;
+
+        var orders = Auth.getOrders();
+        if (ordersCount) {
+          ordersCount.textContent = orders.length + (orders.length === 1 ? ' Order' : ' Orders');
+        }
+
+        if (!orders || orders.length === 0) {
+          ordersList.innerHTML = '<div class="orders-empty"><div class="orders-empty-icon">🖼️</div><p class="orders-empty-text">No orders yet. Start your collection today!</p><a href="index.html#shop" class="btn btn-solid" style="text-decoration:none;display:inline-block;padding:10px 20px;font-size:13px">Explore Posters</a></div>';
+          return;
+        }
+
+        var html = '';
+        orders.forEach(function (order) {
+          var firstItem = order.items && order.items[0] ? order.items[0] : { title: 'Pinboard Poster', price: order.total, quantity: 1, image: '1554016.png' };
+          var isDelivered = order.status && order.status.toLowerCase().includes('delivered');
+          var pillClass = isDelivered ? 'order-status-pill delivered' : 'order-status-pill';
+
+          html += '<div class="order-item-card">';
+          html += '  <div class="order-thumb-wrap">';
+          html += '    <img src="' + (firstItem.image || '1554016.png') + '" alt="' + firstItem.title + '" class="order-poster-img" />';
+          html += '    <div>';
+          html += '      <h4 class="order-info-title">' + firstItem.title + '</h4>';
+          html += '      <div class="order-info-meta">Order #' + order.orderId + ' · Qty: ' + (firstItem.quantity || 1) + ' · ' + order.date + '</div>';
+          if (order.deliveryEstimate) {
+            html += '      <div class="order-info-meta" style="color:var(--red);font-weight:500;margin-top:2px">Est. Delivery: ' + order.deliveryEstimate + '</div>';
+          }
+          html += '    </div>';
+          html += '  </div>';
+          html += '  <div class="order-status-wrap">';
+          html += '    <span class="' + pillClass + '">' + order.status + '</span>';
+          html += '    <div class="order-total-price">₹' + Number(order.total).toLocaleString() + '</div>';
+          html += '  </div>';
+          html += '</div>';
+        });
+
+        ordersList.innerHTML = html;
+      }
+
+      // --- HANDLE POST-LOGIN PENDING ACTION ---
+      function handlePostLogin() {
+        var pending = Auth.getPendingAction();
+
+        // Also check for ?redirect= URL param as fallback
+        var urlParams = new URLSearchParams(window.location.search);
+        var redirectUrl = urlParams.get('redirect');
+
+        if (pending && pending.productId) {
+          // pending.type (from product.js auth gate) or pending.action (legacy)
+          var targetAction = pending.type || pending.action || 'buy';
+          var pid = pending.productId;
+          var qty = pending.quantity || 1;
+
+          showAlert('Authentication successful! Continuing to your ' + (targetAction === 'buy' ? 'purchase...' : 'cart...'), true);
+
+          // Clear pending action before navigating
+          Auth.clearPendingAction();
+
+          setTimeout(function () {
+            if (pending.returnUrl) {
+              window.location.href = pending.returnUrl;
+            } else if (targetAction === 'cart') {
+              Auth.addToCart(pid, qty);
+              window.location.href = 'product.html?id=' + pid + '&auto=cart';
+            } else {
+              window.location.href = 'product.html?id=' + pid + '&auto=buy';
+            }
+          }, 600);
+        } else if (redirectUrl) {
+          showAlert('Welcome! Redirecting you back...', true);
+          setTimeout(function () {
+            window.location.href = decodeURIComponent(redirectUrl);
+          }, 600);
+        } else {
+          showAlert('Welcome! You are now signed in.', true);
+          setTimeout(function () {
+            renderView();
+            clearAlert();
+          }, 400);
+        }
+      }
+
+      // --- SIGN IN FORM SUBMIT ---
+      if (signInForm) {
+        signInForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          clearAlert();
+
+          var email = document.getElementById('loginEmail').value;
+          var password = document.getElementById('loginPassword').value;
+
+          if (!window.Auth) {
+            showAlert('Authentication service is initializing. Please wait a moment...', false);
+            return;
+          }
+
+          if (btnSignInSubmit) {
+            btnSignInSubmit.disabled = true;
+            btnSignInSubmit.textContent = 'Signing in...';
+          }
+
+          try {
+            var result = await Auth.login(email, password);
+            if (result.success) {
+              handlePostLogin();
+            } else {
+              showAlert(result.message || 'Incorrect email or password.', false);
+            }
+          } catch (err) {
+            showAlert('Login error. Please try again.', false);
+          } finally {
+            if (btnSignInSubmit) {
+              btnSignInSubmit.disabled = false;
+              btnSignInSubmit.textContent = 'Sign In';
+            }
+          }
+        });
+      }
+
+      // --- FORGOT / SET PASSWORD BUTTON ---
+      var btnForgotPassword = document.getElementById('btnForgotPassword');
+      if (btnForgotPassword) {
+        btnForgotPassword.addEventListener('click', async function () {
+          clearAlert();
+          var emailInput = document.getElementById('loginEmail');
+          var email = (emailInput ? emailInput.value : '').trim();
+
+          if (!email) {
+            showAlert('Please enter your Email / Gmail address in the field above first, then click "Forgot / Set Password?".', false);
+            if (emailInput) emailInput.focus();
+            return;
+          }
+
+          if (!window.Auth) {
+            showAlert('Authentication service is initializing. Please wait a moment...', false);
+            return;
+          }
+
+          btnForgotPassword.disabled = true;
+          btnForgotPassword.textContent = 'Sending link...';
+
+          try {
+            var res = await Auth.sendPasswordReset(email);
+            if (res.success) {
+              showAlert(res.message, true);
+            } else {
+              showAlert(res.message || 'Could not send password reset email. Please try again.', false);
+            }
+          } catch (err) {
+            showAlert('Error requesting password link. Please try again.', false);
+          } finally {
+            btnForgotPassword.disabled = false;
+            btnForgotPassword.textContent = 'Forgot / Set Password?';
+          }
+        });
+      }
+
+      // --- REGISTER FORM SUBMIT ---
+      if (registerForm) {
+        registerForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          clearAlert();
+
+          var name = document.getElementById('regName').value;
+          var email = document.getElementById('regEmail').value;
+          var password = document.getElementById('regPassword').value;
+          var confirmPassword = document.getElementById('regConfirmPassword').value;
+
+          if (!window.Auth) {
+            showAlert('Authentication service is initializing. Please wait a moment...', false);
+            return;
+          }
+
+          if (btnRegisterSubmit) {
+            btnRegisterSubmit.disabled = true;
+            btnRegisterSubmit.textContent = 'Creating account...';
+          }
+
+          try {
+            var result = await Auth.register(name, email, password, confirmPassword);
+            if (result.success) {
+              handlePostLogin();
+            } else {
+              showAlert(result.message || 'Account creation failed.', false);
+            }
+          } catch (err) {
+            showAlert('Account creation error. Please try again.', false);
+          } finally {
+            if (btnRegisterSubmit) {
+              btnRegisterSubmit.disabled = false;
+              btnRegisterSubmit.textContent = 'Create Account';
+            }
+          }
+        });
+      }
+
+      // --- GOOGLE AUTH BUTTONS ---
+      async function handleGoogleLogin() {
+        clearAlert();
+        if (!window.Auth) {
+          showAlert('Authentication service is initializing. Please wait a moment...', false);
+          return;
+        }
+
+        if (btnGoogleAuth) btnGoogleAuth.disabled = true;
+        if (btnGoogleAuthReg) btnGoogleAuthReg.disabled = true;
+
+        try {
+          var result = await Auth.loginWithGoogle();
+          if (result.success) {
+            handlePostLogin();
+          } else {
+            showAlert(result.message || 'Google sign-in was cancelled or failed.', false);
+          }
+        } catch (err) {
+          showAlert('Google sign-in error. Please try again.', false);
+        } finally {
+          if (btnGoogleAuth) btnGoogleAuth.disabled = false;
+          if (btnGoogleAuthReg) btnGoogleAuthReg.disabled = false;
+        }
+      }
+
+      if (btnGoogleAuth) btnGoogleAuth.addEventListener('click', handleGoogleLogin);
+      if (btnGoogleAuthReg) btnGoogleAuthReg.addEventListener('click', handleGoogleLogin);
+
+      // --- LOGOUT BUTTON ---
+      if (btnLogout) {
+        btnLogout.addEventListener('click', async function () {
+          if (!window.Auth) return;
+          try {
+            await Auth.logout();
+            showAlert('You have been logged out successfully.', true);
+            setTimeout(function () {
+              renderView();
+              showSignIn();
+            }, 300);
+          } catch (err) {
+            showAlert('Logout error. Please try again.', false);
+          }
+        });
+      }
+
+      // Initial render & wait for auth
+      if (window.Auth && typeof Auth.waitForAuth === 'function') {
+        Auth.waitForAuth().then(renderView);
+      } else {
+        renderView();
+      }
+
+      // Listen for auth state changes from Firebase
+      window.addEventListener('auth:statechange', renderView);
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/product/*"
+  to = "/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/product"
+  to = "/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/shop"
+  to = "/shop.html"
+  status = 200
+
+[[redirects]]
+  from = "/cart"
+  to = "/cart.html"
+  status = 200
+
+[[redirects]]
+  from = "/account"
+  to = "/account.html"
+  status = 200
+
+[[redirects]]
+  from = "/custom-posters"
+  to = "/custom-posters.html"
+  status = 200
+
+[[redirects]]
+  from = "/movies"
+  to = "/movies.html"
+  status = 200
+
+[[redirects]]
+  from = "/cars"
+  to = "/cars.html"
+  status = 200
+
+[[redirects]]
+  from = "/motivation"
+  to = "/motivation.html"
+  status = 200
+
+[[redirects]]
+  from = "/anime"
+  to = "/motivation.html"
+  status = 200
+
+[[redirects]]
+  from = "/gaming"
+  to = "/gaming.html"
+  status = 200
+
+[[redirects]]
+  from = "/sports"
+  to = "/sports.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

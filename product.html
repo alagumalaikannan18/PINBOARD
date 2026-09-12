@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — PINBOARD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/product.css?v=3" />
+</head>
+
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <header>
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+        <span class="pin"></span>PINBOARD
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">&times;</button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========== MAIN PRODUCT SECTION (OLD PINBOARD ARCHITECTURE) ========== -->
+  <main class="pdp-wrap">
+    <div class="page-nav-bar" style="max-width:1280px;margin:0 auto 16px;padding:0 24px;">
+      <button type="button" class="pinboard-back-btn" data-fallback="shop.html" aria-label="Go back to previous page">
+        <span class="back-btn-inner">
+          <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span class="back-btn-text">BACK</span>
+          <span class="back-btn-dot" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+    <div class="pdp-main">
+      <!-- LEFT COLUMN: PRODUCT IMAGE / FRAMED GALLERY STAGE -->
+      <div class="pdp-gallery-column">
+        <div class="pdp-wall-stage" id="pdpStagePerspective">
+          <div class="pdp-wall-bg">
+            <div class="pdp-sunlight-overlay" aria-hidden="true"></div>
+            <div class="pdp-frame-container" id="pdpPosterWrapper">
+              <img id="pdpMainImg" src="" alt="Selected Poster Artwork" class="pdp-framed-img" fetchpriority="high" decoding="async" />
+              <div class="pdp-frame-border" aria-hidden="true"></div>
+              <div class="pdp-poster-glare" aria-hidden="true"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thumbnails strictly for this exact product -->
+        <div class="pdp-thumbs" id="pdpThumbs" style="display: none;"></div>
+      </div>
+
+      <!-- RIGHT COLUMN: PRODUCT INFORMATION & PURCHASE ENGINE -->
+      <div class="pdp-info-column">
+        <!-- 1. Breadcrumb -->
+        <nav class="pdp-breadcrumb" id="pdpBreadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">HOME</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href="shop.html" id="pdpBreadcrumbCat">ABSTRACT</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current" id="pdpBreadcrumbTitle">BAUHAUS NO.7</span>
+        </nav>
+
+        <!-- 2. Product Title -->
+        <h1 class="pdp-title display" id="pdpTitle">BAUHAUS NO.7</h1>
+
+        <!-- 3. Short Description / Subtitle -->
+        <p class="pdp-subtitle" id="pdpSubtitle">Abstract Art · Premium Poster</p>
+
+        <!-- 4. Badges Row -->
+        <div class="pdp-badges-row">
+          <span class="pdp-badge-pill" id="pdpPiecesBadge">1 PIECE</span>
+          <span class="pdp-badge-pill">300 GSM THICK POSTERS</span>
+        </div>
+
+        <!-- 5. Rating Row -->
+        <div class="pdp-rating-row">
+          <span class="pdp-rating-score" id="pdpRatingScore">4.9</span>
+          <span class="pdp-rating-stars" aria-label="5 out of 5 stars">★★★★★</span>
+          <span class="pdp-rating-count" id="pdpReviewCount">840+ verified buyers</span>
+        </div>
+
+        <!-- 6. Price Row -->
+        <div class="pdp-price-row">
+          <span class="pdp-original-mrp" id="pdpOriginalMrp">Rs. 1099.00</span>
+          <span class="pdp-current-price" id="pdpCurrentPrice">Rs. 899.00</span>
+          <span class="pdp-sale-tag" id="pdpSaleBadge">Sale</span>
+        </div>
+
+        <!-- 7. Shipping / Tax Information -->
+        <div class="pdp-tax-note">Taxes included. Shipping calculated at checkout.</div>
+        <div class="pdp-per-poster" id="pdpPerPoster">Rs. 899 per poster · 1 piece included</div>
+
+        <!-- 8. Delivery Information Box -->
+        <div class="pdp-delivery-card">
+          <div class="pdp-delivery-timeline">
+            <span class="delivery-icon">📦</span>
+            <span class="delivery-label">Order today</span>
+            <span class="delivery-track" aria-hidden="true">------- ✈️ ------- 🏠</span>
+            <span class="delivery-date-pill" id="pdpDeliveryDate">Wed, 9 Sep</span>
+          </div>
+          <div class="pdp-delivery-promo">
+            <span class="delivery-bolt">⚡</span>
+            <span>FREE Express + extra 8% OFF — pay online (UPI / Card)</span>
+          </div>
+        </div>
+
+        <!-- 9. Build Your Own Poster Wall Banner -->
+        <a href="custom-posters.html" class="pdp-wall-banner" aria-label="Build Your Own Poster Wall">
+          <div class="pdp-wall-icon" aria-hidden="true">
+            <span class="wall-tile tile-yellow"></span>
+            <span class="wall-tile tile-yellow"></span>
+            <span class="wall-tile tile-gray"></span>
+            <span class="wall-tile tile-yellow"></span>
+          </div>
+          <div class="pdp-wall-content">
+            <span class="pdp-wall-eyebrow">BUILD YOUR OWN WALL</span>
+            <h3 class="pdp-wall-title">Build Your Own Poster Wall</h3>
+            <p class="pdp-wall-sub">You pick every single poster · 12 layouts, 9 to 38 posters · from ₹399</p>
+          </div>
+          <div class="pdp-wall-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Size Selector -->
+        <div class="pdp-size-section">
+          <div class="pdp-size-header">
+            <span class="pdp-size-label mono">SIZE:</span>
+            <span class="pdp-size-readout" id="pdpSelectedSizeReadout">A4 (210 × 297 mm)</span>
+          </div>
+          <div class="pdp-size-pills" id="pdpSizeGrid">
+            <button type="button" class="pdp-size-pill" data-size="A6" aria-label="Size A6">A6</button>
+            <button type="button" class="pdp-size-pill" data-size="A5" aria-label="Size A5">A5</button>
+            <button type="button" class="pdp-size-pill active" data-size="A4" aria-label="Size A4">A4</button>
+            <button type="button" class="pdp-size-pill" data-size="A3" aria-label="Size A3">A3</button>
+          </div>
+        </div>
+
+        <!-- 10. Quantity Stepper -->
+        <div class="pdp-qty-section">
+          <span class="pdp-qty-label mono">QUANTITY</span>
+          <div class="pdp-stepper">
+            <button type="button" class="pdp-stepper-btn" id="pdpQtyMinus" aria-label="Decrease quantity">−</button>
+            <span class="pdp-stepper-val" id="pdpQtyValue">1</span>
+            <button type="button" class="pdp-stepper-btn" id="pdpQtyPlus" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <!-- 11 & 12. Action Buttons -->
+        <div class="pdp-action-buttons">
+          <button type="button" class="pdp-cta-btn pdp-btn-cart" id="pdpAddCart">
+            <span>ADD TO CART</span>
+          </button>
+          <button type="button" class="pdp-cta-btn pdp-btn-buy" id="pdpBuyNow">
+            <span>BUY NOW</span>
+          </button>
+        </div>
+
+        <!-- Auth Prompt Feedback -->
+        <div class="pdp-auth-prompt" id="pdpAuthPrompt" style="display:none;"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== PRODUCT STORY & PRINT SPECIFICATIONS ========== -->
+  <section class="pdp-content-container">
+    <div class="pdp-content-inner">
+      <div class="pdp-content-grid">
+        <!-- Story / Description -->
+        <div class="pdp-content-block">
+          <h2 class="pdp-content-heading">ARTWORK STORY &amp; DETAILS</h2>
+          <p class="pdp-content-body" id="pdpDesc">Detailed poster description.</p>
+          <div class="pdp-features-list" id="pdpFeatures"></div>
+        </div>
+
+        <!-- Specifications Table -->
+        <div class="pdp-content-block">
+          <h2 class="pdp-content-heading">PRINT SPECIFICATIONS</h2>
+          <div class="pdp-specs-card">
+            <table class="pdp-specs-table">
+              <tbody id="pdpSpecs"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== RELATED POSTERS (Curated Below the Fold) ========== -->
+  <section class="pdp-related">
+    <div class="pdp-related-inner">
+      <div class="pdp-related-header">
+        <h2 class="pdp-related-title display">EXPLORE MORE EDITIONS</h2>
+        <span class="pdp-related-sub">Curated matching prints from the PINBOARD Studio</span>
+      </div>
+      <div class="pdp-related-grid" id="pdpRelatedGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="index.html#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#about">Artists</a></li>
+          <li><a href="index.html#about">Wholesale</a></li>
+          <li><a href="index.html#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="shop.html">Shipping</a></li>
+          <li><a href="shop.html">Returns</a></li>
+          <li><a href="shop.html">Care Guide</a></li>
+          <li><a href="index.html#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/product.js"></script>
+</body>
+
+</html>

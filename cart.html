@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — PINBOARD Wall Posters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/cart.css?v=1" />
+</head>
+
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <header>
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+        <span class="pin"></span>PINBOARD
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <a href="cart.html" class="icon-btn cart-btn" id="navCartBtn" aria-label="Cart" title="Cart" style="text-decoration:none">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" alt="Movies category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_movies.jpg'" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" alt="Cars category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_cars.jpg'" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" alt="Motivation category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_motivation.jpg'" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" alt="Gaming category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_gaming.jpg'" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" alt="Sports category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_sports.jpg'" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay">
+    <a href="shop.html">Shop All</a>
+    <a href="index.html#collections">Collections</a>
+    <a href="custom-posters.html">Custom Posters</a>
+    <a href="index.html#about">About</a>
+  </div>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="cart-page-wrap">
+    <!-- Back Button -->
+    <div class="page-nav-bar" style="margin-bottom: 24px;">
+      <button type="button" class="pinboard-back-btn" data-fallback="shop.html" aria-label="Go back to previous page">
+        <span class="back-btn-inner">
+          <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span class="back-btn-text">BACK</span>
+          <span class="back-btn-dot" aria-hidden="true"></span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Header Section -->
+    <div class="cart-header-section">
+      <div class="cart-header-left">
+        <div class="cart-title-row">
+          <h1 class="cart-page-title display">YOUR CART</h1>
+          <span class="cart-count-badge" id="cartHeaderCountBadge">0 POSTERS</span>
+        </div>
+        <div class="cart-subtitle">
+          <span>Archival 300 GSM Matte Prints</span>
+          <span class="cart-subtitle-dot"></span>
+          <span>Free Safe Shipping Across India</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guest Banner (Shown when not logged in) -->
+    <div class="cart-guest-banner" id="cartGuestBanner" style="display: none;">
+      <div class="cart-guest-info">
+        <div class="cart-guest-icon">📌</div>
+        <div class="cart-guest-text">
+          <strong>SIGN IN TO SYNC YOUR CART</strong>
+          <span>Save your poster selection across devices, access exclusive collector perks, and check out faster.</span>
+        </div>
+      </div>
+      <a href="account.html?redirect=cart.html" class="cart-guest-btn">Sign In &rarr;</a>
+    </div>
+
+    <!-- Dynamic Cart Container -->
+    <div id="cartPageContainer">
+      <div class="cart-layout-grid cart-skeleton-grid" aria-busy="true" aria-label="Loading shopping cart...">
+        <div class="cart-items-container">
+          <div class="cart-item-card cart-skeleton-card">
+            <div class="cart-thumb-wrap cart-skeleton-thumb"></div>
+            <div class="cart-item-details">
+              <div class="cart-skeleton-line short"></div>
+              <div class="cart-skeleton-line title"></div>
+              <div class="cart-skeleton-line medium"></div>
+            </div>
+            <div class="cart-item-actions">
+              <div class="cart-skeleton-line price"></div>
+            </div>
+          </div>
+        </div>
+        <aside class="cart-summary-column">
+          <div class="cart-summary-card cart-skeleton-card">
+            <div class="cart-skeleton-line title"></div>
+            <div class="cart-skeleton-line medium"></div>
+            <div class="cart-skeleton-line medium"></div>
+            <div class="cart-skeleton-line price" style="margin-top:20px;height:48px;"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== CHECKOUT CONFIRMATION MODAL ========== -->
+  <div class="cart-modal-overlay" id="cartModalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="cart-modal-card">
+      <div class="cart-modal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="cart-modal-title display" id="modalTitle">ORDER CONFIRMED!</h2>
+      <div class="cart-modal-order-id" id="cartModalOrderId">ORDER #PB-2026-0000</div>
+      <p class="cart-modal-msg">
+        Thank you for choosing PINBOARD! Your archival 300 GSM matte posters are being prepared in our studio and packed with crush-proof hard tubes.
+      </p>
+      <div class="cart-modal-actions">
+        <a href="account.html" class="cart-modal-btn-primary">View in My Orders &rarr;</a>
+        <a href="shop.html" class="cart-modal-btn-secondary">Explore More Posters</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="index.html#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#about">Artists</a></li>
+          <li><a href="index.html#about">Wholesale</a></li>
+          <li><a href="index.html#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="index.html#frame">Shipping</a></li>
+          <li><a href="index.html#frame">Returns</a></li>
+          <li><a href="index.html#frame">Care Guide</a></li>
+          <li><a href="index.html#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <!-- Page-Specific Scripts (Minimal & Fast) -->
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+
+</html>

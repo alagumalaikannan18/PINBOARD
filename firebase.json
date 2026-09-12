@@ -1,0 +1,128 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "storage.rules",
+      "firestore.indexes.json",
+      "**/.*",
+      "**/node_modules/**",
+      "package.json",
+      "package-lock.json",
+      "server.js",
+      "test-*.js",
+      "controllers/**",
+      "models/**",
+      "routes/**",
+      "config/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+      {
+        "source": "/product",
+        "destination": "/product.html"
+      },
+      {
+        "source": "/product/**",
+        "destination": "/product.html"
+      },
+      {
+        "source": "/shop",
+        "destination": "/shop.html"
+      },
+      {
+        "source": "/cart",
+        "destination": "/cart.html"
+      },
+      {
+        "source": "/account",
+        "destination": "/account.html"
+      },
+      {
+        "source": "/custom-posters",
+        "destination": "/custom-posters.html"
+      },
+      {
+        "source": "/movies",
+        "destination": "/movies.html"
+      },
+      {
+        "source": "/cars",
+        "destination": "/cars.html"
+      },
+      {
+        "source": "/motivation",
+        "destination": "/motivation.html"
+      },
+      {
+        "source": "/anime",
+        "destination": "/motivation.html"
+      },
+      {
+        "source": "/gaming",
+        "destination": "/gaming.html"
+      },
+      {
+        "source": "/sports",
+        "destination": "/sports.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(webp|jpg|jpeg|png|svg|ico)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(css|js)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=86400"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          }
+        ]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    }
+  }
+}

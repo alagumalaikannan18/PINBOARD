@@ -1,0 +1,1847 @@
+/* ==========================================================================
+   PINBOARD — Custom Posters Studio 3D Styling System
+   Interactive Uploads, Individual Per-Poster Sizing & Live Pricing Engine
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Root Tokens & Page Base
+   -------------------------------------------------------------------------- */
+:root {
+  --custom-hero-bg: radial-gradient(circle at 75% 30%, #1c1815 0%, #0e0c0b 60%, #050404 100%);
+  --custom-accent: #E4402A;
+  --custom-accent-glow: rgba(228, 64, 42, 0.35);
+  --custom-card-bg: #ECE9DF;
+  --custom-card-mat: #F5F3EC;
+  --custom-border: rgba(21, 20, 15, 0.12);
+  --custom-gold: #D97706;
+}
+
+body.custom-posters-page {
+  background-color: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hero Section
+   -------------------------------------------------------------------------- */
+.custom-hero-section {
+  position: relative;
+  background: var(--custom-hero-bg);
+  color: #FAF8F5;
+  padding: 130px 48px 64px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.custom-hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: 5%;
+  width: 600px;
+  height: 600px;
+  background: var(--custom-accent-glow);
+  filter: blur(140px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.custom-hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.custom-hero-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.custom-hero-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--custom-accent);
+  margin-bottom: 14px;
+}
+
+.custom-hero-tag .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--custom-accent);
+  box-shadow: 0 0 10px var(--custom-accent);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+.custom-hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(48px, 7.5vw, 92px);
+  line-height: 0.92;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.custom-hero-quote {
+  font-size: clamp(17px, 2vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 580px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--custom-accent);
+  padding-left: 18px;
+}
+
+.custom-hero-desc {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 540px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* 3D Hero Showcase Visual */
+.custom-hero-3d-visual {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-hero-stage {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4 / 3.4;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-hero-collage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  transform: translateZ(30px) rotateY(-5deg) rotateX(4deg);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+
+.collage-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  background: #111;
+}
+
+.collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collage-item-1 { grid-column: 1 / 2; grid-row: 1 / 3; }
+.collage-item-2 { grid-column: 2 / 3; grid-row: 1 / 2; }
+.collage-item-3 { grid-column: 2 / 3; grid-row: 2 / 3; }
+
+.custom-hero-floating-badge {
+  position: absolute;
+  bottom: 24px;
+  left: -16px;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 18px;
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  transform: translateZ(50px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-badge-kicker {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--custom-accent);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hero-badge-headline {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Main Customizer Container & Layout
+   -------------------------------------------------------------------------- */
+.custom-studio-wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 48px 120px;
+}
+
+.custom-step-header {
+  margin-bottom: 24px;
+}
+
+.step-num-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--custom-accent);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.step-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.step-desc {
+  font-size: 14.5px;
+  color: rgba(21, 20, 15, 0.65);
+  max-width: 620px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Step 1: Quantity / Wall Arrangement Templates
+   -------------------------------------------------------------------------- */
+.template-selection-section {
+  margin-bottom: 64px;
+}
+
+.template-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.template-card {
+  position: relative;
+  background: #FFFFFF;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 20px 18px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  outline: none;
+}
+
+.template-card:hover {
+  border-color: rgba(21, 20, 15, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.template-card.active {
+  border-color: var(--ink);
+  background: #FAF8F5;
+  box-shadow: 0 12px 36px rgba(21, 20, 15, 0.14);
+}
+
+.template-card.active::after {
+  content: '✓ SELECTED';
+  position: absolute;
+  top: -11px;
+  right: 14px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Blueprint Mini Visualizer inside template card */
+.template-blueprint {
+  aspect-ratio: 16 / 11;
+  min-height: 136px;
+  background: radial-gradient(circle at 50% 25%, #FAF8F4 0%, #ECE8DC 100%);
+  border-radius: 10px;
+  padding: 12px 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(21, 20, 15, 0.12);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
+  perspective: 600px;
+}
+
+.template-blueprint::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(21, 20, 15, 0.04) 1px, transparent 1px);
+  background-size: 14px 14px;
+  pointer-events: none;
+}
+
+.blueprint-wall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.template-card:hover .blueprint-wall {
+  transform: rotateX(4deg) translateY(-2px);
+}
+
+/* Row containers */
+.bp-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.bp-row-center {
+  justify-content: center;
+}
+
+.bp-row-spread {
+  justify-content: space-around;
+  width: 82%;
+}
+
+.bp-row-pair {
+  justify-content: center;
+  gap: 8px;
+}
+
+.bp-row-triple {
+  justify-content: center;
+  gap: 5px;
+}
+
+.bp-row-quad {
+  justify-content: center;
+  gap: 4px;
+}
+
+/* Frame Base Styling (Physical Wall-Mounted Look) */
+.bp-frame {
+  background: #FFFFFF;
+  border: 1.5px solid #1E1D19;
+  border-radius: 2px;
+  box-shadow: 0 3px 7px rgba(21, 20, 15, 0.16), 0 1px 2px rgba(21, 20, 15, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.template-card:hover .bp-frame {
+  box-shadow: 0 5px 12px rgba(21, 20, 15, 0.24), 0 2px 4px rgba(21, 20, 15, 0.14);
+}
+
+.bp-mat {
+  display: block;
+  width: 66%;
+  height: 66%;
+  background: linear-gradient(135deg, rgba(21, 20, 15, 0.08) 0%, rgba(228, 64, 42, 0.12) 100%);
+  border-radius: 1px;
+}
+
+/* 5-Poster Wall: Compact Focal Center Arrangement */
+.blueprint-wall-5 {
+  gap: 5px;
+}
+.blueprint-wall-5 .bp-large {
+  width: 32px;
+  height: 42px;
+}
+.blueprint-wall-5 .bp-med {
+  width: 25px;
+  height: 33px;
+}
+.blueprint-wall-5 .bp-sml {
+  width: 21px;
+  height: 27px;
+}
+
+/* 8-Poster Wall: Staggered Multi-Row Salon Wall */
+.blueprint-wall-8 {
+  gap: 3.5px;
+}
+.blueprint-wall-8 .bp-large {
+  width: 26px;
+  height: 34px;
+}
+.blueprint-wall-8 .bp-med {
+  width: 20px;
+  height: 26px;
+}
+.blueprint-wall-8 .bp-sml {
+  width: 15px;
+  height: 20px;
+}
+.blueprint-wall-8 .bp-row-pair {
+  gap: 7px;
+}
+.blueprint-wall-8 .bp-row-triple {
+  gap: 4.5px;
+}
+
+/* 10-Poster Wall: Grand Collection Multi-Row Dynamic Axis */
+.blueprint-wall-10 {
+  gap: 3px;
+}
+.blueprint-wall-10 .bp-large {
+  width: 22px;
+  height: 28px;
+}
+.blueprint-wall-10 .bp-med {
+  width: 17px;
+  height: 22px;
+}
+.blueprint-wall-10 .bp-sml {
+  width: 13px;
+  height: 17px;
+}
+.blueprint-wall-10 .bp-row-pair {
+  gap: 6px;
+}
+.blueprint-wall-10 .bp-row-triple {
+  gap: 4px;
+}
+.blueprint-wall-10 .bp-row-quad {
+  gap: 3px;
+}
+
+/* 12-Poster Wall: Master Exhibition Full Multi-Tier Wall */
+.blueprint-wall-12 {
+  gap: 2.5px;
+}
+.blueprint-wall-12 .bp-large {
+  width: 19px;
+  height: 25px;
+}
+.blueprint-wall-12 .bp-med {
+  width: 16px;
+  height: 21px;
+}
+.blueprint-wall-12 .bp-sml {
+  width: 12px;
+  height: 16px;
+}
+.blueprint-wall-12 .bp-row-triple {
+  gap: 3.5px;
+}
+.blueprint-wall-12 .bp-row-quad {
+  gap: 3px;
+}
+.blueprint-wall-12 .bp-row-pair {
+  gap: 5px;
+}
+
+.template-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.template-count-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.template-style-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--custom-accent);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.template-desc {
+  font-size: 12.5px;
+  color: rgba(21, 20, 15, 0.6);
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.template-price-hint {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(21, 20, 15, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Step 2 & 3: Customizer Two-Column Workspace
+   -------------------------------------------------------------------------- */
+.customizer-workspace {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+.upload-slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Upload Slot Card (3D Perspective Mat Frame) */
+.poster-slot-card {
+  perspective: 1100px;
+  position: relative;
+}
+
+.slot-card-inner {
+  background: var(--custom-card-bg);
+  border: 1.5px solid var(--custom-border);
+  border-radius: 14px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: center;
+  transform-style: preserve-3d;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(21, 20, 15, 0.05);
+}
+
+.poster-slot-card:hover .slot-card-inner {
+  border-color: rgba(21, 20, 15, 0.3);
+  box-shadow: 0 16px 36px rgba(21, 20, 15, 0.1);
+}
+
+.slot-card-inner.is-complete {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: #F2EFE7;
+}
+
+/* Slot Left: Photo Dropzone & Preview Mat */
+.slot-preview-chamber {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  background: var(--custom-card-mat);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Empty Dropzone State */
+.slot-dropzone {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed rgba(21, 20, 15, 0.25);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px 12px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.25s ease;
+}
+
+.slot-dropzone:hover {
+  background: #FFFFFF;
+  border-color: var(--ink);
+  transform: scale(1.02);
+}
+
+.slot-dropzone.dragover {
+  background: #FFFFFF;
+  border-color: var(--custom-accent);
+  box-shadow: 0 0 0 4px var(--custom-accent-glow);
+}
+
+.dropzone-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  stroke: rgba(21, 20, 15, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.slot-dropzone:hover .dropzone-icon {
+  transform: translateY(-2px);
+  stroke: var(--ink);
+}
+
+.dropzone-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.dropzone-hint {
+  font-size: 10px;
+  color: rgba(21, 20, 15, 0.45);
+}
+
+/* Uploaded Image Preview */
+.slot-artwork-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.slot-artwork-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slot-artwork-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+}
+
+.slot-artwork-overlay-actions {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  padding: 12px;
+}
+
+.slot-artwork-wrap:hover .slot-artwork-overlay-actions {
+  opacity: 1;
+}
+
+.slot-action-btn {
+  background: #FFFFFF;
+  border: none;
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 130px;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.slot-action-btn:hover {
+  background: var(--paper);
+  transform: scale(1.04);
+}
+
+.slot-action-btn.delete {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+.slot-action-btn.delete:hover {
+  background: #FECACA;
+}
+
+/* Slot Right: Controls & Individual Size Selector */
+.slot-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.slot-controls-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed rgba(21, 20, 15, 0.15);
+  padding-bottom: 10px;
+}
+
+.slot-num-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.slot-status-pill {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.slot-status-pill.pending {
+  background: #FEF3C7;
+  color: #D97706;
+}
+
+.slot-status-pill.ready {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+/* Individual Size Selector Group */
+.individual-size-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.size-picker-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: rgba(21, 20, 15, 0.7);
+  text-transform: uppercase;
+}
+
+.size-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.size-pill-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.size-pill-btn:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.size-pill-btn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 6px 16px rgba(21, 20, 15, 0.2);
+}
+
+.size-pill-code {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.size-pill-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.size-pill-dim {
+  font-size: 9px;
+  opacity: 0.6;
+}
+
+.size-pill-price {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 4px;
+  color: var(--custom-accent);
+}
+
+.size-pill-btn.active .size-pill-price {
+  color: #FCD34D;
+}
+
+/* --------------------------------------------------------------------------
+   Step 4 & 5: Live Sticky Order Summary Panel
+   -------------------------------------------------------------------------- */
+.order-summary-sidebar {
+  position: sticky;
+  top: 100px;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 16px 40px rgba(21, 20, 15, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-title-wrap {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+
+.summary-heading {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.summary-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: rgba(21, 20, 15, 0.6);
+  margin: 0;
+}
+
+/* Live Progress Meter */
+.summary-progress-box {
+  background: #FAF8F5;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(21, 20, 15, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--custom-accent);
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.progress-status-msg {
+  font-size: 12px;
+  color: rgba(21, 20, 15, 0.7);
+  line-height: 1.4;
+}
+
+/* Mini Itemized Breakdown */
+.summary-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+  border-bottom: 1px dashed rgba(21, 20, 15, 0.15);
+  padding-bottom: 16px;
+}
+
+.summary-poster-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ink);
+}
+
+.summary-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-thumb {
+  width: 22px;
+  height: 30px;
+  border-radius: 2px;
+  object-fit: cover;
+  background: #ECE9DF;
+  border: 1px solid var(--line);
+}
+
+.summary-thumb.empty {
+  background: #ECE9DF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: rgba(21, 20, 15, 0.4);
+}
+
+.summary-item-price {
+  font-weight: 700;
+}
+
+/* Pricing Breakdown */
+.summary-pricing-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(21, 20, 15, 0.7);
+}
+
+.pricing-row.discount {
+  color: #059669;
+  font-weight: 600;
+}
+
+.pricing-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+  color: var(--ink);
+}
+
+.total-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.total-amount {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--custom-accent);
+}
+
+/* Checkout CTA Button */
+.custom-checkout-btn {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(21, 20, 15, 0.25);
+  width: 100%;
+}
+
+.custom-checkout-btn:hover:not(:disabled) {
+  background: var(--custom-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(228, 64, 42, 0.35);
+}
+
+.custom-checkout-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.custom-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11.5px;
+  color: rgba(21, 20, 15, 0.55);
+}
+
+.custom-spec-bullet {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Preview Wall Action Button (Appears near Order Summary)
+   -------------------------------------------------------------------------- */
+.preview-wall-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(21, 20, 15, 0.08);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preview-wall-btn:hover {
+  background: var(--ink);
+  color: #FAF8F5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(21, 20, 15, 0.2);
+}
+
+.preview-wall-btn .preview-btn-icon {
+  width: 17px;
+  height: 17px;
+}
+
+/* --------------------------------------------------------------------------
+   Custom Wall Preview Modal (Physical Wall Room Rendering)
+   -------------------------------------------------------------------------- */
+.wall-preview-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 9, 8, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wall-preview-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wall-preview-modal-card {
+  background: #FAF8F5;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  width: 90vw;
+  max-width: 1500px;
+  height: 88vh;
+  max-height: 900px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px 20px;
+  gap: 14px;
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.45);
+  transform: scale(0.98) translateY(8px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.wall-preview-modal-overlay.open .wall-preview-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.wall-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.wall-preview-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--custom-accent);
+  letter-spacing: 1.5px;
+  display: block;
+}
+
+.wall-preview-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.5px;
+  color: var(--ink);
+  margin: 1px 0 2px;
+  text-transform: uppercase;
+}
+
+.wall-preview-sub {
+  font-size: 12.5px;
+  color: rgba(21, 20, 15, 0.65);
+  margin: 0;
+}
+
+.wall-preview-close {
+  background: transparent;
+  border: none;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7;
+}
+
+.wall-preview-close:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Large Dedicated Wall Stage */
+.wall-preview-stage-container {
+  flex: 1;
+  min-height: 380px;
+  background: radial-gradient(ellipse at 50% 25%, #FAF8F4 0%, #EDE9DE 65%, #DFD8C9 100%);
+  border: 1px solid rgba(21, 20, 15, 0.12);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+  overflow: auto;
+  box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.06);
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wall-preview-stage-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(21, 20, 15, 0.035) 1px, transparent 1px);
+  background-size: 16px 16px;
+  pointer-events: none;
+}
+
+/* Wall Stage Zoom Toolbar */
+.wall-stage-toolbar {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.stage-zoom-controls {
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stage-zoom-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.stage-zoom-btn:hover {
+  background: rgba(21, 20, 15, 0.08);
+}
+
+.stage-zoom-level {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 38px;
+  text-align: center;
+}
+
+.stage-zoom-reset {
+  background: transparent;
+  border: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--custom-accent);
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.stage-hint {
+  pointer-events: none;
+  font-size: 10px;
+  color: rgba(21, 20, 15, 0.45);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.pv-gallery-wall {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transform-origin: center center;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
+}
+
+/* Wall Rows & Columns */
+.pv-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.pv-row-center {
+  justify-content: center;
+}
+
+.pv-row-spread {
+  justify-content: space-around;
+  width: 70%;
+}
+
+.pv-row-pair {
+  gap: clamp(24px, 3.5vw, 54px);
+}
+
+.pv-row-triple {
+  gap: clamp(16px, 2.5vw, 36px);
+}
+
+.pv-row-quad {
+  gap: clamp(12px, 1.8vw, 24px);
+}
+
+.pv-row-5 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 20px);
+  width: 100%;
+}
+
+/* Poster Clean Display (NO black borders, natural subtle shadow, correct aspect-ratio) */
+.pv-poster-frame {
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 10px 24px rgba(21, 20, 15, 0.16), 0 2px 6px rgba(21, 20, 15, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.pv-artwork-wrap {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  position: relative;
+  background: transparent;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pv-artwork-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border: none;
+  outline: none;
+  border-radius: 2px;
+}
+
+.pv-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  border-radius: 2px;
+}
+
+.pv-frame-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(15, 15, 15, 0.82);
+  backdrop-filter: blur(4px);
+  color: #FAF8F5;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-flex;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pv-frame-tag .pv-tag-size {
+  color: var(--custom-accent);
+}
+
+/* Relative Size Scaling via Dimensions (Avoiding conflicting transform scales) */
+.pv-poster-frame {
+  width: var(--pv-base-w, 140px);
+}
+.pv-poster-frame.pv-scale-a3 {
+  width: calc(var(--pv-base-w, 140px) * 1.18);
+}
+.pv-poster-frame.pv-scale-a4 {
+  width: var(--pv-base-w, 140px);
+}
+.pv-poster-frame.pv-scale-a5 {
+  width: calc(var(--pv-base-w, 140px) * 0.86);
+}
+.pv-poster-frame.pv-scale-a6 {
+  width: calc(var(--pv-base-w, 140px) * 0.72);
+}
+
+.pv-poster-frame.pv-hero {
+  width: calc(var(--pv-base-w, 140px) * 1.25);
+}
+.pv-poster-frame.pv-hero.pv-scale-a3 {
+  width: calc(var(--pv-base-w, 140px) * 1.45);
+}
+.pv-poster-frame.pv-hero.pv-scale-a5 {
+  width: calc(var(--pv-base-w, 140px) * 1.05);
+}
+.pv-poster-frame.pv-hero.pv-scale-a6 {
+  width: calc(var(--pv-base-w, 140px) * 0.88);
+}
+
+.pv-poster-frame.pv-focal {
+  width: calc(var(--pv-base-w, 140px) * 1.15);
+}
+.pv-poster-frame.pv-focal.pv-scale-a3 {
+  width: calc(var(--pv-base-w, 140px) * 1.35);
+}
+.pv-poster-frame.pv-focal.pv-scale-a5 {
+  width: calc(var(--pv-base-w, 140px) * 0.98);
+}
+
+/* Modal Wall Specific Arrangements */
+
+/* 5-POSTER WALL: 2 Left Column + 1 Center Hero Column + 2 Right Column */
+.pv-wall-5 {
+  --pv-base-w: 160px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 4.5vw, 64px);
+  padding: 16px;
+}
+
+.pv-wall-5 .pv-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.2vh, 28px);
+}
+
+.pv-wall-5 .pv-col-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 8-POSTER WALL: Staggered Salon Wall */
+.pv-wall-8 {
+  --pv-base-w: 130px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vh, 24px);
+  padding: 16px;
+}
+
+/* 10-POSTER WALL: Dynamic Axis Wall */
+.pv-wall-10 {
+  --pv-base-w: 110px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.8vh, 20px);
+  padding: 16px;
+}
+
+/* 12-POSTER WALL: Master Exhibition Wall */
+.pv-wall-12 {
+  --pv-base-w: 95px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.5vh, 18px);
+  padding: 14px;
+}
+
+/* Modal Footer & Meta Summary */
+.wall-preview-footer-meta {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  flex-shrink: 0;
+}
+
+.preview-meta-heading {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(21, 20, 15, 0.6);
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.wall-preview-sizes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.pv-size-item {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+}
+
+.pv-size-num {
+  font-weight: 600;
+}
+
+.pv-size-badge {
+  background: var(--ink);
+  color: #FAF8F5;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 9px;
+}
+
+.pv-size-dim {
+  font-size: 9px;
+  opacity: 0.6;
+}
+
+.pv-size-price {
+  font-weight: 700;
+  color: var(--custom-accent);
+}
+
+.wall-preview-pricing-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-total-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.preview-total-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.preview-total-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--custom-accent);
+}
+
+.wall-preview-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.preview-modal-btn-close {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--ink);
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.preview-modal-btn-close:hover {
+  background: rgba(21, 20, 15, 0.06);
+}
+
+.preview-modal-btn-checkout {
+  background: var(--ink);
+  border: none;
+  color: #FAF8F5;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  flex: 1;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.preview-modal-btn-checkout:hover {
+  background: var(--custom-accent);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .wall-preview-modal-card {
+    width: 96vw;
+    height: 94vh;
+    padding: 18px 16px 16px;
+  }
+  .wall-preview-footer-meta {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .pv-wall-5 {
+    gap: 16px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Success Modal / Toast
+   -------------------------------------------------------------------------- */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.custom-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.custom-modal-card {
+  background: #FAF8F5;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 36px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-modal-overlay.open .custom-modal-card {
+  transform: scale(1);
+}
+
+.modal-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #D1FAE5;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 28px;
+}
+
+.modal-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  color: var(--ink);
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: rgba(21, 20, 15, 0.7);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.modal-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .custom-hero-section {
+    padding: 110px 32px 50px;
+  }
+  .custom-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .custom-hero-3d-visual {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .template-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .customizer-workspace {
+    grid-template-columns: 1fr;
+  }
+  .order-summary-sidebar {
+    position: relative;
+    top: 0;
+  }
+  .custom-studio-wrap {
+    padding: 36px 32px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-hero-section {
+    padding: 100px 20px 40px;
+  }
+  .custom-studio-wrap {
+    padding: 28px 20px 80px;
+  }
+  .template-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .slot-card-inner {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .slot-preview-chamber {
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .size-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  .custom-hero-stage,
+  .custom-hero-collage,
+  .slot-card-inner,
+  .template-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}

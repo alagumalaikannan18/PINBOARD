@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Posters Studio — Turn Memories into Art — PINBOARD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/shop.css?v=1" />
+  <link rel="stylesheet" href="css/custom-posters.css?v=1" />
+</head>
+
+<body class="custom-posters-page">
+  <!-- ========== MAIN NAVBAR ========== -->
+  <header>
+    <div class="logo">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+        <span class="pin"></span>PINBOARD
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="custom-posters.html" class="active">Custom Posters</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" alt="Movies category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_movies.jpg'" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" alt="Cars category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_cars.jpg'" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" alt="Motivation category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_motivation.jpg'" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" alt="Gaming category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_gaming.jpg'" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" alt="Sports category" loading="lazy" decoding="async" width="140" height="140" onerror="this.onerror=null;this.src='cat_sports.jpg'" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mobile-overlay" id="mobileOverlay">
+    <a href="shop.html">Shop All</a>
+    <a href="index.html#collections">Collections</a>
+    <a href="custom-posters.html">Custom Posters</a>
+    <a href="index.html#about">About</a>
+    <a href="account.html">My Account</a>
+  </div>
+
+  <!-- ========== 1. HERO SECTION ========== -->
+  <section class="custom-hero-section">
+    <div class="custom-hero-inner">
+      <div class="custom-hero-content">
+        <div class="custom-hero-tag">
+          <span class="live-dot"></span>
+          <span>PINBOARD PERSONALIZED STUDIO</span>
+        </div>
+        <h1 class="custom-hero-title">CUSTOM POSTERS</h1>
+        <p class="custom-hero-quote">"Turn your memories into posters made for your wall."</p>
+        <p class="custom-hero-desc">Upload your personal photos, travel shots, or favorite memories. Select your preferred wall layout and configure individual sizes for every single print on museum-grade 300 GSM matte paper.</p>
+      </div>
+
+      <div class="custom-hero-3d-visual">
+        <div class="custom-hero-stage" id="customHeroStage">
+          <div class="custom-hero-collage">
+            <div class="collage-item collage-item-1">
+              <img src="New Project 22 [FA6B4A7].png" alt="Custom Layout Sample 1" />
+            </div>
+            <div class="collage-item collage-item-2">
+              <img src="New Project 22 [27E5039].png" alt="Custom Layout Sample 2" />
+            </div>
+            <div class="collage-item collage-item-3">
+              <img src="New Project 22 [029A006].png" alt="Custom Layout Sample 3" />
+            </div>
+          </div>
+          <div class="custom-hero-floating-badge">
+            <div class="hero-badge-kicker">PERSONALIZED GALLERY</div>
+            <div class="hero-badge-headline">Custom Sized &amp; Printed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. MAIN CUSTOMIZER WORKSPACE ========== -->
+  <main class="custom-studio-wrap">
+
+    <!-- STEP 1: QUANTITY & TEMPLATE SELECTION -->
+    <section class="template-selection-section">
+      <div class="custom-step-header">
+        <span class="step-num-tag">STEP 01</span>
+        <h2 class="step-title">HOW MANY POSTERS?</h2>
+        <p class="step-desc">Choose a curated gallery wall arrangement template. Each option is designed to create a balanced, beautiful visual composition on your wall.</p>
+      </div>
+
+      <div class="template-cards-grid">
+        <!-- 5 Posters Template Card -->
+        <div class="template-card active" data-count="5" tabindex="0" role="button" aria-label="Select 5 Posters template">
+          <div class="template-blueprint">
+            <div class="blueprint-wall blueprint-wall-5">
+              <!-- Left Column: Poster 01 (Top), Poster 03 (Bottom) -->
+              <div class="bp-col bp-col-left">
+                <div class="bp-frame bp-med" title="Poster 01"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Poster 03"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Center Hero: Poster 05 -->
+              <div class="bp-col bp-col-center">
+                <div class="bp-frame bp-large" title="Center Hero (Poster 05)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Right Column: Poster 02 (Top), Poster 04 (Bottom) -->
+              <div class="bp-col bp-col-right">
+                <div class="bp-frame bp-med" title="Poster 02"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Poster 04"><span class="bp-mat"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <span class="template-style-label">Compact Gallery</span>
+            <h3 class="template-count-title">5 POSTERS</h3>
+            <p class="template-desc">Ideal for bedrooms, desk nooks, and entryway accent walls.</p>
+            <div class="template-price-hint">Starting from ₹1,495</div>
+          </div>
+        </div>
+
+        <!-- 8 Posters Template Card -->
+        <div class="template-card" data-count="8" tabindex="0" role="button" aria-label="Select 8 Posters template">
+          <div class="template-blueprint">
+            <div class="blueprint-wall blueprint-wall-8">
+              <!-- Row 1 -->
+              <div class="bp-row bp-row-pair">
+                <div class="bp-frame bp-med" title="Top Left (01)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Top Right (02)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 2: Center Anchor with Flankers -->
+              <div class="bp-row bp-row-triple">
+                <div class="bp-frame bp-sml" title="Mid Left (03)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-large" title="Center Hero (04)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Mid Right (05)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 3 -->
+              <div class="bp-row bp-row-pair">
+                <div class="bp-frame bp-med" title="Lower Left (06)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Lower Right (07)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 4: Bottom Accent -->
+              <div class="bp-row bp-row-center">
+                <div class="bp-frame bp-sml" title="Bottom Center (08)"><span class="bp-mat"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <span class="template-style-label">Salon Wall</span>
+            <h3 class="template-count-title">8 POSTERS</h3>
+            <p class="template-desc">Balanced staggered arrangement for living rooms &amp; studios.</p>
+            <div class="template-price-hint">Starting from ₹2,390</div>
+          </div>
+        </div>
+
+        <!-- 10 Posters Template Card -->
+        <div class="template-card" data-count="10" tabindex="0" role="button" aria-label="Select 10 Posters template">
+          <div class="template-blueprint">
+            <div class="blueprint-wall blueprint-wall-10">
+              <!-- Row 1 -->
+              <div class="bp-row bp-row-pair">
+                <div class="bp-frame bp-med" title="Top Left (01)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Top Right (02)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 2: Dynamic Focal Tier -->
+              <div class="bp-row bp-row-triple">
+                <div class="bp-frame bp-large" title="Focal Left (03)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Center Mid (04)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-large" title="Focal Right (05)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 3: Panoramic Spread -->
+              <div class="bp-row bp-row-quad">
+                <div class="bp-frame bp-sml" title="Lower Far Left (06)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Lower Mid Left (07)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Lower Mid Right (08)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Lower Far Right (09)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 4: Lower Anchor -->
+              <div class="bp-row bp-row-center">
+                <div class="bp-frame bp-sml" title="Bottom Anchor (10)"><span class="bp-mat"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <span class="template-style-label">Grand Collection</span>
+            <h3 class="template-count-title">10 POSTERS</h3>
+            <p class="template-desc">Our most popular statement arrangement for expansive feature walls.</p>
+            <div class="template-price-hint">Starting from ₹2,990</div>
+          </div>
+        </div>
+
+        <!-- 12 Posters Template Card -->
+        <div class="template-card" data-count="12" tabindex="0" role="button" aria-label="Select 12 Posters template">
+          <div class="template-blueprint">
+            <div class="blueprint-wall blueprint-wall-12">
+              <!-- Row 1: Upper Gallery Trio -->
+              <div class="bp-row bp-row-triple">
+                <div class="bp-frame bp-med" title="Upper Left (01)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Upper Center (02)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Upper Right (03)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 2: Central Exhibition Tier -->
+              <div class="bp-row bp-row-quad">
+                <div class="bp-frame bp-sml" title="Mid Far Left (04)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-large" title="Exhibition Left (05)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-large" title="Exhibition Right (06)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Mid Far Right (07)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 3: Lower Exhibition Tier -->
+              <div class="bp-row bp-row-triple">
+                <div class="bp-frame bp-sml" title="Lower Left (08)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-med" title="Lower Center (09)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Lower Right (10)"><span class="bp-mat"></span></div>
+              </div>
+              <!-- Row 4: Base Pair -->
+              <div class="bp-row bp-row-pair">
+                <div class="bp-frame bp-sml" title="Base Left (11)"><span class="bp-mat"></span></div>
+                <div class="bp-frame bp-sml" title="Base Right (12)"><span class="bp-mat"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="template-card-info">
+            <span class="template-style-label">Master Exhibition</span>
+            <h3 class="template-count-title">12 POSTERS</h3>
+            <p class="template-desc">Complete exhibition experience for large loft walls &amp; galleries.</p>
+            <div class="template-price-hint">Starting from ₹3,590</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="uploadStepAnchor"></div>
+
+    <!-- STEP 2 & 3: TWO-COLUMN WORKSPACE -->
+    <div class="customizer-workspace">
+      <!-- Left Column: Upload Slots & Individual Size Selectors -->
+      <div class="customizer-slots-col">
+        <div class="custom-step-header">
+          <span class="step-num-tag">STEP 02 &amp; 03</span>
+          <h2 class="step-title">UPLOAD PHOTOS &amp; SELECT SIZES</h2>
+          <p class="step-desc">Upload your photos below. For <strong>each poster individually</strong>, pick the ideal paper size (A6, A5, A4, or A3). You can replace or adjust sizes at any time.</p>
+        </div>
+
+        <div class="upload-slots-container" id="uploadSlotsContainer">
+          <!-- Dynamically generated by js/custom-posters.js -->
+        </div>
+      </div>
+
+      <!-- Right Column: Live Sticky Order Summary Panel -->
+      <aside class="customizer-summary-col">
+        <!-- Floating/Top Left Preview Button (Visible when all uploads complete) -->
+        <button type="button" class="preview-wall-btn" id="customPreviewBtn" style="display: none;" aria-label="Preview your custom wall arrangement">
+          <svg class="preview-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>PREVIEW YOUR WALL</span>
+        </button>
+
+        <div class="order-summary-sidebar">
+          <div class="summary-title-wrap">
+            <h3 class="summary-heading">ORDER SUMMARY</h3>
+            <p class="summary-sub" id="summaryTemplateName">5 CUSTOM POSTERS</p>
+          </div>
+
+          <!-- Progress Meter -->
+          <div class="summary-progress-box">
+            <div class="progress-labels">
+              <span>PROGRESS</span>
+              <span id="summaryProgressLabel">0 OF 5 UPLOADED</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="summaryProgressFill"></div>
+            </div>
+            <div class="progress-status-msg" id="summaryProgressStatusMsg">
+              Please upload all 5 photos to continue.
+            </div>
+          </div>
+
+          <!-- Mini Itemized Breakdown -->
+          <div class="summary-breakdown-list" id="summaryBreakdownList">
+            <!-- Injected by JS -->
+          </div>
+
+          <!-- Pricing Breakdown -->
+          <div class="summary-pricing-rows">
+            <div class="pricing-row">
+              <span>Prints Subtotal</span>
+              <span id="summarySubtotal">₹0</span>
+            </div>
+            <div class="pricing-row discount">
+              <span>Archival Matte Tube Box</span>
+              <span>FREE</span>
+            </div>
+            <div class="pricing-row discount">
+              <span>Express Delivery</span>
+              <span>FREE</span>
+            </div>
+            <div class="pricing-total-row">
+              <span class="total-label">TOTAL</span>
+              <span class="total-amount" id="summaryTotalPrice">₹0</span>
+            </div>
+          </div>
+
+          <!-- Primary CTA Button -->
+          <button type="button" class="custom-checkout-btn" id="customCheckoutBtn" disabled>
+            <span>UPLOAD 5 PHOTOS TO PROCEED</span>
+          </button>
+
+          <!-- Specifications List -->
+          <div class="custom-specs-list">
+            <div class="custom-spec-bullet">
+              <span>✓</span> <span>300 GSM Museum-Grade Fine Art Paper</span>
+            </div>
+            <div class="custom-spec-bullet">
+              <span>✓</span> <span>True-Tone 12-Color Archival Pigment Inks</span>
+            </div>
+            <div class="custom-spec-bullet">
+              <span>✓</span> <span>Shipped Flat in Rigid Protective Packaging</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </main>
+
+  <!-- ========== 4. CUSTOM WALL PREVIEW MODAL ========== -->
+  <div class="wall-preview-modal-overlay" id="customWallPreviewModal" aria-hidden="true">
+    <div class="wall-preview-modal-card" role="dialog" aria-modal="true" aria-labelledby="wallPreviewTitle">
+      <div class="wall-preview-header">
+        <div class="wall-preview-title-group">
+          <span class="wall-preview-tag mono">CUSTOM WALL PREVIEW</span>
+          <h2 class="wall-preview-title" id="wallPreviewTitle">5 POSTERS</h2>
+          <p class="wall-preview-sub" id="wallPreviewSubtitle">Your selected gallery arrangement with real photos &amp; chosen sizes</p>
+        </div>
+        <button type="button" class="wall-preview-close" id="wallPreviewCloseBtn" aria-label="Close preview">&times;</button>
+      </div>
+
+      <!-- Wall Room Stage with 3D physical hanging preview -->
+      <div class="wall-preview-stage-container" id="wallPreviewStageContainer">
+        <div class="wall-stage-toolbar">
+          <div class="stage-zoom-controls">
+            <button type="button" class="stage-zoom-btn" id="stageZoomOutBtn" title="Zoom Out" aria-label="Zoom out">−</button>
+            <span class="stage-zoom-level" id="stageZoomLevel">100%</span>
+            <button type="button" class="stage-zoom-btn" id="stageZoomInBtn" title="Zoom In" aria-label="Zoom in">+</button>
+            <button type="button" class="stage-zoom-reset" id="stageZoomResetBtn" title="Reset Zoom">Reset</button>
+          </div>
+          <div class="stage-hint mono">Realistic Wall Arrangement</div>
+        </div>
+        <div class="wall-preview-room-wall" id="wallPreviewRoomWall">
+          <!-- Dynamically populated with customer's actual uploaded images in template layout -->
+        </div>
+      </div>
+
+      <!-- Selected Sizes & Pricing Summary -->
+      <div class="wall-preview-footer-meta">
+        <div class="wall-preview-sizes-col">
+          <span class="preview-meta-heading mono">CONFIGURED POSTER SIZES</span>
+          <div class="wall-preview-sizes-grid" id="wallPreviewSizesGrid">
+            <!-- Dynamically populated: Poster 01 — A4 (210 × 297 mm), etc. -->
+          </div>
+        </div>
+        
+        <div class="wall-preview-pricing-col">
+          <div class="preview-total-wrap">
+            <span class="preview-total-label mono">TOTAL</span>
+            <span class="preview-total-val" id="wallPreviewTotalVal">₹0</span>
+          </div>
+          <div class="wall-preview-actions">
+            <button type="button" class="preview-modal-btn-close" id="wallPreviewBottomCloseBtn">Close</button>
+            <button type="button" class="preview-modal-btn-checkout" id="wallPreviewCheckoutBtn">Continue to Checkout →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 5. CELEBRATION MODAL ========== -->
+  <div class="custom-modal-overlay" id="customSuccessModal" aria-hidden="true">
+    <div class="custom-modal-card">
+      <div class="modal-icon-wrap">✓</div>
+      <h2 class="modal-title">Custom Set Added!</h2>
+      <p class="modal-desc" id="modalSuccessDesc">Your personalized poster collection has been successfully added to your cart.</p>
+      <div class="modal-actions">
+        <a href="account.html" class="modal-btn-primary">View in Cart &amp; Checkout →</a>
+        <button type="button" class="modal-btn-secondary" id="modalCloseBtn">Create Another Custom Set</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>COLLECTIONS</h4>
+        <ul>
+          <li><a href="movies.html">Movies</a></li>
+          <li><a href="cars.html">Cars</a></li>
+          <li><a href="motivation.html">Motivation</a></li>
+          <li><a href="gaming.html">Gaming</a></li>
+          <li><a href="sports.html">Sports</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>EXPLORE</h4>
+        <ul>
+          <li><a href="shop.html">Shop All Posters</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="account.html">My Account</a></li>
+          <li><a href="index.html#about">Our Story</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>COMMUNITY</h4>
+        <p class="foot-newsletter-sub">Drop your email for secret drops and exhibition restocks.</p>
+        <div class="foot-newsletter-form">
+          <input type="email" placeholder="you@domain.com" />
+          <button type="button">JOIN</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div class="mono">© 2026 PINBOARD STUDIO. ALL RIGHTS RESERVED.</div>
+      <div class="mono">MUSEUM QUALITY ARCHIVAL PRINTS</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/custom-posters.js"></script>
+</body>
+
+</html>
