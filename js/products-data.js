@@ -32,8 +32,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [FA6B4A7].png"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 620,
     "pieces": 1,
@@ -71,7 +71,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 2,
     "slug": "bauhaus-no-7",
-    "title": "BE YOURSELF | Mindset Print",
+    "title": "BE YOURSELF | Mindset Stage Print",
     "subtitle": "Mindset & Courage · True Identity",
     "category": "Motivation",
     "collection": "Mindset & Stoicism",
@@ -93,8 +93,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [27E5039].png"
     ],
-    "regularPrice": 1099,
-    "salePrice": 899,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 840,
     "pieces": 1,
@@ -155,8 +155,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [029A006].png"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 1240,
     "pieces": 1,
@@ -217,8 +217,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [534B54A].png"
     ],
-    "regularPrice": 1199,
-    "salePrice": 999,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.7,
     "reviewCount": 390,
     "pieces": 1,
@@ -256,8 +256,8 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 5,
     "slug": "minimal-line",
-    "title": "MEN ARE BRAVE | The Dark Knight Emblem",
-    "subtitle": "DC Universe · Heavy Shadow Print",
+    "title": "MEN ARE BRAVE | Minimalist Dark Knight Emblem",
+    "subtitle": "Minimal Line · Heavy Shadow Print",
     "category": "Movies",
     "collection": "DC & Gotham",
     "artist": "Studio Pinboard",
@@ -279,11 +279,11 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [94A5EEE].png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 510,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -299,7 +299,7 @@ var PINBOARD_PRODUCTS = [
       "Size": "A3 (297 × 420 mm) each",
       "Material": "300 GSM Premium Matte Sheet",
       "Finish": "Smooth Matte Finish",
-      "Pieces": "3",
+      "Pieces": "1",
       "Frame": "Not Included",
       "Packaging": "Rigid tube, flat-packed"
     },
@@ -341,11 +341,11 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [B720BE2].png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 720,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -361,7 +361,7 @@ var PINBOARD_PRODUCTS = [
       "Size": "A3 (297 × 420 mm) each",
       "Material": "300 GSM Premium Matte Sheet",
       "Finish": "Smooth Matte Finish",
-      "Pieces": "3",
+      "Pieces": "1",
       "Frame": "Not Included",
       "Packaging": "Rigid tube, flat-packed"
     },
@@ -403,11 +403,11 @@ var PINBOARD_PRODUCTS = [
       "New Project 22 [D8D9C72].png",
       "New Project 22 [04889D2].png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.7,
     "reviewCount": 310,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -423,7 +423,7 @@ var PINBOARD_PRODUCTS = [
       "Size": "A3 (297 × 420 mm) each",
       "Material": "300 GSM Premium Matte Sheet",
       "Finish": "Smooth Matte Finish",
-      "Pieces": "3",
+      "Pieces": "1",
       "Frame": "Not Included",
       "Packaging": "Rigid tube, flat-packed"
     },
@@ -442,8 +442,8 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 8,
     "slug": "urban-grit",
-    "title": "ANSWERS TO HELL ME | Doctor Doom Latveria",
-    "subtitle": "Marvel Cinema · Latverian Sovereign",
+    "title": "ANSWERS TO HELL ME | Latverian Sovereign Doom",
+    "subtitle": "Marvel Cinema · Sovereign Victor Von Doom",
     "category": "Movies",
     "collection": "Marvel & Cinema",
     "artist": "Studio Pinboard",
@@ -464,11 +464,11 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [E742D9E].png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 480,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -484,7 +484,7 @@ var PINBOARD_PRODUCTS = [
       "Size": "A3 (297 × 420 mm) each",
       "Material": "300 GSM Premium Matte Sheet",
       "Finish": "Smooth Matte Finish",
-      "Pieces": "3",
+      "Pieces": "1",
       "Frame": "Not Included",
       "Packaging": "Rigid tube, flat-packed"
     },
@@ -526,11 +526,11 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [A7FF5A7].png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 670,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -546,7 +546,7 @@ var PINBOARD_PRODUCTS = [
       "Size": "A3 (297 × 420 mm) each",
       "Material": "300 GSM Premium Matte Sheet",
       "Finish": "Smooth Matte Finish",
-      "Pieces": "3",
+      "Pieces": "1",
       "Frame": "Not Included",
       "Packaging": "Rigid tube, flat-packed"
     },
@@ -588,11 +588,11 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [5627475] (1).png"
     ],
-    "regularPrice": 1799,
-    "salePrice": 1399,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 440,
-    "pieces": 3,
+    "pieces": 1,
     "material": "300 GSM Premium Matte Sheet",
     "finish": "Smooth Matte Finish",
     "frameIncluded": false,
@@ -663,8 +663,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "1554016.png"
     ],
-    "regularPrice": 999,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 1560,
     "pieces": 1,
@@ -739,8 +739,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "1553256_1.jpg.jpeg"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 870,
     "pieces": 1,
@@ -778,7 +778,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 13,
     "slug": "answers-to-hellme-doctor-doom",
-    "title": "ANSWERS TO HELLME | Doctor Doom Poster",
+    "title": "VICTOR VON DOOM | Emerald & Shadow Comic Art",
     "subtitle": "Marvel Comic Art · Emerald & Shadow Print",
     "category": "Movies",
     "collection": "Marvel & Cinema",
@@ -813,8 +813,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "1553164.jpg.jpeg"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 2100,
     "pieces": 1,
@@ -852,7 +852,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 14,
     "slug": "when-the-dream-became-immortal-messi",
-    "title": "WHEN THE DREAM BECAME IMMORTAL | Messi Poster",
+    "title": "WHEN THE DREAM BECAME IMMORTAL | Argentina World Cup Glory",
     "subtitle": "World Cup Glory · Historic Sports Print",
     "category": "Sports",
     "collection": "Football Legends",
@@ -888,8 +888,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "1551192.png"
     ],
-    "regularPrice": 999,
-    "salePrice": 799,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 1840,
     "pieces": 1,
@@ -953,8 +953,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "cat_motivation.webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 412,
     "pieces": 1,
@@ -1014,8 +1014,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "1553031.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 298,
     "pieces": 1,
@@ -1053,8 +1053,8 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 17,
     "slug": "relentless-hustle",
-    "title": "MILES MORALES | Skyline Sunset",
-    "subtitle": "Marvel Cinema · Archival Print",
+    "title": "MILES MORALES | High Rise Ledge Silhouette",
+    "subtitle": "Marvel Cinema · Archival Skyline Print",
     "category": "Movies",
     "collection": "Marvel & Cinema",
     "artist": "Studio Pinboard",
@@ -1075,8 +1075,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [37F3EB1].png"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 185,
     "pieces": 1,
@@ -1136,8 +1136,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [DA2465C] (1).png"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 340,
     "pieces": 1,
@@ -1198,8 +1198,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "New Project 22 [FC091EF] (1).png"
     ],
-    "regularPrice": 949,
-    "salePrice": 729,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 215,
     "pieces": 1,
@@ -1237,7 +1237,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 20,
     "slug": "golden-standard",
-    "title": "DOOM | Monarch of Latveria",
+    "title": "DOOM | Cathedral Monarch of Latveria",
     "subtitle": "Marvel Comics · Sovereign Stone Edition",
     "category": "Movies",
     "collection": "Marvel & Cinema",
@@ -1259,8 +1259,8 @@ var PINBOARD_PRODUCTS = [
     "images": [
       "WhatsApp Image 2026-09-05 at 11.39.33 PM (1).webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 520,
     "pieces": 1,
@@ -1298,7 +1298,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 21,
     "slug": "miles-morales-sunset-skyline",
-    "title": "MILES MORALES | Sunset Skyline",
+    "title": "MILES MORALES | Brooklyn Skyscraper Sunset",
     "subtitle": "Marvel Cinema · Archival Print",
     "category": "Movies",
     "collection": "Marvel & Cinema",
@@ -1320,11 +1320,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1513605.webp",
-      "poster/Posters/1513605.png"
+      "poster/opt/1513605.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 480,
     "pieces": 1,
@@ -1383,11 +1382,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1513609.webp",
-      "poster/Posters/1513609.png"
+      "poster/opt/1513609.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 520,
     "pieces": 1,
@@ -1447,11 +1445,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1513618.webp",
-      "poster/Posters/1513618.png"
+      "poster/opt/1513618.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -1510,11 +1507,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/1513633.webp",
-      "poster/Posters/1513633.png"
+      "poster/opt/1513633.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 410,
     "pieces": 1,
@@ -1574,11 +1570,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1513635.webp",
-      "poster/Posters/1513635.png"
+      "poster/opt/1513635.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -1637,11 +1632,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1513638.webp",
-      "poster/Posters/1513638.png"
+      "poster/opt/1513638.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 380,
     "pieces": 1,
@@ -1700,11 +1694,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1513639.webp",
-      "poster/Posters/1513639.png"
+      "poster/opt/1513639.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 710,
     "pieces": 1,
@@ -1762,11 +1755,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1513641.webp",
-      "poster/Posters/1513641.png"
+      "poster/opt/1513641.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 260,
     "pieces": 1,
@@ -1803,8 +1795,8 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 29,
-    "slug": "men-are-brave-the-dark-knight-emblem",
-    "title": "MEN ARE BRAVE | The Dark Knight Emblem",
+    "slug": "the-dark-knight-men-are-brave-archival-silhouette",
+    "title": "THE DARK KNIGHT | Men Are Brave Archival Silhouette",
     "subtitle": "DC Universe · Heavy Shadow Print",
     "category": "Movies",
     "collection": "DC & Gotham",
@@ -1825,11 +1817,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1513642.webp",
-      "poster/Posters/1513642.png"
+      "poster/opt/1513642.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 440,
     "pieces": 1,
@@ -1889,11 +1880,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1513644.webp",
-      "poster/Posters/1513644.png"
+      "poster/opt/1513644.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 340,
     "pieces": 1,
@@ -1951,11 +1941,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1514058.webp",
-      "poster/Posters/1514058.png"
+      "poster/opt/1514058.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 610,
     "pieces": 1,
@@ -2014,11 +2003,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514060.webp",
-      "poster/Posters/1514060.png"
+      "poster/opt/1514060.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 590,
     "pieces": 1,
@@ -2077,11 +2065,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1514061.webp",
-      "poster/Posters/1514061.png"
+      "poster/opt/1514061.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 460,
     "pieces": 1,
@@ -2140,11 +2127,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514078.webp",
-      "poster/Posters/1514078.png"
+      "poster/opt/1514078.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 380,
     "pieces": 1,
@@ -2203,11 +2189,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514079.webp",
-      "poster/Posters/1514079.png"
+      "poster/opt/1514079.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -2266,11 +2251,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1514083.webp",
-      "poster/Posters/1514083.png"
+      "poster/opt/1514083.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 670,
     "pieces": 1,
@@ -2329,11 +2313,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1514117.webp",
-      "poster/Posters/1514117.png"
+      "poster/opt/1514117.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 510,
     "pieces": 1,
@@ -2393,11 +2376,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514119.webp",
-      "poster/Posters/1514119.png"
+      "poster/opt/1514119.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 880,
     "pieces": 1,
@@ -2456,11 +2438,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1514131.webp",
-      "poster/Posters/1514131.png"
+      "poster/opt/1514131.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 940,
     "pieces": 1,
@@ -2519,11 +2500,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514132.webp",
-      "poster/Posters/1514132.png"
+      "poster/opt/1514132.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -2582,11 +2562,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514133.webp",
-      "poster/Posters/1514133.png"
+      "poster/opt/1514133.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.7,
     "reviewCount": 220,
     "pieces": 1,
@@ -2644,11 +2623,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1514134.webp",
-      "poster/Posters/1514134.png"
+      "poster/opt/1514134.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 560,
     "pieces": 1,
@@ -2707,11 +2685,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1514163.webp",
-      "poster/Posters/1514163.png"
+      "poster/opt/1514163.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 420,
     "pieces": 1,
@@ -2770,11 +2747,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514165.webp",
-      "poster/Posters/1514165.png"
+      "poster/opt/1514165.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 480,
     "pieces": 1,
@@ -2833,11 +2809,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514168.webp",
-      "poster/Posters/1514168.png"
+      "poster/opt/1514168.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -2896,11 +2871,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514169.webp",
-      "poster/Posters/1514169.png"
+      "poster/opt/1514169.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 370,
     "pieces": 1,
@@ -2960,11 +2934,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514179.webp",
-      "poster/Posters/1514179.png"
+      "poster/opt/1514179.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -3023,11 +2996,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1514230.webp",
-      "poster/Posters/1514230.png"
+      "poster/opt/1514230.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 320,
     "pieces": 1,
@@ -3086,11 +3058,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1514231.webp",
-      "poster/Posters/1514231.png"
+      "poster/opt/1514231.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1100,
     "pieces": 1,
@@ -3127,9 +3098,9 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 50,
-    "slug": "spider-man-the-suit-reveal",
-    "title": "SPIDER-MAN | The Suit Reveal",
-    "subtitle": "Marvel Cinema · Close-Up Fabric Texture",
+    "slug": "spider-man-classic-suit-fabric-texture",
+    "title": "SPIDER-MAN | Classic Suit Fabric Texture",
+    "subtitle": "Marvel Cinema · Macro Weave Detail",
     "category": "Movies",
     "collection": "Marvel & Cinema",
     "artist": "PINBOARD Marvel Studio",
@@ -3145,15 +3116,14 @@ var PINBOARD_PRODUCTS = [
       "superhero",
       "comic"
     ],
-    "keywords": "spider-man suit reveal macro texture fabric red blue webbing peter parker marvel superhero detail",
+    "keywords": "spider-man classic suit fabric texture macro weave detail red blue webbing peter parker marvel superhero",
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514312.webp",
-      "poster/Posters/1514312.png"
+      "poster/opt/1514312.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 280,
     "pieces": 1,
@@ -3212,11 +3182,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514313.webp",
-      "poster/Posters/1514313.png"
+      "poster/opt/1514313.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 250,
     "pieces": 1,
@@ -3275,11 +3244,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1553160.webp",
-      "poster/Posters/1553160.jpg"
+      "poster/opt/1553160.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 540,
     "pieces": 1,
@@ -3337,11 +3305,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1553164.webp",
-      "poster/Posters/1553164.jpg"
+      "poster/opt/1553164.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -3400,11 +3367,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1553256_1.webp",
-      "poster/Posters/1553256_1.jpg"
+      "poster/opt/1553256_1.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 460,
     "pieces": 1,
@@ -3463,11 +3429,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1553985.webp",
-      "poster/Posters/1553985.png"
+      "poster/opt/1553985.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 390,
     "pieces": 1,
@@ -3526,11 +3491,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1554029.webp",
-      "poster/Posters/1554029.png"
+      "poster/opt/1554029.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 270,
     "pieces": 1,
@@ -3589,11 +3553,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1554461.webp",
-      "poster/Posters/1554461.png"
+      "poster/opt/1554461.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 580,
     "pieces": 1,
@@ -3652,11 +3615,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "LEGEND",
     "images": [
-      "poster/opt/1554475.webp",
-      "poster/Posters/1554475.png"
+      "poster/opt/1554475.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 920,
     "pieces": 1,
@@ -3715,11 +3677,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1554486.webp",
-      "poster/Posters/1554486.png"
+      "poster/opt/1554486.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -3778,11 +3739,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1554487.webp",
-      "poster/Posters/1554487.png"
+      "poster/opt/1554487.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 640,
     "pieces": 1,
@@ -3840,11 +3800,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1554548.webp",
-      "poster/Posters/1554548.jpg"
+      "poster/opt/1554548.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 470,
     "pieces": 1,
@@ -3903,11 +3862,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/1555620.webp",
-      "poster/Posters/1555620.png"
+      "poster/opt/1555620.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -3966,11 +3924,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555662.webp",
-      "poster/Posters/1555662.png"
+      "poster/opt/1555662.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 260,
     "pieces": 1,
@@ -4029,11 +3986,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555887.webp",
-      "poster/Posters/1555887.png"
+      "poster/opt/1555887.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -4092,11 +4048,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1555892.webp",
-      "poster/Posters/1555892.png"
+      "poster/opt/1555892.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 780,
     "pieces": 1,
@@ -4155,11 +4110,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1555893.webp",
-      "poster/Posters/1555893.png"
+      "poster/opt/1555893.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 620,
     "pieces": 1,
@@ -4218,11 +4172,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555894.webp",
-      "poster/Posters/1555894.png"
+      "poster/opt/1555894.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -4281,11 +4234,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1555899.webp",
-      "poster/Posters/1555899.png"
+      "poster/opt/1555899.webp"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1250,
     "pieces": 1,
@@ -4344,11 +4296,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555934.webp",
-      "poster/Posters/1555934.png"
+      "poster/opt/1555934.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 260,
     "pieces": 1,
@@ -4406,11 +4357,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW DROP",
     "images": [
-      "poster/opt/1555937.webp",
-      "poster/Posters/1555937.png"
+      "poster/opt/1555937.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 330,
     "pieces": 1,
@@ -4470,11 +4420,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1555939.webp",
-      "poster/Posters/1555939.png"
+      "poster/opt/1555939.webp"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1420,
     "pieces": 1,
@@ -4532,11 +4481,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555940.webp",
-      "poster/Posters/1555940.png"
+      "poster/opt/1555940.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 370,
     "pieces": 1,
@@ -4595,11 +4543,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1555941.webp",
-      "poster/Posters/1555941.png"
+      "poster/opt/1555941.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 490,
     "pieces": 1,
@@ -4658,11 +4605,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555943.webp",
-      "poster/Posters/1555943.png"
+      "poster/opt/1555943.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 450,
     "pieces": 1,
@@ -4721,11 +4667,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1555944.webp",
-      "poster/Posters/1555944.png"
+      "poster/opt/1555944.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 610,
     "pieces": 1,
@@ -4783,11 +4728,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555945.webp",
-      "poster/Posters/1555945.png"
+      "poster/opt/1555945.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -4844,11 +4788,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1555960.webp",
-      "poster/Posters/1555960.png"
+      "poster/opt/1555960.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 520,
     "pieces": 1,
@@ -4906,11 +4849,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/1555968.webp",
-      "poster/Posters/1555968.png"
+      "poster/opt/1555968.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 460,
     "pieces": 1,
@@ -4969,11 +4911,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555969.webp",
-      "poster/Posters/1555969.png"
+      "poster/opt/1555969.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 270,
     "pieces": 1,
@@ -5031,11 +4972,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555970.webp",
-      "poster/Posters/1555970.png"
+      "poster/opt/1555970.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 340,
     "pieces": 1,
@@ -5093,11 +5033,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1555983.webp",
-      "poster/Posters/1555983.png"
+      "poster/opt/1555983.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 820,
     "pieces": 1,
@@ -5155,11 +5094,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556445.webp",
-      "poster/Posters/1556445.png"
+      "poster/opt/1556445.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 230,
     "pieces": 1,
@@ -5218,11 +5156,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556706.webp",
-      "poster/Posters/1556706.png"
+      "poster/opt/1556706.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 320,
     "pieces": 1,
@@ -5280,11 +5217,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1556723.webp",
-      "poster/Posters/1556723.png"
+      "poster/opt/1556723.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 560,
     "pieces": 1,
@@ -5343,11 +5279,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1556727.webp",
-      "poster/Posters/1556727.png"
+      "poster/opt/1556727.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 510,
     "pieces": 1,
@@ -5406,11 +5341,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1556729.webp",
-      "poster/Posters/1556729.png"
+      "poster/opt/1556729.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 970,
     "pieces": 1,
@@ -5448,7 +5382,7 @@ var PINBOARD_PRODUCTS = [
   {
     "id": 87,
     "slug": "doom-sovereign-of-latveria",
-    "title": "DOOM | Sovereign of Latveria",
+    "title": "DOOM | Sovereign of Latveria Crown & Seal",
     "subtitle": "Marvel Comics · Crown & Mask Print",
     "category": "Movies",
     "collection": "Marvel & Cinema",
@@ -5468,11 +5402,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556901.webp",
-      "poster/Posters/1556901.png"
+      "poster/opt/1556901.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 430,
     "pieces": 1,
@@ -5530,11 +5463,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556956.webp",
-      "poster/Posters/1556956.png"
+      "poster/opt/1556956.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -5592,11 +5524,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1557082.webp",
-      "poster/Posters/1557082.png"
+      "poster/opt/1557082.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 680,
     "pieces": 1,
@@ -5654,11 +5585,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1557084.webp",
-      "poster/Posters/1557084.png"
+      "poster/opt/1557084.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 420,
     "pieces": 1,
@@ -5717,11 +5647,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1557102.webp",
-      "poster/Posters/1557102.png"
+      "poster/opt/1557102.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -5779,11 +5708,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1557131.webp",
-      "poster/Posters/1557131.png"
+      "poster/opt/1557131.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 890,
     "pieces": 1,
@@ -5842,11 +5770,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1557153.webp",
-      "poster/Posters/1557153.png"
+      "poster/opt/1557153.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 280,
     "pieces": 1,
@@ -5904,11 +5831,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/1557157.webp",
-      "poster/Posters/1557157.png"
+      "poster/opt/1557157.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -5967,11 +5893,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1557173.webp",
-      "poster/Posters/1557173.png"
+      "poster/opt/1557173.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 260,
     "pieces": 1,
@@ -6029,11 +5954,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1557175.webp",
-      "poster/Posters/1557175.png"
+      "poster/opt/1557175.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 410,
     "pieces": 1,
@@ -6092,11 +6016,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/A4 Posters [55573EA].webp",
-      "poster/Posters/A4 Posters [55573EA].png"
+      "poster/opt/A4 Posters [55573EA].webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 530,
     "pieces": 1,
@@ -6155,11 +6078,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/A4 Posters [5FE0EB5].webp",
-      "poster/Posters/A4 Posters [5FE0EB5].png"
+      "poster/opt/A4 Posters [5FE0EB5].webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 880,
     "pieces": 1,
@@ -6216,11 +6138,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/A4 Posters [697243A].webp",
-      "poster/Posters/A4 Posters [697243A].png"
+      "poster/opt/A4 Posters [697243A].webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 470,
     "pieces": 1,
@@ -6279,11 +6200,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514077.webp",
-      "poster/Posters/1514077.png"
+      "poster/opt/1514077.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 510,
     "pieces": 1,
@@ -6342,11 +6262,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1514085.webp",
-      "poster/Posters/1514085.png"
+      "poster/opt/1514085.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 760,
     "pieces": 1,
@@ -6404,11 +6323,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1553196.webp",
-      "poster/Posters/1553196.jpg"
+      "poster/opt/1553196.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 380,
     "pieces": 1,
@@ -6466,11 +6384,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555889.webp",
-      "poster/Posters/1555889.png"
+      "poster/opt/1555889.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -6528,11 +6445,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1555891.webp",
-      "poster/Posters/1555891.png"
+      "poster/opt/1555891.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 440,
     "pieces": 1,
@@ -6590,11 +6506,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555982.webp",
-      "poster/Posters/1555982.png"
+      "poster/opt/1555982.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -6652,11 +6567,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556440.webp",
-      "poster/Posters/1556440.png"
+      "poster/opt/1556440.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 330,
     "pieces": 1,
@@ -6715,11 +6629,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1557527.webp",
-      "poster/Posters/1557527.png"
+      "poster/opt/1557527.webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 799,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 890,
     "pieces": 1,
@@ -6778,11 +6691,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1557528.webp",
-      "poster/Posters/1557528.png"
+      "poster/opt/1557528.webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 799,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 940,
     "pieces": 1,
@@ -6841,11 +6753,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1557529.webp",
-      "poster/Posters/1557529.png"
+      "poster/opt/1557529.webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 799,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1020,
     "pieces": 1,
@@ -6904,11 +6815,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "CALM",
     "images": [
-      "poster/opt/1513632.webp",
-      "poster/Posters/1513632.png"
+      "poster/opt/1513632.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -6966,11 +6876,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514059.webp",
-      "poster/Posters/1514059.png"
+      "poster/opt/1514059.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 520,
     "pieces": 1,
@@ -7028,11 +6937,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1514166.webp",
-      "poster/Posters/1514166.png"
+      "poster/opt/1514166.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 460,
     "pieces": 1,
@@ -7090,11 +6998,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1514232.webp",
-      "poster/Posters/1514232.png"
+      "poster/opt/1514232.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 290,
     "pieces": 1,
@@ -7131,9 +7038,9 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 114,
-    "slug": "discipline-makes-you-unforgettable-cr7",
-    "title": "DISCIPLINE MAKES YOU UNFORGETTABLE | CR7",
-    "subtitle": "Athletic Drive · Cristiano Ronaldo Standard",
+    "slug": "discipline-makes-you-unforgettable-stadium-rain-stoic-quote",
+    "title": "DISCIPLINE MAKES YOU UNFORGETTABLE | Stadium Rain Stoic Quote",
+    "subtitle": "Athletic Drive · CR7 Physique In Torrential Rain",
     "category": "Motivation",
     "collection": "Mindset & Stoicism",
     "artist": "Discipline Press",
@@ -7153,11 +7060,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1551532.webp",
-      "poster/Posters/1551532.jpg"
+      "poster/opt/1551532.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1140,
     "pieces": 1,
@@ -7215,11 +7121,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1554426.webp",
-      "poster/Posters/1554426.jpg"
+      "poster/opt/1554426.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 380,
     "pieces": 1,
@@ -7277,11 +7182,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/1554532.webp",
-      "poster/Posters/1554532.png"
+      "poster/opt/1554532.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 420,
     "pieces": 1,
@@ -7340,11 +7244,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555984.webp",
-      "poster/Posters/1555984.png"
+      "poster/opt/1555984.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 330,
     "pieces": 1,
@@ -7403,11 +7306,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1555986.webp",
-      "poster/Posters/1555986.png"
+      "poster/opt/1555986.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 280,
     "pieces": 1,
@@ -7465,11 +7367,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1556441.webp",
-      "poster/Posters/1556441.png"
+      "poster/opt/1556441.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 620,
     "pieces": 1,
@@ -7527,11 +7428,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1556915.webp",
-      "poster/Posters/1556915.png"
+      "poster/opt/1556915.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 890,
     "pieces": 1,
@@ -7589,11 +7489,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1556930.webp",
-      "poster/Posters/1556930.png"
+      "poster/opt/1556930.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 510,
     "pieces": 1,
@@ -7652,11 +7551,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556935.webp",
-      "poster/Posters/1556935.png"
+      "poster/opt/1556935.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 370,
     "pieces": 1,
@@ -7714,11 +7612,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "AESTHETIC",
     "images": [
-      "poster/opt/p1.webp",
-      "poster/Posters/p1.png"
+      "poster/opt/p1.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 440,
     "pieces": 1,
@@ -7776,11 +7673,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1555762.webp",
-      "poster/Posters/1555762.png"
+      "poster/opt/1555762.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1180,
     "pieces": 1,
@@ -7838,11 +7734,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1555764.webp",
-      "poster/Posters/1555764.png"
+      "poster/opt/1555764.webp"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1650,
     "pieces": 1,
@@ -7900,11 +7795,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1556993.webp",
-      "poster/Posters/1556993.png"
+      "poster/opt/1556993.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1390,
     "pieces": 1,
@@ -7962,11 +7856,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556996.webp",
-      "poster/Posters/1556996.png"
+      "poster/opt/1556996.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 520,
     "pieces": 1,
@@ -8003,8 +7896,8 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 128,
-    "slug": "arthur-morgan-outlaw-legend-gunslinger",
-    "title": "ARTHUR MORGAN | Outlaw. Legend. Gunslinger.",
+    "slug": "arthur-morgan-outlaw-gunslinger-slab-typography",
+    "title": "ARTHUR MORGAN | Outlaw Gunslinger Slab Typography",
     "subtitle": "Rockstar Games · Minimalist Western Typography",
     "category": "Gaming",
     "collection": "Red Dead & GTA Legends",
@@ -8024,11 +7917,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/file_00000000d1a482118837991a9779439a.webp",
-      "poster/Posters/file_00000000d1a482118837991a9779439a.png"
+      "poster/opt/file_00000000d1a482118837991a9779439a.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 670,
     "pieces": 1,
@@ -8088,11 +7980,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1514167.webp",
-      "poster/Posters/1514167.png"
+      "poster/opt/1514167.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 440,
     "pieces": 1,
@@ -8129,8 +8020,8 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 130,
-    "slug": "when-the-dream-became-immortal-messi-2022",
-    "title": "WHEN THE DREAM BECAME IMMORTAL | Messi 2022",
+    "slug": "when-the-dream-became-immortal-qatar-2022-world-cup-kiss",
+    "title": "WHEN THE DREAM BECAME IMMORTAL | Qatar 2022 World Cup Kiss",
     "subtitle": "Football Legends · FIFA World Cup Champions",
     "category": "Sports",
     "collection": "Football Legends",
@@ -8151,11 +8042,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1551192.webp",
-      "poster/Posters/1551192.png"
+      "poster/opt/1551192.webp"
     ],
-    "regularPrice": 999,
-    "salePrice": 799,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1980,
     "pieces": 1,
@@ -8213,11 +8103,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1551536.webp",
-      "poster/Posters/1551536.png"
+      "poster/opt/1551536.webp"
     ],
-    "regularPrice": 799,
-    "salePrice": 599,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 310,
     "pieces": 1,
@@ -8254,8 +8143,8 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 132,
-    "slug": "cristiano-ronaldo-portugal-7-crest",
-    "title": "CRISTIANO RONALDO | Portugal #7 Crest",
+    "slug": "cr7-portugal-captain-armband-national-shield",
+    "title": "CR7 PORTUGAL | Captain Armband & National Shield",
     "subtitle": "Football Legends · Seleção das Quinas",
     "category": "Sports",
     "collection": "Football Legends",
@@ -8275,11 +8164,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1553031.webp",
-      "poster/Posters/1553031.jpg"
+      "poster/opt/1553031.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 780,
     "pieces": 1,
@@ -8316,9 +8204,9 @@ var PINBOARD_PRODUCTS = [
   },
   {
     "id": 133,
-    "slug": "the-greatest-player-of-all-time-leo-messi",
-    "title": "THE GREATEST PLAYER OF ALL TIME | Leo Messi",
-    "subtitle": "Football Legends · Pitch Ball Mastery",
+    "slug": "leo-messi-the-goat-pitch-ball-mastery",
+    "title": "LEO MESSI | The GOAT Pitch Ball Mastery",
+    "subtitle": "Football Legends · Golden GOAT Typography",
     "category": "Sports",
     "collection": "Football Legends",
     "artist": "Estadio Visuals",
@@ -8337,11 +8225,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1553198.webp",
-      "poster/Posters/1553198.png"
+      "poster/opt/1553198.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 920,
     "pieces": 1,
@@ -8399,11 +8286,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1553998.webp",
-      "poster/Posters/1553998.png"
+      "poster/opt/1553998.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1450,
     "pieces": 1,
@@ -8461,11 +8347,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1554000.webp",
-      "poster/Posters/1554000.png"
+      "poster/opt/1554000.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 860,
     "pieces": 1,
@@ -8523,11 +8408,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1554002.webp",
-      "poster/Posters/1554002.png"
+      "poster/opt/1554002.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 420,
     "pieces": 1,
@@ -8585,11 +8469,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1554004.webp",
-      "poster/Posters/1554004.png"
+      "poster/opt/1554004.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 610,
     "pieces": 1,
@@ -8647,11 +8530,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1554013.webp",
-      "poster/Posters/1554013.png"
+      "poster/opt/1554013.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -8709,11 +8591,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1554016.webp",
-      "poster/Posters/1554016.png"
+      "poster/opt/1554016.webp"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1620,
     "pieces": 1,
@@ -8771,11 +8652,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1554018.webp",
-      "poster/Posters/1554018.png"
+      "poster/opt/1554018.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 670,
     "pieces": 1,
@@ -8833,11 +8713,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1554020.webp",
-      "poster/Posters/1554020.png"
+      "poster/opt/1554020.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 450,
     "pieces": 1,
@@ -8895,11 +8774,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1554022.webp",
-      "poster/Posters/1554022.png"
+      "poster/opt/1554022.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 710,
     "pieces": 1,
@@ -8958,11 +8836,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1554024.webp",
-      "poster/Posters/1554024.png"
+      "poster/opt/1554024.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 980,
     "pieces": 1,
@@ -9021,11 +8898,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1555895.webp",
-      "poster/Posters/1555895.png"
+      "poster/opt/1555895.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 650,
     "pieces": 1,
@@ -9084,11 +8960,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "poster/opt/1555898.webp",
-      "poster/Posters/1555898.png"
+      "poster/opt/1555898.webp"
     ],
-    "regularPrice": 949,
-    "salePrice": 749,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1780,
     "pieces": 1,
@@ -9146,11 +9021,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556707.webp",
-      "poster/Posters/1556707.png"
+      "poster/opt/1556707.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 390,
     "pieces": 1,
@@ -9209,11 +9083,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "poster/opt/1556717.webp",
-      "poster/Posters/1556717.png"
+      "poster/opt/1556717.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.8,
     "reviewCount": 340,
     "pieces": 1,
@@ -9272,11 +9145,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "poster/opt/1556721.webp",
-      "poster/Posters/1556721.png"
+      "poster/opt/1556721.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 570,
     "pieces": 1,
@@ -9334,11 +9206,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "poster/opt/1556725.webp",
-      "poster/Posters/1556725.png"
+      "poster/opt/1556725.webp"
     ],
-    "regularPrice": 849,
-    "salePrice": 649,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 490,
     "pieces": 1,
@@ -9396,11 +9267,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "STAFF PICK",
     "images": [
-      "poster/opt/1556894.webp",
-      "poster/Posters/1556894.png"
+      "poster/opt/1556894.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 5,
     "reviewCount": 1350,
     "pieces": 1,
@@ -9459,11 +9329,10 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "poster/opt/1557012.webp",
-      "poster/Posters/1557012.png"
+      "poster/opt/1557012.webp"
     ],
-    "regularPrice": 899,
-    "salePrice": 699,
+    "regularPrice": 99,
+    "salePrice": 60,
     "rating": 4.9,
     "reviewCount": 820,
     "pieces": 1,
@@ -9500,238 +9369,170 @@ var PINBOARD_PRODUCTS = [
   }
 ];
 
-// =============================================
-// PINBOARD SEARCH ENGINE
-// Dynamic multi-field relevance scoring
-// =============================================
-
+// ---------- CLIENT-SIDE SEARCH & FILTER ENGINE ----------
 var PinboardSearch = {
-  // Search across all product fields with relevance scoring
-  search: function (query, options) {
-    if (!query || typeof query !== 'string') return [];
-    var q = query.trim().toLowerCase();
-    if (!q) return [];
+  products: PINBOARD_PRODUCTS,
 
-    var terms = q.split(/\s+/).filter(Boolean);
-    var products = PINBOARD_PRODUCTS || [];
+  search: function(query, options) {
+    options = options || {};
+    var category = options.category || null;
+    var collection = options.collection || null;
+    var maxPrice = options.maxPrice || Infinity;
+    var minPrice = options.minPrice || 0;
+    var sort = options.sort || 'relevance';
+
+    var results = this.products.filter(function(p) {
+      if (category && p.category.toLowerCase() !== category.toLowerCase()) return false;
+      if (collection && p.collection.toLowerCase() !== collection.toLowerCase()) return false;
+      var price = p.salePrice || p.regularPrice;
+      if (price < minPrice || price > maxPrice) return false;
+      return true;
+    });
+
+    if (!query || query.trim() === '') {
+      return this.sortResults(results, sort);
+    }
+
+    var terms = query.toLowerCase().trim().split(/\s+/);
     var scored = [];
 
-    products.forEach(function (p) {
+    for (var i = 0; i < results.length; i++) {
+      var p = results[i];
       var score = 0;
-      var title = (p.title || '').toLowerCase();
-      var subtitle = (p.subtitle || '').toLowerCase();
-      var category = (p.category || '').toLowerCase();
-      var collection = (p.collection || '').toLowerCase();
-      var artist = (p.artist || '').toLowerCase();
-      var subject = (p.subject || '').toLowerCase();
-      var description = (p.description || '').toLowerCase();
-      var keywords = (p.keywords || '').toLowerCase();
-      var tags = (p.tags || []).map(function (t) { return String(t).toLowerCase(); });
-      var perfectFor = (p.perfectFor || []).map(function (t) { return String(t).toLowerCase(); });
+      var titleLower = p.title.toLowerCase();
+      var subtitleLower = (p.subtitle || '').toLowerCase();
+      var artistLower = (p.artist || '').toLowerCase();
+      var subjectLower = (p.subject || '').toLowerCase();
+      var tagsLower = (p.tags || []).join(' ').toLowerCase();
+      var keywordsLower = (p.keywords || '').toLowerCase();
+      var descLower = (p.description || '').toLowerCase();
+      var catLower = p.category.toLowerCase();
+      var colLower = p.collection.toLowerCase();
 
-      // 1. Exact full query matches
-      if (title === q) score += 120;
-      else if (title.indexOf(q) !== -1) score += 60;
-
-      if (tags.includes(q)) score += 50;
-      else if (tags.some(function (t) { return t.indexOf(q) !== -1; })) score += 35;
-
-      if (subject.indexOf(q) !== -1) score += 45;
-      if (keywords.indexOf(q) !== -1) score += 40;
-
-      if (category === q) score += 35;
-      else if (category.indexOf(q) !== -1) score += 25;
-
-      if (collection.indexOf(q) !== -1) score += 25;
-      if (subtitle.indexOf(q) !== -1) score += 20;
-      if (artist.indexOf(q) !== -1) score += 20;
-      if (description.indexOf(q) !== -1) score += 15;
-
-      // 2. Multi-term matching (token based)
-      var matchedCount = 0;
-      terms.forEach(function (term) {
-        var termMatched = false;
-        if (title.indexOf(term) !== -1) { score += 30; termMatched = true; }
-        if (tags.some(function (t) { return t.indexOf(term) !== -1; })) { score += 25; termMatched = true; }
-        if (subject.indexOf(term) !== -1) { score += 20; termMatched = true; }
-        if (keywords.indexOf(term) !== -1) { score += 20; termMatched = true; }
-        if (category.indexOf(term) !== -1) { score += 15; termMatched = true; }
-        if (collection.indexOf(term) !== -1) { score += 15; termMatched = true; }
-        if (subtitle.indexOf(term) !== -1) { score += 10; termMatched = true; }
-        if (artist.indexOf(term) !== -1) { score += 10; termMatched = true; }
-        if (description.indexOf(term) !== -1) { score += 5; termMatched = true; }
-        if (perfectFor.some(function (pf) { return pf.indexOf(term) !== -1; })) { score += 5; termMatched = true; }
-        if (termMatched) matchedCount++;
-      });
-
-      // Bonus for matching all search words
-      if (matchedCount === terms.length && terms.length > 1) {
-        score += 30;
+      for (var t = 0; t < terms.length; t++) {
+        var term = terms[t];
+        if (titleLower.indexOf(term) !== -1) score += 50;
+        if (subjectLower.indexOf(term) !== -1) score += 35;
+        if (keywordsLower.indexOf(term) !== -1) score += 30;
+        if (tagsLower.indexOf(term) !== -1) score += 25;
+        if (artistLower.indexOf(term) !== -1) score += 20;
+        if (catLower.indexOf(term) !== -1) score += 20;
+        if (colLower.indexOf(term) !== -1) score += 15;
+        if (subtitleLower.indexOf(term) !== -1) score += 15;
+        if (descLower.indexOf(term) !== -1) score += 5;
       }
 
       if (score > 0) {
         scored.push({ product: p, score: score });
       }
-    });
+    }
 
-    // Sort descending by score
-    scored.sort(function (a, b) {
-      return b.score - a.score;
-    });
+    scored.sort(function(a, b) { return b.score - a.score; });
+    return scored.map(function(item) { return item.product; });
+  },
 
-    return scored.map(function (item) {
-      return item.product;
+  sortResults: function(list, sortBy) {
+    var copy = list.slice();
+    switch (sortBy) {
+      case 'price-low':
+        return copy.sort(function(a, b) { return (a.salePrice || a.regularPrice) - (b.salePrice || b.regularPrice); });
+      case 'price-high':
+        return copy.sort(function(a, b) { return (b.salePrice || b.regularPrice) - (a.salePrice || a.regularPrice); });
+      case 'rating':
+        return copy.sort(function(a, b) { return b.rating - a.rating; });
+      case 'popular':
+        return copy.sort(function(a, b) { return b.reviewCount - a.reviewCount; });
+      case 'newest':
+        return copy.sort(function(a, b) { return (b.badge === 'NEW' ? 1 : 0) - (a.badge === 'NEW' ? 1 : 0); });
+      default:
+        return copy;
+    }
+  },
+
+  getByCategory: function(category) {
+    return this.products.filter(function(p) {
+      return p.category.toLowerCase() === category.toLowerCase();
     });
+  },
+
+  getByCollection: function(collection) {
+    return this.products.filter(function(p) {
+      return p.collection.toLowerCase() === collection.toLowerCase();
+    });
+  },
+
+  getFeatured: function(limit) {
+    limit = limit || 8;
+    return this.products.filter(function(p) {
+      return p.badge === 'HOT' || p.badge === 'BESTSELLER' || p.badge === 'NEW' || p.rating >= 4.9;
+    }).slice(0, limit);
+  },
+
+  getCategories: function() {
+    var map = {};
+    for (var i = 0; i < this.products.length; i++) {
+      var c = this.products[i].category;
+      map[c] = (map[c] || 0) + 1;
+    }
+    return map;
+  },
+
+  getCollections: function() {
+    var map = {};
+    for (var i = 0; i < this.products.length; i++) {
+      var c = this.products[i].collection;
+      map[c] = (map[c] || 0) + 1;
+    }
+    return map;
   }
 };
 
-// =============================================
-// PINBOARD ROUTER & NAVIGATION SYSTEM
-// Single Source of Truth for IDs, URLs & Routing
-// =============================================
-
+// ---------- CLIENT-SIDE ROUTER / HELPER ----------
 var PinboardRouter = {
-  products: PINBOARD_PRODUCTS,
-  searchEngine: PinboardSearch,
-
-  // Base page paths
-  routes: {
-    home: 'index.html',
-    shop: 'index.html#shop',
-    collections: 'index.html#collections',
-    frames: 'index.html#frame',
-    about: 'index.html#about',
-    account: 'account.html',
-    product: 'product.html'
-  },
-
-  // Search shorthand
-  search: function (query, options) {
-    return PinboardSearch.search(query, options);
-  },
-
-  // Generate safe and consistent product URL
-  getProductUrl: function (productOrId) {
-    if (!productOrId) return this.routes.product;
-    var id;
-    if (typeof productOrId === 'object' && productOrId !== null) {
-      id = productOrId.id || productOrId.slug;
-    } else {
-      id = productOrId;
+  getProduct: function(idOrSlug) {
+    if (!idOrSlug) return null;
+    var num = parseInt(idOrSlug, 10);
+    for (var i = 0; i < PINBOARD_PRODUCTS.length; i++) {
+      var p = PINBOARD_PRODUCTS[i];
+      if (!isNaN(num) && p.id === num) return p;
+      if (p.slug === idOrSlug) return p;
     }
-    return this.routes.product + '?id=' + encodeURIComponent(id);
+    return null;
   },
 
-  // Safe product lookup by numeric ID, string ID, slug, or title
-  getProduct: function (idOrSlug) {
-    if (idOrSlug === undefined || idOrSlug === null || idOrSlug === '') return null;
-    
-    // Direct object passed
-    if (typeof idOrSlug === 'object' && idOrSlug !== null && idOrSlug.id) {
-      return idOrSlug;
-    }
+  getRelated: function(product, limit) {
+    limit = limit || 4;
+    if (!product) return [];
+    var related = [];
 
-    var cleanStr = String(idOrSlug).trim().toLowerCase();
-    if (!cleanStr) return null;
-
-    var parsedInt = parseInt(cleanStr, 10);
-    var hasValidInt = !isNaN(parsedInt) && String(parsedInt) === cleanStr;
-
-    return PINBOARD_PRODUCTS.find(function (p) {
-      // Exact integer ID match
-      if (hasValidInt && p.id === parsedInt) return true;
-      // String ID match: "1" === "1"
-      if (String(p.id).toLowerCase() === cleanStr) return true;
-      // Explicit slug property match
-      if (p.slug && p.slug.toLowerCase() === cleanStr) return true;
-      // Computed slug from title: "Bauhaus No.7" -> "bauhaus-no-7"
-      if (p.title) {
-        var computedSlug = p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-        if (computedSlug === cleanStr) return true;
-      }
-      // Exact title match (case-insensitive)
-      if (p.title && p.title.toLowerCase() === cleanStr) return true;
-      return false;
-    }) || null;
-  },
-
-  // Safely extract product identifier from the current window location
-  parseProductIdFromLocation: function (loc) {
-    var l = loc || (typeof window !== 'undefined' ? window.location : null);
-    if (!l) return { identifier: null, isExplicit: false };
-
-    // 1. Query Parameters: ?id=2, ?productId=2, ?slug=..., ?p=2, ?product=2
-    if (l.search) {
-      try {
-        var searchClean = l.search.replace(/^[?]+/, '');
-        var params = new URLSearchParams(searchClean);
-        var idParam = params.get('id') || params.get('productId') || params.get('p') || params.get('slug') || params.get('product');
-        if (idParam !== null && idParam !== undefined && idParam.trim() !== '') {
-          return { identifier: decodeURIComponent(idParam.trim()), isExplicit: true };
+    if (product.relatedIds && product.relatedIds.length > 0) {
+      for (var i = 0; i < product.relatedIds.length; i++) {
+        var r = this.getProduct(product.relatedIds[i]);
+        if (r && r.id !== product.id && related.indexOf(r) === -1) {
+          related.push(r);
         }
-      } catch (e) {}
-    }
-
-    // 2. Hash routing / fragment: #2, #id=2, #bauhaus-no-7
-    if (l.hash) {
-      try {
-        var hashClean = l.hash.replace(/^[#]+/, '').trim();
-        if (hashClean) {
-          if (hashClean.indexOf('=') !== -1) {
-            var hashParams = new URLSearchParams(hashClean);
-            var hashId = hashParams.get('id') || hashParams.get('productId') || hashParams.get('slug');
-            if (hashId) return { identifier: decodeURIComponent(hashId.trim()), isExplicit: true };
-          }
-          if (hashClean !== 'shop' && hashClean !== 'collections' && hashClean !== 'frame' && hashClean !== 'about') {
-            return { identifier: decodeURIComponent(hashClean), isExplicit: true };
-          }
-        }
-      } catch (e) {}
-    }
-
-    // 3. Path segments: /product/2 or /product/bauhaus-no-7 or /products/2
-    if (l.pathname) {
-      try {
-        var segments = l.pathname.split('/').filter(Boolean);
-        if (segments.length > 0) {
-          var last = segments[segments.length - 1];
-          if (last && last !== 'product' && last !== 'product.html' && last !== 'products' && last !== 'index.html' && last !== 'account.html') {
-            if (!last.endsWith('.html') && !last.endsWith('.js') && !last.endsWith('.css') && !last.endsWith('.png') && !last.endsWith('.jpg') && !last.endsWith('.jpeg')) {
-              return { identifier: decodeURIComponent(last), isExplicit: true };
-            }
-          }
-        }
-      } catch (e) {}
-    }
-
-    // 4. Session / LocalStorage fallback (from last clicked card)
-    try {
-      if (typeof sessionStorage !== 'undefined') {
-        var stored = sessionStorage.getItem('pinboard_selected_product_id');
-        if (stored) return { identifier: stored, isExplicit: false };
       }
-      if (typeof localStorage !== 'undefined') {
-        var localStored = localStorage.getItem('pinboard_selected_product_id');
-        if (localStored) return { identifier: localStored, isExplicit: false };
-      }
-    } catch (e) {}
+    }
 
-    // 5. Default fallback to first bestseller or default product
-    return { identifier: (PINBOARD_PRODUCTS[1] ? PINBOARD_PRODUCTS[1].id : 1), isExplicit: false };
+    if (related.length < limit) {
+      var sameCategory = PinboardSearch.getByCategory(product.category);
+      for (var j = 0; j < sameCategory.length; j++) {
+        var cand = sameCategory[j];
+        if (cand.id !== product.id && related.indexOf(cand) === -1) {
+          related.push(cand);
+          if (related.length >= limit) break;
+        }
+      }
+    }
+
+    return related.slice(0, limit);
   },
 
-  // Centralized client navigation helper
-  navigateToProduct: function (productOrId) {
-    var url = this.getProductUrl(productOrId);
-    var product = this.getProduct(productOrId);
-    if (product) {
-      try {
-        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('pinboard_selected_product_id', product.id);
-        if (typeof localStorage !== 'undefined') localStorage.setItem('pinboard_selected_product_id', product.id);
-      } catch (e) {}
-    }
-    if (typeof window !== 'undefined') {
-      window.location.href = url;
+  getProductUrl: function(product) {
+    if (!product) return 'shop.html';
+    var url = 'product.html?id=' + product.id;
+    if (product.slug) {
+      url += '&slug=' + encodeURIComponent(product.slug);
     }
     return url;
   },

@@ -334,7 +334,7 @@
 }
 
 /* =============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN (Consistent with Desktop Master)
    ============================================= */
 @media (max-width: 1024px) {
   .shop-hero-banner {
@@ -343,32 +343,100 @@
   .shop-showroom-grid {
     padding: 0 32px 80px;
     gap: 32px 24px;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
   .shop-hero-banner {
-    padding: 90px 20px 16px;
+    padding: 85px 20px 16px;
+  }
+  .shop-main-heading {
+    font-size: clamp(34px, 8.5vw, 48px);
+  }
+  .shop-intro-sub {
+    font-size: 13.5px;
+    margin-bottom: 20px;
+  }
+  .gallery-filter-wrap {
+    margin-bottom: 30px;
+    padding-bottom: 12px;
+  }
+  .gallery-pill {
+    padding: 7px 14px;
+    font-size: 11px;
+  }
+  .gallery-status-count {
+    font-size: 11px;
+    display: inline-block;
   }
   .shop-showroom-grid {
-    padding: 0 20px 60px;
-    gap: 24px 16px;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    padding: 0 16px 60px;
+    gap: 20px 14px;
+    grid-template-columns: repeat(2, 1fr);
   }
   .poster-3d-card {
     padding: 10px;
+    border-radius: 10px;
   }
   .poster-mat-frame {
     padding: 8px;
+    border-radius: 6px;
+  }
+  .gallery-badge {
+    top: 6px;
+    right: 6px;
+    font-size: 8.5px;
+    padding: 3px 6px;
+  }
+  .placard-top {
+    font-size: 10px;
+  }
+  .placard-cat {
+    font-size: 9.5px;
+  }
+  .placard-size {
+    font-size: 9px;
+    padding: 1px 4px;
   }
   .placard-title {
-    font-size: 15px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .placard-price-active {
     font-size: 13px;
   }
-  .gallery-status-count {
-    display: none;
+  .placard-price-regular {
+    font-size: 11px;
+  }
+  .placard-cta {
+    opacity: 0.85;
+    transform: none;
+    font-size: 9.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-showroom-grid {
+    padding: 0 12px 50px;
+    gap: 16px 10px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .poster-3d-card {
+    padding: 8px;
+  }
+  .poster-mat-frame {
+    padding: 6px;
+  }
+  .placard-title {
+    font-size: 13px;
+  }
+  .placard-price-active {
+    font-size: 12.5px;
+  }
+  .placard-price-regular {
+    font-size: 10px;
   }
 }

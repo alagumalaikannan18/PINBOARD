@@ -905,14 +905,26 @@
   background: #FFFFFF;
 }
 
-/* ---------- RESPONSIVE DESIGN ---------- */
-@media (max-width: 960px) {
+/* ---------- RESPONSIVE DESIGN (Consistent with Desktop Master) ---------- */
+@media (max-width: 1024px) {
+  .cart-page-wrap {
+    padding: 30px 24px 90px;
+  }
+  .cart-layout-grid {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 880px) {
   .cart-layout-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 28px;
   }
   .cart-summary-card {
     position: static;
+    max-width: 540px;
+    margin: 0 auto;
+    width: 100%;
   }
 }
 
@@ -921,22 +933,27 @@
     padding: 20px 16px 80px;
   }
   .cart-page-title {
-    font-size: 28px;
+    font-size: clamp(26px, 7.5vw, 34px);
   }
   .cart-item-card {
     flex-direction: column;
     align-items: flex-start;
     padding: 16px;
-    gap: 16px;
+    gap: 14px;
+    border-radius: 10px;
   }
   .cart-thumb-wrap {
-    width: 80px;
-    height: 106px;
+    width: 72px;
+    height: 96px;
+    border-radius: 4px;
   }
   .cart-item-card-inner {
     display: flex;
-    gap: 16px;
+    gap: 14px;
     width: 100%;
+  }
+  .cart-item-title {
+    font-size: 15px;
   }
   .cart-item-actions {
     width: 100%;
@@ -944,10 +961,11 @@
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid var(--line);
-    padding-top: 14px;
+    padding-top: 12px;
   }
   .cart-modal-card {
-    padding: 28px 20px;
+    padding: 24px 18px;
+    border-radius: 12px;
   }
 }
 

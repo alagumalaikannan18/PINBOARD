@@ -104,7 +104,7 @@ mobileOverlay.querySelectorAll('a').forEach(link => {
       '<div class="search-drop-list">';
 
     currentResults.slice(0, 6).forEach((p, idx) => {
-      const price = p.salePrice || p.regularPrice;
+      const price = p.salePrice || p.regularPrice || 60;
       const img = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
       html += 
         '<div class="search-result-item" data-product-id="' + p.id + '" data-index="' + idx + '" tabindex="0" role="option">' +
@@ -345,7 +345,7 @@ function filterShopBySearch(query) {
     let cardsHtml = '';
     results.forEach(p => {
       const badgeHtml = p.badge ? '<div class="badge">' + p.badge + '</div>' : '';
-      const price = p.salePrice || p.regularPrice;
+      const price = p.salePrice || p.regularPrice || 60;
       const img = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
       cardsHtml +=
         '<div class="product" data-product-id="' + p.id + '" style="cursor: pointer;" tabindex="0" role="link">' +
@@ -445,61 +445,6 @@ window.restoreDefaultShop = restoreDefaultShop;
 })();
 
 
-// ---------- FRAME CONFIGURATOR ----------
-const frameSwatches = document.querySelectorAll('.swatch');
-const frameDemo = document.getElementById('frameDemo');
-frameSwatches.forEach(sw => {
-  sw.addEventListener('click', () => {
-    frameSwatches.forEach(s => s.classList.remove('active'));
-    sw.classList.add('active');
-    frameDemo.classList.remove('framed', 'oak');
-    if (sw.classList.contains('sw-black')) frameDemo.classList.add('framed');
-    if (sw.classList.contains('sw-oak')) frameDemo.classList.add('oak');
-  });
-});
-const sizePills = document.querySelectorAll('.size-pill');
-sizePills.forEach(p => {
-  p.addEventListener('click', () => {
-    sizePills.forEach(s => s.classList.remove('active'));
-    p.classList.add('active');
-  });
-});
-
-// Configurator Add to Cart
-const configuratorCartBtn = document.querySelector('.configurator .btn-cart');
-if (configuratorCartBtn) {
-  configuratorCartBtn.addEventListener('click', () => {
-    if (!window.Auth || !Auth.isLoggedIn()) {
-      if (window.Auth) {
-        Auth.setPendingAction({
-          action: 'cart',
-          productId: 1,
-          quantity: 1,
-          returnUrl: window.location.href
-        });
-      }
-      window.location.href = 'account.html';
-      return;
-    }
-    if (window.Auth) {
-      Auth.addToCart(1, 1);
-    }
-    configuratorCartBtn.textContent = 'Added to Cart ✓';
-    setTimeout(() => {
-      configuratorCartBtn.textContent = 'Add to Cart — ₹899';
-    }, 2500);
-  });
-}
-
-// ---------- NEWSLETTER FORM ----------
-const newsForm = document.querySelector('.news-form');
-if (newsForm) {
-  newsForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    this.querySelector('button').textContent = 'Pinned \u2713';
-  });
-}
-
 // ---------- COLLECTIONS CAROUSEL ----------
 (function() {
   var track = document.getElementById('collectionsTrack');
@@ -509,10 +454,17 @@ if (newsForm) {
   if (!track || !nextBtn || !prevBtn || !viewport) return;
 
   var currentIndex = 0;
-  var GAP = 2;
+
+  function getGAP() {
+    var w = window.innerWidth;
+    return w <= 767 ? 14 : (w <= 1024 ? 16 : 2);
+  }
 
   function getCardsPerView() {
-    return window.innerWidth <= 767 ? 1 : 3;
+    var w = window.innerWidth;
+    if (w <= 767) return 1;
+    if (w <= 1024) return 2;
+    return 3;
   }
 
   function getCards() {
@@ -520,18 +472,48 @@ if (newsForm) {
   }
 
   function getMaxIndex() {
-    return Math.max(0, getCards().length - getCardsPerView());
+    var cards = getCards();
+    var w = window.innerWidth;
+    if (w <= 767) {
+      return Math.max(0, cards.length - 1);
+    }
+    return Math.max(0, cards.length - getCardsPerView());
   }
 
-  // Compute correct card width from the VIEWPORT container, not the track
+  // Compute correct card width from the VIEWPORT container
   function sizeCards() {
     var vw = viewport.offsetWidth;
-    var perView = getCardsPerView();
-    var totalGaps = (perView - 1) * GAP;
-    var cardW = (vw - totalGaps) / perView;
+    var w = window.innerWidth;
     var cards = getCards();
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].style.width = cardW + 'px';
+    var gap = getGAP();
+
+    if (w <= 767) {
+      // Mobile: prominent active card with elegant peek of next card
+      var cardW = Math.min(360, Math.max(220, Math.round(vw * 0.82)));
+      if (vw <= 340) {
+        cardW = Math.round(vw - 36);
+      }
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].style.width = cardW + 'px';
+        cards[i].style.flex = '0 0 ' + cardW + 'px';
+      }
+    } else if (w <= 1024) {
+      // Tablet: 2 cards per view
+      var perView = 2;
+      var cardW = Math.round((vw - gap) / perView);
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].style.width = cardW + 'px';
+        cards[i].style.flex = '0 0 ' + cardW + 'px';
+      }
+    } else {
+      // Desktop: 3 cards per view (exact desktop behavior)
+      var perView = 3;
+      var totalGaps = (perView - 1) * gap;
+      var cardW = (vw - totalGaps) / perView;
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].style.width = cardW + 'px';
+        cards[i].style.flex = '0 0 ' + cardW + 'px';
+      }
     }
   }
 
@@ -539,11 +521,11 @@ if (newsForm) {
     var cards = getCards();
     if (cards.length === 0) return 0;
     var cardW = cards[0].offsetWidth;
-    return (cardW + GAP) * currentIndex;
+    var gap = getGAP();
+    return (cardW + gap) * currentIndex;
   }
 
   function updateButtons() {
-    // Hide prev at start, hide next at end
     if (currentIndex <= 0) {
       prevBtn.classList.add('is-hidden');
     } else {
@@ -556,11 +538,23 @@ if (newsForm) {
     }
   }
 
+  function updateActiveCardClasses() {
+    var cards = getCards();
+    for (var i = 0; i < cards.length; i++) {
+      if (i === currentIndex) {
+        cards[i].classList.add('is-active-card');
+      } else {
+        cards[i].classList.remove('is-active-card');
+      }
+    }
+  }
+
   function updateCarousel() {
     sizeCards();
     var offset = getSlideOffset();
     track.style.transform = 'translateX(-' + offset + 'px)';
     updateButtons();
+    updateActiveCardClasses();
   }
 
   function clickFeedback(btn) {
@@ -584,6 +578,150 @@ if (newsForm) {
     clickFeedback(prevBtn);
   });
 
+  // Unified Touch / Pointer Interaction for Mobile & Tablet
+  var pointerStartX = 0;
+  var pointerStartY = 0;
+  var lastPointerX = 0;
+  var lastPointerY = 0;
+  var isPointerInteracting = false;
+  var currentTouchedCard = null;
+  var touchFadeTimeout = null;
+
+  function clearCardGlow() {
+    clearTimeout(touchFadeTimeout);
+    if (currentTouchedCard) {
+      currentTouchedCard.classList.remove('is-touch-active');
+      currentTouchedCard = null;
+    }
+  }
+
+  function setCardGlow(card) {
+    if (!card) return;
+    clearTimeout(touchFadeTimeout);
+    if (currentTouchedCard && currentTouchedCard !== card) {
+      currentTouchedCard.classList.remove('is-touch-active');
+    }
+    currentTouchedCard = card;
+    currentTouchedCard.classList.add('is-touch-active');
+  }
+
+  function getCardFromPoint(x, y) {
+    var el = document.elementFromPoint(x, y);
+    return el ? el.closest('.collection-card') : null;
+  }
+
+  if (window.PointerEvent) {
+    viewport.addEventListener('pointerdown', function(e) {
+      if (e.pointerType === 'mouse') return; // Desktop mouse uses native CSS :hover
+      pointerStartX = e.clientX;
+      pointerStartY = e.clientY;
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+      isPointerInteracting = true;
+
+      var targetCard = e.target.closest('.collection-card') || getCardFromPoint(e.clientX, e.clientY);
+      if (targetCard && track.contains(targetCard)) {
+        setCardGlow(targetCard);
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('pointermove', function(e) {
+      if (e.pointerType === 'mouse' || !isPointerInteracting) return;
+      lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
+
+      var cardUnderFinger = getCardFromPoint(e.clientX, e.clientY);
+      if (cardUnderFinger && track.contains(cardUnderFinger)) {
+        setCardGlow(cardUnderFinger);
+      }
+    }, { passive: true });
+
+    function handlePointerRelease(e) {
+      if (!isPointerInteracting) return;
+      isPointerInteracting = false;
+
+      var diffX = lastPointerX - pointerStartX;
+      var diffY = lastPointerY - pointerStartY;
+
+      // Handle swipe transition if horizontal movement dominates vertical scroll
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+        if (diffX < 0 && currentIndex < getMaxIndex()) {
+          currentIndex++;
+          updateCarousel();
+        } else if (diffX > 0 && currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      }
+
+      // Smoothly fade touch active glow
+      clearTimeout(touchFadeTimeout);
+      touchFadeTimeout = setTimeout(function() {
+        clearCardGlow();
+      }, 260);
+    }
+
+    viewport.addEventListener('pointerup', handlePointerRelease, { passive: true });
+    viewport.addEventListener('pointercancel', handlePointerRelease, { passive: true });
+    viewport.addEventListener('pointerleave', function(e) {
+      if (e.pointerType !== 'mouse') {
+        handlePointerRelease(e);
+      }
+    }, { passive: true });
+  } else {
+    viewport.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 1) {
+        pointerStartX = e.touches[0].clientX;
+        pointerStartY = e.touches[0].clientY;
+        lastPointerX = pointerStartX;
+        lastPointerY = pointerStartY;
+        isPointerInteracting = true;
+
+        var targetCard = e.target.closest('.collection-card') || getCardFromPoint(pointerStartX, pointerStartY);
+        if (targetCard && track.contains(targetCard)) {
+          setCardGlow(targetCard);
+        }
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', function(e) {
+      if (!isPointerInteracting || !e.touches || e.touches.length === 0) return;
+      lastPointerX = e.touches[0].clientX;
+      lastPointerY = e.touches[0].clientY;
+
+      var cardUnderFinger = getCardFromPoint(lastPointerX, lastPointerY);
+      if (cardUnderFinger && track.contains(cardUnderFinger)) {
+        setCardGlow(cardUnderFinger);
+      }
+    }, { passive: true });
+
+    function handleTouchRelease(e) {
+      if (!isPointerInteracting) return;
+      isPointerInteracting = false;
+
+      var diffX = lastPointerX - pointerStartX;
+      var diffY = lastPointerY - pointerStartY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+        if (diffX < 0 && currentIndex < getMaxIndex()) {
+          currentIndex++;
+          updateCarousel();
+        } else if (diffX > 0 && currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      }
+
+      clearTimeout(touchFadeTimeout);
+      touchFadeTimeout = setTimeout(function() {
+        clearCardGlow();
+      }, 260);
+    }
+
+    viewport.addEventListener('touchend', handleTouchRelease, { passive: true });
+    viewport.addEventListener('touchcancel', handleTouchRelease, { passive: true });
+  }
+
   // Recalculate on resize
   var resizeTimer;
   window.addEventListener('resize', function() {
@@ -591,7 +729,7 @@ if (newsForm) {
     resizeTimer = setTimeout(function() {
       if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
       updateCarousel();
-    }, 150);
+    }, 100);
   });
 
   // Initial sizing and state

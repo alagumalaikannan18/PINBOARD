@@ -1783,7 +1783,7 @@ body.custom-posters-page {
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Breakpoints
+   Responsive Breakpoints (Consistent with Desktop Master)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .custom-hero-section {
@@ -1798,14 +1798,18 @@ body.custom-posters-page {
     margin: 0 auto;
   }
   .template-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
   .customizer-workspace {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
   .order-summary-sidebar {
-    position: relative;
-    top: 0;
+    position: static;
+    max-width: 580px;
+    margin: 0 auto;
+    width: 100%;
   }
   .custom-studio-wrap {
     padding: 36px 32px 100px;
@@ -1814,24 +1818,33 @@ body.custom-posters-page {
 
 @media (max-width: 768px) {
   .custom-hero-section {
-    padding: 100px 20px 40px;
+    padding: 95px 20px 40px;
   }
   .custom-studio-wrap {
-    padding: 28px 20px 80px;
+    padding: 24px 16px 80px;
   }
   .template-cards-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
   .slot-card-inner {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
+    padding: 16px;
   }
   .slot-preview-chamber {
-    max-width: 240px;
+    max-width: 220px;
     margin: 0 auto;
   }
   .size-options-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .template-cards-grid {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -5,18 +5,24 @@ const fs = require('fs');
 
 // In-memory fallback product dataset loaded from products-data.js
 let cachedLocalProducts = null;
+let lastMtime = 0;
+
 function getLocalProducts() {
-  if (cachedLocalProducts) return cachedLocalProducts;
   try {
     const dataPath = path.resolve(__dirname, '../js/products-data.js');
+    const stat = fs.statSync(dataPath);
+    if (cachedLocalProducts && stat.mtimeMs === lastMtime) {
+      return cachedLocalProducts;
+    }
     const content = fs.readFileSync(dataPath, 'utf8');
     const sandbox = {};
     const vm = require('vm');
     vm.runInNewContext(content, sandbox);
     cachedLocalProducts = sandbox.PINBOARD_PRODUCTS || [];
+    lastMtime = stat.mtimeMs;
     return cachedLocalProducts;
   } catch (e) {
-    return [];
+    return cachedLocalProducts || [];
   }
 }
 

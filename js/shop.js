@@ -79,7 +79,7 @@
 
     var html = '';
     randomized.forEach(function (p) {
-      var price = p.salePrice || p.regularPrice || 749;
+      var price = p.salePrice || p.regularPrice || 60;
       var hasSale = p.salePrice && p.salePrice < p.regularPrice;
       var rawImg = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
       var optImg = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')

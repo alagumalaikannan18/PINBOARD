@@ -696,7 +696,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Breakpoints
+   Responsive Breakpoints (Consistent with Desktop Master)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .category-hero-section {
@@ -716,20 +716,24 @@
   .category-gallery-section {
     padding: 36px 32px 100px;
   }
+  .category-poster-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 20px;
+  }
 }
 
 @media (max-width: 768px) {
   .category-hero-section {
-    padding: 100px 20px 40px;
+    padding: 95px 20px 40px;
   }
   .category-main-title {
-    font-size: 44px;
+    font-size: clamp(36px, 8.5vw, 48px);
   }
   .category-hero-quote {
-    font-size: 16px;
+    font-size: 14.5px;
   }
   .category-control-area {
-    padding: 16px 20px;
+    padding: 14px 20px;
     position: relative !important;
     top: auto !important;
   }
@@ -747,35 +751,40 @@
     width: 100%;
   }
   .category-gallery-section {
-    padding: 28px 20px 80px;
+    padding: 24px 16px 80px;
   }
   .category-poster-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px 14px;
+    gap: 18px 12px;
   }
   .cat-poster-card {
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 10px;
   }
   .cat-poster-mat {
     padding: 8px;
     border-radius: 6px;
   }
   .cat-placard-title {
-    font-size: 15px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .cat-placard-active-price {
-    font-size: 14px;
+    font-size: 13px;
   }
   .cat-placard-cta {
-    display: none;
+    font-size: 9.5px;
+    display: inline-block;
+    opacity: 0.85;
   }
 }
 
 @media (max-width: 480px) {
   .category-poster-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px 10px;
+    gap: 14px 10px;
   }
   .cat-poster-card {
     padding: 8px;
@@ -784,7 +793,10 @@
     padding: 6px;
   }
   .cat-placard-title {
-    font-size: 13.5px;
+    font-size: 13px;
+  }
+  .cat-placard-active-price {
+    font-size: 12px;
   }
 }
 

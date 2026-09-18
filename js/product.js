@@ -16,14 +16,6 @@
     A3: { code: 'A3', name: 'Gallery', dim: '297 × 420 mm', mult: 1.20 }
   };
 
-  function getDynamicDeliveryDate() {
-    var d = new Date();
-    d.setDate(d.getDate() + 3);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
-  }
-
   function initProductPage() {
     var router = window.PinboardRouter || (typeof PinboardRouter !== 'undefined' ? PinboardRouter : null);
     var lookupFn = typeof getProductById === 'function' ? getProductById : (router ? router.getProduct.bind(router) : null);
@@ -58,14 +50,10 @@
     // --- State ---
     var selectedSize = 'A4';
     var currentQty = 1;
-    var baseSalePrice = product.salePrice || product.regularPrice || 749;
-    var baseRegularPrice = product.regularPrice || (baseSalePrice + 250);
+    var baseSalePrice = product.salePrice || product.regularPrice || 60;
+    var baseRegularPrice = product.regularPrice || (baseSalePrice === 60 ? 99 : (baseSalePrice + 39));
 
     function computeSizePrice(sizeKey, base) {
-      if (sizeKey === 'A4') return base;
-      if (sizeKey === 'A6') return Math.max(199, Math.round((base * 0.67) / 10) * 10 - 1);
-      if (sizeKey === 'A5') return Math.max(299, Math.round((base * 0.80) / 10) * 10 - 1);
-      if (sizeKey === 'A3') return Math.round((base * 1.20) / 10) * 10 - 1;
       return base;
     }
 
@@ -114,18 +102,27 @@
       reviewCountEl.textContent = reviews + '+ verified buyers';
     }
 
-    // 5. Delivery Date Pill
-    var deliveryDateEl = document.getElementById('pdpDeliveryDate');
-    if (deliveryDateEl) {
-      deliveryDateEl.textContent = getDynamicDeliveryDate();
-    }
 
-    // --- Gallery & Imagery (STRICT ISOLATION) ---
+    // --- Gallery & Imagery (STRICT ISOLATION & DEDUPLICATION) ---
     var mainImg = document.getElementById('pdpMainImg');
     var thumbsContainer = document.getElementById('pdpThumbs');
-    var images = (product.images && Array.isArray(product.images) && product.images.length > 0)
+    
+    var rawImages = (product.images && Array.isArray(product.images) && product.images.length > 0)
       ? product.images
       : ['New Project 22 [FA6B4A7].png'];
+
+    // Strict deduplication by base filename to prevent duplicate previews/thumbnails
+    var seenKeys = new Set();
+    var images = [];
+    rawImages.forEach(function (imgSrc) {
+      if (!imgSrc || typeof imgSrc !== 'string') return;
+      var baseKey = imgSrc.replace(/^.*[\\\/]/, '').replace(/\.[^.]+$/, '').toLowerCase();
+      if (!seenKeys.has(baseKey)) {
+        seenKeys.add(baseKey);
+        images.push(imgSrc);
+      }
+    });
+    if (images.length === 0) images = ['New Project 22 [FA6B4A7].png'];
 
     var getOptImg = (router && typeof router.getOptimizedImageUrl === 'function')
       ? router.getOptimizedImageUrl.bind(router)
@@ -141,7 +138,7 @@
       mainImg.alt = product.title;
     }
 
-    // Only render thumbnails if THIS product genuinely has multiple authentic images
+    // Only render thumbnails if THIS product genuinely has multiple authentic unique images
     if (thumbsContainer) {
       if (images.length > 1) {
         var thumbsHTML = '';
@@ -471,7 +468,7 @@
         if (rid === productId) return;
         var rp = lookupFn(rid);
         if (!rp) return;
-        var rPrice = rp.salePrice || rp.regularPrice || 749;
+        var rPrice = rp.salePrice || rp.regularPrice || 60;
         var rImg = (rp.images && rp.images[0]) ? rp.images[0] : 'New Project 22 [FA6B4A7].png';
         var rThumb = getOptImg(rImg, true);
         rhtml += '<a class="pdp-related-card" href="product.html?id=' + rp.id + '">';

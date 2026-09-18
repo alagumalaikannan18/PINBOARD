@@ -86,15 +86,15 @@ async function runTests() {
   const htmlPath = path.resolve(__dirname, 'product.html');
   const htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
-  test('product.html contains delivery timeline card with dynamic date pill', () => {
-    assert(htmlContent.includes('pdp-delivery-card'), 'Contains pdp-delivery-card');
-    assert(htmlContent.includes('Order today'), 'Contains Order today');
-    assert(htmlContent.includes('id="pdpDeliveryDate"'), 'Contains pdpDeliveryDate');
+  test('product.html does NOT contain delivery tracker card (cleanly removed)', () => {
+    assert(!htmlContent.includes('pdp-delivery-card'), 'Does not contain pdp-delivery-card');
+    assert(!htmlContent.includes('ESTIMATED DELIVERY'), 'Does not contain ESTIMATED DELIVERY');
+    assert(!htmlContent.includes('id="pdpDeliveryDate"'), 'Does not contain pdpDeliveryDate');
   });
 
-  test('product.html contains "Build Your Own Poster Wall" banner linking to custom-posters.html', () => {
+  test('product.html contains "CREATE YOUR WALL" banner linking to custom-posters.html', () => {
     assert(htmlContent.includes('pdp-wall-banner'), 'Contains pdp-wall-banner');
-    assert(htmlContent.includes('Build Your Own Poster Wall'), 'Contains BYO banner text');
+    assert(htmlContent.includes('CREATE YOUR WALL'), 'Contains CREATE YOUR WALL banner text');
     assert(htmlContent.includes('custom-posters.html'), 'Links to custom-posters.html');
   });
 

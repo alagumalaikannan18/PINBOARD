@@ -21,21 +21,20 @@ console.log('=== TEST SUITE: INTERACTIVE 3D SECTION ===\n');
 console.log('Test 1: Section Placement & Flow in index.html');
 const indexHtml = fs.readFileSync('index.html', 'utf8');
 
-const placardsIndex = indexHtml.indexOf('class="placards"');
+const productsIndex = indexHtml.indexOf('class="products"');
 const space3dIndex = indexHtml.indexOf('id="space3d"');
-const newsletterIndex = indexHtml.indexOf('class="newsletter"');
+const footerIndex = indexHtml.indexOf('<footer');
 
-assert(placardsIndex !== -1, 'Customer Feedback (.placards) section exists');
+assert(productsIndex !== -1, 'Featured Products (.products) section exists');
 assert(space3dIndex !== -1, 'New Interactive 3D section (#space3d) exists');
-assert(newsletterIndex !== -1, 'Stay Pinned / Newsletter (.newsletter) section exists');
-assert(placardsIndex < space3dIndex, 'Customer Feedback appears BEFORE 3D Section');
-assert(space3dIndex < newsletterIndex, '3D Section appears BEFORE Stay Pinned / Newsletter');
+assert(footerIndex !== -1, 'Footer (footer) element exists');
+assert(productsIndex < space3dIndex, 'Featured Products appears BEFORE 3D Section');
+assert(space3dIndex < footerIndex, '3D Section appears BEFORE Footer');
 
-// Check there is no other major section placed between them
-const betweenPlacardsAnd3D = indexHtml.substring(placardsIndex, space3dIndex);
-const between3DAndNewsletter = indexHtml.substring(space3dIndex, newsletterIndex);
-assert(!betweenPlacardsAnd3D.includes('<section class="configurator"'), 'No unwanted section between placards and 3D');
-assert(between3DAndNewsletter.includes('</section>'), '3D section closes properly before newsletter');
+// Check that placards, configurator and newsletter sections are completely removed
+assert(!indexHtml.includes('<section class="placards"'), 'Placards / Customer Feedback section is completely removed');
+assert(!indexHtml.includes('<section class="configurator"'), 'Configurator section is completely removed');
+assert(!indexHtml.includes('<section class="newsletter"'), 'Newsletter section is completely removed');
 
 // 2. Verify Content & Typography
 console.log('\nTest 2: PINBOARD Typography, Copy & Identity');

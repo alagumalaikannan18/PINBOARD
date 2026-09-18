@@ -74,7 +74,7 @@ async function addToCart(req, res) {
     const local = getLocalProducts();
     const isCustom = req.body.isCustom || String(productId).startsWith('custom-');
     let itemTitle = title;
-    let itemPrice = 749;
+    let itemPrice = 60;
     let itemImage = image || 'New Project 22 [FA6B4A7].png';
 
     if (isCustom) {
@@ -89,11 +89,11 @@ async function addToCart(req, res) {
       const found = local.find(p => p.id === pid || String(p.id) === String(productId));
       if (found) {
         itemTitle = found.title;
-        itemPrice = found.salePrice || found.regularPrice || 749;
+        itemPrice = found.salePrice || found.regularPrice || 60;
         itemImage = (found.images && found.images[0]) ? found.images[0] : itemImage;
       } else {
         itemTitle = itemTitle || `Poster #${pid}`;
-        itemPrice = 749;
+        itemPrice = 60;
       }
     }
 

@@ -139,7 +139,7 @@ const posterCatalog = [
   },
   {
     file: '1513642.png',
-    title: 'MEN ARE BRAVE | The Dark Knight Emblem',
+    title: 'THE DARK KNIGHT | Men Are Brave Archival Silhouette',
     subtitle: 'DC Universe · Heavy Shadow Print',
     category: 'Movies',
     collection: 'DC & Gotham',
@@ -475,8 +475,8 @@ const posterCatalog = [
   },
   {
     file: '1514312.png',
-    title: 'SPIDER-MAN | The Suit Reveal',
-    subtitle: 'Marvel Cinema · Close-Up Fabric Texture',
+    title: 'SPIDER-MAN | Classic Suit Fabric Texture',
+    subtitle: 'Marvel Cinema · Macro Weave Detail',
     category: 'Movies',
     collection: 'Marvel & Cinema',
     artist: 'PINBOARD Marvel Studio',
@@ -1735,7 +1735,7 @@ const posterCatalog = [
   },
   {
     file: 'file_00000000d1a482118837991a9779439a.png',
-    title: 'ARTHUR MORGAN | Outlaw. Legend. Gunslinger.',
+    title: 'ARTHUR MORGAN | Outlaw Gunslinger Slab Typography',
     subtitle: 'Rockstar Games · Minimalist Western Typography',
     category: 'Gaming',
     collection: 'Red Dead & GTA Legends',
@@ -1771,7 +1771,7 @@ const posterCatalog = [
   },
   {
     file: '1551192.png',
-    title: 'WHEN THE DREAM BECAME IMMORTAL | Messi 2022',
+    title: 'WHEN THE DREAM BECAME IMMORTAL | Qatar 2022 World Cup Kiss',
     subtitle: 'Football Legends · FIFA World Cup Champions',
     category: 'Sports',
     collection: 'Football Legends',
@@ -1819,7 +1819,7 @@ const posterCatalog = [
   },
   {
     file: '1553198.png',
-    title: 'THE GREATEST PLAYER OF ALL TIME | Leo Messi',
+    title: 'LEO MESSI | The GOAT Pitch Ball Mastery',
     subtitle: 'Football Legends · Pitch Ball Mastery',
     category: 'Sports',
     collection: 'Football Legends',

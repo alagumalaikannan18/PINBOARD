@@ -72,42 +72,105 @@
   }
 
   /**
+   * Authoritative calculation engine for cart subtotal, 3 Posters for ₹150 combo offer, and final totals
+   */
+  function calculateCartPricing(cart, discountRate) {
+    var rate = Number(discountRate) || 0;
+    var cartCount = 0;
+    var rawSubtotal = 0;
+    var standardPosterQty = 0;
+    var customSubtotal = 0;
+
+    (cart || []).forEach(function (item) {
+      var prod = getFullProduct(item);
+      var qty = Number(item.quantity) || 1;
+      cartCount += qty;
+
+      if (item.isCustom) {
+        var cPrice = Number(item.price) || 1499;
+        customSubtotal += cPrice * qty;
+        rawSubtotal += cPrice * qty;
+      } else {
+        var price = 60;
+        standardPosterQty += qty;
+        rawSubtotal += price * qty;
+      }
+    });
+
+    // Combo Offer: 3 Posters for ₹150 (₹30 savings per 3 posters)
+    var comboSets = Math.floor(standardPosterQty / 3);
+    var comboSavings = comboSets * 30;
+    var subtotalAfterCombo = Math.max(0, rawSubtotal - comboSavings);
+    var promoDiscountAmount = Math.round(subtotalAfterCombo * rate);
+    var finalTotal = Math.max(0, subtotalAfterCombo - promoDiscountAmount);
+
+    return {
+      cartCount: cartCount,
+      standardPosterQty: standardPosterQty,
+      comboSets: comboSets,
+      comboSavings: comboSavings,
+      rawSubtotal: rawSubtotal,
+      subtotalAfterCombo: subtotalAfterCombo,
+      promoDiscountAmount: promoDiscountAmount,
+      finalTotal: finalTotal
+    };
+  }
+
+  /**
    * Recalculate and update the Summary Box and Header Badge in the DOM without rebuilding the list
    */
   function updateSummaryAndHeaderDOM(cart) {
     var authInstance = window.PinboardAuth || window.Auth;
-    var cartCount = cart.reduce(function (sum, item) { return sum + (Number(item.quantity) || 1); }, 0);
-    var rawSubtotal = cart.reduce(function (sum, item) {
-      var prod = getFullProduct(item);
-      var price = Number(item.price) || (prod ? (prod.salePrice || prod.regularPrice) : 749);
-      var qty = Number(item.quantity) || 1;
-      return sum + (price * qty);
-    }, 0);
-
-    var discountAmount = Math.round(rawSubtotal * appliedDiscount);
-    var finalTotal = Math.max(0, rawSubtotal - discountAmount);
+    var pricing = calculateCartPricing(cart, appliedDiscount);
 
     // Update Header Badge
     var headerCountBadge = document.getElementById('cartHeaderCountBadge');
     if (headerCountBadge) {
-      headerCountBadge.textContent = cartCount + (cartCount === 1 ? ' POSTER' : ' POSTERS');
+      headerCountBadge.textContent = pricing.cartCount + (pricing.cartCount === 1 ? ' POSTER' : ' POSTERS');
     }
 
     // Update Subtotal Row
     var subtotalValEl = document.getElementById('cartSummarySubtotalVal');
     var subtotalLabelEl = document.getElementById('cartSummarySubtotalLabel');
-    if (subtotalValEl) subtotalValEl.textContent = formatCurrency(rawSubtotal);
-    if (subtotalLabelEl) subtotalLabelEl.textContent = 'Subtotal (' + cartCount + (cartCount === 1 ? ' item' : ' items') + ')';
+    if (subtotalValEl) subtotalValEl.textContent = formatCurrency(pricing.rawSubtotal);
+    if (subtotalLabelEl) subtotalLabelEl.textContent = 'Subtotal (' + pricing.cartCount + (pricing.cartCount === 1 ? ' item' : ' items') + ')';
+
+    // Update Combo Offer Row
+    var comboRowEl = document.getElementById('cartSummaryComboRow');
+    if (comboRowEl) {
+      if (pricing.comboSets > 0) {
+        comboRowEl.style.display = 'flex';
+        var comboValEl = comboRowEl.querySelector('.val');
+        if (comboValEl) comboValEl.textContent = '−' + formatCurrency(pricing.comboSavings);
+      } else {
+        comboRowEl.style.display = 'none';
+      }
+    }
+
+    // Update Combo Banner/Tip
+    var comboTipEl = document.getElementById('cartComboOfferTip');
+    if (comboTipEl) {
+      if (pricing.comboSets > 0) {
+        comboTipEl.innerHTML = '🎉 <strong>Combo Applied:</strong> 3 Posters for ₹150 offer active!';
+        comboTipEl.style.display = 'block';
+      } else if (pricing.standardPosterQty > 0 && pricing.standardPosterQty < 3) {
+        var needed = 3 - pricing.standardPosterQty;
+        comboTipEl.innerHTML = '⚡ <strong>Offer:</strong> Add ' + needed + ' more poster' + (needed > 1 ? 's' : '') + ' to get 3 Posters for ₹150!';
+        comboTipEl.style.display = 'block';
+      } else {
+        comboTipEl.style.display = 'none';
+      }
+    }
 
     // Update Discount Row
     var discountRowEl = document.getElementById('cartSummaryDiscountRow');
     if (discountRowEl) {
-      if (appliedDiscount > 0) {
+      if (pricing.promoDiscountAmount > 0) {
         discountRowEl.style.display = 'flex';
         var discLabel = discountRowEl.querySelector('.disc-label');
         var discVal = discountRowEl.querySelector('.val');
         if (discLabel) discLabel.textContent = 'Promo Discount (' + Math.round(appliedDiscount * 100) + '%)';
-        if (discVal) discVal.textContent = '−' + formatCurrency(discountAmount);
+        if (discVal) discVal.textContent = '−' + formatCurrency(pricing.promoDiscountAmount);
       } else {
         discountRowEl.style.display = 'none';
       }
@@ -115,7 +178,7 @@
 
     // Update Final Total
     var totalAmountEl = document.getElementById('cartSummaryTotalAmount');
-    if (totalAmountEl) totalAmountEl.textContent = formatCurrency(finalTotal);
+    if (totalAmountEl) totalAmountEl.textContent = formatCurrency(pricing.finalTotal);
 
     // Update Navbar Badges across entire DOM
     if (authInstance && typeof authInstance.updateNavbar === 'function') {
@@ -132,7 +195,7 @@
     var user = authInstance ? authInstance.getUser() : null;
     var isLoggedIn = Boolean(user && user.isLoggedIn);
     var cart = authInstance ? authInstance.getCart() : [];
-    var cartCount = cart.reduce(function (sum, item) { return sum + (Number(item.quantity) || 1); }, 0);
+    var pricing = calculateCartPricing(cart, appliedDiscount);
 
     // Update navbar badge
     if (authInstance && typeof authInstance.updateNavbar === 'function') {
@@ -142,7 +205,7 @@
     // Header badge
     var headerCountBadge = document.getElementById('cartHeaderCountBadge');
     if (headerCountBadge) {
-      headerCountBadge.textContent = cartCount + (cartCount === 1 ? ' POSTER' : ' POSTERS');
+      headerCountBadge.textContent = pricing.cartCount + (pricing.cartCount === 1 ? ' POSTER' : ' POSTERS');
     }
 
     // Guest Banner Toggle
@@ -184,7 +247,6 @@
     }
 
     // Populated Cart Layout: Grid with Items & Summary
-    var rawSubtotal = 0;
     var itemsHtml = '';
 
     cart.forEach(function (item) {
@@ -192,11 +254,10 @@
       var id = item.id || item.productId;
       var title = item.title || (prod ? prod.title : 'Premium Poster #' + id);
       var category = (prod && (prod.category || prod.collection)) ? (prod.category || prod.collection) : 'Curated Poster';
-      var price = Number(item.price) || (prod ? (prod.salePrice || prod.regularPrice) : 749);
-      var regPrice = prod ? prod.regularPrice : (price + 200);
+      var price = item.isCustom ? (Number(item.price) || 1499) : 60;
+      var regPrice = item.isCustom ? (price + 500) : 99;
       var qty = Number(item.quantity) || 1;
       var lineTotal = price * qty;
-      rawSubtotal += lineTotal;
 
       var rawImg = item.image || (prod && prod.images && prod.images[0] ? prod.images[0] : 'New Project 22 [FA6B4A7].png');
       var optThumb = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
@@ -243,8 +304,6 @@
         '</div>';
     });
 
-    var discountAmount = Math.round(rawSubtotal * appliedDiscount);
-    var finalTotal = Math.max(0, rawSubtotal - discountAmount);
     var deliveryEstimate = getDeliveryDateString();
 
     var summaryHtml =
@@ -253,14 +312,25 @@
           '<span class="cart-summary-tag mono">SUMMARY</span>' +
           '<h3 class="cart-summary-title display">ORDER TOTAL</h3>' +
         '</div>' +
+        '<div class="cart-combo-tip" id="cartComboOfferTip" style="' + ((pricing.standardPosterQty > 0) ? 'display:block;margin-bottom:12px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#dc2626;' : 'display:none;margin-bottom:12px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#dc2626;') + '">' +
+          (pricing.comboSets > 0
+            ? '🎉 <strong>Combo Applied:</strong> 3 Posters for ₹150 offer active!'
+            : (pricing.standardPosterQty > 0 && pricing.standardPosterQty < 3
+                ? '⚡ <strong>Offer:</strong> Add ' + (3 - pricing.standardPosterQty) + ' more poster' + (3 - pricing.standardPosterQty > 1 ? 's' : '') + ' to get 3 Posters for ₹150!'
+                : '')) +
+        '</div>' +
         '<div class="cart-summary-rows">' +
           '<div class="cart-summary-row">' +
-            '<span id="cartSummarySubtotalLabel">Subtotal (' + cartCount + (cartCount === 1 ? ' item' : ' items') + ')</span>' +
-            '<span class="val" id="cartSummarySubtotalVal">' + formatCurrency(rawSubtotal) + '</span>' +
+            '<span id="cartSummarySubtotalLabel">Subtotal (' + pricing.cartCount + (pricing.cartCount === 1 ? ' item' : ' items') + ')</span>' +
+            '<span class="val" id="cartSummarySubtotalVal">' + formatCurrency(pricing.rawSubtotal) + '</span>' +
           '</div>' +
-          '<div class="cart-summary-row" id="cartSummaryDiscountRow" style="' + (appliedDiscount > 0 ? 'display:flex;color:#108A44;' : 'display:none;color:#108A44;') + '">' +
+          '<div class="cart-summary-row" id="cartSummaryComboRow" style="' + (pricing.comboSets > 0 ? 'display:flex;color:#108A44;font-weight:600;' : 'display:none;color:#108A44;font-weight:600;') + '">' +
+            '<span class="combo-label">3 Posters for ₹150 Combo</span>' +
+            '<span class="val" style="color:#108A44;">&minus;' + formatCurrency(pricing.comboSavings) + '</span>' +
+          '</div>' +
+          '<div class="cart-summary-row" id="cartSummaryDiscountRow" style="' + (pricing.promoDiscountAmount > 0 ? 'display:flex;color:#108A44;' : 'display:none;color:#108A44;') + '">' +
             '<span class="disc-label">Promo Discount (' + Math.round(appliedDiscount * 100) + '%)</span>' +
-            '<span class="val" style="color:#108A44;">&minus;' + formatCurrency(discountAmount) + '</span>' +
+            '<span class="val" style="color:#108A44;">&minus;' + formatCurrency(pricing.promoDiscountAmount) + '</span>' +
           '</div>' +
           '<div class="cart-summary-row">' +
             '<span>Express Delivery</span>' +
@@ -278,7 +348,7 @@
           '<div class="cart-summary-total-row">' +
             '<span class="cart-total-label">Total Amount</span>' +
             '<div class="cart-total-value-wrap">' +
-              '<div class="cart-total-amount display" id="cartSummaryTotalAmount">' + formatCurrency(finalTotal) + '</div>' +
+              '<div class="cart-total-amount display" id="cartSummaryTotalAmount">' + formatCurrency(pricing.finalTotal) + '</div>' +
               '<span class="cart-tax-note">Inclusive of all taxes &amp; GST</span>' +
             '</div>' +
           '</div>' +
@@ -356,8 +426,7 @@
           // Targeted DOM Update: update only this card's qty and total
           var qtyEl = document.getElementById('cartQtyValue_' + pidPlus);
           var totalEl = document.getElementById('cartItemTotal_' + pidPlus);
-          var prod = getFullProduct(itemPlus || { id: pidPlus });
-          var price = Number(itemPlus.price) || (prod ? (prod.salePrice || prod.regularPrice) : 749);
+          var price = (itemPlus && itemPlus.isCustom) ? (Number(itemPlus.price) || 1499) : 60;
 
           if (qtyEl) qtyEl.textContent = newQtyPlus;
           if (totalEl) totalEl.textContent = formatCurrency(price * newQtyPlus);
@@ -383,8 +452,7 @@
           // Targeted DOM Update
           var qtyElMinus = document.getElementById('cartQtyValue_' + pidMinus);
           var totalElMinus = document.getElementById('cartItemTotal_' + pidMinus);
-          var prodMinus = getFullProduct(itemMinus || { id: pidMinus });
-          var priceMinus = Number(itemMinus.price) || (prodMinus ? (prodMinus.salePrice || prodMinus.regularPrice) : 749);
+          var priceMinus = (itemMinus && itemMinus.isCustom) ? (Number(itemMinus.price) || 1499) : 60;
 
           if (qtyElMinus) qtyElMinus.textContent = newQtyMinus;
           if (totalElMinus) totalElMinus.textContent = formatCurrency(priceMinus * newQtyMinus);
@@ -506,13 +574,8 @@
       if (checkoutBtn) {
         e.preventDefault();
         var currentCart = authInstance.getCart();
-        var rawSub = currentCart.reduce(function (sum, it) {
-          var p = getFullProduct(it);
-          var pr = Number(it.price) || (p ? (p.salePrice || p.regularPrice) : 749);
-          return sum + (pr * (Number(it.quantity) || 1));
-        }, 0);
-        var totalAmount = Math.max(0, rawSub - Math.round(rawSub * appliedDiscount));
-        handleCheckout(currentCart, totalAmount);
+        var pricing = calculateCartPricing(currentCart, appliedDiscount);
+        handleCheckout(currentCart, pricing.finalTotal);
         return;
       }
     });

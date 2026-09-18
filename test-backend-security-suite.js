@@ -43,7 +43,7 @@ async function runBackendSecurityTests() {
 
   // --- 1. Price Tamper Attack on Standard Poster ---
   console.log('--- 1. Testing Defense Against Price Tampering (DevTools Tamper) ---');
-  // Attempt to buy Riso Retro (Product ID 7, normal price ₹1,399) by forging price: 1
+  // Attempt to buy Sunset Ridge (Product ID 1, normal price ₹60) by forging price: 1
   const forgedOrderRes = await request('/api/orders', {
     method: 'POST',
     headers: {
@@ -53,8 +53,8 @@ async function runBackendSecurityTests() {
     body: JSON.stringify({
       items: [
         {
-          productId: 7,
-          title: 'Riso Retro — Set of 3',
+          productId: 1,
+          title: 'Sunset Ridge',
           price: 1, // MALICIOUS CLIENT TAMPER: Trying to buy for ₹1
           quantity: 1
         }
@@ -67,10 +67,10 @@ async function runBackendSecurityTests() {
     assert(forgedOrderRes.data.success, 'Response indicates success');
   });
 
-  test('Server rejected client price ₹1 and recalculated to authoritative ₹1,399', () => {
+  test('Server rejected client price ₹1 and recalculated to authoritative ₹60', () => {
     const createdOrder = forgedOrderRes.data.data;
-    assert.strictEqual(createdOrder.totalAmount, 1399, `Total should be 1399, got ${createdOrder.totalAmount}`);
-    assert.strictEqual(createdOrder.items[0].price, 1399, `Item price should be 1399, got ${createdOrder.items[0].price}`);
+    assert.strictEqual(createdOrder.totalAmount, 60, `Total should be 60, got ${createdOrder.totalAmount}`);
+    assert.strictEqual(createdOrder.items[0].price, 60, `Item price should be 60, got ${createdOrder.items[0].price}`);
   });
 
   // --- 2. Custom Poster Server-Side Price Calculation ---
@@ -122,18 +122,18 @@ async function runBackendSecurityTests() {
       'x-user-id': cartUserId
     },
     body: JSON.stringify({
-      productId: 1, // Sunset Ridge, catalog salePrice is 649
+      productId: 1, // Sunset Ridge, catalog salePrice is 60
       price: 15,    // MALICIOUS TAMPER: Trying to set cart item price to ₹15
       quantity: 1
     })
   });
 
-  test('Cart item price is overridden with authoritative catalog price ₹649', () => {
+  test('Cart item price is overridden with authoritative catalog price ₹60', () => {
     assert.strictEqual(cartTamperRes.status, 201, 'Added to cart');
     const items = cartTamperRes.data.items;
     const item = items.find(i => i.productId === 1);
     assert(item, 'Item 1 in cart');
-    assert.strictEqual(item.price, 649, `Price should be 649, got ${item.price}`);
+    assert.strictEqual(item.price, 60, `Price should be 60, got ${item.price}`);
   });
 
   // --- 4. User Order Isolation Defense ---

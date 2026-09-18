@@ -98,7 +98,7 @@ import {
     {
       orderId: 'PB-2026-7712',
       date: '18 Aug 2026',
-      total: 899,
+      total: 60,
       status: 'Delivered 📦',
       deliveryEstimate: '22 Aug 2026',
       items: [
@@ -107,7 +107,7 @@ import {
           title: 'Bauhaus No.7',
           subtitle: 'Abstract Art · Premium Poster',
           quantity: 1,
-          price: 899,
+          price: 60,
           image: 'New Project 22 [27E5039].png'
         }
       ]
@@ -583,7 +583,7 @@ import {
       }
 
       var product = (typeof getProductById === 'function') ? getProductById(id || productId) : null;
-      var price = product ? (product.salePrice || product.regularPrice) : 899;
+      var price = product ? (product.salePrice || product.regularPrice) : 60;
       var title = product ? product.title : ('Poster #' + productId);
       var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
 
@@ -785,11 +785,20 @@ import {
      */
     getCartTotal: function (targetUid) {
       var cart = this.getCart(targetUid);
-      return cart.reduce(function (sum, item) {
-        var price = Number(item.price) || 0;
+      var totalPosterQty = 0;
+      var customTotal = 0;
+      cart.forEach(function (item) {
         var qty = Number(item.quantity) || 1;
-        return sum + (price * qty);
-      }, 0);
+        if (item.isCustom) {
+          customTotal += (Number(item.price) || 1499) * qty;
+        } else {
+          totalPosterQty += qty;
+        }
+      });
+      var comboSets = Math.floor(totalPosterQty / 3);
+      var rem = totalPosterQty % 3;
+      var postersTotal = (comboSets * 150) + (rem * 60);
+      return postersTotal + customTotal;
     },
 
     /**
@@ -872,7 +881,7 @@ import {
       var qty = parseInt(quantity) || 1;
       var id = parseInt(productId);
       var product = (typeof getProductById === 'function') ? getProductById(id) : null;
-      var price = product ? (product.salePrice || product.regularPrice) : 899;
+      var price = product ? (product.salePrice || product.regularPrice) : 60;
       var title = product ? product.title : ('Poster #' + id);
       var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
 
@@ -880,11 +889,13 @@ import {
       var est = new Date();
       est.setDate(now.getDate() + 4);
 
+      var orderTotal = (Math.floor(qty / 3) * 150) + ((qty % 3) * 60);
+
       var newOrder = {
         orderId: 'PB-2026-' + Math.floor(1000 + Math.random() * 9000),
         date: now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-        total: price * qty,
-        totalAmount: price * qty,
+        total: orderTotal,
+        totalAmount: orderTotal,
         status: 'Confirmed ⚡',
         orderStatus: 'Confirmed ⚡',
         deliveryEstimate: est.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),

@@ -23,19 +23,79 @@
     var isHovered = false;
     var rafId = null;
 
-    // Default base transforms stored on each card
+    // Default base transforms stored on each card with responsive screen adaptation
     var cardBaseTransforms = [];
-    cards.forEach(function (card, i) {
-      cardBaseTransforms[i] = {
-        x: parseFloat(card.getAttribute('data-base-x')) || 0,
-        y: parseFloat(card.getAttribute('data-base-y')) || 0,
-        z: parseFloat(card.getAttribute('data-base-z')) || 0,
-        rx: parseFloat(card.getAttribute('data-base-rx')) || 0,
-        ry: parseFloat(card.getAttribute('data-base-ry')) || 0,
-        rz: parseFloat(card.getAttribute('data-base-rz')) || 0,
-        depth: parseFloat(card.getAttribute('data-depth')) || 1
+
+    function getResponsiveTransform(card, i) {
+      var w = window.innerWidth;
+      var rawX = parseFloat(card.getAttribute('data-base-x')) || 0;
+      var rawY = parseFloat(card.getAttribute('data-base-y')) || 0;
+      var rawZ = parseFloat(card.getAttribute('data-base-z')) || 0;
+      var rawRx = parseFloat(card.getAttribute('data-base-rx')) || 0;
+      var rawRy = parseFloat(card.getAttribute('data-base-ry')) || 0;
+      var rawRz = parseFloat(card.getAttribute('data-base-rz')) || 0;
+      var depth = parseFloat(card.getAttribute('data-depth')) || 1;
+
+      if (w <= 767) {
+        // Mobile 3D Poster Cluster (≤ 767px):
+        // Dynamically compute safe bounds so no card clips left/right/top/bottom
+        var cardW = w <= 359 ? 112 : (w <= 479 ? 130 : 145);
+        var safeMargin = w <= 359 ? 8 : (w <= 479 ? 12 : 16);
+        var maxAllowedOffset = Math.max(20, (w / 2) - (cardW / 2) - safeMargin);
+        var mobScaleX = Math.min(0.35, maxAllowedOffset / 540);
+        var mobScaleY = 0.28;
+        var mobScaleZ = 0.55;
+
+        return {
+          x: rawX * mobScaleX,
+          y: rawY * mobScaleY + (i === 0 ? 4 : 0),
+          z: i === 0 ? 60 : rawZ * mobScaleZ,
+          rx: rawRx * 0.6,
+          ry: rawRy * 0.75,
+          rz: rawRz * 0.9,
+          depth: depth * 0.45
+        };
+      } else if (w <= 1024) {
+        // Tablet 3D Poster Cluster (768px - 1024px)
+        var tabCardW = w <= 820 ? 190 : 210;
+        var tabSafeMargin = 22;
+        var tabMaxAllowedOffset = (w / 2) - (tabCardW / 2) - tabSafeMargin;
+        var tabScaleX = Math.min(0.65, tabMaxAllowedOffset / 540);
+        var tabScaleY = 0.42;
+        var tabScaleZ = 0.75;
+
+        return {
+          x: rawX * tabScaleX,
+          y: rawY * tabScaleY,
+          z: i === 0 ? 60 : rawZ * tabScaleZ,
+          rx: rawRx * 0.8,
+          ry: rawRy * 0.85,
+          rz: rawRz,
+          depth: depth * 0.7
+        };
+      }
+
+      // Desktop (> 1024px): 100% exact original data coordinates
+      return {
+        x: rawX,
+        y: rawY,
+        z: rawZ,
+        rx: rawRx,
+        ry: rawRy,
+        rz: rawRz,
+        depth: depth
       };
-    });
+    }
+
+    function updateCardBaseTransforms() {
+      cards.forEach(function (card, i) {
+        cardBaseTransforms[i] = getResponsiveTransform(card, i);
+      });
+    }
+
+    updateCardBaseTransforms();
+    window.addEventListener('resize', updateCardBaseTransforms, { passive: true });
+    window.addEventListener('orientationchange', updateCardBaseTransforms, { passive: true });
 
     var isVisible = false;
 
@@ -52,18 +112,21 @@
       // Apply overall stage perspective tilt
       stage.style.transform = 'rotateX(' + currentRotX.toFixed(2) + 'deg) rotateY(' + currentRotY.toFixed(2) + 'deg)';
 
+      var winW = window.innerWidth;
+      var parallaxFactor = winW <= 767 ? 0.75 : (winW <= 1024 ? 1.2 : 1.8);
+
       // Apply parallax depth offset to individual cards
       cards.forEach(function (card, i) {
         if (card.classList.contains('is-active-hover')) return; // let hover CSS handle active card
 
         var base = cardBaseTransforms[i];
-        var offsetX = -currentRotY * base.depth * 1.8;
-        var offsetY = currentRotX * base.depth * 1.8;
+        var offsetX = -currentRotY * base.depth * parallaxFactor;
+        var offsetY = currentRotX * base.depth * parallaxFactor;
 
         card.style.transform =
           'translate3d(' + (base.x + offsetX).toFixed(1) + 'px, ' + (base.y + offsetY).toFixed(1) + 'px, ' + base.z + 'px) ' +
-          'rotateX(' + (base.rx - currentRotX * 0.4).toFixed(1) + 'deg) ' +
-          'rotateY(' + (base.ry - currentRotY * 0.4).toFixed(1) + 'deg) ' +
+          'rotateX(' + (base.rx - currentRotX * 0.35).toFixed(1) + 'deg) ' +
+          'rotateY(' + (base.ry - currentRotY * 0.35).toFixed(1) + 'deg) ' +
           'rotateZ(' + base.rz + 'deg)';
       });
 

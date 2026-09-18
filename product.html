@@ -136,47 +136,50 @@
 
         <!-- 6. Price Row -->
         <div class="pdp-price-row">
-          <span class="pdp-original-mrp" id="pdpOriginalMrp">Rs. 1099.00</span>
-          <span class="pdp-current-price" id="pdpCurrentPrice">Rs. 899.00</span>
+          <span class="pdp-original-mrp" id="pdpOriginalMrp">Rs. 99.00</span>
+          <span class="pdp-current-price" id="pdpCurrentPrice">Rs. 60.00</span>
           <span class="pdp-sale-tag" id="pdpSaleBadge">Sale</span>
         </div>
 
         <!-- 7. Shipping / Tax Information -->
         <div class="pdp-tax-note">Taxes included. Shipping calculated at checkout.</div>
-        <div class="pdp-per-poster" id="pdpPerPoster">Rs. 899 per poster · 1 piece included</div>
-
-        <!-- 8. Delivery Information Box -->
-        <div class="pdp-delivery-card">
-          <div class="pdp-delivery-timeline">
-            <span class="delivery-icon">📦</span>
-            <span class="delivery-label">Order today</span>
-            <span class="delivery-track" aria-hidden="true">------- ✈️ ------- 🏠</span>
-            <span class="delivery-date-pill" id="pdpDeliveryDate">Wed, 9 Sep</span>
-          </div>
-          <div class="pdp-delivery-promo">
-            <span class="delivery-bolt">⚡</span>
-            <span>FREE Express + extra 8% OFF — pay online (UPI / Card)</span>
-          </div>
+        <div class="pdp-per-poster" id="pdpPerPoster">Rs. 60 per poster · 1 piece included</div>
+        <div class="pdp-combo-banner" style="margin-top:8px;margin-bottom:16px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:13px;font-weight:700;color:#dc2626;display:inline-flex;align-items:center;gap:6px;">
+          <span>🔥 Special Combo Offer: 3 Posters for ₹150</span>
         </div>
 
-        <!-- 9. Build Your Own Poster Wall Banner -->
-        <a href="custom-posters.html" class="pdp-wall-banner" aria-label="Build Your Own Poster Wall">
-          <div class="pdp-wall-icon" aria-hidden="true">
-            <span class="wall-tile tile-yellow"></span>
-            <span class="wall-tile tile-yellow"></span>
-            <span class="wall-tile tile-gray"></span>
-            <span class="wall-tile tile-yellow"></span>
+        <!-- 8. PINBOARD — CREATE YOUR WALL (Original Component) -->
+        <a href="custom-posters.html" class="pdp-wall-banner pdp-create-wall-card" aria-label="Create Your Wall">
+          <div class="create-wall-visual" aria-hidden="true">
+            <div class="wall-mini-stage">
+              <div class="wall-mini-frame frame-left">
+                <img src="poster/opt/1513605.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" loading="lazy" />
+              </div>
+              <div class="wall-mini-frame frame-center">
+                <img src="poster/opt/1514058.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [94A5EEE].png'" loading="lazy" />
+              </div>
+              <div class="wall-mini-frame frame-right">
+                <img src="poster/opt/1514085.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [B720BE2].png'" loading="lazy" />
+              </div>
+            </div>
           </div>
-          <div class="pdp-wall-content">
-            <span class="pdp-wall-eyebrow">BUILD YOUR OWN WALL</span>
-            <h3 class="pdp-wall-title">Build Your Own Poster Wall</h3>
-            <p class="pdp-wall-sub">You pick every single poster · 12 layouts, 9 to 38 posters · from ₹399</p>
-          </div>
-          <div class="pdp-wall-arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+          <div class="create-wall-content">
+            <div class="create-wall-eyebrow-row">
+              <span class="create-wall-pill"><span class="pill-dot"></span> STUDIO WALL</span>
+              <span class="create-wall-count">12 Layouts</span>
+            </div>
+            <h3 class="create-wall-title">CREATE YOUR WALL</h3>
+            <p class="create-wall-tagline">“Your space. Your posters. Your style.”</p>
+            <p class="create-wall-sub">Choose your favorites and build a wall that feels like you.</p>
+            <div class="create-wall-action">
+              <span class="create-wall-btn-text">CREATE MY WALL</span>
+              <span class="create-wall-btn-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
           </div>
         </a>
 
