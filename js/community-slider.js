@@ -161,6 +161,32 @@ document.addEventListener('DOMContentLoaded', () => {
     renderLightboxItem(currentModalIndex);
   }
 
+  // Touch gesture & drag detection for smooth horizontal swiping
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwipingCard = false;
+
+  if (slider) {
+    slider.addEventListener('pointerdown', (e) => {
+      touchStartX = e.clientX;
+      touchStartY = e.clientY;
+      isSwipingCard = false;
+    }, { passive: true });
+
+    slider.addEventListener('pointermove', (e) => {
+      if (!touchStartX && !touchStartY) return;
+      const distX = Math.abs(e.clientX - touchStartX);
+      const distY = Math.abs(e.clientY - touchStartY);
+      if (distX > 8 && distX > distY) {
+        isSwipingCard = true;
+      }
+    }, { passive: true });
+
+    slider.addEventListener('pointerup', () => {
+      setTimeout(() => { isSwipingCard = false; }, 120);
+    }, { passive: true });
+  }
+
   // Bind click on cards / images
   cards.forEach((card, idx) => {
     card.style.cursor = 'pointer';
@@ -169,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
     card.setAttribute('aria-label', `View customer photo ${idx + 1} in full preview`);
 
     card.addEventListener('click', (e) => {
+      // Prevent opening lightbox when dragging/swiping on mobile
+      if (isSwipingCard) return;
       // Prevent accidental opening when clicking nested interactive links if any
       if (e.target.closest('a') || e.target.closest('button')) return;
       openLightbox(idx);

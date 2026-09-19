@@ -2,6 +2,7 @@ const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 const { getLocalProducts } = require('./productController');
 const { getIsConnected } = require('../config/database');
+const { sendOwnerNotification, sendCustomerThankYou } = require('../config/mailer');
 
 // In-memory fallback order store
 const inMemoryOrders = new Map();
@@ -92,12 +93,22 @@ async function getOrders(req, res) {
 
 /**
  * POST /api/orders
- * Create a new order with strict server-side price validation
+ * Create a new order request with strict server-side price validation and automated email notifications
  */
 async function createOrder(req, res) {
   try {
     const userId = req.user ? req.user.uid : (req.body.userId || 'guest');
-    const { productId, quantity = 1, items } = req.body;
+    const {
+      productId,
+      quantity = 1,
+      size,
+      items,
+      customerName,
+      customerEmail,
+      customerPhone,
+      shippingAddress,
+      orderNotes
+    } = req.body;
 
     let orderItems = [];
     let totalAmount = 0;
@@ -145,6 +156,7 @@ async function createOrder(req, res) {
           subtitle: verifiedSubtitle,
           quantity: q,
           price: verifiedPrice,
+          size: item.size || size || 'A4',
           image: verifiedImage,
           isCustom: !!isCustom
         };
@@ -156,14 +168,15 @@ async function createOrder(req, res) {
     } else if (productId) {
       const pid = parseInt(productId, 10);
       const qty = Math.max(1, parseInt(quantity, 10) || 1);
-      const product = localProducts.find(p => p.id === pid);
+      const product = localProducts.find(p => p.id === pid || String(p.id) === String(productId));
       const price = product ? (product.salePrice || product.regularPrice) : 60;
-      totalAmount = (Math.floor(qty / 3) * 150) + ((qty % 3) * 60);
+      totalAmount = (Math.floor(qty / 3) * 150) + ((qty % 3) * price);
       orderItems.push({
-        productId: pid,
-        title: product ? product.title : `Poster #${pid}`,
+        productId: isNaN(pid) ? productId : pid,
+        title: product ? product.title : `Poster #${productId}`,
         subtitle: product ? (product.subtitle || product.category) : 'Premium Matte Poster',
         quantity: qty,
+        size: size || 'A4',
         price,
         image: (product && product.images && product.images[0]) ? product.images[0] : 'New Project 22 [FA6B4A7].png'
       });
@@ -180,18 +193,29 @@ async function createOrder(req, res) {
     const estFormatted = est.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     const orderId = 'PB-2026-' + Math.floor(1000 + Math.random() * 9000);
 
-    if (getIsConnected()) {
-      const newOrder = await Order.create({
-        orderId,
-        userId,
-        items: orderItems,
-        totalAmount,
-        paymentStatus: 'Paid',
-        orderStatus: 'Confirmed ⚡',
-        deliveryEstimate: estFormatted
-      });
+    const isOrderRequest = Boolean(customerEmail || customerName || req.body.isRequest);
+    const initialStatus = isOrderRequest ? 'Pending Confirmation' : 'Confirmed ⚡';
+    const initialPayment = isOrderRequest ? 'Pending' : 'Paid';
 
-      // Clear purchased items from Cart
+    const orderData = {
+      orderId,
+      userId,
+      items: orderItems,
+      totalAmount,
+      paymentStatus: initialPayment,
+      orderStatus: initialStatus,
+      deliveryEstimate: estFormatted,
+      customerName: customerName || 'Valued Customer',
+      customerEmail: customerEmail || (req.user ? req.user.email : ''),
+      customerPhone: customerPhone || '',
+      shippingAddress: shippingAddress || {},
+      orderNotes: orderNotes || ''
+    };
+
+    if (getIsConnected()) {
+      const newOrder = await Order.create(orderData);
+
+      // Clear purchased items from Cart if applicable
       try {
         const cart = await Cart.findOne({ userId });
         if (cart) {
@@ -201,22 +225,24 @@ async function createOrder(req, res) {
         }
       } catch (e) {}
 
+      // Asynchronously trigger automated emails without blocking response
+      if (orderData.customerEmail) {
+        Promise.allSettled([
+          sendOwnerNotification(orderData),
+          sendCustomerThankYou(orderData)
+        ]).catch(e => console.error('Error firing email notifications:', e));
+      }
+
       return res.status(201).json({
         success: true,
-        message: 'Order created successfully',
+        message: 'Order request submitted successfully',
         data: newOrder
       });
     }
 
     // Fallback store
     const fallbackOrder = {
-      orderId,
-      userId,
-      items: orderItems,
-      totalAmount,
-      paymentStatus: 'Paid',
-      orderStatus: 'Confirmed ⚡',
-      deliveryEstimate: estFormatted,
+      ...orderData,
       date: now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
       createdAt: now.toISOString()
     };
@@ -224,9 +250,17 @@ async function createOrder(req, res) {
     const userOrders = getMemoryOrders(userId);
     userOrders.unshift(fallbackOrder);
 
+    // Asynchronously trigger automated emails
+    if (orderData.customerEmail) {
+      Promise.allSettled([
+        sendOwnerNotification(fallbackOrder),
+        sendCustomerThankYou(fallbackOrder)
+      ]).catch(e => console.error('Error firing email notifications:', e));
+    }
+
     return res.status(201).json({
       success: true,
-      message: 'Order created successfully',
+      message: 'Order request submitted successfully',
       data: fallbackOrder
     });
   } catch (err) {

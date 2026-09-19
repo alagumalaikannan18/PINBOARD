@@ -294,7 +294,6 @@
         <h4>SUPPORT</h4>
         <ul>
           <li><a href="shop.html">Shipping</a></li>
-          <li><a href="shop.html">Returns</a></li>
           <li><a href="shop.html">Care Guide</a></li>
           <li><a href="index.html#about">Contact</a></li>
         </ul>
@@ -305,6 +304,125 @@
       <span>MADE IN INDIA</span>
     </div>
   </footer>
+
+  <!-- ========== ORDER REQUEST MODAL OVERLAY ========== -->
+  <div class="order-modal-backdrop" id="orderRequestModal" style="display:none;">
+    <div class="order-modal-card">
+      <div class="order-modal-header">
+        <div class="order-modal-title-wrap">
+          <span class="order-modal-badge">ORDER REQUEST</span>
+          <h2>Submit Order Request</h2>
+        </div>
+        <button type="button" class="order-modal-close" id="closeOrderModal">&times;</button>
+      </div>
+
+      <div class="order-modal-notice">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>No payment is collected online. PINBOARD will contact you to confirm payment & delivery details.</span>
+      </div>
+
+      <div class="order-modal-body">
+        <!-- Poster Item Summary Card -->
+        <div class="order-item-summary-card">
+          <img id="orderModalItemImg" src="New Project 22 [FA6B4A7].png" alt="Poster Thumbnail" class="order-item-thumb">
+          <div class="order-item-info">
+            <h4 id="orderModalItemTitle">Poster Title</h4>
+            <div class="order-item-meta">
+              <span id="orderModalItemSize">Size: A4</span> • 
+              <span id="orderModalItemQty">Qty: 1</span>
+            </div>
+            <div class="order-item-price" id="orderModalItemPrice">₹499</div>
+          </div>
+        </div>
+
+        <!-- Customer & Delivery Information Form -->
+        <form id="orderRequestForm" novalidate>
+          <div class="order-form-grid">
+            <div class="order-form-group full-width">
+              <label for="orderCustName">Full Name <span class="required">*</span></label>
+              <input type="text" id="orderCustName" placeholder="Enter your full name" required>
+            </div>
+            <div class="order-form-group">
+              <label for="orderCustEmail">Email Address <span class="required">*</span></label>
+              <input type="email" id="orderCustEmail" placeholder="name@gmail.com" required>
+            </div>
+            <div class="order-form-group">
+              <label for="orderCustPhone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="orderCustPhone" placeholder="10-digit mobile number" required>
+            </div>
+            <div class="order-form-group full-width">
+              <label for="orderCustAddress">Delivery Address <span class="required">*</span></label>
+              <input type="text" id="orderCustAddress" placeholder="Flat / House No., Street, Landmark" required>
+            </div>
+            <div class="order-form-group">
+              <label for="orderCustCity">City <span class="required">*</span></label>
+              <input type="text" id="orderCustCity" placeholder="City" required>
+            </div>
+            <div class="order-form-group">
+              <label for="orderCustState">State <span class="required">*</span></label>
+              <input type="text" id="orderCustState" placeholder="State" required>
+            </div>
+            <div class="order-form-group">
+              <label for="orderCustPincode">PIN Code <span class="required">*</span></label>
+              <input type="text" id="orderCustPincode" placeholder="6-digit PIN code" required maxlength="6">
+            </div>
+            <div class="order-form-group full-width">
+              <label for="orderCustNotes">Order Notes (Optional)</label>
+              <textarea id="orderCustNotes" rows="2" placeholder="Special delivery instructions or notes..."></textarea>
+            </div>
+          </div>
+
+          <!-- Total Breakdown Footer -->
+          <div class="order-summary-totals">
+            <div class="order-total-row">
+              <span>Item Price</span>
+              <span id="orderModalSubtotal">₹499</span>
+            </div>
+            <div class="order-total-row">
+              <span>Shipping</span>
+              <span class="free-shipping">FREE</span>
+            </div>
+            <div class="order-total-row final-total">
+              <span>Total Amount</span>
+              <span id="orderModalFinalTotal">₹499</span>
+            </div>
+          </div>
+
+          <div id="orderFormError" class="order-form-error" style="display:none;"></div>
+
+          <div class="order-modal-actions">
+            <button type="submit" id="submitOrderBtn" class="btn-submit-order">
+              <span>Submit Order Request &rarr;</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ORDER SUCCESS MODAL ========== -->
+  <div class="order-modal-backdrop" id="orderSuccessModal" style="display:none;">
+    <div class="order-modal-card success-card">
+      <div class="order-success-header">
+        <div class="order-success-icon">✓</div>
+        <h2>Order Request Received!</h2>
+        <span class="order-success-sub">Thank you for choosing PINBOARD STUDIO</span>
+      </div>
+      <div class="order-success-body">
+        <div class="order-id-badge">
+          <span>YOUR ORDER REQUEST REFERENCE</span>
+          <div id="successOrderIdDisplay" class="id-number">PB-2026-0000</div>
+        </div>
+        <p class="order-success-msg">
+          We have logged your order request. Status: <strong>Pending Confirmation</strong>.<br>
+          No payment was collected. Our team will contact you shortly via email and phone to confirm payment options and dispatch details.
+        </p>
+        <div class="order-success-actions">
+          <a href="shop.html" class="btn-success-shop">Continue Browsing Shop &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/products-data.js"></script>
   <script type="module" src="js/firebase-config.js"></script>

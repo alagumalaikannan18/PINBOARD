@@ -48,10 +48,11 @@ mobileOverlay.querySelectorAll('a').forEach(link => {
 
   function highlightMatch(text, query) {
     if (!text) return '';
-    if (!query) return escapeHtml(text);
+    const cleanText = String(text).replace(/&amp;/g, '&');
+    if (!query) return escapeHtml(cleanText);
     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp('(' + escapedQuery + ')', 'gi');
-    return escapeHtml(text).replace(regex, '<mark>$1</mark>');
+    return escapeHtml(cleanText).replace(regex, '<mark>$1</mark>');
   }
 
   function renderDropdown(query) {
@@ -578,12 +579,15 @@ window.restoreDefaultShop = restoreDefaultShop;
     clickFeedback(prevBtn);
   });
 
-  // Unified Touch / Pointer Interaction for Mobile & Tablet
+  // Unified Touch / Pointer 1:1 Live Dragging for Mobile & Tablet
   var pointerStartX = 0;
   var pointerStartY = 0;
   var lastPointerX = 0;
   var lastPointerY = 0;
+  var startSlideOffset = 0;
   var isPointerInteracting = false;
+  var isHorizontalDrag = false;
+  var wasCollectionDragged = false;
   var currentTouchedCard = null;
   var touchFadeTimeout = null;
 
@@ -610,116 +614,123 @@ window.restoreDefaultShop = restoreDefaultShop;
     return el ? el.closest('.collection-card') : null;
   }
 
-  if (window.PointerEvent) {
-    viewport.addEventListener('pointerdown', function(e) {
-      if (e.pointerType === 'mouse') return; // Desktop mouse uses native CSS :hover
-      pointerStartX = e.clientX;
-      pointerStartY = e.clientY;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-      isPointerInteracting = true;
+  function startDrag(clientX, clientY, target) {
+    pointerStartX = clientX;
+    pointerStartY = clientY;
+    lastPointerX = clientX;
+    lastPointerY = clientY;
+    startSlideOffset = getSlideOffset();
+    isPointerInteracting = true;
+    isHorizontalDrag = false;
+    wasCollectionDragged = false;
+    track.style.transition = 'none';
 
-      var targetCard = e.target.closest('.collection-card') || getCardFromPoint(e.clientX, e.clientY);
-      if (targetCard && track.contains(targetCard)) {
-        setCardGlow(targetCard);
+    var targetCard = (target && target.closest ? target.closest('.collection-card') : null) || getCardFromPoint(clientX, clientY);
+    if (targetCard && track.contains(targetCard)) {
+      setCardGlow(targetCard);
+    }
+  }
+
+  function moveDrag(clientX, clientY) {
+    if (!isPointerInteracting) return;
+    lastPointerX = clientX;
+    lastPointerY = clientY;
+
+    var diffX = clientX - pointerStartX;
+    var diffY = clientY - pointerStartY;
+
+    if (!isHorizontalDrag) {
+      if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+        isHorizontalDrag = true;
       }
-    }, { passive: true });
+    }
 
-    viewport.addEventListener('pointermove', function(e) {
-      if (e.pointerType === 'mouse' || !isPointerInteracting) return;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
+    if (isHorizontalDrag) {
+      wasCollectionDragged = true;
+      var currentOffset = startSlideOffset - diffX;
+      var cards = getCards();
+      var cardW = cards[0] ? cards[0].offsetWidth + getGAP() : 300;
+      var maxOff = Math.max(0, (cards.length - 1) * cardW);
 
-      var cardUnderFinger = getCardFromPoint(e.clientX, e.clientY);
+      if (currentOffset < 0) {
+        currentOffset = currentOffset * 0.3;
+      } else if (currentOffset > maxOff) {
+        currentOffset = maxOff + (currentOffset - maxOff) * 0.3;
+      }
+      track.style.transform = 'translateX(-' + currentOffset + 'px)';
+
+      var cardUnderFinger = getCardFromPoint(clientX, clientY);
       if (cardUnderFinger && track.contains(cardUnderFinger)) {
         setCardGlow(cardUnderFinger);
       }
-    }, { passive: true });
+    }
+  }
 
-    function handlePointerRelease(e) {
-      if (!isPointerInteracting) return;
-      isPointerInteracting = false;
+  function endDrag() {
+    if (!isPointerInteracting) return;
+    isPointerInteracting = false;
+    track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
 
-      var diffX = lastPointerX - pointerStartX;
-      var diffY = lastPointerY - pointerStartY;
+    var diffX = lastPointerX - pointerStartX;
 
-      // Handle swipe transition if horizontal movement dominates vertical scroll
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
-        if (diffX < 0 && currentIndex < getMaxIndex()) {
-          currentIndex++;
-          updateCarousel();
-        } else if (diffX > 0 && currentIndex > 0) {
-          currentIndex--;
-          updateCarousel();
-        }
+    if (isHorizontalDrag && Math.abs(diffX) > 30) {
+      if (diffX < 0 && currentIndex < getMaxIndex()) {
+        currentIndex++;
+      } else if (diffX > 0 && currentIndex > 0) {
+        currentIndex--;
       }
-
-      // Smoothly fade touch active glow
-      clearTimeout(touchFadeTimeout);
-      touchFadeTimeout = setTimeout(function() {
-        clearCardGlow();
-      }, 260);
     }
 
-    viewport.addEventListener('pointerup', handlePointerRelease, { passive: true });
-    viewport.addEventListener('pointercancel', handlePointerRelease, { passive: true });
-    viewport.addEventListener('pointerleave', function(e) {
-      if (e.pointerType !== 'mouse') {
-        handlePointerRelease(e);
-      }
+    updateCarousel();
+
+    setTimeout(function() {
+      wasCollectionDragged = false;
+    }, 150);
+
+    clearTimeout(touchFadeTimeout);
+    touchFadeTimeout = setTimeout(function() {
+      clearCardGlow();
+    }, 260);
+  }
+
+  if (window.PointerEvent) {
+    viewport.addEventListener('pointerdown', function(e) {
+      if (e.pointerType === 'mouse') return;
+      startDrag(e.clientX, e.clientY, e.target);
     }, { passive: true });
+
+    viewport.addEventListener('pointermove', function(e) {
+      if (e.pointerType === 'mouse') return;
+      moveDrag(e.clientX, e.clientY);
+    }, { passive: true });
+
+    viewport.addEventListener('pointerup', endDrag, { passive: true });
+    viewport.addEventListener('pointercancel', endDrag, { passive: true });
   } else {
     viewport.addEventListener('touchstart', function(e) {
       if (e.touches.length === 1) {
-        pointerStartX = e.touches[0].clientX;
-        pointerStartY = e.touches[0].clientY;
-        lastPointerX = pointerStartX;
-        lastPointerY = pointerStartY;
-        isPointerInteracting = true;
-
-        var targetCard = e.target.closest('.collection-card') || getCardFromPoint(pointerStartX, pointerStartY);
-        if (targetCard && track.contains(targetCard)) {
-          setCardGlow(targetCard);
-        }
+        startDrag(e.touches[0].clientX, e.touches[0].clientY, e.target);
       }
     }, { passive: true });
 
     viewport.addEventListener('touchmove', function(e) {
-      if (!isPointerInteracting || !e.touches || e.touches.length === 0) return;
-      lastPointerX = e.touches[0].clientX;
-      lastPointerY = e.touches[0].clientY;
-
-      var cardUnderFinger = getCardFromPoint(lastPointerX, lastPointerY);
-      if (cardUnderFinger && track.contains(cardUnderFinger)) {
-        setCardGlow(cardUnderFinger);
+      if (e.touches.length === 1) {
+        moveDrag(e.touches[0].clientX, e.touches[0].clientY);
       }
     }, { passive: true });
 
-    function handleTouchRelease(e) {
-      if (!isPointerInteracting) return;
-      isPointerInteracting = false;
+    viewport.addEventListener('touchend', endDrag, { passive: true });
+    viewport.addEventListener('touchcancel', endDrag, { passive: true });
+  }
 
-      var diffX = lastPointerX - pointerStartX;
-      var diffY = lastPointerY - pointerStartY;
-
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
-        if (diffX < 0 && currentIndex < getMaxIndex()) {
-          currentIndex++;
-          updateCarousel();
-        } else if (diffX > 0 && currentIndex > 0) {
-          currentIndex--;
-          updateCarousel();
-        }
+  var collectionCards = getCards();
+  for (var cIdx = 0; cIdx < collectionCards.length; cIdx++) {
+    collectionCards[cIdx].addEventListener('click', function(e) {
+      if (wasCollectionDragged) {
+        e.preventDefault();
+        e.stopPropagation();
       }
-
-      clearTimeout(touchFadeTimeout);
-      touchFadeTimeout = setTimeout(function() {
-        clearCardGlow();
-      }, 260);
-    }
-
-    viewport.addEventListener('touchend', handleTouchRelease, { passive: true });
-    viewport.addEventListener('touchcancel', handleTouchRelease, { passive: true });
+    });
   }
 
   // Recalculate on resize

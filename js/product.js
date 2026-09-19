@@ -400,22 +400,81 @@
       cartBtn._clickHandler = handleCartClick;
     }
 
-    // --- BUY NOW ---
+    // --- BUY NOW & ORDER REQUEST MODAL ---
+    var orderModal = document.getElementById('orderRequestModal');
+    var orderSuccessModal = document.getElementById('orderSuccessModal');
+    var closeOrderBtn = document.getElementById('closeOrderModal');
+    var orderForm = document.getElementById('orderRequestForm');
+    var submitOrderBtn = document.getElementById('submitOrderBtn');
+    var orderFormError = document.getElementById('orderFormError');
+
+    function hideOrderModals() {
+      if (orderModal) orderModal.style.display = 'none';
+      if (orderSuccessModal) orderSuccessModal.style.display = 'none';
+    }
+
+    if (closeOrderBtn) {
+      closeOrderBtn.addEventListener('click', hideOrderModals);
+    }
+
+    if (orderModal) {
+      orderModal.addEventListener('click', function (e) {
+        if (e.target === orderModal) hideOrderModals();
+      });
+    }
+
+    if (orderSuccessModal) {
+      orderSuccessModal.addEventListener('click', function (e) {
+        if (e.target === orderSuccessModal) hideOrderModals();
+      });
+    }
+
+    function openOrderModal(activePid) {
+      if (!orderModal) return;
+      var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
+      var totalAmount = unitPrice * currentQty;
+
+      var imgEl = document.getElementById('orderModalItemImg');
+      if (imgEl) imgEl.src = (product.images && product.images[0]) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
+
+      var titleEl = document.getElementById('orderModalItemTitle');
+      if (titleEl) titleEl.textContent = product.title || 'Premium Art Poster';
+
+      var sizeEl = document.getElementById('orderModalItemSize');
+      if (sizeEl) sizeEl.textContent = 'Size: ' + selectedSize;
+
+      var qtyEl = document.getElementById('orderModalItemQty');
+      if (qtyEl) qtyEl.textContent = 'Qty: ' + currentQty;
+
+      var priceEl = document.getElementById('orderModalItemPrice');
+      if (priceEl) priceEl.textContent = '₹' + totalAmount.toLocaleString('en-IN');
+
+      var subtotalEl = document.getElementById('orderModalSubtotal');
+      if (subtotalEl) subtotalEl.textContent = '₹' + totalAmount.toLocaleString('en-IN');
+
+      var finalTotalEl = document.getElementById('orderModalFinalTotal');
+      if (finalTotalEl) finalTotalEl.textContent = '₹' + totalAmount.toLocaleString('en-IN');
+
+      // Autofill logged-in user info if available
+      if (window.Auth && typeof window.Auth.getCurrentUser === 'function') {
+        var user = window.Auth.getCurrentUser();
+        if (user) {
+          var nameInput = document.getElementById('orderCustName');
+          if (nameInput && !nameInput.value && user.name) nameInput.value = user.name;
+          var emailInput = document.getElementById('orderCustEmail');
+          if (emailInput && !emailInput.value && user.email) emailInput.value = user.email;
+        }
+      }
+
+      if (orderFormError) orderFormError.style.display = 'none';
+      orderModal.style.display = 'flex';
+    }
+
     var handleBuyClick = function (e) {
       if (e && typeof e.preventDefault === 'function') e.preventDefault();
       var activePid = (buyBtn && buyBtn.dataset.productId) || productId;
       checkAuthAndProceed('buy', function () {
-        var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
-        if (window.Auth && typeof window.Auth.createOrder === 'function') {
-          window.Auth.createOrder(activePid, currentQty);
-        }
-        if (window.Auth && typeof window.Auth.addToCart === 'function') {
-          window.Auth.addToCart(activePid, currentQty, {
-            size: selectedSize,
-            price: unitPrice
-          });
-        }
-        window.location.href = 'cart.html';
+        openOrderModal(activePid);
       });
     };
 
@@ -429,6 +488,119 @@
         });
       }
       buyBtn._clickHandler = handleBuyClick;
+    }
+
+    // Auto-open modal if returning from login redirect with auto=buy
+    if (window.location.search.indexOf('auto=buy') !== -1) {
+      checkAuthAndProceed('buy', function () {
+        openOrderModal(productId);
+      });
+    }
+
+    // --- FORM SUBMISSION ---
+    if (orderForm) {
+      orderForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var nameVal = (document.getElementById('orderCustName').value || '').trim();
+        var emailVal = (document.getElementById('orderCustEmail').value || '').trim();
+        var phoneVal = (document.getElementById('orderCustPhone').value || '').trim();
+        var addressVal = (document.getElementById('orderCustAddress').value || '').trim();
+        var cityVal = (document.getElementById('orderCustCity').value || '').trim();
+        var stateVal = (document.getElementById('orderCustState').value || '').trim();
+        var pincodeVal = (document.getElementById('orderCustPincode').value || '').trim();
+        var notesVal = (document.getElementById('orderCustNotes').value || '').trim();
+
+        // Form Validation
+        if (!nameVal || !emailVal || !phoneVal || !addressVal || !cityVal || !stateVal || !pincodeVal) {
+          if (orderFormError) {
+            orderFormError.textContent = 'Please fill in all required fields marked with *';
+            orderFormError.style.display = 'block';
+          }
+          return;
+        }
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailVal)) {
+          if (orderFormError) {
+            orderFormError.textContent = 'Please enter a valid email address (e.g. name@gmail.com)';
+            orderFormError.style.display = 'block';
+          }
+          return;
+        }
+
+        var phoneClean = phoneVal.replace(/[^0-9+]/g, '');
+        if (phoneClean.length < 8) {
+          if (orderFormError) {
+            orderFormError.textContent = 'Please enter a valid phone number';
+            orderFormError.style.display = 'block';
+          }
+          return;
+        }
+
+        if (orderFormError) orderFormError.style.display = 'none';
+        if (submitOrderBtn) {
+          submitOrderBtn.disabled = true;
+          submitOrderBtn.innerHTML = '<span>Submitting Order Request...</span>';
+        }
+
+        var activePid = (buyBtn && buyBtn.dataset.productId) || productId;
+        var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
+
+        var payload = {
+          productId: activePid,
+          size: selectedSize,
+          quantity: currentQty,
+          unitPrice: unitPrice,
+          customerName: nameVal,
+          customerEmail: emailVal,
+          customerPhone: phoneVal,
+          shippingAddress: {
+            street: addressVal,
+            city: cityVal,
+            state: stateVal,
+            pincode: pincodeVal
+          },
+          orderNotes: notesVal,
+          isRequest: true
+        };
+
+        fetch('/api/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (submitOrderBtn) {
+              submitOrderBtn.disabled = false;
+              submitOrderBtn.innerHTML = '<span>Submit Order Request &rarr;</span>';
+            }
+            if (data.success && data.data) {
+              if (orderModal) orderModal.style.display = 'none';
+              var successIdEl = document.getElementById('successOrderIdDisplay');
+              if (successIdEl) successIdEl.textContent = '#' + (data.data.orderId || 'PB-2026-REQUEST');
+              if (orderSuccessModal) orderSuccessModal.style.display = 'flex';
+            } else {
+              if (orderFormError) {
+                orderFormError.textContent = data.message || 'Failed to submit order request. Please try again.';
+                orderFormError.style.display = 'block';
+              }
+            }
+          })
+          .catch(function (err) {
+            if (submitOrderBtn) {
+              submitOrderBtn.disabled = false;
+              submitOrderBtn.innerHTML = '<span>Submit Order Request &rarr;</span>';
+            }
+            if (orderFormError) {
+              orderFormError.textContent = 'Network error. Please check your connection and try again.';
+              orderFormError.style.display = 'block';
+            }
+          });
+      });
     }
 
     // --- CONTENT: STORY & SPECIFICATIONS ---

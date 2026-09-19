@@ -56,14 +56,32 @@ const orderSchema = new mongoose.Schema(
     paymentStatus: {
       type: String,
       enum: ['Pending', 'Paid', 'Failed'],
-      default: 'Paid'
+      default: 'Pending'
     },
     orderStatus: {
       type: String,
-      enum: ['Pending', 'Confirmed ⚡', 'In Transit ✈️', 'Delivered 📦', 'Cancelled'],
-      default: 'Confirmed ⚡'
+      enum: ['Pending Confirmation', 'Pending', 'Confirmed ⚡', 'In Transit ✈️', 'Delivered 📦', 'Cancelled'],
+      default: 'Pending Confirmation'
     },
     deliveryEstimate: {
+      type: String
+    },
+    customerName: {
+      type: String
+    },
+    customerEmail: {
+      type: String
+    },
+    customerPhone: {
+      type: String
+    },
+    shippingAddress: {
+      street: String,
+      city: String,
+      state: String,
+      pincode: String
+    },
+    orderNotes: {
       type: String
     }
   },

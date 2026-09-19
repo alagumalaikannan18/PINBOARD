@@ -128,12 +128,152 @@
   </div>
 
   <!-- Mobile Menu Drawer -->
-  <div class="mobile-overlay" id="mobileOverlay">
-    <a href="shop.html">Shop All</a>
-    <a href="index.html#collections">Collections</a>
-    <a href="custom-posters.html">Custom Posters</a>
-    <a href="index.html#about">About</a>
-    <a href="account.html">My Account</a>
+  <!-- ========== LUXURY 3D MOBILE & TABLET NAVIGATION OVERLAY ========== -->
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <!-- Ambient 3D lighting backdrop -->
+    <div class="mob-nav-backdrop-glow" aria-hidden="true"></div>
+    
+    <div class="mob-nav-container">
+      <!-- Top Utility Header inside Menu -->
+      <div class="mob-nav-top">
+        <span class="mob-nav-tag mono">00 — NAVIGATION ARCHIVE</span>
+        <button type="button" class="mob-nav-close-btn" id="mobNavCloseBtn" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Search Bar inside Menu -->
+      <div class="mob-nav-search-wrap">
+        <svg class="mob-nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput" placeholder="Search 151 posters, movies, sports..." autocomplete="off" />
+      </div>
+
+      <div class="mob-nav-content-grid">
+        <!-- LEFT: Primary Navigation Menu Items -->
+        <nav class="mob-nav-links" aria-label="Mobile Navigation">
+          <!-- 01: Shop All -->
+          <div class="mob-nav-item" data-nav-target="shop">
+            <a href="shop.html" class="mob-nav-link" data-preview="shop">
+              <span class="mob-nav-num mono">01</span>
+              <span class="mob-nav-label display">Shop All</span>
+              <span class="mob-nav-badge mono">151 PRINTS</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 02: Collections (Expandable Accordion) -->
+          <div class="mob-nav-item mob-nav-accordion" data-nav-target="collections">
+            <div class="mob-nav-link mob-nav-accordion-header" id="mobNavCollectionsToggle" role="button" tabindex="0" aria-expanded="false" data-preview="collections">
+              <span class="mob-nav-num mono">02</span>
+              <span class="mob-nav-label display">Collections</span>
+              <span class="mob-nav-badge mono">5 THEMES</span>
+              <span class="mob-nav-toggle-icon mono" aria-hidden="true">+</span>
+            </div>
+            
+            <!-- Accordion Sub-Drawer -->
+            <div class="mob-nav-sub-grid" id="mobNavCollectionsDrawer">
+              <a href="movies.html" class="mob-sub-chip" data-category="movies">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Movies</span>
+                <span class="chip-count mono">92</span>
+              </a>
+              <a href="sports.html" class="mob-sub-chip" data-category="sports">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Sports</span>
+                <span class="chip-count mono">27</span>
+              </a>
+              <a href="cars.html" class="mob-sub-chip" data-category="cars">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Supercars</span>
+                <span class="chip-count mono">12</span>
+              </a>
+              <a href="motivation.html" class="mob-sub-chip" data-category="motivation">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Motivation</span>
+                <span class="chip-count mono">15</span>
+              </a>
+              <a href="gaming.html" class="mob-sub-chip" data-category="gaming">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Gaming</span>
+                <span class="chip-count mono">5</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 03: Custom Posters -->
+          <div class="mob-nav-item" data-nav-target="custom">
+            <a href="custom-posters.html" class="mob-nav-link" data-preview="custom">
+              <span class="mob-nav-num mono">03</span>
+              <span class="mob-nav-label display">Custom Posters</span>
+              <span class="mob-nav-badge hot mono">STUDIO</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 04: About -->
+          <div class="mob-nav-item" data-nav-target="about">
+            <a href="index.html#about" class="mob-nav-link" data-preview="about">
+              <span class="mob-nav-num mono">04</span>
+              <span class="mob-nav-label display">About Studio</span>
+              <span class="mob-nav-badge mono">300 GSM</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 05: My Account -->
+          <div class="mob-nav-item" data-nav-target="account">
+            <a href="account.html" class="mob-nav-link" data-preview="account">
+              <span class="mob-nav-num mono">05</span>
+              <span class="mob-nav-label display">My Account</span>
+              <span class="mob-nav-badge mono">ORDERS &amp; VIP</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+        </nav>
+
+        <!-- RIGHT: Interactive 3D Visual Poster Preview Stage -->
+        <div class="mob-nav-preview-stage" aria-hidden="true">
+          <div class="mob-preview-card-wrap" id="mobNavPreviewCard">
+            <div class="mob-preview-frame">
+              <img src="New Project 22 [FA6B4A7].webp" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" alt="Featured Collection" id="mobNavPreviewImg" loading="lazy" />
+              <div class="mob-preview-glare"></div>
+            </div>
+            <div class="mob-preview-meta">
+              <span class="mob-preview-tag mono" id="mobNavPreviewTag">NEW DROP · VOL. 04</span>
+              <span class="mob-preview-title display" id="mobNavPreviewTitle">YOUR WALL DESERVES BETTER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Status & Guarantee Footer inside Menu -->
+      <div class="mob-nav-bottom">
+        <div class="mob-nav-guarantee mono">
+          <span>🔥 3 POSTERS FOR ₹150</span>
+          <span>·</span>
+          <span>FREE SHIPPING OVER ₹1999</span>
+        </div>
+        <div class="mob-nav-copyright mono">© 2026 PINBOARD · MADE IN INDIA</div>
+      </div>
+    </div>
   </div>
 
   <!-- ========== 1. HERO SECTION ========== -->
