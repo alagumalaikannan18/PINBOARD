@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PINBOARD — Wall Posters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=19" />
+</head>
+
+<body>
+  <header>
+    <div class="logo"><a href="index.html"
+        style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px"><span
+          class="pin"></span>PINBOARD</a></div>
+    <nav>
+      <ul>
+        <li><a href="shop.html">Shop All</a></li>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="custom-posters.html">Custom Posters</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-search-wrap" id="navSearchWrap">
+        <button class="icon-btn search-toggle-btn" id="searchToggleBtn" aria-label="Search" title="Search">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <div class="nav-search-box" id="navSearchBox">
+          <svg class="nav-search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="nav-search-input" id="navSearchInput" placeholder="Search posters..."
+            autocomplete="off" />
+          <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search" type="button">
+            &times;
+          </button>
+        </div>
+      </div>
+      <a href="account.html" class="icon-btn account-btn" id="navAccountBtn" aria-label="Account" title="Account">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="10" r="3.2"></circle>
+          <path d="M6 18.5a6 6 0 0 1 12 0"></path>
+        </svg>
+      </a>
+      <button class="icon-btn cart-btn" aria-label="Cart" title="Cart">
+        <span class="cart-icon-wrap">
+          <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 2h3.5l2.6 11.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L21 6H5.2"></path>
+            <circle cx="8.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+          </svg>
+          <span class="cart-count">0</span>
+        </span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collections Category Overlay -->
+  <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+    <div class="cat-overlay-inner">
+      <div class="cat-overlay-head">
+        <span class="section-tag mono">BROWSE BY CATEGORY</span>
+        <button class="cat-overlay-close" id="catOverlayClose" aria-label="Close categories">&times;</button>
+      </div>
+      <div class="cat-grid">
+        <a href="movies.html" class="cat-card" data-category="movies" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_movies.webp" onerror="this.onerror=null;this.src='cat_movies.jpg'" alt="Movies category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Movies</div>
+          </div>
+          <span class="cat-card-name">Movies</span>
+        </a>
+        <a href="cars.html" class="cat-card" data-category="cars" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_cars.webp" onerror="this.onerror=null;this.src='cat_cars.jpg'" alt="Cars category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Cars</div>
+          </div>
+          <span class="cat-card-name">Cars</span>
+        </a>
+        <a href="motivation.html" class="cat-card" data-category="motivation" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_motivation.webp" onerror="this.onerror=null;this.src='cat_motivation.jpg'"
+              alt="Motivation category" loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Motivation</div>
+          </div>
+          <span class="cat-card-name">Motivation</span>
+        </a>
+        <a href="gaming.html" class="cat-card" data-category="gaming" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_gaming.webp" onerror="this.onerror=null;this.src='cat_gaming.jpg'" alt="Gaming category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Gaming</div>
+          </div>
+          <span class="cat-card-name">Gaming</span>
+        </a>
+        <a href="sports.html" class="cat-card" data-category="sports" tabindex="0">
+          <div class="cat-card-img-wrap">
+            <img src="cat_sports.webp" onerror="this.onerror=null;this.src='cat_sports.jpg'" alt="Sports category"
+              loading="lazy" width="200" height="260" />
+            <div class="cat-card-hover-label display">Sports</div>
+          </div>
+          <span class="cat-card-name">Sports</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== LUXURY 3D MOBILE & TABLET NAVIGATION OVERLAY ========== -->
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
+    <!-- Ambient 3D lighting backdrop -->
+    <div class="mob-nav-backdrop-glow" aria-hidden="true"></div>
+    
+    <div class="mob-nav-container">
+      <!-- Top Utility Header inside Menu -->
+      <div class="mob-nav-top">
+        <span class="mob-nav-tag mono">00 — NAVIGATION ARCHIVE</span>
+        <button type="button" class="mob-nav-close-btn" id="mobNavCloseBtn" aria-label="Close menu">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Search Bar inside Menu -->
+      <div class="mob-nav-search-wrap">
+        <svg class="mob-nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput" placeholder="Search 151 posters, movies, sports..." autocomplete="off" />
+      </div>
+
+      <div class="mob-nav-content-grid">
+        <!-- LEFT: Primary Navigation Menu Items -->
+        <nav class="mob-nav-links" aria-label="Mobile Navigation">
+          <!-- 01: Shop All -->
+          <div class="mob-nav-item" data-nav-target="shop">
+            <a href="shop.html" class="mob-nav-link" data-preview="shop">
+              <span class="mob-nav-num mono">01</span>
+              <span class="mob-nav-label display">Shop All</span>
+              <span class="mob-nav-badge mono">151 PRINTS</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 02: Collections (Expandable Accordion) -->
+          <div class="mob-nav-item mob-nav-accordion" data-nav-target="collections">
+            <div class="mob-nav-link mob-nav-accordion-header" id="mobNavCollectionsToggle" role="button" tabindex="0" aria-expanded="false" data-preview="collections">
+              <span class="mob-nav-num mono">02</span>
+              <span class="mob-nav-label display">Collections</span>
+              <span class="mob-nav-badge mono">5 THEMES</span>
+              <span class="mob-nav-toggle-icon mono" aria-hidden="true">+</span>
+            </div>
+            
+            <!-- Accordion Sub-Drawer -->
+            <div class="mob-nav-sub-grid" id="mobNavCollectionsDrawer">
+              <a href="movies.html" class="mob-sub-chip" data-category="movies">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Movies &amp; Cinema</span>
+                <span class="chip-count mono">92</span>
+              </a>
+              <a href="sports.html" class="mob-sub-chip" data-category="sports">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Football &amp; Sports</span>
+                <span class="chip-count mono">27</span>
+              </a>
+              <a href="cars.html" class="mob-sub-chip" data-category="cars">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Supercars &amp; Speed</span>
+                <span class="chip-count mono">12</span>
+              </a>
+              <a href="motivation.html" class="mob-sub-chip" data-category="motivation">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Mindset &amp; Discipline</span>
+                <span class="chip-count mono">15</span>
+              </a>
+              <a href="gaming.html" class="mob-sub-chip" data-category="gaming">
+                <span class="chip-dot"></span>
+                <span class="chip-name">Gaming Legends</span>
+                <span class="chip-count mono">5</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 03: Custom Posters -->
+          <div class="mob-nav-item" data-nav-target="custom">
+            <a href="custom-posters.html" class="mob-nav-link" data-preview="custom">
+              <span class="mob-nav-num mono">03</span>
+              <span class="mob-nav-label display">Custom Posters</span>
+              <span class="mob-nav-badge hot mono">STUDIO</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 04: About -->
+          <div class="mob-nav-item" data-nav-target="about">
+            <a href="index.html#about" class="mob-nav-link" data-preview="about">
+              <span class="mob-nav-num mono">04</span>
+              <span class="mob-nav-label display">About Studio</span>
+              <span class="mob-nav-badge mono">300 GSM</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 05: My Account -->
+          <div class="mob-nav-item" data-nav-target="account">
+            <a href="account.html" class="mob-nav-link" data-preview="account">
+              <span class="mob-nav-num mono">05</span>
+              <span class="mob-nav-label display">My Account</span>
+              <span class="mob-nav-badge mono">ORDERS &amp; VIP</span>
+              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </a>
+          </div>
+        </nav>
+
+        <!-- RIGHT: Interactive 3D Visual Poster Preview Stage -->
+        <div class="mob-nav-preview-stage" aria-hidden="true">
+          <div class="mob-preview-card-wrap" id="mobNavPreviewCard">
+            <div class="mob-preview-frame">
+              <img src="New Project 22 [FA6B4A7].webp" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" alt="Featured Collection" id="mobNavPreviewImg" loading="lazy" />
+              <div class="mob-preview-glare"></div>
+            </div>
+            <div class="mob-preview-meta">
+              <span class="mob-preview-tag mono" id="mobNavPreviewTag">NEW DROP · VOL. 04</span>
+              <span class="mob-preview-title display" id="mobNavPreviewTitle">YOUR WALL DESERVES BETTER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Status & Guarantee Footer inside Menu -->
+      <div class="mob-nav-bottom">
+        <div class="mob-nav-guarantee mono">
+          <span>🔥 3 POSTERS FOR ₹150</span>
+          <span>·</span>
+          <span>FREE SHIPPING OVER ₹1999</span>
+        </div>
+        <div class="mob-nav-copyright mono">© 2026 PINBOARD · MADE IN INDIA</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <a href="product.html?id=11" class="pinned-link">
+      <div class="pinned p1"><img src="1554016.webp" onerror="this.onerror=null;this.src='1554016.png'"
+          alt="GOAT10 — Messi tribute poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=12" class="pinned-link">
+      <div class="pinned p2"><img src="1553256_1.webp" onerror="this.onerror=null;this.src='1553256_1.jpg.jpeg'"
+          alt="Crimson Stage — concert poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=13" class="pinned-link">
+      <div class="pinned p3"><img src="1553164.webp" onerror="this.onerror=null;this.src='1553164.jpg.jpeg'"
+          alt="Hellme — dark art poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+    <a href="product.html?id=14" class="pinned-link">
+      <div class="pinned p4"><img src="1551192.webp" onerror="this.onerror=null;this.src='1551192.png'"
+          alt="When The Dream Became Immortal — football poster" width="180" height="240" fetchpriority="high" /></div>
+    </a>
+
+    <div class="hero-copy">
+      <span class="hero-eyebrow mono">NEW DROP — VOL. 04</span>
+      <h1 class="hero-title display">
+        <span>YOUR WALL</span>
+        <span class="outline">DESERVES</span>
+        <span>BETTER</span>
+      </h1>
+      <p class="hero-sub">
+        Curated in tight collections and shipped flat in 3 days. Pin it up plain or let us frame it for you.
+      </p>
+      <div class="hero-cta">
+        <a href="#shop" class="btn btn-solid">Shop the Wall</a>
+        <button type="button" class="btn btn-ghost" id="heroViewCollectionsBtn">View Collections</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>🔥 3 POSTERS FOR ₹150 COMBO</span>
+      <span>ALL POSTERS ₹60 ONLY</span>
+      <span>FREE SHIPPING OVER ₹1999</span>
+      <span>PRINTED ON 300GSM MATTE</span>
+      <span>🔥 3 POSTERS FOR ₹150 COMBO</span>
+      <span>ALL POSTERS ₹60 ONLY</span>
+      <span>ROLLED & PACKED IN 24HRS</span>
+      <span>PRINTED ON 300GSM MATTE</span>
+    </div>
+  </div>
+
+  <section class="section" id="collections">
+    <div class="section-head">
+      <div>
+        <span class="section-tag mono">01 — BROWSE BY MOOD</span>
+        <h2 class="section-title display">Collections</h2>
+      </div>
+      <p class="section-desc">
+        Each set is grouped by feeling, not just subject — pick the wall you
+        want to wake up to.
+      </p>
+    </div>
+    <div class="collections-viewport">
+      <div class="collections-track-wrap">
+        <div class="collections" id="collectionsTrack">
+          <div class="collection-card" data-product-id="5">
+            <img src="New Project 22 [94A5EEE]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [94A5EEE].png'" alt="Minimal" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">01</span>
+              <span class="name">Minimal Line</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="6">
+            <img src="New Project 22 [B720BE2]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [B720BE2].png'" alt="Nature" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">02</span>
+              <span class="name">Wild &amp; Green</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="7">
+            <img src="New Project 22 [D8D9C72]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [D8D9C72].png'" alt="Retro" loading="lazy" width="280"
+              height="380" />
+            <div class="collection-label">
+              <span class="num mono">03</span>
+              <span class="name">Riso Retro</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="8">
+            <img src="New Project 22 [E742D9E]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [E742D9E].png'" alt="Urban Grit" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">04</span>
+              <span class="name">Urban Grit</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="9">
+            <img src="New Project 22 [A7FF5A7]-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [A7FF5A7].png'" alt="Neon Bloom" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">05</span>
+              <span class="name">Neon Bloom</span>
+            </div>
+          </div>
+          <div class="collection-card" data-product-id="10">
+            <img src="New Project 22 [5627475] (1)-thumb.webp"
+              onerror="this.onerror=null;this.src='New Project 22 [5627475] (1).png'" alt="Analog Film" loading="lazy"
+              width="280" height="380" />
+            <div class="collection-label">
+              <span class="num mono">06</span>
+              <span class="name">Analog Film</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Carousel Back Button -->
+      <button class="carousel-btn carousel-btn--prev is-hidden" id="carouselPrevBtn" aria-label="Previous collection">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 6l-6 6 6 6" />
+        </svg>
+      </button>
+      <!-- Carousel Next Button -->
+      <button class="carousel-btn carousel-btn--next" id="carouselNextBtn" aria-label="Next collection">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section class="section grid-wrap" id="shop">
+    <div class="section-head">
+      <div>
+        <span class="section-tag mono">02 — FRESH OFF THE PRESS</span>
+        <h2 class="section-title display">Best Sellers</h2>
+      </div>
+      <p class="section-desc">
+        The prints people keep coming back for — restocked weekly.
+      </p>
+    </div>
+    <div class="products">
+      <div class="product" data-product-id="1">
+        <div class="product-tape"></div>
+        <div class="badge">NEW</div>
+        <div class="product-img">
+          <img src="New Project 22 [FA6B4A7].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Sunset Ridge</div>
+            <div class="cat">Nature · A3</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="2">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="New Project 22 [27E5039].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Bauhaus No.7</div>
+            <div class="cat">Abstract · A2</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="3">
+        <div class="product-tape"></div>
+        <div class="badge">BESTSELLER</div>
+        <div class="product-img">
+          <img src="New Project 22 [029A006].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Tokyo Nights</div>
+            <div class="cat">Cityscape · A3</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="4">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="New Project 22 [534B54A].png" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Golden Hour</div>
+            <div class="cat">Photography · A2</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+      <div class="product" data-product-id="4">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="WhatsApp Image 2026-09-05 at 11.39.33 PM (1).jpeg" alt="" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">Golden Hour</div>
+            <div class="cat">Photography · A2</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEW INTERACTIVE 3D PINBOARD WEBSITE SECTION ========== -->
+  <section class="interactive-3d-space" id="space3d">
+    <div class="space3d-head">
+      <div class="space3d-head-left">
+        <div class="space3d-tag">
+          <span class="live-dot"></span>
+          <span>CURATED FOR YOUR WALL</span>
+        </div>
+        <h2 class="space3d-title">BRING YOUR WALL TO LIFE</h2>
+        <p class="space3d-desc">
+          Discover premium prints, iconic moments, cinematic artwork, sports, abstract designs, and statement pieces
+          curated for your wall.
+        </p>
+      </div>
+      <div class="space3d-head-right">
+        <div class="space3d-modes">
+          <button class="space3d-mode-pill active" data-mode="cluster">CLUSTER 3D</button>
+          <button class="space3d-mode-pill" data-mode="wide">WIDE VIEW</button>
+          <button class="space3d-mode-pill" data-mode="focus">MINIMAL</button>
+        </div>
+        <div class="space3d-cta-row">
+          <a href="shop.html" class="space3d-btn space3d-btn-primary">
+            <span>Shop the Wall</span>
+            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href="shop.html" class="space3d-btn space3d-btn-secondary">
+            <span>Explore All Posters</span>
+            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Interactive Stage Viewport -->
+    <div class="space3d-viewport" id="space3dViewport">
+      <div class="space3d-stage" id="space3dStage">
+        <!-- Centerpiece Hero Poster -->
+        <div class="space3d-card hero-center" data-product-id="12" data-base-x="0" data-base-y="0" data-base-z="60"
+          data-base-rx="0" data-base-ry="0" data-base-rz="0" data-depth="1">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge">TRENDING</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1553256_1.jpg.jpeg" alt="Spider-Man Rebirth" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">REBIRTH | Spider-Man</span>
+              <span class="space3d-card-price">₹60</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Left Wing Card -->
+        <div class="space3d-card" data-product-id="2" data-base-x="-320" data-base-y="-30" data-base-z="-30"
+          data-base-rx="-4" data-base-ry="18" data-base-rz="-2" data-depth="1.4">
+          <div class="space3d-card-inner">
+            <div class="space3d-card-img-wrap">
+              <img src="New Project 22 [27E5039].png" alt="Bauhaus No.7" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Bauhaus No.7</span>
+              <span class="space3d-card-price">₹60</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Wing Card -->
+        <div class="space3d-card" data-product-id="14" data-base-x="320" data-base-y="30" data-base-z="-20"
+          data-base-rx="4" data-base-ry="-16" data-base-rz="2" data-depth="1.3">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge">IMMORTAL</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1551192.png" alt="Messi Immortal" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Messi Immortal</span>
+              <span class="space3d-card-price">₹60</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ambient Depth Left -->
+        <div class="space3d-card" data-product-id="1" data-base-x="-540" data-base-y="-100" data-base-z="-120"
+          data-base-rx="-8" data-base-ry="24" data-base-rz="-4" data-depth="2.1">
+          <div class="space3d-card-inner">
+            <div class="space3d-card-img-wrap">
+              <img src="New Project 22 [FA6B4A7].png" alt="Sunset Ridge" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Sunset Ridge</span>
+              <span class="space3d-card-price">₹60</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ambient Depth Right -->
+        <div class="space3d-card" data-product-id="13" data-base-x="540" data-base-y="90" data-base-z="-100"
+          data-base-rx="6" data-base-ry="-22" data-base-rz="3" data-depth="2.0">
+          <div class="space3d-card-inner">
+            <span class="space3d-card-badge" style="background:#059669">MARVEL</span>
+            <div class="space3d-card-img-wrap">
+              <img src="1553164.jpg.jpeg" alt="Doctor Doom" loading="lazy" />
+            </div>
+            <div class="space3d-card-info">
+              <span class="space3d-card-title">Doctor Doom</span>
+              <span class="space3d-card-price">₹60</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CUSTOMER WALL GALLERY (PINBOARD COMMUNITY) ========== -->
+  <section class="community-section" id="community" aria-label="PINBOARD Customer Wall Gallery">
+    <div class="community-container">
+      <div class="community-header">
+        <div class="community-header-text">
+          <div class="community-tag">
+            <span class="community-tag-dot" aria-hidden="true"></span>
+            <span class="mono">PINBOARD COMMUNITY</span>
+          </div>
+          <h2 class="community-title display">REAL WALLS. REAL STORIES.</h2>
+          <p class="community-subtitle">Your walls, your style. See how our community brings their spaces to life.</p>
+        </div>
+
+        <!-- Slider Navigation Controls -->
+        <div class="community-nav-controls" aria-label="Gallery Controls">
+          <button type="button" class="comm-nav-btn" id="comm-slider-prev" aria-label="Previous customer photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="comm-slider-dots" id="comm-slider-dots" aria-label="Slide indicators"></div>
+          <button type="button" class="comm-nav-btn" id="comm-slider-next" aria-label="Next customer photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Horizontal Slider Track -->
+      <div class="community-slider-wrapper">
+        <div class="community-slider" id="community-slider" role="region" aria-label="Customer Wall Photos Slider" tabindex="0">
+          <!-- Card 1: 3-Poster Setup -->
+          <article class="community-card" data-wall-id="1">
+            <div class="community-card-inner">
+              <div class="community-img-wrap">
+                <img src="images/community/customer-wall-1.jpg" alt="PINBOARD customer wall with Spider-Man, Witcher, and Iron Man posters" loading="lazy" decoding="async" />
+                <div class="community-img-glare" aria-hidden="true"></div>
+              </div>
+              <div class="community-card-meta">
+                <span class="community-card-caption">“Made it mine.”</span>
+                <span class="community-card-badge mono">STUDIO TRIO</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: 5-Piece Blue Wall Setup -->
+          <article class="community-card" data-wall-id="4">
+            <div class="community-card-inner">
+              <div class="community-img-wrap">
+                <img src="images/community/customer-wall-4.jpg" alt="PINBOARD customer wall featuring 5-poster curated gallery collection" loading="lazy" decoding="async" />
+                <div class="community-img-glare" aria-hidden="true"></div>
+              </div>
+              <div class="community-card-meta">
+                <span class="community-card-caption">“A little more personality on my wall.”</span>
+                <span class="community-card-badge mono">GALLERY WALL</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Vertical Cross Setup -->
+          <article class="community-card" data-wall-id="3">
+            <div class="community-card-inner">
+              <div class="community-img-wrap">
+                <img src="images/community/customer-wall-3.jpg" alt="PINBOARD customer wall with vertical cross cluster arrangement" loading="lazy" decoding="async" />
+                <div class="community-img-glare" aria-hidden="true"></div>
+              </div>
+              <div class="community-card-meta">
+                <span class="community-card-caption">“Curated space that feels like home.”</span>
+                <span class="community-card-badge mono">CROSS CLUSTER</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Wide Cross Setup -->
+          <article class="community-card" data-wall-id="2">
+            <div class="community-card-inner">
+              <div class="community-img-wrap">
+                <img src="images/community/customer-wall-2.jpg" alt="PINBOARD customer wall with full room wide perspective setup" loading="lazy" decoding="async" />
+                <div class="community-img-glare" aria-hidden="true"></div>
+              </div>
+              <div class="community-card-meta">
+                <span class="community-card-caption">“Every poster tells a story.”</span>
+                <span class="community-card-badge mono">ROOM SETUP</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Community Action CTA -->
+      <div class="community-footer-cta">
+        <div class="community-cta-box">
+          <div class="community-cta-text">
+            <h3 class="community-cta-title">READY TO BUILD YOUR OWN WALL?</h3>
+            <p class="community-cta-sub">Pick your favorite posters, choose layouts, and transform your space.</p>
+          </div>
+          <div class="community-cta-actions">
+            <!-- 3D Primary Button: Create Your Wall -->
+            <a href="custom-posters.html" class="comm-btn-3d comm-btn-primary-3d" id="btn-create-wall-3d" aria-label="Create Your Wall">
+              <span class="comm-btn-3d-top">
+                <span class="comm-btn-3d-text">Create Your Wall</span>
+                <span class="comm-btn-3d-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </span>
+            </a>
+
+            <!-- 3D Secondary Button: Shop All Posters -->
+            <a href="shop.html" class="comm-btn-3d comm-btn-secondary-3d" id="btn-shop-posters-3d" aria-label="Shop All Posters">
+              <span class="comm-btn-3d-top">
+                <span class="comm-btn-3d-text">Shop All Posters</span>
+                <span class="comm-btn-3d-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox Modal for Full Customer Wall Photo Preview -->
+    <div class="comm-lightbox" id="comm-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Customer Wall Setup Full Preview">
+      <div class="comm-lightbox-overlay" id="comm-lightbox-overlay"></div>
+      <div class="comm-lightbox-container">
+        <button type="button" class="comm-lightbox-close" id="comm-lightbox-close" aria-label="Close preview (Escape)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <button type="button" class="comm-lightbox-nav comm-lightbox-prev" id="comm-lightbox-prev" aria-label="Previous customer photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="comm-lightbox-content">
+          <div class="comm-lightbox-img-frame">
+            <img id="comm-lightbox-img" src="" alt="Customer wall setup full preview" />
+          </div>
+          <div class="comm-lightbox-meta">
+            <div class="comm-lightbox-meta-left">
+              <span class="comm-lightbox-badge mono" id="comm-lightbox-badge">PINBOARD COMMUNITY</span>
+              <span class="comm-lightbox-caption" id="comm-lightbox-caption"></span>
+            </div>
+            <span class="comm-lightbox-counter mono" id="comm-lightbox-counter">1 / 4</span>
+          </div>
+        </div>
+
+        <button type="button" class="comm-lightbox-nav comm-lightbox-next" id="comm-lightbox-next" aria-label="Next customer photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer id="about">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <a href="index.html"
+            style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:10px">
+            <span class="pin"></span>PINBOARD
+          </a>
+        </div>
+        <p>
+          Premium 300 GSM Matte Posters for modern spaces.
+          Designed, curated, and printed with archival care.
+        </p>
+      </div>
+      <div class="foot-col">
+        <h4>SHOP</h4>
+        <ul>
+          <li><a href="shop.html">All Posters</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="custom-posters.html">Custom Posters</a></li>
+          <li><a href="shop.html">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>STUDIO</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#about">Artists</a></li>
+          <li><a href="#about">Wholesale</a></li>
+          <li><a href="#about">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>SUPPORT</h4>
+        <ul>
+          <li><a href="#about">Shipping</a></li>
+          <li><a href="#about">Care Guide</a></li>
+          <li><a href="#about">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 PINBOARD STUDIO</span>
+      <span>MADE IN INDIA</span>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/script.js?v=5"></script>
+  <script src="js/space3d.js"></script>
+  <script src="js/community-slider.js"></script>
+</body>
+
+</html>

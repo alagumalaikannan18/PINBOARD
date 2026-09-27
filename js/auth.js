@@ -15,6 +15,8 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
   firebaseConfig
 } from "./firebase-config.js";
 
@@ -58,7 +60,7 @@ import {
           return parsed;
         }
       }
-    } catch (e) {}
+    } catch (e) { }
     return null;
   }
 
@@ -69,7 +71,7 @@ import {
       } else {
         localStorage.removeItem(SESSION_STORAGE_KEY);
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   var currentUserState = loadCachedUser();
@@ -91,7 +93,7 @@ import {
           subtitle: 'Retro Collection · 3 Prints',
           quantity: 1,
           price: 1399,
-          image: 'New Project 22 [D8D9C72].png'
+          image: 'poster/opt/1553256_1.webp'
         }
       ]
     },
@@ -108,7 +110,7 @@ import {
           subtitle: 'Abstract Art · Premium Poster',
           quantity: 1,
           price: 60,
-          image: 'New Project 22 [27E5039].png'
+          image: 'poster/opt/1514232.webp'
         }
       ]
     }
@@ -229,6 +231,14 @@ import {
     },
 
     /**
+     * Check if initial auth state check from Firebase is resolved
+     * @returns {boolean}
+     */
+    isAuthReady: function () {
+      return isInitialAuthResolved;
+    },
+
+    /**
      * Wait for Firebase to finish initial session check
      * @returns {Promise<object|null>}
      */
@@ -236,8 +246,19 @@ import {
       if (isInitialAuthResolved) {
         return Promise.resolve(this.getUser());
       }
+      var self = this;
       return new Promise(function (resolve) {
-        authReadyCallbacks.push(resolve);
+        var hasResolved = false;
+        var safeResolve = function (user) {
+          if (!hasResolved) {
+            hasResolved = true;
+            resolve(user);
+          }
+        };
+        authReadyCallbacks.push(safeResolve);
+        setTimeout(function () {
+          safeResolve(self.getUser());
+        }, 2000);
       });
     },
 
@@ -264,6 +285,13 @@ import {
       }
 
       try {
+        if (auth && typeof setPersistence === 'function' && browserLocalPersistence) {
+          try {
+            await setPersistence(auth, browserLocalPersistence);
+          } catch (pErr) {
+            console.warn('[Firebase Auth] Persistence set notice before login:', pErr);
+          }
+        }
         console.log('[Firebase Auth] Attempting signInWithEmailAndPassword for:', cleanEmail);
         var userCredential = await signInWithEmailAndPassword(auth, cleanEmail, cleanPassword);
         console.log('[Firebase Auth] Email/Password Sign-In Success! UID:', userCredential.user.uid);
@@ -299,6 +327,13 @@ import {
       }
 
       try {
+        if (auth && typeof setPersistence === 'function' && browserLocalPersistence) {
+          try {
+            await setPersistence(auth, browserLocalPersistence);
+          } catch (pErr) {
+            console.warn('[Firebase Auth] Persistence set notice before Google login:', pErr);
+          }
+        }
         console.log('[Firebase Auth] Opening Google Sign-In Popup...');
         var result = await signInWithPopup(auth, googleProvider);
         console.log('[Firebase Auth] Google Sign-In Success! UID:', result.user.uid, 'Email:', result.user.email);
@@ -355,6 +390,13 @@ import {
       }
 
       try {
+        if (auth && typeof setPersistence === 'function' && browserLocalPersistence) {
+          try {
+            await setPersistence(auth, browserLocalPersistence);
+          } catch (pErr) {
+            console.warn('[Firebase Auth] Persistence set notice before register:', pErr);
+          }
+        }
         console.log('[Firebase Auth] Attempting createUserWithEmailAndPassword for:', cleanEmail);
         var userCredential = await createUserWithEmailAndPassword(auth, cleanEmail, cleanPassword);
         console.log('[Firebase Auth] User Created Successfully! UID:', userCredential.user.uid);
@@ -532,7 +574,29 @@ import {
         if (!raw) {
           return [];
         }
-        return JSON.parse(raw) || [];
+        var items = JSON.parse(raw) || [];
+        var modified = false;
+        var sanitized = items.map(function (item) {
+          if (!item) return item;
+          if (!item.isCustom) {
+            // Remove/convert stale sizes A5 or A3 to A4
+            if (item.size === 'A5' || item.size === 'A3') {
+              item.size = 'A4';
+              item.price = 60;
+              modified = true;
+            } else if (item.size === 'A6') {
+              if (item.price !== 25) { item.price = 25; modified = true; }
+            } else {
+              item.size = 'A4';
+              if (item.price !== 60) { item.price = 60; modified = true; }
+            }
+          }
+          return item;
+        });
+        if (modified) {
+          try { localStorage.setItem(key, JSON.stringify(sanitized)); } catch (e) { }
+        }
+        return sanitized;
       } catch (e) {
         return [];
       }
@@ -555,12 +619,14 @@ import {
     },
 
     /**
-     * Add poster to current user's isolated cart (with strict duplicate prevention)
+     * Add poster to current user's isolated cart (with strict duplicate prevention & size support)
      * @param {string|number} productId
      * @param {number} quantity
+     * @param {object} [options]
      * @returns {object}
      */
-    addToCart: function (productId, quantity) {
+    addToCart: function (productId, quantity, options) {
+      options = options || {};
       var user = this.getUser();
       if (!user || !user.uid) {
         console.warn('[PINBOARD Auth] Protected action: User must be authenticated to add items to cart.');
@@ -569,30 +635,39 @@ import {
 
       var uid = user.uid;
       var qty = parseInt(quantity, 10) || 1;
+      var itemSize = (options.size === 'A6') ? 'A6' : 'A4';
+      var itemPrice = (itemSize === 'A6') ? 25 : 60;
       var cart = this.getCart(uid);
       var id = parseInt(productId, 10);
 
       var existing = cart.find(function (item) {
-        if (!isNaN(id) && (item.id === id || item.productId === id)) return true;
-        return String(item.id || item.productId) === String(productId);
+        var matchId = (!isNaN(id) && (item.id === id || item.productId === id)) || String(item.id || item.productId) === String(productId);
+        var matchSize = (item.size || 'A4') === itemSize;
+        return matchId && matchSize;
       });
 
-      // Strict duplicate prevention per authenticated user
+      // Strict duplicate prevention per authenticated user & size variant
       if (existing) {
-        return { success: false, alreadyInCart: true, cart: cart };
+        existing.quantity += qty;
+        try {
+          localStorage.setItem(getCartStorageKey(uid), JSON.stringify(cart));
+        } catch (e) { }
+        this.updateNavbar();
+        this._emitCartChange();
+        return { success: true, alreadyInCart: false, cart: cart };
       }
 
       var product = (typeof getProductById === 'function') ? getProductById(id || productId) : null;
-      var price = product ? (product.salePrice || product.regularPrice) : 60;
       var title = product ? product.title : ('Poster #' + productId);
-      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
+      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'poster/opt/1551192.webp';
 
       var newItem = {
         id: isNaN(id) ? productId : id,
         productId: isNaN(id) ? productId : id,
         title: title,
         quantity: qty,
-        price: price,
+        size: itemSize,
+        price: itemPrice,
         image: img
       };
 
@@ -616,13 +691,14 @@ import {
             body: JSON.stringify({
               productId: newItem.id,
               quantity: qty,
+              size: itemSize,
               title: title,
-              price: price,
+              price: itemPrice,
               image: img
             })
-          }).catch(function () {});
+          }).catch(function () { });
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return { success: true, alreadyInCart: false, cart: cart };
     },
@@ -651,7 +727,7 @@ import {
         subtitle: customOrder.subtitle || ('Custom Wall Layout · ' + (customOrder.sizesSummary || '')),
         quantity: 1,
         price: customOrder.totalPrice || 1499,
-        image: customOrder.coverImage || 'New Project 22 [FA6B4A7].png',
+        image: customOrder.coverImage || 'poster/opt/1551192.webp',
         template: customOrder.template || 5,
         posters: customOrder.posters || [],
         sizesSummary: customOrder.sizesSummary || ''
@@ -681,9 +757,9 @@ import {
               price: newItem.price,
               image: newItem.image
             })
-          }).catch(function () {});
+          }).catch(function () { });
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return { success: true, item: newItem, cart: cart };
     },
@@ -719,9 +795,9 @@ import {
           fetch('/api/cart/' + encodeURIComponent(productId), {
             method: 'DELETE',
             headers: this._getAuthHeaders()
-          }).catch(function () {});
+          }).catch(function () { });
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return filtered;
     },
@@ -770,9 +846,9 @@ import {
               method: 'PATCH',
               headers: this._getAuthHeaders(),
               body: JSON.stringify({ quantity: qty })
-            }).catch(function () {});
+            }).catch(function () { });
           }
-        } catch (e) {}
+        } catch (e) { }
       }
 
       return cart;
@@ -810,7 +886,7 @@ import {
       if (user && user.uid) {
         try {
           localStorage.setItem(getCartStorageKey(user.uid), JSON.stringify([]));
-        } catch (e) {}
+        } catch (e) { }
       }
       this.updateNavbar();
       this._emitCartChange();
@@ -821,9 +897,9 @@ import {
           fetch('/api/cart', {
             method: 'DELETE',
             headers: this._getAuthHeaders()
-          }).catch(function () {});
+          }).catch(function () { });
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return [];
     },
@@ -842,7 +918,7 @@ import {
       try {
         var event = new CustomEvent('auth:cartchange', { detail: { cart: this.getCart(), count: this.getCartCount() } });
         window.dispatchEvent(event);
-      } catch (e) {}
+      } catch (e) { }
     },
 
     /**
@@ -883,7 +959,7 @@ import {
       var product = (typeof getProductById === 'function') ? getProductById(id) : null;
       var price = product ? (product.salePrice || product.regularPrice) : 60;
       var title = product ? product.title : ('Poster #' + id);
-      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
+      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'poster/opt/1551192.webp';
 
       var now = new Date();
       var est = new Date();
@@ -916,7 +992,7 @@ import {
       orders.unshift(newOrder);
       try {
         localStorage.setItem(getOrdersStorageKey(uid), JSON.stringify(orders));
-      } catch (e) {}
+      } catch (e) { }
 
       // Sync with backend API
       try {
@@ -928,9 +1004,9 @@ import {
               productId: id,
               quantity: qty
             })
-          }).catch(function () {});
+          }).catch(function () { });
         }
-      } catch (e) {}
+      } catch (e) { }
 
       return newOrder;
     },
@@ -976,7 +1052,7 @@ import {
             // User authenticated with Google or custom profile photo
             btn.innerHTML =
               '<div class="nav-avatar-wrap" title="Logged in as ' + escapeAttr(user.name) + '">' +
-                '<img src="' + escapeAttr(user.photoURL) + '" alt="' + escapeAttr(user.name) + '" class="nav-avatar-img" referrerpolicy="no-referrer" />' +
+              '<img src="' + escapeAttr(user.photoURL) + '" alt="' + escapeAttr(user.name) + '" class="nav-avatar-img" referrerpolicy="no-referrer" />' +
               '</div>';
 
             // Graceful fallback if image fails to load
@@ -993,7 +1069,7 @@ import {
             // Email/Password or account without photoURL -> show initial avatar
             btn.innerHTML =
               '<div class="nav-avatar-wrap" title="Logged in as ' + escapeAttr(user.name) + '">' +
-                '<span class="nav-avatar-initial">' + escapeHtml(user.avatarInitial || 'P') + '</span>' +
+              '<span class="nav-avatar-initial">' + escapeHtml(user.avatarInitial || 'P') + '</span>' +
               '</div>';
           }
         } else {
@@ -1001,9 +1077,9 @@ import {
           btn.classList.remove('is-logged-in');
           btn.innerHTML =
             '<svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-              '<circle cx="12" cy="12" r="10"></circle>' +
-              '<circle cx="12" cy="10" r="3.2"></circle>' +
-              '<path d="M6 18.5a6 6 0 0 1 12 0"></path>' +
+            '<circle cx="12" cy="12" r="10"></circle>' +
+            '<circle cx="12" cy="10" r="3.2"></circle>' +
+            '<path d="M6 18.5a6 6 0 0 1 12 0"></path>' +
             '</svg>';
         }
 
@@ -1013,6 +1089,25 @@ import {
             e.preventDefault();
             window.location.href = 'account.html';
           });
+        }
+      });
+
+      // Update mobile navigation overlay My Account menu item with authenticated user's photo or fallback
+      var mobAccountImgs = document.querySelectorAll('.mob-nav-link[href="account.html"] .mob-link-icon img, .mob-account-avatar-img');
+      mobAccountImgs.forEach(function (img) {
+        if (user && user.isLoggedIn && user.photoURL) {
+          img.src = user.photoURL;
+          img.setAttribute('referrerpolicy', 'no-referrer');
+          img.onerror = function () {
+            this.onerror = null;
+            this.src = 'images/mob-menu-account.jpg';
+          };
+        } else {
+          img.src = 'images/mob-menu-account.jpg';
+          img.onerror = function () {
+            this.onerror = null;
+            this.src = 'cat_motivation-thumb.webp';
+          };
         }
       });
     },
@@ -1044,13 +1139,17 @@ import {
       try {
         var event = new CustomEvent('auth:statechange', { detail: { user: this.getUser() } });
         window.dispatchEvent(event);
-      } catch (e) {}
+      } catch (e) { }
     }
   };
 
   // Expose globally for PINBOARD scripts
   window.PinboardAuth = Auth;
   window.Auth = Auth;
+
+  try {
+    window.dispatchEvent(new CustomEvent('auth:ready', { detail: { auth: Auth } }));
+  } catch (e) { }
 
   // Real Firebase Auth State Observer
   if (auth && typeof onAuthStateChanged === 'function') {
@@ -1059,7 +1158,7 @@ import {
         var newUser = formatFirebaseUser(firebaseUser);
         currentUserState = newUser;
         saveCachedUser(newUser);
-      } else if (!currentUserState) {
+      } else {
         currentUserState = null;
         saveCachedUser(null);
       }
@@ -1068,7 +1167,7 @@ import {
       // Resolve any pending waitForAuth promises
       while (authReadyCallbacks.length > 0) {
         var cb = authReadyCallbacks.shift();
-        try { cb(currentUserState); } catch (e) {}
+        try { cb(currentUserState || Auth.getUser()); } catch (e) { }
       }
 
       Auth.updateNavbar();
@@ -1079,7 +1178,7 @@ import {
     isInitialAuthResolved = true;
     while (authReadyCallbacks.length > 0) {
       var cb = authReadyCallbacks.shift();
-      try { cb(currentUserState); } catch (e) {}
+      try { cb(currentUserState || Auth.getUser()); } catch (e) { }
     }
   }
 

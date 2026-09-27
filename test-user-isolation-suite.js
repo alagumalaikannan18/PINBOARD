@@ -27,7 +27,7 @@ class LocalStorageMock {
 function assert(condition, message) {
   if (!condition) {
     console.error('❌ FAIL: ' + message);
-    process.exit(1);
+    process.exitCode = 1;
   } else {
     console.log('✅ PASS: ' + message);
   }
@@ -375,5 +375,5 @@ async function runTests() {
 
 runTests().catch(err => {
   console.error(err);
-  process.exit(1);
+  process.exitCode = 1;
 });

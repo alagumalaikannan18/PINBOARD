@@ -9,7 +9,7 @@ console.log('====================================================\n');
 function assert(condition, message) {
   if (!condition) {
     console.error(`❌ FAIL: ${message}`);
-    process.exit(1);
+    process.exitCode = 1;
   } else {
     console.log(`✅ PASS: ${message}`);
   }
@@ -114,7 +114,7 @@ async function runShopTests() {
     console.log('====================================================\n');
   } catch (err) {
     console.error('❌ Shop test suite error:', err);
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 

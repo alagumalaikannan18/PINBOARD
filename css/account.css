@@ -619,10 +619,18 @@
 @media (max-width: 480px) {
   .account-page-wrap {
     padding: 20px 14px 60px;
+    min-height: calc(100dvh - 120px);
+  }
+  .auth-pending-banner {
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 14px 16px;
   }
   .auth-card {
     padding: 24px 18px;
     border-radius: 12px;
+    box-sizing: border-box;
+    max-width: 100%;
   }
   .auth-card-title {
     font-size: clamp(26px, 7.5vw, 30px);
@@ -631,21 +639,40 @@
     padding: 8px 12px;
     font-size: 12px;
   }
+  .auth-label-row {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
   .auth-input {
     padding: 11px 14px;
     font-size: 13.5px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
   }
   .auth-submit-btn {
     padding: 13px 18px;
     font-size: 13px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
   }
   .auth-google-btn {
     padding: 11px 16px;
     font-size: 13px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+  }
+  .auth-switch {
+    font-size: 12.5px;
+    line-height: 1.4;
+    word-break: break-word;
   }
   .profile-card {
     padding: 20px 16px;
     border-radius: 12px;
+    box-sizing: border-box;
   }
   .profile-avatar {
     width: 48px;
@@ -663,6 +690,7 @@
     align-items: flex-start;
     padding: 14px;
     gap: 12px;
+    box-sizing: border-box;
   }
   .order-thumb-wrap {
     gap: 12px;

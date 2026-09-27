@@ -25,7 +25,7 @@ function getMemoryOrders(userId) {
             subtitle: 'Retro Collection · 3 Prints',
             quantity: 1,
             price: 1399,
-            image: 'New Project 22 [D8D9C72].png'
+            image: 'poster/opt/1553256_1.webp'
           }
         ]
       }
@@ -35,27 +35,19 @@ function getMemoryOrders(userId) {
 }
 
 // Authoritative Custom Poster Pricing Engine
-const CUSTOM_PRICING = {
-  sizes: {
-    A6: 199,
-    A5: 299,
-    A4: 399,
-    A3: 549
-  },
-  templates: [5, 8, 10, 12]
+const CUSTOM_PRICING_MATRIX = {
+  A4: { 5: 250, 8: 350, 10: 400, 12: 450 },
+  A6: { 5: 80, 8: 130, 10: 150, 12: 190 }
 };
 
 function calculateVerifiedCustomPrice(item) {
   if (Array.isArray(item.posters) && item.posters.length > 0) {
-    let sum = 0;
-    item.posters.forEach(p => {
-      const sizeKey = (p.size || 'A4').toUpperCase();
-      sum += CUSTOM_PRICING.sizes[sizeKey] || CUSTOM_PRICING.sizes.A4;
-    });
-    return sum > 0 ? sum : 1499;
+    const posterPrices = { A6: 199, A5: 299, A4: 399, A3: 549 };
+    return item.posters.reduce((sum, p) => sum + (posterPrices[p.size] || 399), 0);
   }
-  const templateCount = parseInt(item.template, 10) || 5;
-  return templateCount * CUSTOM_PRICING.sizes.A4;
+  const count = parseInt(item.template, 10) || 5;
+  const sizeKey = (item.size === 'A6' || (Array.isArray(item.posters) && item.posters[0] && item.posters[0].size === 'A6')) ? 'A6' : 'A4';
+  return (CUSTOM_PRICING_MATRIX[sizeKey] && CUSTOM_PRICING_MATRIX[sizeKey][count]) || 250;
 }
 
 /**
@@ -64,7 +56,7 @@ function calculateVerifiedCustomPrice(item) {
  */
 async function getOrders(req, res) {
   try {
-    const userId = req.user ? req.user.uid : 'guest';
+    const userId = req.user ? req.user.uid : (req.headers['x-user-id'] || req.query.userId || 'guest');
 
     if (getIsConnected()) {
       const orders = await Order.find({ userId }).sort({ createdAt: -1 }).lean();
@@ -97,7 +89,7 @@ async function getOrders(req, res) {
  */
 async function createOrder(req, res) {
   try {
-    const userId = req.user ? req.user.uid : (req.body.userId || 'guest');
+    const userId = req.user ? req.user.uid : (req.body.userId || req.headers['x-user-id'] || 'guest');
     const {
       productId,
       quantity = 1,
@@ -114,7 +106,8 @@ async function createOrder(req, res) {
     let totalAmount = 0;
     const localProducts = getLocalProducts();
 
-    let standardPosterQty = 0;
+    let standardA4Qty = 0;
+    let a6Subtotal = 0;
     let customTotal = 0;
 
     if (items && Array.isArray(items) && items.length > 0) {
@@ -122,32 +115,35 @@ async function createOrder(req, res) {
         const q = Math.max(1, parseInt(item.quantity, 10) || 1);
         const rawId = item.productId || item.id;
         const isCustom = item.isCustom || String(rawId).startsWith('custom-') || !!item.posters;
+        const itemSize = (item.size === 'A6' || size === 'A6') ? 'A6' : 'A4';
 
         let verifiedPrice = 60;
         let verifiedTitle = item.title;
         let verifiedSubtitle = item.subtitle || 'Premium Poster';
-        let verifiedImage = item.image || 'New Project 22 [FA6B4A7].png';
-        let verifiedPid = rawId;
+        let verifiedImage = item.image || 'poster/opt/1551192.webp';
+        let verifiedPid = rawId || item.id || 'custom-' + Math.floor(1000 + Math.random() * 9000);
 
         if (isCustom) {
           verifiedPrice = calculateVerifiedCustomPrice(item);
           verifiedTitle = item.title || `Custom Poster Set (${item.template || 5} Prints)`;
           verifiedSubtitle = item.subtitle || 'Personalized Wall Collection';
-          verifiedImage = item.coverImage || item.image || 'New Project 22 [FA6B4A7].png';
+          verifiedImage = item.coverImage || item.image || 'poster/opt/1551192.webp';
           customTotal += verifiedPrice * q;
         } else {
           const numId = parseInt(rawId, 10);
           verifiedPid = isNaN(numId) ? rawId : numId;
           const product = localProducts.find(p => p.id === numId || String(p.id) === String(rawId));
-          if (product) {
-            verifiedPrice = product.salePrice || product.regularPrice || 60;
-            verifiedTitle = product.title;
-            verifiedSubtitle = product.subtitle || product.category || 'Premium Poster';
-            verifiedImage = (product.images && product.images[0]) ? product.images[0] : verifiedImage;
+          verifiedTitle = product ? product.title : (item.title || `Poster #${rawId}`);
+          verifiedSubtitle = product ? (product.subtitle || product.category) : (item.subtitle || 'Premium Poster');
+          verifiedImage = (product && product.images && product.images[0]) ? product.images[0] : verifiedImage;
+
+          if (itemSize === 'A6') {
+            verifiedPrice = 25;
+            a6Subtotal += 25 * q;
           } else {
             verifiedPrice = 60;
+            standardA4Qty += q;
           }
-          standardPosterQty += q;
         }
 
         return {
@@ -156,29 +152,36 @@ async function createOrder(req, res) {
           subtitle: verifiedSubtitle,
           quantity: q,
           price: verifiedPrice,
-          size: item.size || size || 'A4',
+          size: itemSize,
           image: verifiedImage,
           isCustom: !!isCustom
         };
       });
 
-      const comboSets = Math.floor(standardPosterQty / 3);
-      const comboRem = standardPosterQty % 3;
-      totalAmount = (comboSets * 150) + (comboRem * 60) + customTotal;
+      const comboSets = Math.floor(standardA4Qty / 3);
+      const comboRem = standardA4Qty % 3;
+      totalAmount = (comboSets * 150) + (comboRem * 60) + a6Subtotal + customTotal;
     } else if (productId) {
       const pid = parseInt(productId, 10);
       const qty = Math.max(1, parseInt(quantity, 10) || 1);
+      const itemSize = (size === 'A6') ? 'A6' : 'A4';
       const product = localProducts.find(p => p.id === pid || String(p.id) === String(productId));
-      const price = product ? (product.salePrice || product.regularPrice) : 60;
-      totalAmount = (Math.floor(qty / 3) * 150) + ((qty % 3) * price);
+      const price = (itemSize === 'A6') ? 25 : 60;
+
+      if (itemSize === 'A6') {
+        totalAmount = 25 * qty;
+      } else {
+        totalAmount = (Math.floor(qty / 3) * 150) + ((qty % 3) * 60);
+      }
+
       orderItems.push({
         productId: isNaN(pid) ? productId : pid,
         title: product ? product.title : `Poster #${productId}`,
         subtitle: product ? (product.subtitle || product.category) : 'Premium Matte Poster',
         quantity: qty,
-        size: size || 'A4',
+        size: itemSize,
         price,
-        image: (product && product.images && product.images[0]) ? product.images[0] : 'New Project 22 [FA6B4A7].png'
+        image: (product && product.images && product.images[0]) ? product.images[0] : 'poster/opt/1551192.webp'
       });
     } else {
       return res.status(400).json({
@@ -191,7 +194,7 @@ async function createOrder(req, res) {
     const est = new Date();
     est.setDate(now.getDate() + 4);
     const estFormatted = est.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-    const orderId = 'PB-2026-' + Math.floor(1000 + Math.random() * 9000);
+    const orderId = 'PB-2026-' + Date.now().toString(36).toUpperCase() + Math.floor(100 + Math.random() * 900);
 
     const isOrderRequest = Boolean(customerEmail || customerName || req.body.isRequest);
     const initialStatus = isOrderRequest ? 'Pending Confirmation' : 'Confirmed ⚡';

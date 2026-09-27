@@ -1127,12 +1127,14 @@ body.custom-posters-page {
   padding: 20px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wall-preview-modal-overlay.open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .wall-preview-modal-card {
@@ -1695,12 +1697,14 @@ body.custom-posters-page {
   padding: 20px;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: all 0.3s ease;
 }
 
 .custom-modal-overlay.open {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .custom-modal-card {
@@ -1818,27 +1822,179 @@ body.custom-posters-page {
 
 @media (max-width: 768px) {
   .custom-hero-section {
-    padding: 95px 20px 40px;
+    padding: 85px 20px 36px;
+  }
+  .custom-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: center;
+  }
+  .custom-hero-content {
+    align-items: center;
+  }
+  .custom-hero-tag {
+    margin-bottom: 10px;
+  }
+  .custom-hero-title {
+    font-size: clamp(38px, 11vw, 56px);
+    margin-bottom: 12px;
+  }
+  .custom-hero-quote {
+    font-size: 15px;
+    border-left: none;
+    border-top: 2px solid var(--custom-accent);
+    padding-left: 0;
+    padding-top: 10px;
+    margin: 0 auto 12px;
+    max-width: 100%;
+  }
+  .custom-hero-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 auto;
+  }
+  .custom-hero-3d-visual {
+    width: 100%;
+    max-width: 320px;
+    margin: 16px auto 0;
+    perspective: 800px;
+  }
+  .custom-hero-stage {
+    width: 100%;
+    height: 220px;
+    min-height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+  .custom-hero-collage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(-3deg) rotateX(3deg);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  }
+  .custom-hero-floating-badge {
+    bottom: -12px;
+    right: 8px;
+    left: auto;
+    top: auto;
+    padding: 8px 12px;
+    text-align: left;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  }
+  .hero-badge-kicker {
+    font-size: 9px;
+  }
+  .hero-badge-headline {
+    font-size: 12px;
   }
   .custom-studio-wrap {
     padding: 24px 16px 80px;
   }
   .template-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .template-card {
+    border-radius: 16px;
+    padding: 16px;
+    background: #FFFFFF;
+    border: 1.5px solid rgba(21, 20, 15, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .template-card:active {
+    transform: scale(0.985);
+  }
+  .template-card.active {
+    border-color: var(--custom-accent);
+    background: #FAF8F5;
+    box-shadow: 0 8px 24px rgba(228, 64, 42, 0.16);
+  }
+  .template-blueprint {
+    min-height: 110px;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+  .template-count-title {
+    font-size: 22px;
+  }
+  .template-price-hint {
+    color: var(--custom-accent);
+    font-weight: 700;
+  }
+  .slot-card {
+    border-radius: 18px;
+    background: #FAF8F5;
+    border: 1px solid rgba(21, 20, 15, 0.09);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
   }
   .slot-card-inner {
     grid-template-columns: 1fr;
     gap: 16px;
-    padding: 16px;
+    padding: 18px 16px;
   }
   .slot-preview-chamber {
     max-width: 220px;
     margin: 0 auto;
+    border-radius: 14px;
+    background: #FFFFFF;
+    border: 2px dashed rgba(21, 20, 15, 0.16);
+    transition: border-color 0.25s ease;
+  }
+  .slot-preview-chamber:hover,
+  .slot-preview-chamber:focus-within {
+    border-color: var(--custom-accent);
   }
   .size-options-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
+  }
+  .size-btn {
+    border-radius: 12px;
+    padding: 10px 8px;
+    border: 1.5px solid rgba(21, 20, 15, 0.12);
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+  }
+  .size-btn:active {
+    transform: scale(0.97);
+  }
+  .size-btn.active {
+    background: var(--ink);
+    color: #FFFFFF;
+    border-color: var(--ink);
+    box-shadow: 0 4px 14px rgba(21, 20, 15, 0.25);
+  }
+  .size-btn.active .size-price {
+    color: var(--custom-accent);
+    font-weight: 700;
+  }
+  .order-summary-sidebar {
+    border-radius: 20px;
+    background: #FAF8F5;
+    border: 1px solid rgba(21, 20, 15, 0.12);
+    padding: 24px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    position: static;
+    max-width: 100%;
+    margin-top: 24px;
+  }
+  .checkout-btn {
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: var(--custom-accent);
+    color: #FFFFFF;
+    box-shadow: 0 8px 24px rgba(228, 64, 42, 0.3);
+    transition: all 0.2s ease;
+  }
+  .checkout-btn:active {
+    transform: scale(0.98);
   }
 }
 

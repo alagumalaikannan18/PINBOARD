@@ -4,7 +4,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom Posters Studio — Turn Memories into Art — PINBOARD</title>
+  <title>Custom Posters | Create Your Own Wall Art | PINBOARD</title>
+  <meta name="description" content="Design your own custom wall poster sets with personal photo uploads &amp; custom prints at PINBOARD. Printed on 300GSM thick matte stock." />
+  <meta name="keywords" content="custom posters, create custom poster, custom wall art, custom poster print, custom room decor" />
+  <link rel="canonical" href="http://localhost:3000/custom-posters.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Custom Posters | Create Your Own Wall Art | PINBOARD" />
+  <meta property="og:description" content="Design your own custom wall poster sets with personal photo uploads &amp; custom prints at PINBOARD. Printed on 300GSM thick matte stock." />
+  <meta property="og:image" content="http://localhost:3000/poster/opt/1551192.webp" />
+  <meta property="og:url" content="http://localhost:3000/custom-posters.html" />
+  <meta property="og:site_name" content="PINBOARD" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Custom Posters | Create Your Own Wall Art | PINBOARD" />
+  <meta name="twitter:description" content="Design your own custom wall poster sets with personal photo uploads &amp; custom prints at PINBOARD. Printed on 300GSM thick matte stock." />
+  <meta name="twitter:image" content="http://localhost:3000/poster/opt/1551192.webp" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "http://localhost:3000/" },
+      { "@type": "ListItem", "position": 2, "name": "Custom Posters", "item": "http://localhost:3000/custom-posters.html" }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -13,6 +36,12 @@
   <link rel="stylesheet" href="css/style.css?v=9" />
   <link rel="stylesheet" href="css/shop.css?v=1" />
   <link rel="stylesheet" href="css/custom-posters.css?v=1" />
+  <script src="js/seo-optimizer.js"></script>
+  <script>
+    if (typeof PinboardSEO !== 'undefined') {
+      PinboardSEO.injectPageSEO('custom');
+    }
+  </script>
 </head>
 
 <body class="custom-posters-page">
@@ -130,148 +159,172 @@
   <!-- Mobile Menu Drawer -->
   <!-- ========== LUXURY 3D MOBILE & TABLET NAVIGATION OVERLAY ========== -->
   <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
-    <!-- Ambient 3D lighting backdrop -->
     <div class="mob-nav-backdrop-glow" aria-hidden="true"></div>
     
     <div class="mob-nav-container">
-      <!-- Top Utility Header inside Menu -->
+      <!-- Top Header inside Mobile Menu -->
       <div class="mob-nav-top">
-        <span class="mob-nav-tag mono">00 — NAVIGATION ARCHIVE</span>
+        <div class="mob-nav-tag">
+          <span class="tag-dot"></span>
+          <span>PINBOARD MENU</span>
+        </div>
         <button type="button" class="mob-nav-close-btn" id="mobNavCloseBtn" aria-label="Close menu">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </div>
 
-      <!-- Quick Search Bar inside Menu -->
+      <!-- Quick Search Input inside Mobile Menu -->
       <div class="mob-nav-search-wrap">
-        <svg class="mob-nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput" placeholder="Search 151 posters, movies, sports..." autocomplete="off" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput" placeholder="Search posters, movies, sports..." autocomplete="off" />
       </div>
 
-      <div class="mob-nav-content-grid">
-        <!-- LEFT: Primary Navigation Menu Items -->
-        <nav class="mob-nav-links" aria-label="Mobile Navigation">
-          <!-- 01: Shop All -->
-          <div class="mob-nav-item" data-nav-target="shop">
-            <a href="shop.html" class="mob-nav-link" data-preview="shop">
-              <span class="mob-nav-num mono">01</span>
-              <span class="mob-nav-label display">Shop All</span>
-              <span class="mob-nav-badge mono">151 PRINTS</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 02: Collections (Expandable Accordion) -->
-          <div class="mob-nav-item mob-nav-accordion" data-nav-target="collections">
-            <div class="mob-nav-link mob-nav-accordion-header" id="mobNavCollectionsToggle" role="button" tabindex="0" aria-expanded="false" data-preview="collections">
-              <span class="mob-nav-num mono">02</span>
-              <span class="mob-nav-label display">Collections</span>
-              <span class="mob-nav-badge mono">5 THEMES</span>
-              <span class="mob-nav-toggle-icon mono" aria-hidden="true">+</span>
+      <!-- Primary Navigation Links -->
+      <nav class="mob-nav-links" aria-label="Mobile Navigation">
+        <!-- 01: Home -->
+        <div class="mob-nav-item">
+          <a href="index.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="1789812334468.png" onerror="this.onerror=null;this.src='poster/opt/1551192.webp'" alt="Home Showcase" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Home</span>
+                <span class="mob-link-sub">Back to main wall showcase</span>
+              </div>
             </div>
-            
-            <!-- Accordion Sub-Drawer -->
-            <div class="mob-nav-sub-grid" id="mobNavCollectionsDrawer">
-              <a href="movies.html" class="mob-sub-chip" data-category="movies">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Movies</span>
-                <span class="chip-count mono">92</span>
-              </a>
-              <a href="sports.html" class="mob-sub-chip" data-category="sports">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Sports</span>
-                <span class="chip-count mono">27</span>
-              </a>
-              <a href="cars.html" class="mob-sub-chip" data-category="cars">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Supercars</span>
-                <span class="chip-count mono">12</span>
-              </a>
-              <a href="motivation.html" class="mob-sub-chip" data-category="motivation">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Motivation</span>
-                <span class="chip-count mono">15</span>
-              </a>
-              <a href="gaming.html" class="mob-sub-chip" data-category="gaming">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Gaming</span>
-                <span class="chip-count mono">5</span>
-              </a>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STUDIO</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
             </div>
-          </div>
-
-          <!-- 03: Custom Posters -->
-          <div class="mob-nav-item" data-nav-target="custom">
-            <a href="custom-posters.html" class="mob-nav-link" data-preview="custom">
-              <span class="mob-nav-num mono">03</span>
-              <span class="mob-nav-label display">Custom Posters</span>
-              <span class="mob-nav-badge hot mono">STUDIO</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 04: About -->
-          <div class="mob-nav-item" data-nav-target="about">
-            <a href="index.html#about" class="mob-nav-link" data-preview="about">
-              <span class="mob-nav-num mono">04</span>
-              <span class="mob-nav-label display">About Studio</span>
-              <span class="mob-nav-badge mono">300 GSM</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 05: My Account -->
-          <div class="mob-nav-item" data-nav-target="account">
-            <a href="account.html" class="mob-nav-link" data-preview="account">
-              <span class="mob-nav-num mono">05</span>
-              <span class="mob-nav-label display">My Account</span>
-              <span class="mob-nav-badge mono">ORDERS &amp; VIP</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-        </nav>
-
-        <!-- RIGHT: Interactive 3D Visual Poster Preview Stage -->
-        <div class="mob-nav-preview-stage" aria-hidden="true">
-          <div class="mob-preview-card-wrap" id="mobNavPreviewCard">
-            <div class="mob-preview-frame">
-              <img src="New Project 22 [FA6B4A7].webp" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" alt="Featured Collection" id="mobNavPreviewImg" loading="lazy" />
-              <div class="mob-preview-glare"></div>
-            </div>
-            <div class="mob-preview-meta">
-              <span class="mob-preview-tag mono" id="mobNavPreviewTag">NEW DROP · VOL. 04</span>
-              <span class="mob-preview-title display" id="mobNavPreviewTitle">YOUR WALL DESERVES BETTER</span>
-            </div>
-          </div>
+          </a>
         </div>
-      </div>
 
-      <!-- Bottom Status & Guarantee Footer inside Menu -->
+        <!-- 02: Shop All Posters -->
+        <div class="mob-nav-item">
+          <a href="shop.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [DA39B06].png" onerror="this.onerror=null;this.src='1554016.png'" alt="Shop All Posters" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Shop All Posters</span>
+                <span class="mob-link-sub">Explore full 151+ poster catalog</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">151 PRINTS</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 03: Collections -->
+        <div class="mob-nav-item">
+          <a href="index.html#collections" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [7385C6B].png" onerror="this.onerror=null;this.src='cat_movies.jpg'" alt="Collections" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Collections</span>
+                <span class="mob-link-sub">Browse by mood &amp; theme</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">5 THEMES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 04: Community -->
+        <div class="mob-nav-item">
+          <a href="index.html#community" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [626E67C] (1).png" onerror="this.onerror=null;this.src='1554016.webp'" alt="Community" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Community</span>
+                <span class="mob-link-sub">Real walls, real customer stories</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STORIES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 05: Create Your Wall -->
+        <div class="mob-nav-item">
+          <a href="custom-posters.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="images/mob-menu-create.png" onerror="this.onerror=null;this.src='1553031.webp'" alt="Create Your Wall" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Create Your Wall</span>
+                <span class="mob-link-sub">Custom AI &amp; custom photo studio</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">NEW</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 06: View Cart -->
+        <div class="mob-nav-item">
+          <a href="cart.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="images/mob-menu-cart.jpg" onerror="this.onerror=null;this.src='1551192-thumb.webp'" alt="View Cart" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">View Cart</span>
+                <span class="mob-link-sub">Review items &amp; checkout</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">CHECKOUT</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 07: My Account -->
+        <div class="mob-nav-item">
+          <a href="account.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img class="mob-account-avatar-img" src="images/mob-menu-account.jpg" onerror="this.onerror=null;this.src='cat_motivation-thumb.webp'" alt="My Account" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">My Account</span>
+                <span class="mob-link-sub">Orders, profile &amp; address</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">PROFILE</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Bottom Status & Action Footer inside Menu -->
       <div class="mob-nav-bottom">
-        <div class="mob-nav-guarantee mono">
-          <span>🔥 3 POSTERS FOR ₹150</span>
-          <span>·</span>
-          <span>FREE SHIPPING OVER ₹1999</span>
-        </div>
-        <div class="mob-nav-copyright mono">© 2026 PINBOARD · MADE IN INDIA</div>
+        <a href="shop.html" class="mob-nav-bot-action">
+          <i class="fa-solid fa-fire"></i>
+          <span>Offer: Buy Any 3 Posters for ₹150</span>
+        </a>
+        <div class="mob-nav-footer-text">© 2026 PINBOARD · FREE SHIPPING OVER ₹1999</div>
       </div>
     </div>
   </div>
@@ -293,13 +346,13 @@
         <div class="custom-hero-stage" id="customHeroStage">
           <div class="custom-hero-collage">
             <div class="collage-item collage-item-1">
-              <img src="New Project 22 [FA6B4A7].png" alt="Custom Layout Sample 1" />
+              <img src="poster/opt/1551532.webp" alt="Custom Layout Sample 1" />
             </div>
             <div class="collage-item collage-item-2">
-              <img src="New Project 22 [27E5039].png" alt="Custom Layout Sample 2" />
+              <img src="poster/opt/1514232.webp" alt="Custom Layout Sample 2" />
             </div>
             <div class="collage-item collage-item-3">
-              <img src="New Project 22 [029A006].png" alt="Custom Layout Sample 3" />
+              <img src="poster/opt/1513639.webp" alt="Custom Layout Sample 3" />
             </div>
           </div>
           <div class="custom-hero-floating-badge">
@@ -347,7 +400,7 @@
             <span class="template-style-label">Compact Gallery</span>
             <h3 class="template-count-title">5 POSTERS</h3>
             <p class="template-desc">Ideal for bedrooms, desk nooks, and entryway accent walls.</p>
-            <div class="template-price-hint">Starting from ₹1,495</div>
+            <div class="template-price-hint">Starting from ₹80</div>
           </div>
         </div>
 
@@ -381,7 +434,7 @@
             <span class="template-style-label">Salon Wall</span>
             <h3 class="template-count-title">8 POSTERS</h3>
             <p class="template-desc">Balanced staggered arrangement for living rooms &amp; studios.</p>
-            <div class="template-price-hint">Starting from ₹2,390</div>
+            <div class="template-price-hint">Starting from ₹130</div>
           </div>
         </div>
 
@@ -417,7 +470,7 @@
             <span class="template-style-label">Grand Collection</span>
             <h3 class="template-count-title">10 POSTERS</h3>
             <p class="template-desc">Our most popular statement arrangement for expansive feature walls.</p>
-            <div class="template-price-hint">Starting from ₹2,990</div>
+            <div class="template-price-hint">Starting from ₹150</div>
           </div>
         </div>
 
@@ -455,7 +508,7 @@
             <span class="template-style-label">Master Exhibition</span>
             <h3 class="template-count-title">12 POSTERS</h3>
             <p class="template-desc">Complete exhibition experience for large loft walls &amp; galleries.</p>
-            <div class="template-price-hint">Starting from ₹3,590</div>
+            <div class="template-price-hint">Starting from ₹190</div>
           </div>
         </div>
       </div>
@@ -470,7 +523,7 @@
         <div class="custom-step-header">
           <span class="step-num-tag">STEP 02 &amp; 03</span>
           <h2 class="step-title">UPLOAD PHOTOS &amp; SELECT SIZES</h2>
-          <p class="step-desc">Upload your photos below. For <strong>each poster individually</strong>, pick the ideal paper size (A6, A5, A4, or A3). You can replace or adjust sizes at any time.</p>
+          <p class="step-desc">Upload your photos below. For <strong>each poster individually</strong>, pick the ideal paper size (A6 or A4). You can replace or adjust sizes at any time.</p>
         </div>
 
         <div class="upload-slots-container" id="uploadSlotsContainer">
@@ -654,13 +707,19 @@
           <li><a href="index.html#about">Our Story</a></li>
         </ul>
       </div>
-      <div class="foot-col">
+      <div class="foot-col foot-newsletter-col">
         <h4>COMMUNITY</h4>
         <p class="foot-newsletter-sub">Drop your email for secret drops and exhibition restocks.</p>
-        <div class="foot-newsletter-form">
-          <input type="email" placeholder="you@domain.com" />
-          <button type="button">JOIN</button>
-        </div>
+        <form class="foot-newsletter-form" novalidate>
+          <div class="foot-newsletter-input-wrap">
+            <input type="email" class="foot-newsletter-input" placeholder="you@domain.com" aria-label="Email address for secret drops" required autocomplete="email" />
+            <button type="submit" class="foot-join-btn">
+              <span>JOIN</span>
+              <i class="fa-solid fa-arrow-right btn-icon" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="foot-newsletter-msg" aria-live="polite"></div>
+        </form>
       </div>
     </div>
     <div class="foot-bottom">
@@ -675,6 +734,7 @@
   <script type="module" src="js/auth.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/whatsapp-order.js"></script>
   <script src="js/custom-posters.js"></script>
 </body>
 

@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /shop.html
+Allow: /movies.html
+Allow: /cars.html
+Allow: /motivation.html
+Allow: /gaming.html
+Allow: /sports.html
+Allow: /custom-posters.html
+Allow: /product.html
+Disallow: /cart.html
+Disallow: /account.html
+Disallow: /checkout
+Disallow: /api/private/
+
+Sitemap: http://localhost:3000/sitemap.xml

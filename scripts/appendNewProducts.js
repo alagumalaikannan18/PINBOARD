@@ -73,7 +73,7 @@ posterCatalog.forEach((item) => {
       'Heavyweight 300 GSM premium matte art paper',
       'Anti-glare surface ideal for all indoor lighting conditions',
       'Packed flat in reinforced protective packaging with moisture barrier',
-      'Ready to pin, magnetic-hang, or display in standard A3/A2 frames'
+      'Poster format depends on the selected size: A4 posters include a clean white border, split/combo posters are printed without a border, and A6 posters are printed without a border.'
     ],
     specifications: {
       'Size': 'A3 (297 × 420 mm)',

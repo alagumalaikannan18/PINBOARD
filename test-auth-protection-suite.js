@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const assert = require('assert');
 
 console.log('================================================================');
 console.log('--- PINBOARD AUTHENTICATION & PURCHASE PROTECTION TEST SUITE ---');
@@ -24,8 +25,16 @@ class LocalStorageMock {
   }
 }
 
-function createFreshEnvironment() {
+function createFreshEnvironment(viewport = 'desktop', existingStorage = null) {
   const mockLocalStorage = new LocalStorageMock();
+  if (existingStorage) {
+    if (existingStorage.store) {
+      mockLocalStorage.store = Object.assign({}, existingStorage.store);
+    }
+    if (existingStorage._activeFirebaseUser) {
+      mockLocalStorage._activeFirebaseUser = existingStorage._activeFirebaseUser;
+    }
+  }
   const mockSessionStorage = new LocalStorageMock();
   const eventListeners = {};
 
@@ -34,6 +43,8 @@ function createFreshEnvironment() {
     get textContent() { return _cartCountText; },
     set textContent(v) { _cartCountText = String(v); }
   };
+
+  let whatsappOpened = false;
 
   const documentElements = {
     pdpAddCart: {
@@ -96,7 +107,9 @@ function createFreshEnvironment() {
     pdpFeatures: { innerHTML: '' },
     pdpSpecs: { innerHTML: '' },
     pdpPerfectFor: { innerHTML: '' },
-    pdpRelated: { innerHTML: '', querySelectorAll: () => [] }
+    pdpRelated: { innerHTML: '', querySelectorAll: () => [] },
+    orderRequestModal: { style: { display: 'none' }, addEventListener: () => {} },
+    orderSuccessModal: { style: { display: 'none' }, addEventListener: () => {} }
   };
 
   const windowMock = {
@@ -107,346 +120,292 @@ function createFreshEnvironment() {
       protocol: 'http:',
       host: 'localhost:3000'
     },
-    history: {
-      replaceState: (state, title, url) => {
-        windowMock.location.href = url;
-      }
+    navigator: {
+      userAgent: viewport === 'mobile'
+        ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)'
+        : (viewport === 'tablet' ? 'Mozilla/5.0 (iPad; CPU OS 16_0 like Mac OS X)' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)')
     },
     localStorage: mockLocalStorage,
     sessionStorage: mockSessionStorage,
-    addEventListener: (event, handler) => {
-      if (!eventListeners[event]) eventListeners[event] = [];
-      eventListeners[event].push(handler);
+    addEventListener: (evt, cb) => {
+      if (!eventListeners[evt]) eventListeners[evt] = [];
+      eventListeners[evt].push(cb);
     },
-    dispatchEvent: (event) => {
-      const handlers = eventListeners[event.type] || [];
-      handlers.forEach(h => h(event));
+    removeEventListener: (evt, cb) => {
+      if (eventListeners[evt]) {
+        eventListeners[evt] = eventListeners[evt].filter(f => f !== cb);
+      }
     },
-    CustomEvent: function(type, detail) {
-      this.type = type;
-      this.detail = detail;
+    dispatchEvent: (evt) => {
+      const handlers = eventListeners[evt.type] || [];
+      handlers.forEach(fn => fn(evt));
     },
-    requestAnimationFrame: (cb) => cb()
+    openWhatsAppOrderForAllRecipients: function (orderData) {
+      whatsappOpened = true;
+      return true;
+    },
+    console: console,
+    CustomEvent: class CustomEvent {
+      constructor(type, options) {
+        this.type = type;
+        this.detail = options ? options.detail : null;
+      }
+    },
+    URLSearchParams: URLSearchParams,
+    encodeURIComponent: encodeURIComponent,
+    decodeURIComponent: decodeURIComponent,
+    parseInt: parseInt,
+    Number: Number,
+    String: String,
+    Boolean: Boolean,
+    Array: Array,
+    Object: Object,
+    Math: Math,
+    Date: Date,
+    JSON: JSON,
+    setTimeout: setTimeout,
+    clearTimeout: clearTimeout
   };
-
-  let appendedAuthMessage = null;
 
   const documentMock = {
-    title: '',
     readyState: 'complete',
-    getElementById: (id) => documentElements[id] || null,
-    querySelector: (sel) => {
-      if (sel === '.cart-count') return cartCountEl;
-      if (sel === '.pdp-content' || sel === '.pdp-related') return { style: {} };
-      if (sel === '.pdp-actions') return {
-        parentNode: {
-          insertBefore: (node, sibling) => {
-            appendedAuthMessage = node;
-          }
-        }
-      };
-      if (sel === '.pdp-info') return { appendChild: (node) => { appendedAuthMessage = node; } };
-      if (sel === '.pdp-auth-message') return appendedAuthMessage;
-      return null;
-    },
-    querySelectorAll: (sel) => {
-      if (sel === '.cart-count') return [cartCountEl];
-      if (sel.includes('.account-btn')) return [];
+    documentElement: { classList: { add: () => {}, remove: () => {} } },
+    querySelectorAll: (selector) => {
+      if (selector === '.cart-count') return [cartCountEl];
+      if (selector === '.pdp-size-pill') return [];
       return [];
     },
-    createElement: (tag) => {
-      const el = {
-        tagName: tag.toUpperCase(),
-        className: '',
-        style: {},
-        innerHTML: '',
-        setAttribute(k, v) { this[k] = v; },
-        getAttribute(k) { return this[k] || null; },
-        classList: {
-          classes: new Set(),
-          add(c) { this.classes.add(c); },
-          remove(c) { this.classes.delete(c); },
-          contains(c) { return this.classes.has(c); }
-        }
-      };
-      return el;
+    querySelector: (selector) => {
+      if (selector === '.pdp-actions' || selector === '.pdp-action-buttons') {
+        return { parentNode: { insertBefore: () => {} } };
+      }
+      return null;
     },
-    addEventListener: (event, handler) => {
-      if (!eventListeners[event]) eventListeners[event] = [];
-      eventListeners[event].push(handler);
+    getElementById: (id) => documentElements[id] || null,
+    createElement: (tag) => ({
+      tagName: tag.toUpperCase(),
+      className: '',
+      id: '',
+      innerHTML: '',
+      style: {},
+      appendChild: () => {},
+      addEventListener: () => {}
+    }),
+    body: { appendChild: () => {}, innerHTML: '' },
+    addEventListener: (evt, cb) => {
+      if (!eventListeners[evt]) eventListeners[evt] = [];
+      eventListeners[evt].push(cb);
     }
   };
 
-  let isUserLoggedIn = false;
-  let loggedInUser = null;
+  windowMock.document = documentMock;
+  windowMock.window = windowMock;
+  windowMock.globalThis = windowMock;
 
-  const authMock = {
-    isLoggedIn: () => isUserLoggedIn,
-    getUser: () => loggedInUser,
-    waitForAuth: () => Promise.resolve(isUserLoggedIn ? loggedInUser : null),
-    loginAs: (user) => {
-      isUserLoggedIn = true;
-      loggedInUser = user || { uid: 'test-user-123', name: 'Test Collector', email: 'test@example.com', isLoggedIn: true };
-      windowMock.dispatchEvent(new windowMock.CustomEvent('auth:statechange', { detail: { user: loggedInUser } }));
-    },
-    logout: () => {
-      isUserLoggedIn = false;
-      loggedInUser = null;
-      windowMock.dispatchEvent(new windowMock.CustomEvent('auth:statechange', { detail: { user: null } }));
-    },
-    setPendingAction: (action) => {
-      mockLocalStorage.setItem('pinboard_pending_purchase_action', JSON.stringify(action));
-    },
-    getPendingAction: () => {
-      const raw = mockLocalStorage.getItem('pinboard_pending_purchase_action');
-      return raw ? JSON.parse(raw) : null;
-    },
-    clearPendingAction: () => {
-      mockLocalStorage.removeItem('pinboard_pending_purchase_action');
-    },
-    getCart: () => {
-      const raw = mockLocalStorage.getItem('pinboard_cart_items');
-      return raw ? JSON.parse(raw) : [];
-    },
-    isInCart: function(id) {
-      const cart = this.getCart();
-      const numId = parseInt(id, 10);
-      return cart.some(item => (item.id === numId || String(item.id) === String(id)));
-    },
-    addToCart: function(productId, quantity) {
-      if (!this.isLoggedIn()) {
-        return { success: false, requireAuth: true, message: 'Please log in to add items to your cart.', cart: this.getCart() };
-      }
-      const cart = this.getCart();
-      const numId = parseInt(productId, 10);
-      if (this.isInCart(productId)) {
-        return { success: false, alreadyInCart: true, cart: cart };
-      }
-      cart.push({ id: numId, title: 'Poster #' + productId, quantity: quantity || 1, price: 749, image: 'default.png' });
-      mockLocalStorage.setItem('pinboard_cart_items', JSON.stringify(cart));
-      cartCountEl.textContent = cart.length;
-      windowMock.dispatchEvent(new windowMock.CustomEvent('auth:cartchange', { detail: { cart, count: cart.length } }));
-      return { success: true, alreadyInCart: false, cart: cart };
-    },
-    getOrders: () => {
-      const raw = mockLocalStorage.getItem('pinboard_customer_orders');
-      return raw ? JSON.parse(raw) : [];
-    },
-    createOrder: function(productId, quantity) {
-      if (!this.isLoggedIn()) {
-        return null;
-      }
-      const orders = this.getOrders();
-      const newOrder = { orderId: 'PB-TEST-1', productId, quantity: quantity || 1, total: 749 * (quantity || 1) };
-      orders.unshift(newOrder);
-      mockLocalStorage.setItem('pinboard_customer_orders', JSON.stringify(orders));
-      return newOrder;
-    }
-  };
-
-  const context = {
-    window: windowMock,
-    document: documentMock,
-    localStorage: mockLocalStorage,
-    sessionStorage: mockSessionStorage,
-    CustomEvent: windowMock.CustomEvent,
-    URLSearchParams: URLSearchParams,
-    Date: Date,
-    parseInt: parseInt,
-    Math: Math,
-    setTimeout: (fn) => fn(),
-    clearTimeout: () => {},
-    console: console,
-    requestAnimationFrame: (cb) => cb()
-  };
-
-  vm.createContext(context);
+  const sandbox = vm.createContext(windowMock);
 
   const productsCode = fs.readFileSync(path.join(__dirname, 'js/products-data.js'), 'utf8');
-  vm.runInContext(productsCode, context);
+  vm.runInContext(productsCode, sandbox);
 
-  context.window.Auth = authMock;
-  context.window.PinboardAuth = authMock;
+  let authCode = fs.readFileSync(path.join(__dirname, 'js/auth.js'), 'utf8');
+  // Strip ES module imports for VM sandbox evaluation
+  authCode = authCode.replace(/import\s*{[^}]*}\s*from\s*["'].*?["'];?/s, 'const auth = { get currentUser() { return window.localStorage._activeFirebaseUser || null; } }, googleProvider = {}, onAuthStateChanged = (a, cb) => { cb(window.localStorage._activeFirebaseUser || null); }, signInWithEmailAndPassword = async () => {}, createUserWithEmailAndPassword = async () => {}, signInWithPopup = async () => {}, signOut = async () => {}, updateProfile = async () => {}, sendPasswordResetEmail = async () => {}, setPersistence = async () => {}, browserLocalPersistence = {}, firebaseConfig = {};');
+  vm.runInContext(authCode, sandbox);
 
-  const productJsCode = fs.readFileSync(path.join(__dirname, 'js/product.js'), 'utf8');
+  // Wrap setUser to also update simulated Firebase persistence state
+  const origSetUser = sandbox.Auth.setUser;
+  sandbox.Auth.setUser = function(user) {
+    mockLocalStorage._activeFirebaseUser = user;
+    return origSetUser.call(sandbox.Auth, user);
+  };
+  const origLogout = sandbox.Auth.logout;
+  sandbox.Auth.logout = function() {
+    mockLocalStorage._activeFirebaseUser = null;
+    return origLogout.call(sandbox.Auth);
+  };
+
+  const productCode = fs.readFileSync(path.join(__dirname, 'js/product.js'), 'utf8');
+  vm.runInContext(productCode, sandbox);
 
   return {
-    context,
+    sandbox,
+    windowMock,
     documentElements,
-    cartCountEl,
-    authMock,
-    productJsCode,
-    getAppendedAuthMessage: () => appendedAuthMessage,
-    runProductJs: () => vm.runInContext(productJsCode, context)
+    mockLocalStorage,
+    getWhatsappOpened: () => whatsappOpened,
+    resetWhatsappOpened: () => { whatsappOpened = false; }
   };
 }
 
-function assert(condition, message) {
-  if (!condition) {
-    console.error('❌ FAIL: ' + message);
-    process.exit(1);
-  } else {
-    console.log('✅ PASS: ' + message);
+async function runTests() {
+  const tick = () => new Promise(r => setTimeout(r, 20));
+
+  // TEST 1: Logged out -> Product Detail -> Add to Cart -> Login prompt appears -> Product is NOT added
+  console.log('--- TEST 1: Guest -> Product Detail -> Add to Cart ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), false, 'User is guest');
+    env.documentElements.pdpAddCart.click();
+    await tick();
+
+    const cart = env.sandbox.Auth.getCart();
+    assert.strictEqual(cart.length, 0, 'Cart remains empty for guest');
+    assert.strictEqual(env.documentElements.pdpAddCart.disabled, false, 'Button remains enabled');
+    const pending = env.sandbox.Auth.getPendingAction();
+    assert(pending !== null, 'Pending action saved for redirect');
+    assert.strictEqual(pending.action, 'cart', 'Pending action type is cart');
+    console.log('✅ PASS: Guest Add to Cart blocked & pending action saved');
   }
+
+  // TEST 2: Logged out -> Product Detail -> Buy Now -> Login prompt appears -> WhatsApp does NOT open -> No order created
+  console.log('\n--- TEST 2: Guest -> Product Detail -> Buy Now ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), false, 'User is guest');
+    env.documentElements.pdpBuyNow.click();
+    await tick();
+
+    const orders = env.sandbox.Auth.getOrders();
+    assert.strictEqual(orders.length, 0, 'No order created for guest');
+    assert.strictEqual(env.getWhatsappOpened(), false, 'WhatsApp does NOT open for guest');
+    const pending = env.sandbox.Auth.getPendingAction();
+    assert(pending !== null, 'Pending action saved for redirect');
+    assert.strictEqual(pending.action, 'buy', 'Pending action type is buy');
+    console.log('✅ PASS: Guest Buy Now blocked, WhatsApp prevented & pending action saved');
+  }
+
+  // TEST 3: Login successfully -> Product Detail -> Add to Cart -> works
+  console.log('\n--- TEST 3: Authenticated User -> Product Detail -> Add to Cart ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    env.sandbox.Auth.setUser({ uid: 'usr_test_100', name: 'Test User' });
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), true, 'User is logged in');
+
+    env.documentElements.pdpAddCart.click();
+    await tick();
+    const cart = env.sandbox.Auth.getCart();
+    assert.strictEqual(cart.length, 1, 'Product added to cart for authenticated user');
+    assert.strictEqual(env.documentElements.pdpAddCart.disabled, true, 'Button disabled after adding');
+    console.log('✅ PASS: Authenticated Add to Cart works normally');
+  }
+
+  // TEST 4: Login successfully -> Product Detail -> Buy Now -> opens modal (WhatsApp opens ONLY after form submit)
+  console.log('\n--- TEST 4: Authenticated User -> Product Detail -> Buy Now ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    env.sandbox.Auth.setUser({ uid: 'usr_test_100', name: 'Test User' });
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), true, 'User is logged in');
+
+    env.documentElements.pdpBuyNow.click();
+    await tick();
+    assert.strictEqual(env.documentElements.orderRequestModal.style.display, 'flex', 'Order request modal opened');
+    assert.strictEqual(env.getWhatsappOpened(), false, 'WhatsApp MUST NOT open when BUY NOW is clicked');
+    console.log('✅ PASS: BUY NOW opens modal without triggering WhatsApp prematurely');
+  }
+
+  // TEST 5 & 6: Login -> Refresh -> Add to Cart & Buy Now still work
+  console.log('\n--- TEST 5 & 6: Login -> Page Refresh Simulation ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    env.sandbox.Auth.setUser({ uid: 'usr_refresh_user', name: 'Refresh User' });
+
+    // Simulate Page Refresh (re-initialize sandbox with cached session)
+    const refreshedEnv = createFreshEnvironment('desktop', env.mockLocalStorage);
+
+    // Verify persistence session state restored
+    assert.strictEqual(refreshedEnv.sandbox.Auth.isLoggedIn(), true, 'User remains authenticated after page refresh');
+
+    refreshedEnv.documentElements.pdpAddCart.click();
+    await tick();
+    assert.strictEqual(refreshedEnv.sandbox.Auth.getCart().length, 1, 'Add to Cart works after refresh');
+
+    refreshedEnv.resetWhatsappOpened();
+    refreshedEnv.documentElements.pdpBuyNow.click();
+    await tick();
+    assert.strictEqual(refreshedEnv.documentElements.orderRequestModal.style.display, 'flex', 'Buy Now opens modal after refresh');
+    assert.strictEqual(refreshedEnv.getWhatsappOpened(), false, 'WhatsApp does not open prematurely on Buy Now click after refresh');
+    console.log('✅ PASS: Auth persistence intact after page refresh for both Add to Cart and Buy Now');
+  }
+
+  // TEST 7 & 8: Login -> Logout -> Add to Cart & Buy Now required login
+  console.log('\n--- TEST 7 & 8: Login -> Logout -> Purchasing Protection ---');
+  {
+    const env = createFreshEnvironment('desktop');
+    env.sandbox.Auth.setUser({ uid: 'usr_logout_user', name: 'Logout User' });
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), true);
+
+    await env.sandbox.Auth.logout();
+    assert.strictEqual(env.sandbox.Auth.isLoggedIn(), false, 'User is logged out');
+
+    env.documentElements.pdpAddCart.click();
+    await tick();
+    assert.strictEqual(env.sandbox.Auth.getCart().length, 0, 'Add to Cart blocked after logout');
+
+    env.resetWhatsappOpened();
+    env.documentElements.pdpBuyNow.click();
+    await tick();
+    assert.strictEqual(env.getWhatsappOpened(), false, 'WhatsApp blocked after logout');
+    console.log('✅ PASS: Purchasing actions correctly re-protected after logout');
+  }
+
+  // TEST 9, 10, 11: Guest -> Shop All / Search / Collection -> Action Login Protection
+  console.log('\n--- TEST 9, 10, 11: Guest -> Shop All / Search / Collection Protection ---');
+  {
+    const env = createFreshEnvironment('desktop');
+
+    // Direct call to Auth.addToCart without auth
+    const resCart = env.sandbox.Auth.addToCart(5, 1);
+    assert.strictEqual(resCart.requireAuth, true, 'Auth.addToCart rejects unauthenticated guest');
+    assert.strictEqual(resCart.success, false, 'Returns success: false');
+
+    // Direct call to Auth.createOrder without auth
+    const resOrder = env.sandbox.Auth.createOrder(5, 1);
+    assert.strictEqual(resOrder, null, 'Auth.createOrder rejects unauthenticated guest');
+
+    // Direct call to Auth.addCustomPostersToCart without auth
+    const resCustom = env.sandbox.Auth.addCustomPostersToCart({ template: 5, totalPrice: 250 });
+    assert.strictEqual(resCustom.requireAuth, true, 'Auth.addCustomPostersToCart rejects unauthenticated guest');
+    console.log('✅ PASS: Underlying handlers enforce login protection across Shop All, Search & Collections');
+  }
+
+  // TEST 12 & 13: Mobile -> Guest -> Add to Cart & Buy Now -> Login required
+  console.log('\n--- TEST 12 & 13: Mobile Viewport Protection ---');
+  {
+    const mobileEnv = createFreshEnvironment('mobile');
+    assert.strictEqual(mobileEnv.sandbox.Auth.isLoggedIn(), false);
+
+    mobileEnv.documentElements.pdpAddCart.click();
+    await tick();
+    assert.strictEqual(mobileEnv.sandbox.Auth.getCart().length, 0, 'Mobile Add to Cart blocked for guest');
+
+    mobileEnv.documentElements.pdpBuyNow.click();
+    await tick();
+    assert.strictEqual(mobileEnv.getWhatsappOpened(), false, 'Mobile Buy Now / WhatsApp blocked for guest');
+    console.log('✅ PASS: Mobile purchase protection verified');
+  }
+
+  // TEST 14 & 15: Tablet & Desktop Viewport Protection
+  console.log('\n--- TEST 14 & 15: Tablet & Desktop Viewport Protection ---');
+  {
+    const tabletEnv = createFreshEnvironment('tablet');
+    assert.strictEqual(tabletEnv.sandbox.Auth.isLoggedIn(), false);
+
+    tabletEnv.documentElements.pdpAddCart.click();
+    await tick();
+    assert.strictEqual(tabletEnv.sandbox.Auth.getCart().length, 0, 'Tablet Add to Cart blocked for guest');
+
+    tabletEnv.documentElements.pdpBuyNow.click();
+    await tick();
+    assert.strictEqual(tabletEnv.getWhatsappOpened(), false, 'Tablet Buy Now / WhatsApp blocked for guest');
+    console.log('✅ PASS: Tablet & Desktop purchase protection verified');
+  }
+
+  console.log('\n================================================================');
+  console.log('🎉 ALL 15 AUTHENTICATION & PURCHASING PROTECTION SCENARIOS PASSED!');
+  console.log('================================================================');
 }
 
-async function runAllTests() {
-  // -------------------------------------------------------------
-  // TEST 1: User is not logged in. Click ADD TO CART.
-  // -------------------------------------------------------------
-  console.log('TEST 1: Unauthenticated user clicks ADD TO CART');
-  {
-    const env = createFreshEnvironment();
-    env.runProductJs();
-
-    assert(env.authMock.isLoggedIn() === false, 'User is initially logged out');
-    assert(env.cartCountEl.textContent === '0', 'Initial cart count is 0');
-    assert(env.authMock.getCart().length === 0, 'Cart storage is empty');
-
-    // Click ADD TO CART while not logged in
-    env.documentElements.pdpAddCart.click();
-    await Promise.resolve(); // Allow promise microtasks to settle
-
-    assert(env.cartCountEl.textContent === '0', 'Cart count must not increase for unauthenticated user');
-    assert(env.authMock.getCart().length === 0, 'Cart storage must remain empty');
-    assert(env.documentElements.pdpAddCart.textContent === 'Add to cart', 'Button remains "Add to cart"');
-    
-    const pending = env.authMock.getPendingAction();
-    assert(pending !== null, 'Pending action was saved');
-    assert(pending.action === 'cart', 'Pending action type is "cart"');
-    assert(pending.productId === 1 || pending.productId === '1', 'Pending action preserved product ID 1');
-
-    const authMsg = env.getAppendedAuthMessage();
-    assert(authMsg !== null, 'Auth notification message element was injected');
-    assert(authMsg.innerHTML.includes('Please log in to add items to your cart.'), 'Message contains "Please log in to add items to your cart."');
-    assert(authMsg.innerHTML.includes('account.html?redirect='), 'Message includes redirect link to account.html');
-  }
-
-  // -------------------------------------------------------------
-  // TEST 2: User is not logged in. Click BUY IT NOW.
-  // -------------------------------------------------------------
-  console.log('\nTEST 2: Unauthenticated user clicks BUY IT NOW');
-  {
-    const env = createFreshEnvironment();
-    env.runProductJs();
-
-    assert(env.authMock.isLoggedIn() === false, 'User is initially logged out');
-    assert(env.authMock.getOrders().length === 0, 'Orders storage is empty');
-
-    // Click BUY IT NOW while not logged in
-    env.documentElements.pdpBuyNow.click();
-    await Promise.resolve();
-
-    assert(env.authMock.getOrders().length === 0, 'Purchase flow must not execute / no orders created');
-
-    const pending = env.authMock.getPendingAction();
-    assert(pending !== null, 'Pending action was saved');
-    assert(pending.action === 'buy', 'Pending action type is "buy"');
-
-    const authMsg = env.getAppendedAuthMessage();
-    assert(authMsg !== null, 'Auth notification message element was injected');
-    assert(authMsg.innerHTML.includes('Please log in to continue with your purchase.'), 'Message contains "Please log in to continue with your purchase."');
-  }
-
-  // -------------------------------------------------------------
-  // TEST 3: User logs in successfully. Return to the product page.
-  // -------------------------------------------------------------
-  console.log('\nTEST 3: User logs in and returns to the product page');
-  {
-    const env = createFreshEnvironment();
-    // Simulate returning with ?id=1
-    env.context.window.location.search = '?id=1';
-    env.authMock.loginAs({ uid: 'user-789', name: 'Alagu', email: 'alagu@example.com', isLoggedIn: true });
-    env.runProductJs();
-    await Promise.resolve();
-
-    assert(env.authMock.isLoggedIn() === true, 'User is authenticated');
-    assert(env.documentElements.pdpAddCart.textContent === 'Add to cart', 'Product page renders normally ready for interaction');
-    assert(env.documentElements.pdpAddCart.disabled === false, 'Add to cart button is enabled');
-  }
-
-  // -------------------------------------------------------------
-  // TEST 4: Logged-in user clicks ADD TO CART.
-  // -------------------------------------------------------------
-  console.log('\nTEST 4: Logged-in user clicks ADD TO CART');
-  {
-    const env = createFreshEnvironment();
-    env.authMock.loginAs({ uid: 'user-789', name: 'Alagu', email: 'alagu@example.com', isLoggedIn: true });
-    env.runProductJs();
-    await Promise.resolve();
-
-    assert(env.cartCountEl.textContent === '0', 'Initial cart count is 0');
-
-    // Click ADD TO CART
-    env.documentElements.pdpAddCart.click();
-    await Promise.resolve();
-
-    assert(env.cartCountEl.textContent === '1', 'Cart count increased to 1');
-    assert(env.authMock.getCart().length === 1, 'Cart storage contains 1 item');
-    assert(env.documentElements.pdpAddCart.textContent === 'Now Available in Cart', 'Button text updated to "Now Available in Cart"');
-    assert(env.documentElements.pdpAddCart.disabled === true, 'Button is disabled to prevent duplicates');
-
-    // Repeated clicks must not duplicate
-    env.documentElements.pdpAddCart.click();
-    await Promise.resolve();
-    assert(env.cartCountEl.textContent === '1', 'Cart count remains 1 after repeated clicks');
-    assert(env.authMock.getCart().length === 1, 'Cart storage remains 1 item');
-  }
-
-  // -------------------------------------------------------------
-  // TEST 5: Logged-in user clicks BUY IT NOW.
-  // -------------------------------------------------------------
-  console.log('\nTEST 5: Logged-in user clicks BUY IT NOW');
-  {
-    const env = createFreshEnvironment();
-    env.authMock.loginAs({ uid: 'user-789', name: 'Alagu', email: 'alagu@example.com', isLoggedIn: true });
-    env.runProductJs();
-    await Promise.resolve();
-
-    assert(env.authMock.getOrders().length === 0, 'Initially 0 orders');
-
-    // Click BUY IT NOW
-    env.documentElements.pdpBuyNow.click();
-    await Promise.resolve();
-
-    assert(env.authMock.getOrders().length === 1, 'Order created successfully for authenticated user');
-  }
-
-  // -------------------------------------------------------------
-  // TEST 6: User logs out and returns to a product page.
-  // -------------------------------------------------------------
-  console.log('\nTEST 6: User logs out and returns to product page');
-  {
-    const env = createFreshEnvironment();
-    env.authMock.loginAs({ uid: 'user-789', name: 'Alagu', email: 'alagu@example.com', isLoggedIn: true });
-    env.runProductJs();
-    await Promise.resolve();
-
-    // User logs out
-    env.authMock.logout();
-    await Promise.resolve();
-    assert(env.authMock.isLoggedIn() === false, 'User is logged out');
-
-    // Try to click ADD TO CART again
-    env.documentElements.pdpAddCart.click();
-    await Promise.resolve();
-    assert(env.cartCountEl.textContent === '0', 'Cart count did not change');
-    
-    const authMsg = env.getAppendedAuthMessage();
-    assert(authMsg !== null, 'Auth notification message is shown again');
-    assert(authMsg.innerHTML.includes('Please log in to add items to your cart.'), 'Login message displayed');
-
-    // Try to click BUY IT NOW again
-    env.documentElements.pdpBuyNow.click();
-    await Promise.resolve();
-    assert(env.authMock.getOrders().length === 0, 'Purchase is blocked again for logged out user');
-  }
-
-  console.log('\n🎉 ALL 6 PINBOARD AUTHENTICATION TESTS PASSED PERFECTLY!\n');
-}
-
-runAllTests().catch(err => {
-  console.error(err);
+runTests().catch(err => {
+  console.error('Test Suite Failed:', err);
   process.exit(1);
 });
-

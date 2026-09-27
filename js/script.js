@@ -2,22 +2,269 @@
 // PINBOARD — Main JavaScript
 // =============================================
 
-// ---------- HAMBURGER MENU ----------
-const hamburger = document.getElementById('hamburger');
-const mobileOverlay = document.getElementById('mobileOverlay');
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  mobileOverlay.classList.toggle('open');
-  document.body.style.overflow = mobileOverlay.classList.contains('open') ? 'hidden' : '';
-});
-// Close overlay when a link is clicked
-mobileOverlay.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
+// ---------- HAMBURGER MENU & MOBILE NAVIGATION ----------
+(function() {
+  const hamburger = document.getElementById('hamburger');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const mobNavCloseBtn = document.getElementById('mobNavCloseBtn');
+  if (!hamburger || !mobileOverlay) return;
+
+  function openMobileMenu() {
+    hamburger.classList.add('active');
+    mobileOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const closeBtn = document.getElementById('mobNavCloseBtn');
+    if (closeBtn) closeBtn.focus();
+  }
+
+  function closeMobileMenu() {
     hamburger.classList.remove('active');
     mobileOverlay.classList.remove('open');
     document.body.style.overflow = '';
+    if (hamburger) hamburger.focus();
+  }
+
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (mobileOverlay.classList.contains('open')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
   });
-});
+
+  if (mobNavCloseBtn) {
+    mobNavCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileMenu();
+    });
+  }
+
+  // Close overlay on backdrop click
+  mobileOverlay.addEventListener('click', (e) => {
+    if (e.target === mobileOverlay || (e.target && e.target.classList && e.target.classList.contains('mob-nav-backdrop-glow'))) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close overlay on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileOverlay.classList.contains('open')) {
+      closeMobileMenu();
+    }
+  });
+
+  // Handle link clicks inside mobile overlay
+  mobileOverlay.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link && !link.classList.contains('mob-nav-close-btn') && link.id !== 'mobNavCloseBtn') {
+      closeMobileMenu();
+    }
+  });
+
+  // Mobile nav search input filter, live catalog search, & submit
+  const mobNavSearchInput = document.getElementById('mobNavSearchInput');
+  if (mobNavSearchInput && mobileOverlay) {
+    const searchWrap = mobNavSearchInput.closest('.mob-nav-search-wrap') || mobNavSearchInput.parentElement;
+
+    // 1. Create or get Clear (X) button inside search wrap
+    let clearBtn = searchWrap.querySelector('.mob-search-clear-btn');
+    if (!clearBtn) {
+      clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.className = 'mob-search-clear-btn';
+      clearBtn.setAttribute('aria-label', 'Clear search');
+      clearBtn.innerHTML = '&times;';
+      clearBtn.style.display = 'none';
+      searchWrap.appendChild(clearBtn);
+    }
+
+    // 2. Create or get Mobile Search Results Container
+    let mobSearchResults = mobileOverlay.querySelector('.mob-nav-search-results');
+    if (!mobSearchResults) {
+      mobSearchResults = document.createElement('div');
+      mobSearchResults.className = 'mob-nav-search-results';
+      mobSearchResults.id = 'mobNavSearchResults';
+      mobSearchResults.style.display = 'none';
+      const navLinks = mobileOverlay.querySelector('.mob-nav-links');
+      if (navLinks && navLinks.parentNode) {
+        navLinks.parentNode.insertBefore(mobSearchResults, navLinks.nextSibling);
+      } else {
+        const container = mobileOverlay.querySelector('.mob-nav-container');
+        if (container) container.appendChild(mobSearchResults);
+      }
+    }
+
+    const navLinks = mobileOverlay.querySelector('.mob-nav-links');
+
+    function resetMobileMenuSearch() {
+      mobNavSearchInput.value = '';
+      clearBtn.style.display = 'none';
+      mobSearchResults.innerHTML = '';
+      mobSearchResults.style.display = 'none';
+      if (navLinks) navLinks.style.display = '';
+      const items = mobileOverlay.querySelectorAll('.mob-nav-item');
+      items.forEach(item => { item.style.display = ''; });
+    }
+
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetMobileMenuSearch();
+      mobNavSearchInput.focus();
+    });
+
+    const mobCloseBtn = document.getElementById('mobNavCloseBtn');
+    if (mobCloseBtn) {
+      mobCloseBtn.addEventListener('click', resetMobileMenuSearch);
+    }
+
+    mobNavSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const query = mobNavSearchInput.value.trim();
+        if (query) {
+          closeMobileMenu();
+          window.location.href = 'shop.html?search=' + encodeURIComponent(query);
+        }
+      }
+    });
+
+    function escapeHtmlHelper(str) {
+      return String(str || '').replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+      });
+    }
+
+    function highlightMatchHelper(text, query) {
+      if (!text) return '';
+      const cleanText = String(text).replace(/&amp;/g, '&');
+      if (!query) return escapeHtmlHelper(cleanText);
+      const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp('(' + escapedQuery + ')', 'gi');
+      return escapeHtmlHelper(cleanText).replace(regex, '<mark>$1</mark>');
+    }
+
+    function performMobileSearch() {
+      const query = mobNavSearchInput.value.trim();
+      const cleanQuery = query.toLowerCase();
+
+      if (!query) {
+        resetMobileMenuSearch();
+        return;
+      }
+
+      clearBtn.style.display = 'flex';
+
+      // Hide normal navigation cards
+      if (navLinks) navLinks.style.display = 'none';
+
+      // Execute search across catalog
+      const searchEngine = (window.PinboardSearch && typeof window.PinboardSearch.search === 'function')
+        ? window.PinboardSearch
+        : (window.PinboardRouter && window.PinboardRouter.searchEngine ? window.PinboardRouter.searchEngine : null);
+
+      let results = [];
+      if (searchEngine) {
+        results = searchEngine.search(query);
+      } else if (window.PINBOARD_PRODUCTS && Array.isArray(window.PINBOARD_PRODUCTS)) {
+        results = window.PINBOARD_PRODUCTS.filter(p => {
+          const str = ((p.title || '') + ' ' + (p.subtitle || '') + ' ' + (p.category || '') + ' ' + (p.collection || '') + ' ' + (p.keywords || '') + ' ' + (Array.isArray(p.tags) ? p.tags.join(' ') : '')).toLowerCase();
+          return str.includes(cleanQuery);
+        });
+      }
+
+      mobSearchResults.style.display = 'block';
+
+      if (results.length === 0) {
+        mobSearchResults.innerHTML =
+          '<div class="mob-search-empty">' +
+            '<div class="mob-search-empty-icon">🔍</div>' +
+            '<div class="mob-search-empty-title">No posters found for "<strong>' + escapeHtmlHelper(query) + '</strong>"</div>' +
+            '<p class="mob-search-empty-sub">Try searching by player (e.g. Messi), superhero (Spider-Man), movie, or collection.</p>' +
+            '<button type="button" class="mob-search-empty-clear-btn" id="mobSearchEmptyClearBtn">Clear Search</button>' +
+          '</div>';
+
+        const emptyClearBtn = mobSearchResults.querySelector('#mobSearchEmptyClearBtn');
+        if (emptyClearBtn) {
+          emptyClearBtn.addEventListener('click', () => {
+            resetMobileMenuSearch();
+            mobNavSearchInput.focus();
+          });
+        }
+        return;
+      }
+
+      // Render compact search results
+      let html =
+        '<div class="mob-search-head mono">' +
+          '<span>' + results.length + ' POSTER' + (results.length === 1 ? '' : 'S') + ' FOUND</span>' +
+          '<button type="button" class="mob-search-head-clear" id="mobSearchHeadClear">Clear</button>' +
+        '</div>' +
+        '<div class="mob-search-list">';
+
+      results.slice(0, 8).forEach((p) => {
+        const price = p.salePrice || p.regularPrice || 60;
+        const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
+        const pUrl = (window.PinboardRouter && typeof window.PinboardRouter.getProductUrl === 'function')
+          ? window.PinboardRouter.getProductUrl(p)
+          : ('product.html?id=' + p.id);
+
+        html +=
+          '<a href="' + pUrl + '" class="mob-search-item" data-product-id="' + p.id + '">' +
+            '<div class="mob-search-item-img">' +
+              '<img src="' + img + '" alt="' + escapeHtmlHelper(p.title) + '" loading="lazy" />' +
+            '</div>' +
+            '<div class="mob-search-item-info">' +
+              '<div class="mob-search-item-title">' + highlightMatchHelper(p.title, query) + '</div>' +
+              '<div class="mob-search-item-meta mono">' + escapeHtmlHelper(p.category || 'Poster') + ' · ₹' + price.toLocaleString() + '</div>' +
+            '</div>' +
+            '<div class="mob-search-item-arrow">→</div>' +
+          '</a>';
+      });
+
+      html += '</div>';
+
+      if (results.length > 0) {
+        html +=
+          '<div class="mob-search-footer">' +
+            '<a href="shop.html?search=' + encodeURIComponent(query) + '" class="mob-search-view-all-btn" id="mobSearchViewAllBtn">' +
+              'View all ' + results.length + ' poster' + (results.length === 1 ? '' : 's') + ' in Shop →' +
+            '</a>' +
+          '</div>';
+      }
+
+      mobSearchResults.innerHTML = html;
+
+      // Event handlers inside search results
+      const headClear = mobSearchResults.querySelector('#mobSearchHeadClear');
+      if (headClear) {
+        headClear.addEventListener('click', (e) => {
+          e.stopPropagation();
+          resetMobileMenuSearch();
+          mobNavSearchInput.focus();
+        });
+      }
+
+      const viewAllBtn = mobSearchResults.querySelector('#mobSearchViewAllBtn');
+      if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', () => {
+          closeMobileMenu();
+        });
+      }
+
+      mobSearchResults.querySelectorAll('.mob-search-item').forEach(link => {
+        link.addEventListener('click', () => {
+          closeMobileMenu();
+        });
+      });
+    }
+
+    let mobSearchDebounceTimer;
+    mobNavSearchInput.addEventListener('input', () => {
+      clearTimeout(mobSearchDebounceTimer);
+      mobSearchDebounceTimer = setTimeout(performMobileSearch, 180);
+    });
+  }
+})();
 
 // ---------- NAVBAR SEARCH & LIVE SEARCH DROPDOWN ----------
 (function() {
@@ -106,7 +353,7 @@ mobileOverlay.querySelectorAll('a').forEach(link => {
 
     currentResults.slice(0, 6).forEach((p, idx) => {
       const price = p.salePrice || p.regularPrice || 60;
-      const img = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
+      const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
       html += 
         '<div class="search-result-item" data-product-id="' + p.id + '" data-index="' + idx + '" tabindex="0" role="option">' +
           '<div class="search-result-img">' +
@@ -248,7 +495,7 @@ mobileOverlay.querySelectorAll('a').forEach(link => {
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
       renderDropdown(navSearchInput.value);
-    }, 40);
+    }, 180);
   });
 
   // Keyboard navigation inside search input
@@ -347,7 +594,7 @@ function filterShopBySearch(query) {
     results.forEach(p => {
       const badgeHtml = p.badge ? '<div class="badge">' + p.badge + '</div>' : '';
       const price = p.salePrice || p.regularPrice || 60;
-      const img = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
+      const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
       cardsHtml +=
         '<div class="product" data-product-id="' + p.id + '" style="cursor: pointer;" tabindex="0" role="link">' +
           '<div class="product-tape"></div>' +
@@ -640,12 +887,16 @@ window.restoreDefaultShop = restoreDefaultShop;
     var diffY = clientY - pointerStartY;
 
     if (!isHorizontalDrag) {
-      if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (Math.abs(diffX) > 12 && Math.abs(diffX) > Math.abs(diffY)) {
         isHorizontalDrag = true;
+      } else if (Math.abs(diffY) > 8 && Math.abs(diffY) >= Math.abs(diffX)) {
+        // Vertical swipe detected -> release pointer drag so native page vertical scrolling is 100% fluid
+        isPointerInteracting = false;
+        return;
       }
     }
 
-    if (isHorizontalDrag) {
+    if (isHorizontalDrag && Math.abs(diffX) > 12) {
       wasCollectionDragged = true;
       var currentOffset = startSlideOffset - diffX;
       var cards = getCards();
@@ -743,9 +994,33 @@ window.restoreDefaultShop = restoreDefaultShop;
     }, 100);
   });
 
+  // Route detection for /collections page to mirror exact reference structure
+  function updateCollectionsPageLayout() {
+    var path = window.location.pathname.toLowerCase();
+    var hash = window.location.hash.toLowerCase();
+    var isCollections = (
+      path === '/collections' ||
+      path.endsWith('/collections') ||
+      path.endsWith('/collections.html') ||
+      hash === '#collections'
+    );
+    if (isCollections) {
+      document.body.classList.add('is-collections-page');
+    } else {
+      document.body.classList.remove('is-collections-page');
+    }
+  }
+
+  updateCollectionsPageLayout();
+  window.addEventListener('popstate', updateCollectionsPageLayout);
+  window.addEventListener('hashchange', updateCollectionsPageLayout);
+
   // Initial sizing and state
   updateCarousel();
-  window.addEventListener('load', updateCarousel);
+  window.addEventListener('load', function() {
+    updateCollectionsPageLayout();
+    updateCarousel();
+  });
 })();
 
 // ---------- COLLECTIONS CATEGORY OVERLAY & NAVIGATION ----------
@@ -791,18 +1066,23 @@ window.toggleCollectionOverlay = toggleCollectionOverlay;
   var allLinks = document.querySelectorAll('nav a, .mobile-overlay a, footer a, .hero-cta button, .hero-cta a');
   allLinks.forEach(function(link) {
     var text = link.textContent.trim().toLowerCase();
-    if (text === 'collections' || text === 'view collections') {
+    var href = (link.getAttribute('href') || '').toLowerCase();
+    if (text === 'collections' || text === 'view collections' || href.indexOf('#collections') !== -1 || (href.indexOf('collections') !== -1 && href.indexOf('movies') === -1 && href.indexOf('cars') === -1)) {
       // Collections trigger -> toggle/open overlay
       link.addEventListener('click', function(e) {
-        if (e && e.preventDefault) e.preventDefault();
         // Close mobile overlay if open
         var mobileOverlay = document.getElementById('mobileOverlay');
         var hamburger = document.getElementById('hamburger');
         if (mobileOverlay && mobileOverlay.classList.contains('open')) {
           mobileOverlay.classList.remove('open');
           if (hamburger) hamburger.classList.remove('active');
+          document.body.style.overflow = '';
         }
-        toggleCollectionOverlay();
+        var catOverlay = document.getElementById('catOverlay');
+        if (catOverlay) {
+          if (e && e.preventDefault) e.preventDefault();
+          toggleCollectionOverlay();
+        }
       });
     } else {
       // All other nav links (Shop All, Frames, About, etc.) -> close overlay first
@@ -924,4 +1204,139 @@ window.toggleCollectionOverlay = toggleCollectionOverlay;
       }
     });
   });
+})();
+
+// =============================================
+// PINBOARD — Community Newsletter & JOIN Form Engine
+// =============================================
+(function initPinboardNewsletter() {
+  function setupNewsletterForms() {
+    var forms = document.querySelectorAll('.foot-newsletter-form');
+    if (!forms || forms.length === 0) return;
+
+    forms.forEach(function (form) {
+      if (form.dataset.subscribedBound === 'true') return;
+      form.dataset.subscribedBound = 'true';
+
+      var input = form.querySelector('input[type="email"]') || form.querySelector('input');
+      var btn = form.querySelector('button[type="submit"]') || form.querySelector('button');
+      var msgBox = form.querySelector('.foot-newsletter-msg');
+
+      if (!msgBox) {
+        msgBox = document.createElement('div');
+        msgBox.className = 'foot-newsletter-msg';
+        form.appendChild(msgBox);
+      }
+
+      function showError(text) {
+        msgBox.className = 'foot-newsletter-msg is-error';
+        msgBox.textContent = text;
+        msgBox.style.display = 'block';
+        if (input) {
+          input.focus();
+          input.classList.add('has-error');
+        }
+      }
+
+      function clearError() {
+        msgBox.className = 'foot-newsletter-msg';
+        msgBox.textContent = '';
+        msgBox.style.display = 'none';
+        if (input) input.classList.remove('has-error');
+      }
+
+      function showSuccessState(message) {
+        var successHTML = 
+          '<div class="foot-newsletter-success-box">' +
+            '<div class="foot-newsletter-success-title">' +
+              '<i class="fa-solid fa-circle-check"></i> ' +
+              '<span>You\'re on the list!</span>' +
+            '</div>' +
+            '<div class="foot-newsletter-success-sub">' +
+              (message || 'Watch your inbox for secret drops & exhibition restocks.') +
+            '</div>' +
+          '</div>';
+        
+        form.innerHTML = successHTML;
+      }
+
+      function validateEmail(val) {
+        if (!val) return false;
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(val.trim());
+      }
+
+      function handleSubmit(e) {
+        if (e) e.preventDefault();
+        clearError();
+
+        var emailVal = input ? input.value.trim() : '';
+
+        if (!emailVal) {
+          showError('Please enter your email address.');
+          return;
+        }
+
+        if (!validateEmail(emailVal)) {
+          showError('Please enter a valid email address.');
+          return;
+        }
+
+        // Processing Loading State
+        if (btn) {
+          btn.disabled = true;
+          btn.classList.add('is-loading');
+          btn.innerHTML = '<span>JOINING...</span> <i class="fa-solid fa-circle-notch fa-spin"></i>';
+        }
+        if (input) input.disabled = true;
+
+        fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailVal })
+        })
+        .then(function (res) {
+          if (res.ok) return res.json();
+          return res.json().then(function (data) {
+            throw new Error(data.message || 'Subscription failed');
+          });
+        })
+        .then(function (data) {
+          showSuccessState(data.message);
+        })
+        .catch(function (err) {
+          if (err.message && err.message !== 'Failed to fetch') {
+            showError(err.message);
+            if (btn) {
+              btn.disabled = false;
+              btn.classList.remove('is-loading');
+              btn.innerHTML = '<span>JOIN</span> <i class="fa-solid fa-arrow-right btn-icon"></i>';
+            }
+            if (input) input.disabled = false;
+          } else {
+            // Standalone client-side fallback
+            setTimeout(function () {
+              showSuccessState("Watch your inbox for PINBOARD drops.");
+            }, 400);
+          }
+        });
+      }
+
+      form.addEventListener('submit', handleSubmit);
+
+      if (input) {
+        input.addEventListener('input', function () {
+          clearError();
+        });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNewsletterForms);
+  } else {
+    setupNewsletterForms();
+  }
+
+  window.initPinboardNewsletter = setupNewsletterForms;
 })();

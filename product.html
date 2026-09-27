@@ -4,7 +4,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product — PINBOARD</title>
+  <title>Wall Poster Details | PINBOARD</title>
+  <meta name="description" content="Explore high-quality aesthetic wall posters, movie art, sports posters, and gaming decor at PINBOARD. Premium museum-quality prints." />
+  <meta name="keywords" content="wall posters, aesthetic posters, buy posters online, movie posters, sports posters, gaming posters, wall decor, poster prints, PINBOARD" />
+  <link rel="canonical" href="http://localhost:3000/product.html" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="og:product" />
+  <meta property="og:site_name" content="PINBOARD" />
+  <meta property="og:title" content="Wall Poster Details | PINBOARD" />
+  <meta property="og:description" content="Explore high-quality aesthetic wall posters, movie art, sports posters, and gaming decor at PINBOARD. Premium museum-quality prints." />
+  <meta property="og:url" content="http://localhost:3000/product.html" />
+  <meta property="og:image" content="http://localhost:3000/poster/spiderman.webp" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Wall Poster Details | PINBOARD" />
+  <meta name="twitter:description" content="Explore high-quality aesthetic wall posters, movie art, sports posters, and gaming decor at PINBOARD. Premium museum-quality prints." />
+  <meta name="twitter:image" content="http://localhost:3000/poster/spiderman.webp" />
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "http://localhost:3000/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shop",
+        "item": "http://localhost:3000/shop.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Product Details",
+        "item": "http://localhost:3000/product.html"
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -12,9 +57,184 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=9" />
   <link rel="stylesheet" href="css/product.css?v=3" />
+  <script src="js/seo-optimizer.js"></script>
 </head>
 
 <body>
+  <!-- ========== LUXURY 3D MOBILE & TABLET NAVIGATION OVERLAY ========== -->
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-label="Navigation Menu">
+    <div class="mob-nav-backdrop-glow" aria-hidden="true"></div>
+
+    <div class="mob-nav-container">
+      <!-- Top Header inside Mobile Menu -->
+      <div class="mob-nav-top">
+        <div class="mob-nav-tag">
+          <span class="tag-dot"></span>
+          <span>PINBOARD MENU</span>
+        </div>
+        <button type="button" class="mob-nav-close-btn" id="mobNavCloseBtn" aria-label="Close menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Search Input inside Mobile Menu -->
+      <div class="mob-nav-search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput"
+          placeholder="Search posters, movies, sports..." autocomplete="off" />
+      </div>
+
+      <!-- Primary Navigation Links -->
+      <nav class="mob-nav-links" aria-label="Mobile Navigation">
+        <!-- 01: Home -->
+        <div class="mob-nav-item">
+          <a href="index.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="1789812334468.png" onerror="this.onerror=null;this.src='poster/opt/1551192.webp'" alt="Home Showcase" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Home</span>
+                <span class="mob-link-sub">Back to main wall showcase</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STUDIO</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 02: Shop All Posters -->
+        <div class="mob-nav-item">
+          <a href="shop.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [DA39B06].png" onerror="this.onerror=null;this.src='1554016.png'" alt="Shop All Posters" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Shop All Posters</span>
+                <span class="mob-link-sub">Explore full 151+ poster catalog</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">151 PRINTS</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 03: Collections -->
+        <div class="mob-nav-item">
+          <a href="index.html#collections" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [7385C6B].png" onerror="this.onerror=null;this.src='cat_movies.jpg'" alt="Collections" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Collections</span>
+                <span class="mob-link-sub">Browse by mood &amp; theme</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">5 THEMES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 04: Community -->
+        <div class="mob-nav-item">
+          <a href="index.html#community" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [626E67C] (1).png" onerror="this.onerror=null;this.src='1554016.webp'" alt="Community" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Community</span>
+                <span class="mob-link-sub">Real walls, real customer stories</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STORIES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 05: Create Your Wall -->
+        <div class="mob-nav-item">
+          <a href="custom-posters.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="images/mob-menu-create.png" onerror="this.onerror=null;this.src='1553031.webp'" alt="Create Your Wall" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Create Your Wall</span>
+                <span class="mob-link-sub">Custom AI &amp; custom photo studio</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">NEW</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 06: View Cart -->
+        <div class="mob-nav-item">
+          <a href="cart.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="images/mob-menu-cart.jpg" onerror="this.onerror=null;this.src='1551192-thumb.webp'" alt="View Cart" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">View Cart</span>
+                <span class="mob-link-sub">Review items &amp; checkout</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">CHECKOUT</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 07: My Account -->
+        <div class="mob-nav-item">
+          <a href="account.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img class="mob-account-avatar-img" src="images/mob-menu-account.jpg" onerror="this.onerror=null;this.src='cat_motivation-thumb.webp'" alt="My Account" loading="lazy" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">My Account</span>
+                <span class="mob-link-sub">Orders, profile &amp; address</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">PROFILE</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Bottom Status & Action Footer inside Menu -->
+      <div class="mob-nav-bottom">
+        <a href="shop.html" class="mob-nav-bot-action">
+          <i class="fa-solid fa-fire"></i>
+          <span>Offer: Buy Any 3 Posters for ₹150</span>
+        </a>
+        <div class="mob-nav-footer-text">© 2026 PINBOARD · FREE SHIPPING OVER ₹1999</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== NAVBAR ========== -->
   <header>
     <div class="logo">
@@ -69,12 +289,17 @@
           <span class="cart-count">0</span>
         </span>
       </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </div>
   </header>
 
   <!-- ========== MAIN PRODUCT SECTION (OLD PINBOARD ARCHITECTURE) ========== -->
   <main class="pdp-wrap">
-    <div class="page-nav-bar" style="max-width:1280px;margin:0 auto 16px;padding:0 24px;">
+    <div class="page-nav-bar">
       <button type="button" class="pinboard-back-btn" data-fallback="shop.html" aria-label="Go back to previous page">
         <span class="back-btn-inner">
           <svg class="back-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -129,9 +354,9 @@
 
         <!-- 5. Rating Row -->
         <div class="pdp-rating-row">
-          <span class="pdp-rating-score" id="pdpRatingScore">4.9</span>
-          <span class="pdp-rating-stars" aria-label="5 out of 5 stars">★★★★★</span>
-          <span class="pdp-rating-count" id="pdpReviewCount">840+ verified buyers</span>
+          <span class="pdp-rating-score" id="pdpRatingScore">0.0</span>
+          <span class="pdp-rating-stars" id="pdpRatingStarsHeader" aria-label="Rating stars">☆☆☆☆☆</span>
+          <span class="pdp-rating-count" id="pdpReviewCount">No reviews yet</span>
         </div>
 
         <!-- 6. Price Row -->
@@ -144,7 +369,7 @@
         <!-- 7. Shipping / Tax Information -->
         <div class="pdp-tax-note">Taxes included. Shipping calculated at checkout.</div>
         <div class="pdp-per-poster" id="pdpPerPoster">Rs. 60 per poster · 1 piece included</div>
-        <div class="pdp-combo-banner" style="margin-top:8px;margin-bottom:16px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:13px;font-weight:700;color:#dc2626;display:inline-flex;align-items:center;gap:6px;">
+        <div class="pdp-combo-banner" id="pdpComboBanner" style="margin-top:8px;margin-bottom:16px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:13px;font-weight:700;color:#dc2626;display:inline-flex;align-items:center;gap:6px;">
           <span>🔥 Special Combo Offer: 3 Posters for ₹150</span>
         </div>
 
@@ -153,13 +378,13 @@
           <div class="create-wall-visual" aria-hidden="true">
             <div class="wall-mini-stage">
               <div class="wall-mini-frame frame-left">
-                <img src="poster/opt/1513605.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" loading="lazy" />
+                <img src="poster/opt/1513605.webp" alt="" onerror="this.onerror=null;this.src='poster/opt/1513605.webp'" loading="lazy" />
               </div>
               <div class="wall-mini-frame frame-center">
-                <img src="poster/opt/1514058.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [94A5EEE].png'" loading="lazy" />
+                <img src="poster/opt/1514058.webp" alt="" onerror="this.onerror=null;this.src='poster/opt/1514058.webp'" loading="lazy" />
               </div>
               <div class="wall-mini-frame frame-right">
-                <img src="poster/opt/1514085.webp" alt="" onerror="this.onerror=null;this.src='New Project 22 [B720BE2].png'" loading="lazy" />
+                <img src="poster/opt/1514085.webp" alt="" onerror="this.onerror=null;this.src='poster/opt/1514085.webp'" loading="lazy" />
               </div>
             </div>
           </div>
@@ -191,9 +416,7 @@
           </div>
           <div class="pdp-size-pills" id="pdpSizeGrid">
             <button type="button" class="pdp-size-pill" data-size="A6" aria-label="Size A6">A6</button>
-            <button type="button" class="pdp-size-pill" data-size="A5" aria-label="Size A5">A5</button>
             <button type="button" class="pdp-size-pill active" data-size="A4" aria-label="Size A4">A4</button>
-            <button type="button" class="pdp-size-pill" data-size="A3" aria-label="Size A3">A3</button>
           </div>
         </div>
 
@@ -215,6 +438,19 @@
           <button type="button" class="pdp-cta-btn pdp-btn-buy" id="pdpBuyNow">
             <span>BUY NOW</span>
           </button>
+
+          <!-- Rating & Write a Review Section (Directly under BUY NOW) -->
+          <div class="pdp-review-summary" id="pdpReviewSummary">
+            <div class="pdp-review-stars-row">
+              <span class="pdp-review-stars" id="pdpReviewStars">☆☆☆☆☆</span>
+              <span class="pdp-review-score" id="pdpReviewScore">0.0</span>
+              <span class="pdp-review-count-badge" id="pdpReviewCountBadge">No reviews yet</span>
+            </div>
+            <button type="button" class="pdp-write-review-btn" id="pdpOpenReviewModalBtn">
+              Write a Review
+            </button>
+            <div class="pdp-reviews-preview-list" id="pdpReviewsPreviewList"></div>
+          </div>
         </div>
 
         <!-- Auth Prompt Feedback -->
@@ -286,17 +522,22 @@
         <ul>
           <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#about">Artists</a></li>
-          <li><a href="index.html#about">Wholesale</a></li>
-          <li><a href="index.html#about">Careers</a></li>
+          <li><a href="index.html#about">Contact &amp; Support</a></li>
         </ul>
       </div>
-      <div class="foot-col">
+      <div class="foot-col foot-newsletter-col">
         <h4>SUPPORT</h4>
-        <ul>
-          <li><a href="shop.html">Shipping</a></li>
-          <li><a href="shop.html">Care Guide</a></li>
-          <li><a href="index.html#about">Contact</a></li>
-        </ul>
+        <p class="foot-newsletter-sub">Drop your email for PINBOARD COMMUNITY secret drops and exhibition restocks.</p>
+        <form class="foot-newsletter-form" novalidate>
+          <div class="foot-newsletter-input-wrap">
+            <input type="email" class="foot-newsletter-input" placeholder="you@domain.com" aria-label="Email address for secret drops" required autocomplete="email" />
+            <button type="submit" class="foot-join-btn">
+              <span>JOIN</span>
+              <i class="fa-solid fa-arrow-right btn-icon" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="foot-newsletter-msg" aria-live="polite"></div>
+        </form>
       </div>
     </div>
     <div class="foot-bottom">
@@ -324,7 +565,7 @@
       <div class="order-modal-body">
         <!-- Poster Item Summary Card -->
         <div class="order-item-summary-card">
-          <img id="orderModalItemImg" src="New Project 22 [FA6B4A7].png" alt="Poster Thumbnail" class="order-item-thumb">
+          <img id="orderModalItemImg" src="poster/opt/1551192.webp" alt="Poster Thumbnail" class="order-item-thumb">
           <div class="order-item-info">
             <h4 id="orderModalItemTitle">Poster Title</h4>
             <div class="order-item-meta">
@@ -424,11 +665,60 @@
     </div>
   </div>
 
+  <!-- ========== WRITE A REVIEW MODAL ========== -->
+  <div class="order-modal-backdrop" id="reviewModal" style="display:none;" aria-hidden="true">
+    <div class="order-modal-card review-modal-card">
+      <div class="order-modal-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;">
+        <div class="modal-header-titles">
+          <h2 class="order-modal-title" style="margin:0;font-size:20px;font-family:'Anton',sans-serif;letter-spacing:0.5px;">Write a Review</h2>
+          <span class="order-modal-sub" id="reviewModalProductTitle" style="font-size:12.5px;color:rgba(17,17,17,0.6);">Share your feedback for this poster</span>
+        </div>
+        <button type="button" class="order-modal-close" id="closeReviewModal" aria-label="Close modal" style="background:none;border:none;font-size:24px;cursor:pointer;line-height:1;color:#111;">&times;</button>
+      </div>
+
+      <form id="pdpReviewForm" class="review-modal-form" novalidate>
+        <div class="review-form-group">
+          <label class="review-label">Rating <span class="required" style="color:#dc2626;">*</span></label>
+          <div class="interactive-star-rating" id="reviewStarRating" role="radiogroup" aria-label="Star rating">
+            <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
+            <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
+            <button type="button" class="star-btn" data-value="3" aria-label="3 stars">★</button>
+            <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
+            <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
+          </div>
+          <input type="hidden" id="reviewRatingVal" value="0" required>
+        </div>
+
+        <div class="review-form-group">
+          <label for="reviewAuthorName">Your Name <span class="required" style="color:#dc2626;">*</span></label>
+          <input type="text" id="reviewAuthorName" placeholder="Enter your name" required>
+        </div>
+
+        <div class="review-form-group">
+          <label for="reviewText">Review <span class="required" style="color:#dc2626;">*</span></label>
+          <textarea id="reviewText" rows="4" placeholder="Write your review..." required></textarea>
+        </div>
+
+        <div id="reviewFormError" class="order-form-error" style="display:none;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:6px;font-size:12.5px;margin-bottom:12px;"></div>
+        <div id="reviewFormSuccess" class="order-form-success" style="display:none;padding:10px 14px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:6px;font-size:13px;font-weight:600;margin-bottom:12px;">Review submitted successfully!</div>
+
+        <div class="review-modal-actions">
+          <button type="submit" id="submitReviewBtn" class="btn-submit-review">
+            <span>Submit Review</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/products-data.js"></script>
   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/reviews-service.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/whatsapp-order.js"></script>
   <script src="js/product.js"></script>
+  <script src="js/script.js"></script>
 </body>
 
 </html>

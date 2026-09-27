@@ -1,5 +1,6 @@
 /**
  * PINBOARD — Customer Wall Gallery Horizontal Slider & 3D Interactive Lightbox
+ * Reuses the exact smooth touch-drag & vertical scroll-release architecture as Collections
  */
 document.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('community-slider');
@@ -8,9 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const dotsContainer = document.getElementById('comm-slider-dots');
   const cards = slider ? Array.from(slider.querySelectorAll('.community-card')) : [];
 
-  // ==========================================
-  // 1. HORIZONTAL SLIDER CONTROLS & SNAPPING
-  // ==========================================
+  let currentIndex = 0;
+  let isPointerInteracting = false;
+  let isHorizontalDrag = false;
+  let pointerStartX = 0;
+  let pointerStartY = 0;
+  let lastPointerX = 0;
+  let lastPointerY = 0;
+  let startSlideOffset = 0;
+  let wasCommunityDragged = false;
+
   const dots = [];
   if (dotsContainer && cards.length) {
     dotsContainer.innerHTML = '';
@@ -19,28 +27,42 @@ document.addEventListener('DOMContentLoaded', () => {
       dot.className = `comm-dot ${idx === 0 ? 'active' : ''}`;
       dot.setAttribute('aria-label', `Go to customer slide ${idx + 1}`);
       dot.setAttribute('type', 'button');
-      dot.addEventListener('click', () => scrollToCard(idx));
+      dot.addEventListener('click', () => goToCard(idx));
       dotsContainer.appendChild(dot);
       dots.push(dot);
     });
   }
 
-  function getCardWidth() {
-    if (cards.length === 0) return 320;
-    const cardRect = cards[0].getBoundingClientRect();
+  function getGap() {
+    if (!slider) return 20;
     const style = window.getComputedStyle(slider);
-    const gap = parseFloat(style.gap) || 20;
-    return cardRect.width + gap;
+    return parseFloat(style.gap) || 20;
   }
 
-  function scrollToCard(index) {
+  function getMaxIndex() {
+    return cards.length > 0 ? cards.length - 1 : 0;
+  }
+
+  function getSlideOffset(index) {
+    if (!cards.length || !cards[index] || !slider) return 0;
     const targetCard = cards[index];
-    if (!targetCard || !slider) return;
-    slider.scrollTo({
-      left: targetCard.offsetLeft - slider.offsetLeft,
-      behavior: 'smooth'
-    });
-    updateActiveDot(index);
+    const sliderOffset = slider.offsetLeft || 0;
+    return targetCard.offsetLeft - sliderOffset;
+  }
+
+  function updateCarousel() {
+    if (!slider) return;
+    const offset = getSlideOffset(currentIndex);
+    slider.style.transform = `translateX(-${offset}px)`;
+    updateActiveDot(currentIndex);
+  }
+
+  function goToCard(index) {
+    currentIndex = Math.max(0, Math.min(getMaxIndex(), index));
+    if (slider) {
+      slider.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+    }
+    updateCarousel();
   }
 
   function updateActiveDot(index) {
@@ -51,35 +73,128 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextBtn) nextBtn.disabled = index === cards.length - 1;
   }
 
-  if (prevBtn && slider) {
+  if (prevBtn) {
     prevBtn.addEventListener('click', () => {
-      const step = getCardWidth();
-      slider.scrollBy({ left: -step, behavior: 'smooth' });
+      if (currentIndex > 0) goToCard(currentIndex - 1);
     });
   }
 
-  if (nextBtn && slider) {
+  if (nextBtn) {
     nextBtn.addEventListener('click', () => {
-      const step = getCardWidth();
-      slider.scrollBy({ left: step, behavior: 'smooth' });
+      if (currentIndex < getMaxIndex()) goToCard(currentIndex + 1);
     });
+  }
+
+  // ==========================================================
+  // 1:1 TOUCH DRAG & SMOOTH VERTICAL SCROLL RELEASE (Matching Collections)
+  // ==========================================================
+  function startDrag(clientX, clientY) {
+    pointerStartX = clientX;
+    pointerStartY = clientY;
+    lastPointerX = clientX;
+    lastPointerY = clientY;
+    startSlideOffset = getSlideOffset(currentIndex);
+    isPointerInteracting = true;
+    isHorizontalDrag = false;
+    wasCommunityDragged = false;
+    if (slider) slider.style.transition = 'none';
+  }
+
+  function moveDrag(clientX, clientY) {
+    if (!isPointerInteracting) return;
+    lastPointerX = clientX;
+    lastPointerY = clientY;
+
+    const diffX = clientX - pointerStartX;
+    const diffY = clientY - pointerStartY;
+
+    if (!isHorizontalDrag) {
+      if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+        isHorizontalDrag = true;
+      } else if (Math.abs(diffY) > 8 && Math.abs(diffY) >= Math.abs(diffX)) {
+        // Vertical swipe detected -> release pointer drag so native page vertical scrolling is 100% fluid
+        isPointerInteracting = false;
+        return;
+      }
+    }
+
+    if (isHorizontalDrag && slider) {
+      wasCommunityDragged = true;
+      let currentOffset = startSlideOffset - diffX;
+      const cardW = cards[0] ? cards[0].offsetWidth + getGap() : 300;
+      const maxOff = Math.max(0, (cards.length - 1) * cardW);
+
+      if (currentOffset < 0) {
+        currentOffset = currentOffset * 0.3;
+      } else if (currentOffset > maxOff) {
+        currentOffset = maxOff + (currentOffset - maxOff) * 0.3;
+      }
+      slider.style.transform = `translateX(-${currentOffset}px)`;
+    }
+  }
+
+  function endDrag() {
+    if (!isPointerInteracting) return;
+    isPointerInteracting = false;
+    if (slider) {
+      slider.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+    }
+
+    const diffX = lastPointerX - pointerStartX;
+    if (isHorizontalDrag && Math.abs(diffX) > 30) {
+      if (diffX < 0 && currentIndex < getMaxIndex()) {
+        currentIndex++;
+      } else if (diffX > 0 && currentIndex > 0) {
+        currentIndex--;
+      }
+    }
+    updateCarousel();
+    setTimeout(() => { wasCommunityDragged = false; }, 150);
   }
 
   if (slider) {
-    let scrollTimeout;
-    slider.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const scrollLeft = slider.scrollLeft;
-        const step = getCardWidth();
-        const activeIdx = Math.round(scrollLeft / step);
-        const clampedIdx = Math.max(0, Math.min(cards.length - 1, activeIdx));
-        updateActiveDot(clampedIdx);
-      }, 50);
-    }, { passive: true });
+    if (window.PointerEvent) {
+      slider.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse') return;
+        startDrag(e.clientX, e.clientY);
+      }, { passive: true });
 
-    updateActiveDot(0);
+      slider.addEventListener('pointermove', (e) => {
+        if (e.pointerType === 'mouse') return;
+        moveDrag(e.clientX, e.clientY);
+      }, { passive: true });
+
+      slider.addEventListener('pointerup', endDrag, { passive: true });
+      slider.addEventListener('pointercancel', endDrag, { passive: true });
+    } else {
+      slider.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          startDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      slider.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 1) {
+          moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      slider.addEventListener('touchend', endDrag, { passive: true });
+      slider.addEventListener('touchcancel', endDrag, { passive: true });
+    }
   }
+
+  // Recalculate position on window resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
+      updateCarousel();
+    }, 100);
+  });
+
+  updateCarousel();
 
   // ==========================================
   // 2. FULL PHOTO LIGHTBOX MODAL PREVIEW
@@ -120,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('lightbox-locked');
     isLightboxOpen = true;
 
-    // Focus close button for accessibility
     if (lightboxClose) lightboxClose.focus();
   }
 
@@ -161,32 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderLightboxItem(currentModalIndex);
   }
 
-  // Touch gesture & drag detection for smooth horizontal swiping
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isSwipingCard = false;
-
-  if (slider) {
-    slider.addEventListener('pointerdown', (e) => {
-      touchStartX = e.clientX;
-      touchStartY = e.clientY;
-      isSwipingCard = false;
-    }, { passive: true });
-
-    slider.addEventListener('pointermove', (e) => {
-      if (!touchStartX && !touchStartY) return;
-      const distX = Math.abs(e.clientX - touchStartX);
-      const distY = Math.abs(e.clientY - touchStartY);
-      if (distX > 8 && distX > distY) {
-        isSwipingCard = true;
-      }
-    }, { passive: true });
-
-    slider.addEventListener('pointerup', () => {
-      setTimeout(() => { isSwipingCard = false; }, 120);
-    }, { passive: true });
-  }
-
   // Bind click on cards / images
   cards.forEach((card, idx) => {
     card.style.cursor = 'pointer';
@@ -196,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     card.addEventListener('click', (e) => {
       // Prevent opening lightbox when dragging/swiping on mobile
-      if (isSwipingCard) return;
+      if (wasCommunityDragged) return;
       // Prevent accidental opening when clicking nested interactive links if any
       if (e.target.closest('a') || e.target.closest('button')) return;
       openLightbox(idx);

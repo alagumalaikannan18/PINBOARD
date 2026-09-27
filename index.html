@@ -4,13 +4,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PINBOARD — Wall Posters</title>
+  <title>PINBOARD | Wall Posters &amp; Aesthetic Wall Art</title>
+  <meta name="description" content="Shop wall posters, movie posters, sports art, gaming posters and aesthetic wall decor at PINBOARD. Find posters for every wall and mood." />
+  <meta name="keywords" content="wall posters, posters online, buy posters online, wall art, poster shop, aesthetic wall posters, wall decor, movie posters, football posters, sports posters, gaming posters, car posters, motivational posters, room wall posters, aesthetic wall art, poster prints, room decor posters, buy wall posters online, posters for room decoration" />
+  <link rel="canonical" href="http://localhost:3000/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PINBOARD | Wall Posters &amp; Aesthetic Wall Art" />
+  <meta property="og:description" content="Shop wall posters, movie posters, sports art, gaming posters and aesthetic wall decor at PINBOARD. Find posters for every wall and mood." />
+  <meta property="og:image" content="http://localhost:3000/poster/opt/1551192.webp" />
+  <meta property="og:url" content="http://localhost:3000/" />
+  <meta property="og:site_name" content="PINBOARD" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PINBOARD | Wall Posters &amp; Aesthetic Wall Art" />
+  <meta name="twitter:description" content="Shop wall posters, movie posters, sports art, gaming posters and aesthetic wall decor at PINBOARD. Find posters for every wall and mood." />
+  <meta name="twitter:image" content="http://localhost:3000/poster/opt/1551192.webp" />
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "PINBOARD",
+      "url": "http://localhost:3000/",
+      "logo": "http://localhost:3000/poster/opt/1551192.webp",
+      "description": "Curated wall posters printed on 300GSM premium matte paper."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PINBOARD",
+      "url": "http://localhost:3000/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "http://localhost:3000/shop.html?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=19" />
+  <script src="js/seo-optimizer.js"></script>
+  <script>
+    (function() {
+      var p = window.location.pathname.toLowerCase();
+      var h = window.location.hash.toLowerCase();
+      if (p.includes('/collections') || h === '#collections') {
+        document.documentElement.classList.add('is-collections-page');
+      }
+      if (typeof PinboardSEO !== 'undefined') {
+        PinboardSEO.injectPageSEO('home');
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -128,169 +177,200 @@
   </div>
 
   <!-- ========== LUXURY 3D MOBILE & TABLET NAVIGATION OVERLAY ========== -->
-  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation Menu">
-    <!-- Ambient 3D lighting backdrop -->
+  <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-label="Navigation Menu">
     <div class="mob-nav-backdrop-glow" aria-hidden="true"></div>
-    
+
     <div class="mob-nav-container">
-      <!-- Top Utility Header inside Menu -->
+      <!-- Top Header inside Mobile Menu -->
       <div class="mob-nav-top">
-        <span class="mob-nav-tag mono">00 — NAVIGATION ARCHIVE</span>
+        <div class="mob-nav-tag">
+          <span class="tag-dot"></span>
+          <span>PINBOARD MENU</span>
+        </div>
         <button type="button" class="mob-nav-close-btn" id="mobNavCloseBtn" aria-label="Close menu">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </div>
 
-      <!-- Quick Search Bar inside Menu -->
+      <!-- Quick Search Input inside Mobile Menu -->
       <div class="mob-nav-search-wrap">
-        <svg class="mob-nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput" placeholder="Search 151 posters, movies, sports..." autocomplete="off" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="mob-nav-search-input" id="mobNavSearchInput"
+          placeholder="Search posters, movies, sports..." autocomplete="off" />
       </div>
 
-      <div class="mob-nav-content-grid">
-        <!-- LEFT: Primary Navigation Menu Items -->
-        <nav class="mob-nav-links" aria-label="Mobile Navigation">
-          <!-- 01: Shop All -->
-          <div class="mob-nav-item" data-nav-target="shop">
-            <a href="shop.html" class="mob-nav-link" data-preview="shop">
-              <span class="mob-nav-num mono">01</span>
-              <span class="mob-nav-label display">Shop All</span>
-              <span class="mob-nav-badge mono">151 PRINTS</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 02: Collections (Expandable Accordion) -->
-          <div class="mob-nav-item mob-nav-accordion" data-nav-target="collections">
-            <div class="mob-nav-link mob-nav-accordion-header" id="mobNavCollectionsToggle" role="button" tabindex="0" aria-expanded="false" data-preview="collections">
-              <span class="mob-nav-num mono">02</span>
-              <span class="mob-nav-label display">Collections</span>
-              <span class="mob-nav-badge mono">5 THEMES</span>
-              <span class="mob-nav-toggle-icon mono" aria-hidden="true">+</span>
+      <!-- Primary Navigation Links -->
+      <nav class="mob-nav-links" aria-label="Mobile Navigation">
+        <!-- 01: Home -->
+        <div class="mob-nav-item">
+          <a href="index.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="mob-menu-home.png" onerror="this.onerror=null;this.src='1789812334468.png'" alt="Home Showcase" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Home</span>
+                <span class="mob-link-sub">Back to main wall showcase</span>
+              </div>
             </div>
-            
-            <!-- Accordion Sub-Drawer -->
-            <div class="mob-nav-sub-grid" id="mobNavCollectionsDrawer">
-              <a href="movies.html" class="mob-sub-chip" data-category="movies">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Movies &amp; Cinema</span>
-                <span class="chip-count mono">92</span>
-              </a>
-              <a href="sports.html" class="mob-sub-chip" data-category="sports">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Football &amp; Sports</span>
-                <span class="chip-count mono">27</span>
-              </a>
-              <a href="cars.html" class="mob-sub-chip" data-category="cars">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Supercars &amp; Speed</span>
-                <span class="chip-count mono">12</span>
-              </a>
-              <a href="motivation.html" class="mob-sub-chip" data-category="motivation">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Mindset &amp; Discipline</span>
-                <span class="chip-count mono">15</span>
-              </a>
-              <a href="gaming.html" class="mob-sub-chip" data-category="gaming">
-                <span class="chip-dot"></span>
-                <span class="chip-name">Gaming Legends</span>
-                <span class="chip-count mono">5</span>
-              </a>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STUDIO</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
             </div>
-          </div>
-
-          <!-- 03: Custom Posters -->
-          <div class="mob-nav-item" data-nav-target="custom">
-            <a href="custom-posters.html" class="mob-nav-link" data-preview="custom">
-              <span class="mob-nav-num mono">03</span>
-              <span class="mob-nav-label display">Custom Posters</span>
-              <span class="mob-nav-badge hot mono">STUDIO</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 04: About -->
-          <div class="mob-nav-item" data-nav-target="about">
-            <a href="index.html#about" class="mob-nav-link" data-preview="about">
-              <span class="mob-nav-num mono">04</span>
-              <span class="mob-nav-label display">About Studio</span>
-              <span class="mob-nav-badge mono">300 GSM</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-
-          <!-- 05: My Account -->
-          <div class="mob-nav-item" data-nav-target="account">
-            <a href="account.html" class="mob-nav-link" data-preview="account">
-              <span class="mob-nav-num mono">05</span>
-              <span class="mob-nav-label display">My Account</span>
-              <span class="mob-nav-badge mono">ORDERS &amp; VIP</span>
-              <svg class="mob-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="7 7 17 7 17 17"></polyline>
-              </svg>
-            </a>
-          </div>
-        </nav>
-
-        <!-- RIGHT: Interactive 3D Visual Poster Preview Stage -->
-        <div class="mob-nav-preview-stage" aria-hidden="true">
-          <div class="mob-preview-card-wrap" id="mobNavPreviewCard">
-            <div class="mob-preview-frame">
-              <img src="New Project 22 [FA6B4A7].webp" onerror="this.onerror=null;this.src='New Project 22 [FA6B4A7].png'" alt="Featured Collection" id="mobNavPreviewImg" loading="lazy" />
-              <div class="mob-preview-glare"></div>
-            </div>
-            <div class="mob-preview-meta">
-              <span class="mob-preview-tag mono" id="mobNavPreviewTag">NEW DROP · VOL. 04</span>
-              <span class="mob-preview-title display" id="mobNavPreviewTitle">YOUR WALL DESERVES BETTER</span>
-            </div>
-          </div>
+          </a>
         </div>
-      </div>
 
-      <!-- Bottom Status & Guarantee Footer inside Menu -->
+        <!-- 02: Shop All Posters -->
+        <div class="mob-nav-item">
+          <a href="shop.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [DA39B06].png" onerror="this.onerror=null;this.src='1554016.png'"
+                  alt="Shop All Posters" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Shop All Posters</span>
+                <span class="mob-link-sub">Explore full 151+ poster catalog</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">151 PRINTS</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 03: Collections -->
+        <div class="mob-nav-item">
+          <a href="index.html#collections" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [7385C6B].png" onerror="this.onerror=null;this.src='cat_movies.jpg'"
+                  alt="Collections" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Collections</span>
+                <span class="mob-link-sub">Browse by mood &amp; theme</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">5 THEMES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 04: Community -->
+        <div class="mob-nav-item">
+          <a href="index.html#community" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="New Project 29 [626E67C] (1).png" onerror="this.onerror=null;this.src='1554016.webp'"
+                  alt="Community" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Community</span>
+                <span class="mob-link-sub">Real walls, real customer stories</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">STORIES</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 05: Create Your Wall -->
+        <div class="mob-nav-item">
+          <a href="custom-posters.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="mob-menu-create.png" onerror="this.onerror=null;this.src='1553031.webp'" alt="Create Your Wall" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">Create Your Wall</span>
+                <span class="mob-link-sub">Custom AI &amp; custom photo studio</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge">NEW</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 06: View Cart -->
+        <div class="mob-nav-item">
+          <a href="cart.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img src="images/mob-menu-cart.png" onerror="this.onerror=null;this.src='New Project 29 [00F2D3A].png'" alt="View Cart" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">View Cart</span>
+                <span class="mob-link-sub">Review items &amp; checkout</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">CHECKOUT</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+
+        <!-- 07: My Account -->
+        <div class="mob-nav-item">
+          <a href="account.html" class="mob-nav-link">
+            <div class="mob-link-left">
+              <div class="mob-link-icon">
+                <img class="mob-account-avatar-img" src="images/mob-menu-account.jpg"
+                  onerror="this.onerror=null;this.src='cat_motivation-thumb.webp'" alt="My Account" loading="lazy" />
+              </div>
+              <div class="mob-link-text">
+                <span class="mob-link-title">My Account</span>
+                <span class="mob-link-sub">Orders, profile &amp; address</span>
+              </div>
+            </div>
+            <div class="mob-link-right">
+              <span class="mob-nav-badge alt">PROFILE</span>
+              <i class="fa-solid fa-chevron-right mob-link-arrow"></i>
+            </div>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Bottom Status & Action Footer inside Menu -->
       <div class="mob-nav-bottom">
-        <div class="mob-nav-guarantee mono">
-          <span>🔥 3 POSTERS FOR ₹150</span>
-          <span>·</span>
-          <span>FREE SHIPPING OVER ₹1999</span>
-        </div>
-        <div class="mob-nav-copyright mono">© 2026 PINBOARD · MADE IN INDIA</div>
+        <a href="shop.html" class="mob-nav-bot-action">
+          <i class="fa-solid fa-fire"></i>
+          <span>Offer: Buy Any 3 Posters for ₹150</span>
+        </a>
+        <div class="mob-nav-footer-text">© 2026 PINBOARD · FREE SHIPPING OVER ₹1999</div>
       </div>
     </div>
   </div>
 
   <section class="hero">
-    <a href="product.html?id=11" class="pinned-link">
+    <a href="product.html?id=139" class="pinned-link">
       <div class="pinned p1"><img src="1554016.webp" onerror="this.onerror=null;this.src='1554016.png'"
           alt="GOAT10 — Messi tribute poster" width="180" height="240" fetchpriority="high" /></div>
     </a>
-    <a href="product.html?id=12" class="pinned-link">
-      <div class="pinned p2"><img src="1553256_1.webp" onerror="this.onerror=null;this.src='1553256_1.jpg.jpeg'"
-          alt="Crimson Stage — concert poster" width="180" height="240" fetchpriority="high" /></div>
+    <a href="product.html?id=107" class="pinned-link">
+      <div class="pinned p2"><img src="poster/opt/1557527.webp" onerror="this.onerror=null;this.src='poster/opt/1557527.webp'"
+          alt="Porsche 911 GT3 RS — Supercars poster" width="180" height="240" fetchpriority="high" /></div>
     </a>
-    <a href="product.html?id=13" class="pinned-link">
-      <div class="pinned p3"><img src="1553164.webp" onerror="this.onerror=null;this.src='1553164.jpg.jpeg'"
-          alt="Hellme — dark art poster" width="180" height="240" fetchpriority="high" /></div>
+    <a href="product.html?id=125" class="pinned-link">
+      <div class="pinned p3"><img src="poster/opt/1555764.webp" onerror="this.onerror=null;this.src='poster/opt/1555764.webp'"
+          alt="GTA VI Vice City — Gaming poster" width="180" height="240" fetchpriority="high" /></div>
     </a>
-    <a href="product.html?id=14" class="pinned-link">
-      <div class="pinned p4"><img src="1551192.webp" onerror="this.onerror=null;this.src='1551192.png'"
-          alt="When The Dream Became Immortal — football poster" width="180" height="240" fetchpriority="high" /></div>
+    <a href="product.html?id=120" class="pinned-link">
+      <div class="pinned p4"><img src="poster/opt/1556915.webp" onerror="this.onerror=null;this.src='poster/opt/1556915.webp'"
+          alt="There Is No Tomorrow — Rocky Balboa motivation poster" width="180" height="240" fetchpriority="high" /></div>
     </a>
 
     <div class="hero-copy">
@@ -337,58 +417,58 @@
     <div class="collections-viewport">
       <div class="collections-track-wrap">
         <div class="collections" id="collectionsTrack">
-          <div class="collection-card" data-product-id="5">
-            <img src="New Project 22 [94A5EEE]-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [94A5EEE].png'" alt="Minimal" loading="lazy"
-              width="280" height="380" />
+          <div class="collection-card" data-product-id="43">
+            <img src="poster/opt/1514163-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1514163.webp'" alt="AFTER HOURS" loading="lazy"
+              width="280" height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">01</span>
-              <span class="name">Minimal Line</span>
+              <span class="name">AFTER HOURS</span>
             </div>
           </div>
-          <div class="collection-card" data-product-id="6">
-            <img src="New Project 22 [B720BE2]-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [B720BE2].png'" alt="Nature" loading="lazy"
-              width="280" height="380" />
+          <div class="collection-card" data-product-id="47">
+            <img src="poster/opt/1553256_1-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1553256_1.webp'" alt="PETER PARKER" loading="lazy"
+              width="280" height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">02</span>
-              <span class="name">Wild &amp; Green</span>
+              <span class="name">PETER PARKER</span>
             </div>
           </div>
-          <div class="collection-card" data-product-id="7">
-            <img src="New Project 22 [D8D9C72]-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [D8D9C72].png'" alt="Retro" loading="lazy" width="280"
-              height="380" />
+          <div class="collection-card" data-product-id="151">
+            <img src="poster/opt/1557012-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1557012.webp'" alt="LEO IN PINK" loading="lazy" width="280"
+              height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">03</span>
-              <span class="name">Riso Retro</span>
+              <span class="name">LEO IN PINK</span>
             </div>
           </div>
-          <div class="collection-card" data-product-id="8">
-            <img src="New Project 22 [E742D9E]-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [E742D9E].png'" alt="Urban Grit" loading="lazy"
-              width="280" height="380" />
+          <div class="collection-card" data-product-id="135">
+            <img src="poster/opt/1554000-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1554000.webp'" alt="RED DEVIL" loading="lazy"
+              width="280" height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">04</span>
-              <span class="name">Urban Grit</span>
+              <span class="name">RED DEVIL</span>
             </div>
           </div>
-          <div class="collection-card" data-product-id="9">
-            <img src="New Project 22 [A7FF5A7]-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [A7FF5A7].png'" alt="Neon Bloom" loading="lazy"
-              width="280" height="380" />
+          <div class="collection-card" data-product-id="91">
+            <img src="poster/opt/1557102-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1557102.webp'" alt="SYMBOL OF HOPE" loading="lazy"
+              width="280" height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">05</span>
-              <span class="name">Neon Bloom</span>
+              <span class="name">SYMBOL OF HOPE</span>
             </div>
           </div>
-          <div class="collection-card" data-product-id="10">
-            <img src="New Project 22 [5627475] (1)-thumb.webp"
-              onerror="this.onerror=null;this.src='New Project 22 [5627475] (1).png'" alt="Analog Film" loading="lazy"
-              width="280" height="380" />
+          <div class="collection-card" data-product-id="84">
+            <img src="poster/opt/1556723-thumb.webp"
+              onerror="this.onerror=null;this.src='poster/opt/1556723.webp'" alt="BABA YAGA" loading="lazy"
+              width="280" height="380" draggable="false" />
             <div class="collection-label">
               <span class="num mono">06</span>
-              <span class="name">Analog Film</span>
+              <span class="name">BABA YAGA</span>
             </div>
           </div>
         </div>
@@ -419,72 +499,59 @@
       </p>
     </div>
     <div class="products">
-      <div class="product" data-product-id="1">
-        <div class="product-tape"></div>
-        <div class="badge">NEW</div>
-        <div class="product-img">
-          <img src="New Project 22 [FA6B4A7].png" alt="" />
-        </div>
-        <div class="product-info">
-          <div>
-            <div class="name">Sunset Ridge</div>
-            <div class="cat">Nature · A3</div>
-          </div>
-          <div class="price">₹60</div>
-        </div>
-      </div>
-
-      <div class="product" data-product-id="2">
-        <div class="product-tape"></div>
-        <div class="product-img">
-          <img src="New Project 22 [27E5039].png" alt="" />
-        </div>
-        <div class="product-info">
-          <div>
-            <div class="name">Bauhaus No.7</div>
-            <div class="cat">Abstract · A2</div>
-          </div>
-          <div class="price">₹60</div>
-        </div>
-      </div>
-
-      <div class="product" data-product-id="3">
+      <div class="product" data-product-id="84">
         <div class="product-tape"></div>
         <div class="badge">BESTSELLER</div>
         <div class="product-img">
-          <img src="New Project 22 [029A006].png" alt="" />
+          <img src="poster/opt/1556723.webp" alt="They Call Me Baba Yaga — John Wick poster" />
         </div>
         <div class="product-info">
           <div>
-            <div class="name">Tokyo Nights</div>
-            <div class="cat">Cityscape · A3</div>
+            <div class="name">They Call Me Baba Yaga</div>
+            <div class="cat">Movies · Cult Cinema</div>
           </div>
           <div class="price">₹60</div>
         </div>
       </div>
 
-      <div class="product" data-product-id="4">
+      <div class="product" data-product-id="101">
         <div class="product-tape"></div>
         <div class="product-img">
-          <img src="New Project 22 [534B54A].png" alt="" />
+          <img src="poster/opt/1514085.webp" alt="BMW E30 M3 — White Smoke Drift poster" />
         </div>
         <div class="product-info">
           <div>
-            <div class="name">Golden Hour</div>
-            <div class="cat">Photography · A2</div>
+            <div class="name">BMW E30 M3</div>
+            <div class="cat">Cars · Classics</div>
           </div>
           <div class="price">₹60</div>
         </div>
       </div>
-      <div class="product" data-product-id="4">
+
+      <div class="product" data-product-id="151">
         <div class="product-tape"></div>
+        <div class="badge">NEW</div>
         <div class="product-img">
-          <img src="WhatsApp Image 2026-09-05 at 11.39.33 PM (1).jpeg" alt="" />
+          <img src="poster/opt/1557012.webp" alt="Leo In Pink — Inter Miami poster" />
         </div>
         <div class="product-info">
           <div>
-            <div class="name">Golden Hour</div>
-            <div class="cat">Photography · A2</div>
+            <div class="name">Leo In Pink</div>
+            <div class="cat">Sports · Athletes</div>
+          </div>
+          <div class="price">₹60</div>
+        </div>
+      </div>
+
+      <div class="product" data-product-id="112">
+        <div class="product-tape"></div>
+        <div class="product-img">
+          <img src="poster/opt/1514166.webp" alt="What If It Works — Motivation poster" />
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="name">What If It Works</div>
+            <div class="cat">Motivation · Mindset</div>
           </div>
           <div class="price">₹60</div>
         </div>
@@ -515,11 +582,19 @@
         <div class="space3d-cta-row">
           <a href="shop.html" class="space3d-btn space3d-btn-primary">
             <span>Shop the Wall</span>
-            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
           </a>
           <a href="shop.html" class="space3d-btn space3d-btn-secondary">
             <span>Explore All Posters</span>
-            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <svg class="space3d-btn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
           </a>
         </div>
       </div>
@@ -529,26 +604,26 @@
     <div class="space3d-viewport" id="space3dViewport">
       <div class="space3d-stage" id="space3dStage">
         <!-- Centerpiece Hero Poster -->
-        <div class="space3d-card hero-center" data-product-id="12" data-base-x="0" data-base-y="0" data-base-z="60"
+        <div class="space3d-card hero-center" data-product-id="47" data-base-x="0" data-base-y="0" data-base-z="60"
           data-base-rx="0" data-base-ry="0" data-base-rz="0" data-depth="1">
           <div class="space3d-card-inner">
             <span class="space3d-card-badge">TRENDING</span>
             <div class="space3d-card-img-wrap">
-              <img src="1553256_1.jpg.jpeg" alt="Spider-Man Rebirth" loading="lazy" />
+              <img src="poster/opt/1553256_1.webp" alt="Peter Parker" loading="lazy" onerror="this.onerror=null;this.src='poster/opt/1553256_1.webp'" />
             </div>
             <div class="space3d-card-info">
-              <span class="space3d-card-title">REBIRTH | Spider-Man</span>
+              <span class="space3d-card-title">PETER PARKER | No Way Home</span>
               <span class="space3d-card-price">₹60</span>
             </div>
           </div>
         </div>
 
         <!-- Left Wing Card -->
-        <div class="space3d-card" data-product-id="2" data-base-x="-320" data-base-y="-30" data-base-z="-30"
+        <div class="space3d-card" data-product-id="138" data-base-x="-320" data-base-y="-30" data-base-z="-30"
           data-base-rx="-4" data-base-ry="18" data-base-rz="-2" data-depth="1.4">
           <div class="space3d-card-inner">
             <div class="space3d-card-img-wrap">
-              <img src="New Project 22 [27E5039].png" alt="Bauhaus No.7" loading="lazy" />
+              <img src="poster/opt/1514232.webp" alt="Bauhaus No.7" loading="lazy" />
             </div>
             <div class="space3d-card-info">
               <span class="space3d-card-title">Bauhaus No.7</span>
@@ -558,12 +633,12 @@
         </div>
 
         <!-- Right Wing Card -->
-        <div class="space3d-card" data-product-id="14" data-base-x="320" data-base-y="30" data-base-z="-20"
+        <div class="space3d-card" data-product-id="37" data-base-x="320" data-base-y="30" data-base-z="-20"
           data-base-rx="4" data-base-ry="-16" data-base-rz="2" data-depth="1.3">
           <div class="space3d-card-inner">
             <span class="space3d-card-badge">IMMORTAL</span>
             <div class="space3d-card-img-wrap">
-              <img src="1551192.png" alt="Messi Immortal" loading="lazy" />
+              <img src="poster/opt/1551192.webp" alt="Messi Immortal" loading="lazy" onerror="this.onerror=null;this.src='poster/opt/1551192.webp'" />
             </div>
             <div class="space3d-card-info">
               <span class="space3d-card-title">Messi Immortal</span>
@@ -573,11 +648,11 @@
         </div>
 
         <!-- Ambient Depth Left -->
-        <div class="space3d-card" data-product-id="1" data-base-x="-540" data-base-y="-100" data-base-z="-120"
+        <div class="space3d-card" data-product-id="36" data-base-x="-540" data-base-y="-100" data-base-z="-120"
           data-base-rx="-8" data-base-ry="24" data-base-rz="-4" data-depth="2.1">
           <div class="space3d-card-inner">
             <div class="space3d-card-img-wrap">
-              <img src="New Project 22 [FA6B4A7].png" alt="Sunset Ridge" loading="lazy" />
+              <img src="poster/opt/1551532.webp" alt="Sunset Ridge" loading="lazy" />
             </div>
             <div class="space3d-card-info">
               <span class="space3d-card-title">Sunset Ridge</span>
@@ -587,12 +662,12 @@
         </div>
 
         <!-- Ambient Depth Right -->
-        <div class="space3d-card" data-product-id="13" data-base-x="540" data-base-y="90" data-base-z="-100"
+        <div class="space3d-card" data-product-id="48" data-base-x="540" data-base-y="90" data-base-z="-100"
           data-base-rx="6" data-base-ry="-22" data-base-rz="3" data-depth="2.0">
           <div class="space3d-card-inner">
             <span class="space3d-card-badge" style="background:#059669">MARVEL</span>
             <div class="space3d-card-img-wrap">
-              <img src="1553164.jpg.jpeg" alt="Doctor Doom" loading="lazy" />
+              <img src="poster/opt/1553164.webp" alt="Doctor Doom" loading="lazy" onerror="this.onerror=null;this.src='poster/opt/1553164.webp'" />
             </div>
             <div class="space3d-card-info">
               <span class="space3d-card-title">Doctor Doom</span>
@@ -620,13 +695,15 @@
         <!-- Slider Navigation Controls -->
         <div class="community-nav-controls" aria-label="Gallery Controls">
           <button type="button" class="comm-nav-btn" id="comm-slider-prev" aria-label="Previous customer photo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
           <div class="comm-slider-dots" id="comm-slider-dots" aria-label="Slide indicators"></div>
           <button type="button" class="comm-nav-btn" id="comm-slider-next" aria-label="Next customer photo">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
@@ -635,12 +712,15 @@
 
       <!-- Horizontal Slider Track -->
       <div class="community-slider-wrapper">
-        <div class="community-slider" id="community-slider" role="region" aria-label="Customer Wall Photos Slider" tabindex="0">
+        <div class="community-slider" id="community-slider" role="region" aria-label="Customer Wall Photos Slider"
+          tabindex="0">
           <!-- Card 1: 3-Poster Setup -->
           <article class="community-card" data-wall-id="1">
             <div class="community-card-inner">
               <div class="community-img-wrap">
-                <img src="images/community/customer-wall-1.jpg" alt="PINBOARD customer wall with Spider-Man, Witcher, and Iron Man posters" loading="lazy" decoding="async" />
+                <img src="images/community/customer-wall-1.jpg"
+                  alt="PINBOARD customer wall with Spider-Man, Witcher, and Iron Man posters" loading="lazy"
+                  decoding="async" />
                 <div class="community-img-glare" aria-hidden="true"></div>
               </div>
               <div class="community-card-meta">
@@ -654,7 +734,9 @@
           <article class="community-card" data-wall-id="4">
             <div class="community-card-inner">
               <div class="community-img-wrap">
-                <img src="images/community/customer-wall-4.jpg" alt="PINBOARD customer wall featuring 5-poster curated gallery collection" loading="lazy" decoding="async" />
+                <img src="images/community/customer-wall-4.jpg"
+                  alt="PINBOARD customer wall featuring 5-poster curated gallery collection" loading="lazy"
+                  decoding="async" />
                 <div class="community-img-glare" aria-hidden="true"></div>
               </div>
               <div class="community-card-meta">
@@ -668,7 +750,9 @@
           <article class="community-card" data-wall-id="3">
             <div class="community-card-inner">
               <div class="community-img-wrap">
-                <img src="images/community/customer-wall-3.jpg" alt="PINBOARD customer wall with vertical cross cluster arrangement" loading="lazy" decoding="async" />
+                <img src="images/community/customer-wall-3.jpg"
+                  alt="PINBOARD customer wall with vertical cross cluster arrangement" loading="lazy"
+                  decoding="async" />
                 <div class="community-img-glare" aria-hidden="true"></div>
               </div>
               <div class="community-card-meta">
@@ -682,7 +766,8 @@
           <article class="community-card" data-wall-id="2">
             <div class="community-card-inner">
               <div class="community-img-wrap">
-                <img src="images/community/customer-wall-2.jpg" alt="PINBOARD customer wall with full room wide perspective setup" loading="lazy" decoding="async" />
+                <img src="images/community/customer-wall-2.jpg"
+                  alt="PINBOARD customer wall with full room wide perspective setup" loading="lazy" decoding="async" />
                 <div class="community-img-glare" aria-hidden="true"></div>
               </div>
               <div class="community-card-meta">
@@ -703,11 +788,13 @@
           </div>
           <div class="community-cta-actions">
             <!-- 3D Primary Button: Create Your Wall -->
-            <a href="custom-posters.html" class="comm-btn-3d comm-btn-primary-3d" id="btn-create-wall-3d" aria-label="Create Your Wall">
+            <a href="custom-posters.html" class="comm-btn-3d comm-btn-primary-3d" id="btn-create-wall-3d"
+              aria-label="Create Your Wall">
               <span class="comm-btn-3d-top">
                 <span class="comm-btn-3d-text">Create Your Wall</span>
                 <span class="comm-btn-3d-icon" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
@@ -716,11 +803,13 @@
             </a>
 
             <!-- 3D Secondary Button: Shop All Posters -->
-            <a href="shop.html" class="comm-btn-3d comm-btn-secondary-3d" id="btn-shop-posters-3d" aria-label="Shop All Posters">
+            <a href="shop.html" class="comm-btn-3d comm-btn-secondary-3d" id="btn-shop-posters-3d"
+              aria-label="Shop All Posters">
               <span class="comm-btn-3d-top">
                 <span class="comm-btn-3d-text">Shop All Posters</span>
                 <span class="comm-btn-3d-icon" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
@@ -733,18 +822,22 @@
     </div>
 
     <!-- Lightbox Modal for Full Customer Wall Photo Preview -->
-    <div class="comm-lightbox" id="comm-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Customer Wall Setup Full Preview">
+    <div class="comm-lightbox" id="comm-lightbox" role="dialog" aria-modal="true" aria-hidden="true"
+      aria-label="Customer Wall Setup Full Preview">
       <div class="comm-lightbox-overlay" id="comm-lightbox-overlay"></div>
       <div class="comm-lightbox-container">
         <button type="button" class="comm-lightbox-close" id="comm-lightbox-close" aria-label="Close preview (Escape)">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        
-        <button type="button" class="comm-lightbox-nav comm-lightbox-prev" id="comm-lightbox-prev" aria-label="Previous customer photo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+
+        <button type="button" class="comm-lightbox-nav comm-lightbox-prev" id="comm-lightbox-prev"
+          aria-label="Previous customer photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
@@ -762,8 +855,10 @@
           </div>
         </div>
 
-        <button type="button" class="comm-lightbox-nav comm-lightbox-next" id="comm-lightbox-next" aria-label="Next customer photo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="comm-lightbox-nav comm-lightbox-next" id="comm-lightbox-next"
+          aria-label="Next customer photo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </button>
@@ -800,17 +895,22 @@
         <ul>
           <li><a href="#about">About</a></li>
           <li><a href="#about">Artists</a></li>
-          <li><a href="#about">Wholesale</a></li>
-          <li><a href="#about">Careers</a></li>
+          <li><a href="#about">Contact &amp; Support</a></li>
         </ul>
       </div>
-      <div class="foot-col">
+      <div class="foot-col foot-newsletter-col">
         <h4>SUPPORT</h4>
-        <ul>
-          <li><a href="#about">Shipping</a></li>
-          <li><a href="#about">Care Guide</a></li>
-          <li><a href="#about">Contact</a></li>
-        </ul>
+        <p class="foot-newsletter-sub">Drop your email for PINBOARD COMMUNITY secret drops and exhibition restocks.</p>
+        <form class="foot-newsletter-form" novalidate>
+          <div class="foot-newsletter-input-wrap">
+            <input type="email" class="foot-newsletter-input" placeholder="you@domain.com" aria-label="Email address for secret drops" required autocomplete="email" />
+            <button type="submit" class="foot-join-btn">
+              <span>JOIN</span>
+              <i class="fa-solid fa-arrow-right btn-icon" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="foot-newsletter-msg" aria-live="polite"></div>
+        </form>
       </div>
     </div>
     <div class="foot-bottom">
@@ -823,6 +923,7 @@
   <script type="module" src="js/firebase-config.js"></script>
   <script type="module" src="js/auth.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/whatsapp-order.js"></script>
   <script src="js/script.js?v=5"></script>
   <script src="js/space3d.js"></script>
   <script src="js/community-slider.js"></script>

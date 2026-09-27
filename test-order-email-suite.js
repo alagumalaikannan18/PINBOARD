@@ -187,8 +187,8 @@ test('css/style.css contains responsive modal layout rules', () => {
   console.log(`======================================================\n`);
 
   if (passedTests === totalTests) {
-    process.exit(0);
+    process.exitCode = 0;
   } else {
-    process.exit(1);
+    process.exitCode = 1;
   }
 })();

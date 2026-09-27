@@ -122,7 +122,7 @@ console.log(`RESULTS: ${passed}/${total} TESTS PASSED!`);
 console.log(`================================================================\n`);
 
 if (passed === total) {
-  process.exit(0);
+  process.exitCode = 0;
 } else {
-  process.exit(1);
+  process.exitCode = 1;
 }

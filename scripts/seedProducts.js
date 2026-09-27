@@ -61,6 +61,10 @@ async function seedDatabase(options = { verbose: true }) {
     seededCount++;
   }
 
+  // Remove any legacy duplicate documents from MongoDB (e.g. IDs 12, 13, 20)
+  const validIds = products.map(p => p.id);
+  await Product.deleteMany({ id: { $nin: validIds } });
+
   if (options.verbose) {
     console.log(`✅ Successfully seeded/updated ${seededCount} products in MongoDB.`);
   }

@@ -75,7 +75,7 @@ async function addToCart(req, res) {
     const isCustom = req.body.isCustom || String(productId).startsWith('custom-');
     let itemTitle = title;
     let itemPrice = 60;
-    let itemImage = image || 'New Project 22 [FA6B4A7].png';
+    let itemImage = image || 'poster/opt/1551192.webp';
 
     if (isCustom) {
       itemTitle = title || 'Custom Poster Set';

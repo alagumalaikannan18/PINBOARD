@@ -203,11 +203,11 @@ async function runBackendSecurityTests() {
   console.log('================================================================\n');
 
   if (passed !== total) {
-    process.exit(1);
+    process.exitCode = 1;
   }
 }
 
 runBackendSecurityTests().catch(err => {
   console.error('Fatal test error:', err);
-  process.exit(1);
+  process.exitCode = 1;
 });

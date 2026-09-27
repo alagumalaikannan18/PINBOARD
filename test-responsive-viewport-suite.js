@@ -64,5 +64,5 @@ async function runAudit() {
 
 runAudit().catch(err => {
   console.error('❌ Audit failed:', err);
-  process.exit(1);
+  process.exitCode = 1;
 });

@@ -69,7 +69,7 @@ console.log(`TOTAL TESTS: ${totalTests} | PASSED: ${passedTests} | FAILED: ${tot
 console.log(`======================================================\n`);
 
 if (passedTests === totalTests) {
-  process.exit(0);
+  process.exitCode = 0;
 } else {
-  process.exit(1);
+  process.exitCode = 1;
 }

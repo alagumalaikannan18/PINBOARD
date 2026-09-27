@@ -78,27 +78,29 @@
     var rate = Number(discountRate) || 0;
     var cartCount = 0;
     var rawSubtotal = 0;
-    var standardPosterQty = 0;
+    var standardA4Qty = 0;
     var customSubtotal = 0;
 
     (cart || []).forEach(function (item) {
-      var prod = getFullProduct(item);
       var qty = Number(item.quantity) || 1;
       cartCount += qty;
 
       if (item.isCustom) {
-        var cPrice = Number(item.price) || 1499;
+        var cPrice = Number(item.price) || 0;
         customSubtotal += cPrice * qty;
         rawSubtotal += cPrice * qty;
       } else {
-        var price = 60;
-        standardPosterQty += qty;
+        var itemSize = (item.size || 'A4').toUpperCase();
+        var price = (itemSize === 'A6') ? 25 : 60;
+        if (itemSize === 'A4') {
+          standardA4Qty += qty;
+        }
         rawSubtotal += price * qty;
       }
     });
 
-    // Combo Offer: 3 Posters for ₹150 (₹30 savings per 3 posters)
-    var comboSets = Math.floor(standardPosterQty / 3);
+    // Combo Offer for A4 ONLY: 3 A4 Posters for ₹150 (₹30 savings per 3 A4 posters)
+    var comboSets = Math.floor(standardA4Qty / 3);
     var comboSavings = comboSets * 30;
     var subtotalAfterCombo = Math.max(0, rawSubtotal - comboSavings);
     var promoDiscountAmount = Math.round(subtotalAfterCombo * rate);
@@ -106,7 +108,7 @@
 
     return {
       cartCount: cartCount,
-      standardPosterQty: standardPosterQty,
+      standardPosterQty: standardA4Qty,
       comboSets: comboSets,
       comboSavings: comboSavings,
       rawSubtotal: rawSubtotal,
@@ -259,7 +261,7 @@
       var qty = Number(item.quantity) || 1;
       var lineTotal = price * qty;
 
-      var rawImg = item.image || (prod && prod.images && prod.images[0] ? prod.images[0] : 'New Project 22 [FA6B4A7].png');
+      var rawImg = item.image || (prod && prod.images && prod.images[0] ? prod.images[0] : 'poster/opt/1551192.webp');
       var optThumb = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
         ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
         : rawImg;
@@ -583,6 +585,8 @@
 
   // --- CHECKOUT LOGIC & CONFIRMATION MODAL ---
   function handleCheckout(cart, total) {
+    if (!cart || cart.length === 0) return;
+
     var authInstance = window.PinboardAuth || window.Auth;
     var user = authInstance ? authInstance.getUser() : null;
 
@@ -595,6 +599,33 @@
       }
       window.location.href = 'account.html?redirect=cart.html';
       return;
+    }
+
+    var items = (cart || []).map(function (item) {
+      var prod = getFullProduct(item);
+      var itemSize = (item.size || 'A4').toUpperCase();
+      var qty = Math.max(1, Number(item.quantity) || 1);
+      var unitPrice = item.isCustom ? (Number(item.price) || 1499) : (itemSize === 'A6' ? 25 : 60);
+      var lineTotal = unitPrice * qty;
+
+      return {
+        id: item.id || item.productId,
+        title: item.title || (prod ? prod.title : ('Poster #' + (item.id || item.productId))),
+        size: itemSize,
+        quantity: qty,
+        unitPrice: unitPrice,
+        total: lineTotal,
+        isCustom: Boolean(item.isCustom)
+      };
+    });
+
+    var orderData = {
+      items: items,
+      grandTotal: total
+    };
+
+    if (typeof window.openWhatsAppOrderForAllRecipients === 'function') {
+      window.openWhatsAppOrderForAllRecipients(orderData);
     }
 
     var lastOrder = null;
@@ -673,6 +704,10 @@
         }
       });
     }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.calculateCartPricing = calculateCartPricing;
   }
 
   if (document.readyState === 'loading') {

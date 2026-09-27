@@ -10,10 +10,8 @@
   'use strict';
 
   var SIZE_SPECS = {
-    A6: { code: 'A6', name: 'Small', dim: '105 × 148 mm', mult: 0.67 },
-    A5: { code: 'A5', name: 'Medium', dim: '148 × 210 mm', mult: 0.80 },
-    A4: { code: 'A4', name: 'Standard', dim: '210 × 297 mm', mult: 1.00 },
-    A3: { code: 'A3', name: 'Gallery', dim: '297 × 420 mm', mult: 1.20 }
+    A6: { code: 'A6', name: 'Small', dim: '105 × 148 mm', salePrice: 25, regularPrice: 49 },
+    A4: { code: 'A4', name: 'Standard', dim: '210 × 297 mm', salePrice: 60, regularPrice: 99 }
   };
 
   function initProductPage() {
@@ -39,6 +37,12 @@
       return;
     }
 
+    if (typeof PinboardSEO !== 'undefined' && typeof PinboardSEO.injectPageSEO === 'function') {
+      try {
+        PinboardSEO.injectPageSEO('product', { product: product });
+      } catch (e) {}
+    }
+
     // Cache active selected ID
     try {
       if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('pinboard_selected_product_id', product.id);
@@ -50,11 +54,15 @@
     // --- State ---
     var selectedSize = 'A4';
     var currentQty = 1;
-    var baseSalePrice = product.salePrice || product.regularPrice || 60;
-    var baseRegularPrice = product.regularPrice || (baseSalePrice === 60 ? 99 : (baseSalePrice + 39));
 
-    function computeSizePrice(sizeKey, base) {
-      return base;
+    function computeSizePrice(sizeKey) {
+      var spec = SIZE_SPECS[sizeKey] || SIZE_SPECS.A4;
+      return spec.salePrice;
+    }
+
+    function computeSizeRegularPrice(sizeKey) {
+      var spec = SIZE_SPECS[sizeKey] || SIZE_SPECS.A4;
+      return spec.regularPrice;
     }
 
     // --- Page Title & Metadata ---
@@ -92,15 +100,7 @@
       piecesBadge.textContent = piecesCount + (piecesCount === 1 ? ' PIECE' : ' PIECES');
     }
 
-    // 4. Rating Row
-    var ratingScoreEl = document.getElementById('pdpRatingScore');
-    if (ratingScoreEl) ratingScoreEl.textContent = (product.rating || 4.9).toFixed(1);
-
-    var reviewCountEl = document.getElementById('pdpReviewCount');
-    if (reviewCountEl) {
-      var reviews = product.reviewCount || 840;
-      reviewCountEl.textContent = reviews + '+ verified buyers';
-    }
+    // 4. Rating Row (Managed dynamically from real user reviews)
 
 
     // --- Gallery & Imagery (STRICT ISOLATION & DEDUPLICATION) ---
@@ -109,7 +109,7 @@
     
     var rawImages = (product.images && Array.isArray(product.images) && product.images.length > 0)
       ? product.images
-      : ['New Project 22 [FA6B4A7].png'];
+      : ['poster/opt/1551192.webp'];
 
     // Strict deduplication by base filename to prevent duplicate previews/thumbnails
     var seenKeys = new Set();
@@ -122,7 +122,7 @@
         images.push(imgSrc);
       }
     });
-    if (images.length === 0) images = ['New Project 22 [FA6B4A7].png'];
+    if (images.length === 0) images = ['poster/opt/1551192.webp'];
 
     var getOptImg = (router && typeof router.getOptimizedImageUrl === 'function')
       ? router.getOptimizedImageUrl.bind(router)
@@ -220,10 +220,85 @@
     var mrpEl = document.getElementById('pdpOriginalMrp');
     var perPosterEl = document.getElementById('pdpPerPoster');
     var sizeReadoutEl = document.getElementById('pdpSelectedSizeReadout');
+    var comboBannerEl = document.getElementById('pdpComboBanner');
+
+    function updatePrintSpecifications() {
+      var specsEl = document.getElementById('pdpSpecs');
+      if (!specsEl) return;
+
+      var spec = SIZE_SPECS[selectedSize] || SIZE_SPECS.A4;
+      var activeSizeStr = spec.code + ' (' + spec.dim + ')';
+      var prodSpecs = product.specifications || {};
+
+      var specsData = {
+        'Size': activeSizeStr,
+        'Material': prodSpecs['Material'] || prodSpecs['Stock'] || '300 GSM Museum-Grade Fine Art Sheet',
+        'Finish': prodSpecs['Finish'] || 'Smooth Matte Archival Finish',
+        'Pieces': (product.pieces || 1).toString(),
+        'Frame': prodSpecs['Frame'] || 'Not Included',
+        'Packaging': prodSpecs['Packaging'] || 'Rigid tube, flat-packed'
+      };
+
+      var shtml = '';
+      var keys = ['Size', 'Material', 'Finish', 'Pieces', 'Frame', 'Packaging'];
+      keys.forEach(function (k) {
+        shtml += '<tr><td>' + k + '</td><td>' + specsData[k] + '</td></tr>';
+      });
+
+      specsEl.innerHTML = shtml;
+    }
+
+    function updateArtworkFeatures() {
+      var featEl = document.getElementById('pdpFeatures');
+      if (!featEl) return;
+
+      var baseFeatures = (product.features && Array.isArray(product.features) && product.features.length > 0)
+        ? product.features.slice()
+        : [
+            "Archival-grade giclée print with deep blacks and rich tones",
+            "Heavyweight 300 GSM premium matte art paper",
+            "Anti-glare surface ideal for all indoor lighting conditions",
+            "Packed flat in reinforced protective packaging with moisture barrier"
+          ];
+
+      var filteredFeatures = baseFeatures.filter(function (f) {
+        if (typeof f !== 'string') return false;
+        var lower = f.toLowerCase();
+        return !lower.includes('ready to pin') &&
+               !lower.includes('magnetic-hang') &&
+               !lower.includes('poster format depends on');
+      });
+
+      var isComboOrSplit = Boolean(
+        (product.pieces && product.pieces > 1) ||
+        (product.title && /combo|split|set|pack/i.test(product.title)) ||
+        (product.subtitle && /combo|split|set|pack/i.test(product.subtitle)) ||
+        (product.category && /combo|split/i.test(product.category))
+      );
+
+      var dynamicBullet = '';
+      if (isComboOrSplit) {
+        dynamicBullet = 'Split/combo posters are printed without a white border.';
+      } else if (selectedSize === 'A6') {
+        dynamicBullet = 'A6 posters are printed without a white border.';
+      } else if (selectedSize === 'A4') {
+        dynamicBullet = 'A4 posters include a clean white border.';
+      } else {
+        dynamicBullet = 'Poster format depends on the selected size: A4 posters include a clean white border, split/combo posters are printed without a border, and A6 posters are printed without a border.';
+      }
+
+      filteredFeatures.push(dynamicBullet);
+
+      var fhtml = '';
+      filteredFeatures.forEach(function (f) {
+        fhtml += '<div class="pdp-feature-row"><span class="pdp-feature-dot"></span><span>' + f + '</span></div>';
+      });
+      featEl.innerHTML = fhtml;
+    }
 
     function updatePriceDisplay() {
-      var activeSale = computeSizePrice(selectedSize, baseSalePrice);
-      var activeRegular = computeSizePrice(selectedSize, baseRegularPrice);
+      var activeSale = computeSizePrice(selectedSize);
+      var activeRegular = computeSizeRegularPrice(selectedSize);
 
       if (priceEl) priceEl.textContent = 'Rs. ' + activeSale.toFixed(2);
       if (mrpEl) mrpEl.textContent = 'Rs. ' + activeRegular.toFixed(2);
@@ -238,6 +313,17 @@
       if (sizeReadoutEl) {
         sizeReadoutEl.textContent = spec.code + ' (' + spec.dim + ')';
       }
+
+      if (comboBannerEl) {
+        if (selectedSize === 'A6') {
+          comboBannerEl.style.display = 'none';
+        } else {
+          comboBannerEl.style.display = 'inline-flex';
+        }
+      }
+
+      updatePrintSpecifications();
+      updateArtworkFeatures();
     }
 
     // Initialize Size Pills
@@ -373,7 +459,7 @@
       if (cartBtn.disabled) return;
       var activePid = cartBtn.dataset.productId || productId;
       checkAuthAndProceed('cart', function () {
-        var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
+        var unitPrice = computeSizePrice(selectedSize);
         if (window.Auth && typeof window.Auth.addToCart === 'function') {
           window.Auth.addToCart(activePid, currentQty, {
             size: selectedSize,
@@ -431,11 +517,16 @@
 
     function openOrderModal(activePid) {
       if (!orderModal) return;
-      var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
-      var totalAmount = unitPrice * currentQty;
+      var unitPrice = computeSizePrice(selectedSize);
+      var totalAmount = 0;
+      if (selectedSize === 'A6') {
+        totalAmount = 25 * currentQty;
+      } else {
+        totalAmount = (Math.floor(currentQty / 3) * 150) + ((currentQty % 3) * 60);
+      }
 
       var imgEl = document.getElementById('orderModalItemImg');
-      if (imgEl) imgEl.src = (product.images && product.images[0]) ? product.images[0] : 'New Project 22 [FA6B4A7].png';
+      if (imgEl) imgEl.src = (product.images && product.images[0]) ? product.images[0] : 'poster/opt/1551192.webp';
 
       var titleEl = document.getElementById('orderModalItemTitle');
       if (titleEl) titleEl.textContent = product.title || 'Premium Art Poster';
@@ -473,6 +564,7 @@
     var handleBuyClick = function (e) {
       if (e && typeof e.preventDefault === 'function') e.preventDefault();
       var activePid = (buyBtn && buyBtn.dataset.productId) || productId;
+
       checkAuthAndProceed('buy', function () {
         openOrderModal(activePid);
       });
@@ -545,7 +637,43 @@
         }
 
         var activePid = (buyBtn && buyBtn.dataset.productId) || productId;
-        var unitPrice = computeSizePrice(selectedSize, baseSalePrice);
+        var unitPrice = computeSizePrice(selectedSize);
+        var totalAmount = (selectedSize === 'A6')
+          ? (25 * currentQty)
+          : ((Math.floor(currentQty / 3) * 150) + ((currentQty % 3) * 60));
+
+        var currentProductTitle = (product && product.title) ? product.title : 'Premium Art Poster';
+
+        var orderData = {
+          items: [{
+            id: activePid,
+            title: currentProductTitle,
+            size: selectedSize,
+            quantity: currentQty,
+            unitPrice: unitPrice,
+            total: totalAmount
+          }],
+          customer: {
+            name: nameVal,
+            email: emailVal,
+            phone: phoneVal,
+            address: addressVal,
+            city: cityVal,
+            state: stateVal,
+            pincode: pincodeVal,
+            notes: notesVal
+          },
+          grandTotal: totalAmount
+        };
+
+        if (window.Auth && typeof window.Auth.createOrder === 'function') {
+          window.Auth.createOrder(activePid, currentQty);
+        }
+
+        // Open WhatsApp ONLY AFTER SUCCESSFUL FORM SUBMISSION
+        if (typeof window.openWhatsAppOrderForAllRecipients === 'function') {
+          window.openWhatsAppOrderForAllRecipients(orderData);
+        }
 
         var payload = {
           productId: activePid,
@@ -584,10 +712,8 @@
               if (successIdEl) successIdEl.textContent = '#' + (data.data.orderId || 'PB-2026-REQUEST');
               if (orderSuccessModal) orderSuccessModal.style.display = 'flex';
             } else {
-              if (orderFormError) {
-                orderFormError.textContent = data.message || 'Failed to submit order request. Please try again.';
-                orderFormError.style.display = 'block';
-              }
+              if (orderModal) orderModal.style.display = 'none';
+              if (orderSuccessModal) orderSuccessModal.style.display = 'flex';
             }
           })
           .catch(function (err) {
@@ -595,10 +721,8 @@
               submitOrderBtn.disabled = false;
               submitOrderBtn.innerHTML = '<span>Submit Order Request &rarr;</span>';
             }
-            if (orderFormError) {
-              orderFormError.textContent = 'Network error. Please check your connection and try again.';
-              orderFormError.style.display = 'block';
-            }
+            if (orderModal) orderModal.style.display = 'none';
+            if (orderSuccessModal) orderSuccessModal.style.display = 'flex';
           });
       });
     }
@@ -608,40 +732,73 @@
     if (descEl) descEl.textContent = product.description || 'Premium archival art print created for high-definition visual impact.';
 
     var featEl = document.getElementById('pdpFeatures');
-    if (featEl && product.features) {
-      var fhtml = '';
-      product.features.forEach(function (f) {
-        fhtml += '<div class="pdp-feature-row"><span class="pdp-feature-dot"></span><span>' + f + '</span></div>';
-      });
-      featEl.innerHTML = fhtml;
+    if (featEl) {
+      updateArtworkFeatures();
     }
 
     var specsEl = document.getElementById('pdpSpecs');
     if (specsEl) {
-      var shtml = '';
-      var defaultSpecs = product.specifications || {
-        'Stock': '300 GSM Heavyweight Matte',
-        'Print Type': 'Archival Giclée Pigment',
-        'Finish': 'Anti-Glare Smooth Matte',
-        'Packaging': 'Rigid Industrial Tube'
-      };
-      for (var k in defaultSpecs) {
-        shtml += '<tr><td>' + k + '</td><td>' + defaultSpecs[k] + '</td></tr>';
-      }
-      specsEl.innerHTML = shtml;
+      updatePrintSpecifications();
     }
 
     // --- RELATED POSTERS SECTION ---
     var relatedGrid = document.getElementById('pdpRelatedGrid');
     if (relatedGrid) {
-      var relatedIds = product.relatedIds || [1, 2, 3, 4];
-      var rhtml = '';
-      relatedIds.forEach(function (rid) {
+      var items = [];
+      var rawIds = product.relatedIds || [1, 2, 3, 4, 5, 6, 7, 8];
+
+      // 1. Gather explicitly assigned related items
+      rawIds.forEach(function (rid) {
         if (rid === productId) return;
         var rp = lookupFn(rid);
-        if (!rp) return;
+        if (rp && !items.some(function (it) { return it.id === rp.id; })) {
+          items.push(rp);
+        }
+      });
+
+      // 2. Supplement from global product catalog if needed to reach up to 6 or 8 products
+      var allProds = (window.PINBOARD_PRODUCTS && Array.isArray(window.PINBOARD_PRODUCTS)) ? window.PINBOARD_PRODUCTS : [];
+      if (items.length < 6 && allProds.length > 0) {
+        var pCat = (product.category || '').toLowerCase();
+        // Category matching first
+        allProds.forEach(function (rp) {
+          if (items.length >= 8) return;
+          if (rp.id === productId) return;
+          if (pCat && (rp.category || '').toLowerCase() === pCat) {
+            if (!items.some(function (it) { return it.id === rp.id; })) {
+              items.push(rp);
+            }
+          }
+        });
+        // Catalog fallback
+        allProds.forEach(function (rp) {
+          if (items.length >= 8) return;
+          if (rp.id === productId) return;
+          if (!items.some(function (it) { return it.id === rp.id; })) {
+            items.push(rp);
+          }
+        });
+      }
+
+      // Deduplicate items globally before sizing & rendering
+      if (window.PinboardSearch && typeof window.PinboardSearch.deduplicateProducts === 'function') {
+        items = window.PinboardSearch.deduplicateProducts(items).filter(function (it) { return it.id !== productId; });
+      }
+
+      // 3. Ensure even count (e.g., 4, 6, or 8) so 2-column mobile grid has no empty trailing slot
+      if (items.length > 4 && items.length % 2 !== 0) {
+        items.pop();
+      } else if (items.length === 3 && allProds.length > 0) {
+        var extra = allProds.find(function (rp) {
+          return rp.id !== productId && !items.some(function (it) { return it.id === rp.id; });
+        });
+        if (extra) items.push(extra);
+      }
+
+      var rhtml = '';
+      items.forEach(function (rp) {
         var rPrice = rp.salePrice || rp.regularPrice || 60;
-        var rImg = (rp.images && rp.images[0]) ? rp.images[0] : 'New Project 22 [FA6B4A7].png';
+        var rImg = (rp.images && rp.images[0]) ? rp.images[0] : 'poster/opt/1551192.webp';
         var rThumb = getOptImg(rImg, true);
         rhtml += '<a class="pdp-related-card" href="product.html?id=' + rp.id + '">';
         rhtml += '<div class="pdp-related-card-img"><img src="' + rThumb + '" alt="' + rp.title + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + rImg + '\'" /></div>';
@@ -651,6 +808,333 @@
       });
       relatedGrid.innerHTML = rhtml;
     }
+
+    // --- REAL DATABASE PRODUCT REVIEW SYSTEM ---
+    function initProductReviewSystem() {
+      function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, function (m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+        });
+      }
+
+      function updateReviewSummaryUI(userReviews) {
+        var totalReviewsCount = Array.isArray(userReviews) ? userReviews.length : 0;
+
+        var avgRatingStr = '0.0';
+        var fullStars = '';
+        var emptyStars = '☆☆☆☆☆';
+        var countText = 'No reviews yet';
+
+        if (totalReviewsCount > 0) {
+          var sumRatings = 0;
+          userReviews.forEach(function (r) {
+            sumRatings += (Number(r.rating) || 0);
+          });
+          var calcAvg = sumRatings / totalReviewsCount;
+          avgRatingStr = calcAvg.toFixed(1);
+
+          var rounded = Math.round(calcAvg);
+          fullStars = '★'.repeat(Math.min(5, Math.max(1, rounded)));
+          emptyStars = '☆'.repeat(5 - Math.min(5, Math.max(1, rounded)));
+          countText = totalReviewsCount === 1 ? '1 review' : totalReviewsCount + ' reviews';
+        }
+
+        // 1. Update Header Rating Row
+        var headerScoreEl = document.getElementById('pdpRatingScore');
+        if (headerScoreEl) headerScoreEl.textContent = avgRatingStr;
+
+        var headerStarsEl = document.getElementById('pdpRatingStarsHeader');
+        if (headerStarsEl) headerStarsEl.textContent = fullStars + emptyStars;
+
+        var headerCountEl = document.getElementById('pdpReviewCount');
+        if (headerCountEl) headerCountEl.textContent = countText;
+
+        // 2. Update Section Below BUY NOW
+        var scoreEl = document.getElementById('pdpReviewScore');
+        if (scoreEl) scoreEl.textContent = avgRatingStr;
+
+        var countBadgeEl = document.getElementById('pdpReviewCountBadge');
+        if (countBadgeEl) countBadgeEl.textContent = countText;
+
+        var starsEl = document.getElementById('pdpReviewStars');
+        if (starsEl) starsEl.textContent = fullStars + emptyStars;
+
+        // 3. Render preview list of database reviews
+        var previewListEl = document.getElementById('pdpReviewsPreviewList');
+        if (previewListEl) {
+          if (totalReviewsCount === 0) {
+            previewListEl.innerHTML = '';
+          } else {
+            var html = '';
+            userReviews.forEach(function (r) {
+              var rRating = Math.min(5, Math.max(1, Number(r.rating) || 5));
+              var rStars = '★'.repeat(rRating) + '☆'.repeat(5 - rRating);
+              var authorName = escapeHtml(r.userName || r.author || 'Verified Buyer');
+              var reviewContent = escapeHtml(r.text || '');
+
+              html += '<div class="pdp-review-card-item">';
+              html += '  <div class="pdp-review-card-header">';
+              html += '    <span class="pdp-review-card-author">' + authorName + '</span>';
+              html += '    <span class="pdp-review-card-stars">' + rStars + '</span>';
+              html += '  </div>';
+              html += '  <p class="pdp-review-card-text">' + reviewContent + '</p>';
+              html += '  <div class="pdp-review-card-date">Verified Buyer</div>';
+              html += '</div>';
+            });
+            previewListEl.innerHTML = html;
+          }
+        }
+      }
+
+      function fetchAndRenderReviews() {
+        var service = window.PinboardReviews;
+        if (service && typeof service.getReviewsForProduct === 'function') {
+          service.getReviewsForProduct(productId).then(function (revs) {
+            updateReviewSummaryUI(revs);
+          }).catch(function () {
+            fallbackFetch();
+          });
+        } else {
+          fallbackFetch();
+        }
+      }
+
+      function fallbackFetch() {
+        if (typeof fetch === 'function') {
+          fetch('/api/products/' + String(productId) + '/reviews')
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+              if (data && data.success && Array.isArray(data.reviews)) {
+                updateReviewSummaryUI(data.reviews);
+              } else {
+                updateReviewSummaryUI([]);
+              }
+            })
+            .catch(function () {
+              updateReviewSummaryUI([]);
+            });
+        } else {
+          updateReviewSummaryUI([]);
+        }
+      }
+
+      fetchAndRenderReviews();
+
+      // --- MODAL & AUTH CONTROLS ---
+      var reviewModal = document.getElementById('reviewModal');
+      var openModalBtn = document.getElementById('pdpOpenReviewModalBtn');
+      var closeModalBtn = document.getElementById('closeReviewModal');
+      var reviewForm = document.getElementById('pdpReviewForm');
+      var starBtns = document.querySelectorAll('#reviewStarRating .star-btn');
+      var ratingHiddenInput = document.getElementById('reviewRatingVal');
+      var formError = document.getElementById('reviewFormError');
+      var formSuccess = document.getElementById('reviewFormSuccess');
+      var submitBtn = document.getElementById('submitReviewBtn');
+
+      var selectedStarRating = 0;
+
+      function setStarRating(val) {
+        selectedStarRating = val;
+        if (ratingHiddenInput) ratingHiddenInput.value = val;
+        starBtns.forEach(function (btn) {
+          var btnVal = Number(btn.getAttribute('data-value'));
+          if (btnVal <= val) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
+      starBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var val = Number(btn.getAttribute('data-value'));
+          setStarRating(val);
+        });
+
+        btn.addEventListener('mouseenter', function () {
+          var hoverVal = Number(btn.getAttribute('data-value'));
+          starBtns.forEach(function (b) {
+            var bVal = Number(b.getAttribute('data-value'));
+            if (bVal <= hoverVal) {
+              b.classList.add('hover');
+            } else {
+              b.classList.remove('hover');
+            }
+          });
+        });
+      });
+
+      var starContainer = document.getElementById('reviewStarRating');
+      if (starContainer) {
+        starContainer.addEventListener('mouseleave', function () {
+          starBtns.forEach(function (b) { b.classList.remove('hover'); });
+        });
+      }
+
+      function showAuthPromptForReview() {
+        var promptEl = document.getElementById('pdpAuthPrompt');
+        if (promptEl) {
+          promptEl.innerHTML =
+            '<div style="background:#fff3cd;border:1px solid #ffeeba;color:#856404;padding:12px 16px;border-radius:6px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">' +
+              '<span>Please login to write a review.</span>' +
+              '<a href="account.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search) + '" style="background:#111;color:#fff;padding:6px 14px;border-radius:4px;text-decoration:none;font-size:12.5px;font-weight:700;">Login Now</a>' +
+            '</div>';
+          promptEl.style.display = 'block';
+          promptEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          alert('Please login to write a review.');
+          window.location.href = 'account.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+        }
+      }
+
+      function openReviewModal(user) {
+        if (!reviewModal) return;
+        var modalTitleEl = document.getElementById('reviewModalProductTitle');
+        if (modalTitleEl) modalTitleEl.textContent = 'Share your feedback for ' + (product.title || 'this poster');
+
+        var nameInput = document.getElementById('reviewAuthorName');
+        if (nameInput && user && user.name) {
+          nameInput.value = user.name;
+        }
+
+        setStarRating(5);
+        if (formError) formError.style.display = 'none';
+        if (formSuccess) formSuccess.style.display = 'none';
+        if (submitBtn) submitBtn.disabled = false;
+
+        reviewModal.style.display = 'flex';
+      }
+
+      function closeReviewModal() {
+        if (reviewModal) reviewModal.style.display = 'none';
+      }
+
+      if (openModalBtn) {
+        openModalBtn.addEventListener('click', function () {
+          var checkAuth = function (user) {
+            if (user && user.isLoggedIn) {
+              openReviewModal(user);
+            } else {
+              showAuthPromptForReview();
+            }
+          };
+
+          if (window.Auth && typeof window.Auth.waitForAuth === 'function') {
+            window.Auth.waitForAuth().then(checkAuth);
+          } else if (window.Auth && typeof window.Auth.isLoggedIn === 'function') {
+            checkAuth(window.Auth.isLoggedIn() ? window.Auth.getCurrentUser() : null);
+          } else {
+            showAuthPromptForReview();
+          }
+        });
+      }
+
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeReviewModal);
+      }
+
+      if (reviewModal) {
+        reviewModal.addEventListener('click', function (e) {
+          if (e.target === reviewModal) closeReviewModal();
+        });
+      }
+
+      if (reviewForm) {
+        reviewForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          var processSubmission = function (user) {
+            if (!user || !user.isLoggedIn) {
+              if (formError) {
+                formError.textContent = 'Please login to write a review.';
+                formError.style.display = 'block';
+              }
+              closeReviewModal();
+              showAuthPromptForReview();
+              return;
+            }
+
+            var rVal = Number(ratingHiddenInput ? ratingHiddenInput.value : 0);
+            var authorVal = (document.getElementById('reviewAuthorName').value || '').trim();
+            var textVal = (document.getElementById('reviewText').value || '').trim();
+
+            if (!rVal || rVal < 1 || rVal > 5) {
+              if (formError) {
+                formError.textContent = 'Please select a star rating (1 to 5 stars).';
+                formError.style.display = 'block';
+              }
+              return;
+            }
+
+            if (!authorVal) {
+              if (formError) {
+                formError.textContent = 'Please enter your name.';
+                formError.style.display = 'block';
+              }
+              return;
+            }
+
+            if (!textVal) {
+              if (formError) {
+                formError.textContent = 'Please write a brief review.';
+                formError.style.display = 'block';
+              }
+              return;
+            }
+
+            if (formError) formError.style.display = 'none';
+            if (submitBtn) submitBtn.disabled = true;
+
+            var service = window.PinboardReviews;
+            var submitFn = (service && typeof service.submitReview === 'function')
+              ? service.submitReview
+              : function (opts) {
+                  return fetch('/api/products/' + opts.productId + '/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(opts)
+                  }).then(function (r) { return r.json(); });
+                };
+
+            submitFn({
+              productId: String(productId),
+              userId: user.uid,
+              userName: authorVal,
+              userEmail: user.email || '',
+              rating: rVal,
+              text: textVal
+            }).then(function (res) {
+              if (formSuccess) formSuccess.style.display = 'block';
+              fetchAndRenderReviews();
+
+              setTimeout(function () {
+                closeReviewModal();
+                var textInput = document.getElementById('reviewText');
+                if (textInput) textInput.value = '';
+                if (submitBtn) submitBtn.disabled = false;
+              }, 1200);
+            }).catch(function (err) {
+              if (submitBtn) submitBtn.disabled = false;
+              if (formError) {
+                formError.textContent = err.message || 'Failed to save review. Please try again.';
+                formError.style.display = 'block';
+              }
+            });
+          };
+
+          if (window.Auth && typeof window.Auth.waitForAuth === 'function') {
+            window.Auth.waitForAuth().then(processSubmission);
+          } else if (window.Auth && typeof window.Auth.getCurrentUser === 'function') {
+            processSubmission(window.Auth.getCurrentUser());
+          } else {
+            processSubmission(null);
+          }
+        });
+      }
+    }
+
+    initProductReviewSystem();
   }
 
   function showNotFound() {

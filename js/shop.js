@@ -46,17 +46,25 @@
       return;
     }
 
+    var uniqueProducts = (window.PinboardSearch && typeof window.PinboardSearch.deduplicateProducts === 'function')
+      ? window.PinboardSearch.deduplicateProducts(rawProducts)
+      : rawProducts;
+
     // Filter by active category if not 'all'
-    var filtered = rawProducts;
+    var filtered = uniqueProducts;
     if (activeCategory && activeCategory !== 'all') {
       var targetCat = activeCategory.toLowerCase();
-      filtered = rawProducts.filter(function (p) {
+      filtered = uniqueProducts.filter(function (p) {
         var cat = (p.category || '').toLowerCase();
         var col = (p.collection || '').toLowerCase();
         var tags = Array.isArray(p.tags) ? p.tags.map(function (t) { return t.toLowerCase(); }) : [];
         return cat.includes(targetCat) || col.includes(targetCat) || tags.indexOf(targetCat) !== -1;
       });
     }
+
+    filtered = (window.PinboardSearch && typeof window.PinboardSearch.deduplicateProducts === 'function')
+      ? window.PinboardSearch.deduplicateProducts(filtered)
+      : filtered;
 
     // Apply Fisher-Yates random ordering
     var randomized = shuffleArray(filtered);
@@ -81,7 +89,7 @@
     randomized.forEach(function (p) {
       var price = p.salePrice || p.regularPrice || 60;
       var hasSale = p.salePrice && p.salePrice < p.regularPrice;
-      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
+      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
       var optImg = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
         ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
         : rawImg;
@@ -98,25 +106,22 @@
       html +=
         '<div class="poster-3d-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
           '<div class="poster-3d-card">' +
+            '<div class="product-tape"></div>' +
+            badgeHtml +
             '<div class="poster-mat-frame">' +
-              badgeHtml +
               '<div class="poster-artwork-float">' +
                 '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + rawImg + '\'" />' +
                 '<div class="poster-art-shadow"></div>' +
               '</div>' +
             '</div>' +
             '<div class="gallery-placard">' +
-              '<div class="placard-top">' +
-                '<span class="placard-cat">' + (p.category || 'Curated') + '</span>' +
-                '<span class="placard-size">' + (p.size || 'A3') + '</span>' +
+              '<div class="placard-info-left">' +
+                '<h3 class="placard-title">' + p.title + '</h3>' +
+                '<div class="placard-sub">' + (p.category || 'Curated') + ' · ' + (p.size || 'A4') + '</div>' +
               '</div>' +
-              '<h3 class="placard-title">' + p.title + '</h3>' +
-              '<div class="placard-bottom">' +
-                '<div class="placard-price-wrap">' +
-                  '<span class="placard-price-active">₹' + price.toLocaleString() + '</span>' +
-                  regularPriceHtml +
-                '</div>' +
-                '<span class="placard-cta">VIEW PRINT →</span>' +
+              '<div class="placard-price-wrap">' +
+                '<span class="placard-price-active">₹' + price.toLocaleString() + '</span>' +
+                regularPriceHtml +
               '</div>' +
             '</div>' +
           '</div>' +

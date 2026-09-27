@@ -6,13 +6,16 @@
 (function () {
   'use strict';
 
-  // Configurable Pricing Architecture
+  // Configurable Pricing Architecture & Single Source of Truth Matrix
+  var CUSTOM_PRICING_MATRIX = {
+    A4: { 5: 250, 8: 350, 10: 400, 12: 450 },
+    A6: { 5: 80, 8: 130, 10: 150, 12: 190 }
+  };
+
   var PRICING_CONFIG = {
     sizes: {
-      A6: { code: 'A6', name: 'Small', dim: '105 × 148 mm', price: 199 },
-      A5: { code: 'A5', name: 'Medium', dim: '148 × 210 mm', price: 299 },
-      A4: { code: 'A4', name: 'Large', dim: '210 × 297 mm', price: 399 },
-      A3: { code: 'A3', name: 'Extra Large', dim: '297 × 420 mm', price: 549 }
+      A6: { code: 'A6', name: 'Small', dim: '105 × 148 mm' },
+      A4: { code: 'A4', name: 'Standard', dim: '210 × 297 mm' }
     },
     templates: {
       5: { count: 5, name: '5 Posters', label: 'Compact Gallery', defaultSize: 'A4' },
@@ -41,8 +44,7 @@
           index: i,
           image: null,
           fileName: null,
-          size: 'A4',
-          price: PRICING_CONFIG.sizes.A4.price
+          size: 'A4'
         });
       }
     }
@@ -50,27 +52,37 @@
   }
 
   /**
-   * Calculate live order pricing and itemization
+   * Calculate live order pricing and itemization using official matrix
    */
   function calculateSummary() {
     var totalUploaded = 0;
     var totalSized = 0;
-    var subtotal = 0;
-    var sizeCounts = { A6: 0, A5: 0, A4: 0, A3: 0 };
+    var count = state.activeTemplate || 5;
+    var sizeCounts = { A6: 0, A4: 0 };
 
     state.slots.forEach(function (slot) {
       if (slot.image) totalUploaded++;
-      if (slot.size) {
-        totalSized++;
-        sizeCounts[slot.size] = (sizeCounts[slot.size] || 0) + 1;
-        var sizeInfo = PRICING_CONFIG.sizes[slot.size] || PRICING_CONFIG.sizes.A4;
-        subtotal += sizeInfo.price;
-      }
+      var sKey = (slot.size === 'A6') ? 'A6' : 'A4';
+      slot.size = sKey;
+      totalSized++;
+      sizeCounts[sKey] = (sizeCounts[sKey] || 0) + 1;
     });
 
-    var isComplete = (totalUploaded === state.activeTemplate) && (totalSized === state.activeTemplate);
+    // Subtotal calculation from matrix
+    var subtotal = 0;
+    if (sizeCounts.A4 === count) {
+      subtotal = CUSTOM_PRICING_MATRIX.A4[count] || 250;
+    } else if (sizeCounts.A6 === count) {
+      subtotal = CUSTOM_PRICING_MATRIX.A6[count] || 80;
+    } else {
+      var a4Unit = (CUSTOM_PRICING_MATRIX.A4[count] || 250) / count;
+      var a6Unit = (CUSTOM_PRICING_MATRIX.A6[count] || 80) / count;
+      subtotal = Math.round((sizeCounts.A4 * a4Unit) + (sizeCounts.A6 * a6Unit));
+    }
+
+    var isComplete = (totalUploaded === count) && (totalSized === count);
     var sizesSummaryParts = [];
-    ['A3', 'A4', 'A5', 'A6'].forEach(function (s) {
+    ['A4', 'A6'].forEach(function (s) {
       if (sizeCounts[s] > 0) {
         sizesSummaryParts.push(s + ' × ' + sizeCounts[s]);
       }
@@ -79,7 +91,7 @@
     return {
       totalUploaded: totalUploaded,
       totalSized: totalSized,
-      totalRequired: state.activeTemplate,
+      totalRequired: count,
       isComplete: isComplete,
       subtotal: subtotal,
       totalPrice: subtotal,
@@ -94,11 +106,12 @@
     var container = document.getElementById('uploadSlotsContainer');
     if (!container) return;
 
+    var count = state.activeTemplate || 5;
     var html = '';
     state.slots.forEach(function (slot, i) {
       var numDisplay = (i + 1 < 10 ? '0' : '') + (i + 1);
       var hasImage = !!slot.image;
-      var activeSize = slot.size || 'A4';
+      var activeSize = slot.size === 'A6' ? 'A6' : 'A4';
 
       var previewContent = '';
       if (hasImage) {
@@ -124,17 +137,18 @@
           '</div>';
       }
 
-      // Size Selection Buttons for THIS specific poster slot
+      // Size Selection Buttons for THIS specific poster slot (A6 and A4 only)
       var sizeOptionsHtml = '';
-      ['A6', 'A5', 'A4', 'A3'].forEach(function (sKey) {
+      ['A6', 'A4'].forEach(function (sKey) {
         var sInfo = PRICING_CONFIG.sizes[sKey];
         var isSelected = activeSize === sKey;
+        var pVal = CUSTOM_PRICING_MATRIX[sKey][count] || 250;
         sizeOptionsHtml +=
           '<button type="button" class="size-pill-btn ' + (isSelected ? 'active' : '') + '" data-slot="' + i + '" data-size="' + sKey + '">' +
             '<span class="size-pill-code">' + sInfo.code + '</span>' +
             '<span class="size-pill-name">' + sInfo.name + '</span>' +
             '<span class="size-pill-dim">' + sInfo.dim + '</span>' +
-            '<span class="size-pill-price">₹' + sInfo.price + '</span>' +
+            '<span class="size-pill-price">₹' + pVal + '</span>' +
           '</button>';
       });
 
@@ -384,9 +398,12 @@
     var breakdownList = document.getElementById('summaryBreakdownList');
     if (breakdownList) {
       var listHtml = '';
+      var count = state.activeTemplate || 5;
       state.slots.forEach(function (slot, i) {
         var numDisplay = (i + 1 < 10 ? '0' : '') + (i + 1);
-        var sInfo = PRICING_CONFIG.sizes[slot.size] || PRICING_CONFIG.sizes.A4;
+        var sKey = slot.size === 'A6' ? 'A6' : 'A4';
+        var sInfo = PRICING_CONFIG.sizes[sKey] || PRICING_CONFIG.sizes.A4;
+        var slotPrice = Math.round((CUSTOM_PRICING_MATRIX[sKey][count] || 250) / count);
         var thumbHtml = slot.image
           ? '<img src="' + slot.image + '" class="summary-thumb" alt="P' + numDisplay + '" />'
           : '<div class="summary-thumb empty">P' + numDisplay + '</div>';
@@ -397,7 +414,7 @@
               thumbHtml +
               '<span>Poster ' + numDisplay + ' (' + sInfo.code + ')</span>' +
             '</div>' +
-            '<span class="summary-item-price">₹' + sInfo.price + '</span>' +
+            '<span class="summary-item-price">₹' + slotPrice + '</span>' +
           '</div>';
       });
       breakdownList.innerHTML = listHtml;
@@ -485,7 +502,7 @@
       if (!slot) return '';
       var numDisplay = (slotIdx + 1 < 10 ? '0' : '') + (slotIdx + 1);
       var sizeKey = (slot.size || 'A4').toLowerCase();
-      var imgSrc = slot.image || 'New Project 22 [FA6B4A7].png';
+      var imgSrc = slot.image || 'poster/opt/1551192.webp';
       var sInfo = PRICING_CONFIG.sizes[slot.size] || PRICING_CONFIG.sizes.A4;
 
       return (
@@ -800,7 +817,7 @@
         title: 'Custom Poster Set (' + state.activeTemplate + ' Prints)',
         subtitle: 'Personalized Wall Collection · ' + summary.sizesSummary,
         totalPrice: summary.totalPrice,
-        coverImage: state.slots[0] ? state.slots[0].image : 'New Project 22 [FA6B4A7].png',
+        coverImage: state.slots[0] ? state.slots[0].image : 'poster/opt/1551192.webp',
         sizesSummary: summary.sizesSummary,
         posters: state.slots.map(function (s, i) {
           return {
@@ -812,7 +829,7 @@
         })
       };
 
-      // Add to Auth Cart
+      // Add to Auth Cart (enforces auth check)
       if (window.Auth && typeof window.Auth.addCustomPostersToCart === 'function') {
         var res = window.Auth.addCustomPostersToCart(customOrder);
         if (res.requireAuth) {
@@ -826,6 +843,23 @@
           window.location.href = 'account.html?action=cart&redirect=custom-posters.html';
           return;
         }
+      }
+
+      var orderData = {
+        items: [{
+          title: 'Custom Poster Set (' + state.activeTemplate + ' Prints)',
+          size: summary.sizesSummary || 'A4',
+          quantity: 1,
+          unitPrice: summary.totalPrice,
+          total: summary.totalPrice,
+          isCustom: true,
+          customText: state.activeTemplate + ' posters (' + summary.sizesSummary + ')'
+        }],
+        grandTotal: summary.totalPrice
+      };
+
+      if (typeof window.openWhatsAppOrderForAllRecipients === 'function') {
+        window.openWhatsAppOrderForAllRecipients(orderData);
       }
 
       // Show celebration modal

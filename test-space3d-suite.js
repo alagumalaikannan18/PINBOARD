@@ -51,11 +51,11 @@ assert(indexHtml.includes('data-mode="focus"'), 'Contains "MINIMAL" mode toggle'
 console.log('\nTest 3: 3D Stage Architecture & Poster Attributes');
 assert(indexHtml.includes('id="space3dViewport"'), 'Viewport container exists');
 assert(indexHtml.includes('id="space3dStage"'), '3D Stage container exists');
-assert(indexHtml.includes('data-product-id="12"'), 'Centerpiece Spider-Man poster exists');
+assert(indexHtml.includes('data-product-id="7"'), 'Centerpiece Spider-Man poster exists');
 assert(indexHtml.includes('data-product-id="2"'), 'Bauhaus No.7 card exists');
 assert(indexHtml.includes('data-product-id="14"'), 'Messi Immortal card exists');
 assert(indexHtml.includes('data-product-id="1"'), 'Sunset Ridge card exists');
-assert(indexHtml.includes('data-product-id="13"'), 'Doctor Doom card exists');
+assert(indexHtml.includes('data-product-id="8"'), 'Doctor Doom card exists');
 assert(indexHtml.includes('data-base-z='), 'Cards have data-base-z coordinates');
 assert(indexHtml.includes('data-depth='), 'Cards have data-depth parallax multiplier');
 
@@ -90,9 +90,9 @@ http.get('http://localhost:3000/', (res) => {
     console.log(`RESULTS: Passed: ${passed}, Failed: ${failed}`);
     console.log(`========================================\n`);
     
-    if (failed > 0) process.exit(1);
+    if (failed > 0) process.exitCode = 1;
   });
 }).on('error', (err) => {
   console.error('HTTP request failed:', err.message);
-  process.exit(1);
+  process.exitCode = 1;
 });

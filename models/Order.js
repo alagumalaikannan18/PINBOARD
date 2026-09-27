@@ -24,7 +24,7 @@ const orderItemSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: 'New Project 22 [FA6B4A7].png'
+      default: 'poster/opt/1551192.webp'
     }
   },
   {

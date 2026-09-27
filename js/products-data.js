@@ -30,7 +30,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW",
     "images": [
-      "New Project 22 [FA6B4A7].png"
+      "poster/opt/New Project 22 [FA6B4A7].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -66,7 +66,9 @@ var PINBOARD_PRODUCTS = [
       2,
       3,
       4
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 2,
@@ -91,7 +93,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A2",
     "badge": null,
     "images": [
-      "New Project 22 [27E5039].png"
+      "poster/opt/New Project 22 [27E5039].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -127,7 +129,9 @@ var PINBOARD_PRODUCTS = [
       1,
       3,
       4
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 3,
@@ -153,7 +157,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "New Project 22 [029A006].png"
+      "poster/opt/parasite_clean.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -189,7 +193,8 @@ var PINBOARD_PRODUCTS = [
       1,
       2,
       4
-    ]
+    ],
+    "saleable": true
   },
   {
     "id": 4,
@@ -215,7 +220,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A2",
     "badge": null,
     "images": [
-      "New Project 22 [534B54A].png"
+      "poster/opt/New Project 22 [534B54A].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -251,7 +256,9 @@ var PINBOARD_PRODUCTS = [
       1,
       2,
       3
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 5,
@@ -277,7 +284,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "New Project 22 [94A5EEE].png"
+      "poster/opt/New Project 22 [94A5EEE].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -313,7 +320,9 @@ var PINBOARD_PRODUCTS = [
       6,
       7,
       8
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 6,
@@ -339,7 +348,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "New Project 22 [B720BE2].png"
+      "poster/opt/New Project 22 [B720BE2].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -375,7 +384,9 @@ var PINBOARD_PRODUCTS = [
       5,
       7,
       1
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 7,
@@ -400,8 +411,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW",
     "images": [
-      "New Project 22 [D8D9C72].png",
-      "New Project 22 [04889D2].png"
+      "poster/opt/New Project 22 [D8D9C72].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -437,7 +447,9 @@ var PINBOARD_PRODUCTS = [
       5,
       8,
       3
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 8,
@@ -462,7 +474,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "New Project 22 [E742D9E].png"
+      "poster/opt/New Project 22 [E742D9E].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -498,7 +510,9 @@ var PINBOARD_PRODUCTS = [
       7,
       3,
       9
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 9,
@@ -524,7 +538,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "New Project 22 [A7FF5A7].png"
+      "poster/opt/New Project 22 [A7FF5A7].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -560,7 +574,9 @@ var PINBOARD_PRODUCTS = [
       8,
       3,
       10
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 10,
@@ -586,7 +602,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": null,
     "images": [
-      "New Project 22 [5627475] (1).png"
+      "poster/opt/New Project 22 [5627475] (1).webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -622,7 +638,9 @@ var PINBOARD_PRODUCTS = [
       9,
       4,
       6
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 11,
@@ -661,7 +679,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW DROP",
     "images": [
-      "1554016.png"
+      "poster/opt/1554016.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -697,7 +715,9 @@ var PINBOARD_PRODUCTS = [
       14,
       12,
       13
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 12,
@@ -737,7 +757,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "TRENDING",
     "images": [
-      "1553256_1.jpg.jpeg"
+      "poster/opt/1553256_1.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -811,7 +831,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "1553164.jpg.jpeg"
+      "poster/opt/1553164.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -886,7 +906,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW DROP",
     "images": [
-      "1551192.png"
+      "poster/opt/1551192.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -922,7 +942,9 @@ var PINBOARD_PRODUCTS = [
       11,
       12,
       13
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 15,
@@ -951,7 +973,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "BESTSELLER",
     "images": [
-      "cat_motivation.webp"
+      "poster/opt/1513632.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -987,7 +1009,9 @@ var PINBOARD_PRODUCTS = [
       16,
       17,
       18
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 16,
@@ -1012,7 +1036,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "HOT",
     "images": [
-      "1553031.webp"
+      "poster/opt/1553031.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -1048,7 +1072,9 @@ var PINBOARD_PRODUCTS = [
       15,
       17,
       20
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 17,
@@ -1073,7 +1099,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "NEW",
     "images": [
-      "New Project 22 [37F3EB1].png"
+      "poster/opt/New Project 22 [37F3EB1].webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -1109,7 +1135,9 @@ var PINBOARD_PRODUCTS = [
       15,
       18,
       19
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 18,
@@ -1134,7 +1162,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "EDITORIAL",
     "images": [
-      "New Project 22 [DA2465C] (1).png"
+      "poster/opt/New Project 22 [DA2465C] (1).webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -1170,7 +1198,9 @@ var PINBOARD_PRODUCTS = [
       15,
       17,
       19
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 19,
@@ -1196,7 +1226,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "POPULAR",
     "images": [
-      "New Project 22 [FC091EF] (1).png"
+      "poster/opt/New Project 22 [FC091EF] (1).webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -1232,7 +1262,9 @@ var PINBOARD_PRODUCTS = [
       15,
       17,
       20
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 20,
@@ -1257,7 +1289,7 @@ var PINBOARD_PRODUCTS = [
     "size": "A3",
     "badge": "EXCLUSIVE",
     "images": [
-      "WhatsApp Image 2026-09-05 at 11.39.33 PM (1).webp"
+      "poster/opt/1556901.webp"
     ],
     "regularPrice": 99,
     "salePrice": 60,
@@ -1293,7 +1325,9 @@ var PINBOARD_PRODUCTS = [
       14,
       15,
       19
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 21,
@@ -3341,7 +3375,9 @@ var PINBOARD_PRODUCTS = [
       52,
       54,
       81
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 54,
@@ -3403,7 +3439,9 @@ var PINBOARD_PRODUCTS = [
       53,
       55,
       82
-    ]
+    ],
+    "saleable": false,
+    "isDuplicateMockup": true
   },
   {
     "id": 55,
@@ -9366,8 +9404,581 @@ var PINBOARD_PRODUCTS = [
       13,
       49
     ]
+  },
+  {
+    "id": 152,
+    "slug": "stay-hard-goggins",
+    "title": "STAY HARD | David Goggins Motivation",
+    "subtitle": "Relentless Mindset · Stoic Discipline",
+    "category": "Motivation",
+    "collection": "Mindset & Stoicism",
+    "artist": "Studio PINBOARD",
+    "subject": "Monochrome portrait of running athlete with bold Stay Hard typography",
+    "tags": [
+      "motivation",
+      "stay hard",
+      "david goggins",
+      "discipline",
+      "mindset",
+      "gym & fitness",
+      "running",
+      "relentless",
+      "fitness",
+      "gym",
+      "stoicism",
+      "quote"
+    ],
+    "keywords": "stay hard david goggins motivation discipline gym fitness runner running quote mindset stoicism poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/stay-hard.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 5,
+    "reviewCount": 128,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "STAY HARD — The ultimate tribute to unyielding discipline, relentless focus, and human potential inspired by David Goggins. Printed with high-contrast archival inks on premium 300 GSM museum-grade matte art paper.",
+    "features": [
+      "Bold monochrome Stay Hard typographic design",
+      "Printed on 300 GSM premium matte art paper",
+      "Anti-glare archival finish for crisp contrast",
+      "Rolled & packed flat in a rigid protective tube",
+      "Poster format depends on the selected size: A4 posters include a clean white border, split/combo posters are printed without a border, and A6 posters are printed without a border."
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Home gyms",
+      "Workspaces",
+      "Bedrooms",
+      "Study spaces"
+    ],
+    "relatedIds": [
+      1,
+      2,
+      15
+    ]
+  },
+  {
+    "id": 153,
+    "slug": "speed-builds-legends-ajith-kumar",
+    "title": "SPEED BUILDS LEGENDS | Ajith Kumar F1 Racing",
+    "subtitle": "Motorsport Grit · Ajith Kumar Racing Tribute",
+    "category": "Cars",
+    "collection": "Supercars & Speed",
+    "artist": "Studio PINBOARD",
+    "subject": "Ajith Kumar in high-contrast red visor helmet with F1 racecar in rain",
+    "tags": [
+      "cars",
+      "racing",
+      "f1",
+      "ajith kumar",
+      "ak",
+      "speed",
+      "motorsport",
+      "motivation",
+      "legend",
+      "formula 1"
+    ],
+    "keywords": "speed builds legends ajith kumar ak racing f1 formula 1 motorsport sports car helmet quote poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557587.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "SPEED BUILDS LEGENDS — A high-octane tribute to racing passion and relentless speed featuring Ajith Kumar in a crisp motorsport helmet with F1 track aesthetics. Printed on premium 300 GSM museum-grade matte art paper.",
+    "features": [
+      "High-contrast red visor racing typography",
+      "Printed on 300 GSM premium matte art paper",
+      "Anti-glare archival finish for maximum detail",
+      "Rolled & packed flat in a rigid protective tube",
+      "Ready to pin, tape, or frame"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Bedrooms",
+      "Workspaces",
+      "Studios",
+      "Garage nooks"
+    ],
+    "relatedIds": [
+      9,
+      101,
+      107
+    ]
+  },
+  {
+    "id": 154,
+    "slug": "more-than-a-player-cr7",
+    "title": "MORE THAN A PLAYER | Cristiano Ronaldo CR7",
+    "subtitle": "Relentless Focus · Hard Work & Consistency",
+    "category": "Sports",
+    "collection": "Football Legends",
+    "artist": "Studio PINBOARD",
+    "subject": "Intense close-up portrait of Cristiano Ronaldo with CR7 typography and discipline quote",
+    "tags": [
+      "sports",
+      "football",
+      "cristiano ronaldo",
+      "cr7",
+      "discipline",
+      "motivation",
+      "hard work",
+      "consistency",
+      "goat",
+      "portugal"
+    ],
+    "keywords": "more than a player cristiano ronaldo cr7 discipline builds freedom hard work focus consistency results football sports poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557713.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "MORE THAN A PLAYER — An iconic close-up portrait of Cristiano Ronaldo embodying unyielding focus, hard work, and footballing greatness. Printed on 300 GSM museum-grade matte art paper.",
+    "features": [
+      "Bold vertical CR7 typographic layout",
+      "High-detail skin texture & dark vignette depth",
+      "Printed on 300 GSM archival matte paper",
+      "Rolled & packed flat in a rigid tube",
+      "Ideal for sports fans and gym motivators"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Sports rooms",
+      "Home gyms",
+      "Bedrooms",
+      "Workspaces"
+    ],
+    "relatedIds": [
+      1,
+      4,
+      132
+    ]
+  },
+  {
+    "id": 155,
+    "slug": "ambition-wolf-of-wall-street",
+    "title": "AMBITION | The Wolf of Wall Street",
+    "subtitle": "Bigger Than Yesterday · High Standards Mindset",
+    "category": "Motivation",
+    "collection": "Mindset & Stoicism",
+    "artist": "Studio PINBOARD",
+    "subject": "Jordan Belfort in sunglasses reflecting New York city skyline with bold AMBITION typography",
+    "tags": [
+      "motivation",
+      "ambition",
+      "wolf of wall street",
+      "leonardo dicaprio",
+      "mindset",
+      "wealth",
+      "business",
+      "city skyline",
+      "stoic"
+    ],
+    "keywords": "ambition bigger than yesterday same vision higher standards wolf of wall street jordan belfort leonardo dicaprio motivation movie poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557718.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "AMBITION — Inspired by The Wolf of Wall Street, capturing high vision, relentless ambition, and uncompromising standards. Printed on 300 GSM archival matte paper.",
+    "features": [
+      "Modern monochrome portrait with yellow city contrast",
+      "Printed on 300 GSM museum-grade matte art paper",
+      "Anti-glare finish for sharp text legibility",
+      "Packed in a protective rigid tube",
+      "Pairs seamlessly with motivation & mindset setups"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Offices",
+      "Trading desks",
+      "Study nooks",
+      "Living rooms"
+    ],
+    "relatedIds": [
+      112,
+      113,
+      152
+    ]
+  },
+  {
+    "id": 156,
+    "slug": "some-legends-never-die-logan",
+    "title": "SOME LEGENDS NEVER DIE | Logan Wolverine",
+    "subtitle": "The End Is Just Another Beginning · Marvel Cinematic Tribute",
+    "category": "Movies",
+    "collection": "Marvel & Cinema",
+    "artist": "Studio PINBOARD",
+    "subject": "Wolverine on rocky peak with adamantium claws and yellow sun profile silhouette",
+    "tags": [
+      "movies",
+      "logan",
+      "wolverine",
+      "marvel",
+      "x-men",
+      "hugh jackman",
+      "cinema",
+      "superhero",
+      "legend"
+    ],
+    "keywords": "some legends never die logan wolverine marvel x-men hugh jackman cinema superhero comic movie poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557733.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "SOME LEGENDS NEVER DIE — A powerful tribute to Hugh Jackman's Logan, featuring adamantium claws on a golden sunlit peak. Printed on 300 GSM museum-grade matte art paper.",
+    "features": [
+      "Vibrant yellow tone with heavy black silhouette contrast",
+      "Printed on 300 GSM premium matte art paper",
+      "Archival anti-glare finish",
+      "Rolled & packed flat in a rigid protective tube",
+      "Must-have for Marvel & X-Men collectors"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Bedrooms",
+      "Movie rooms",
+      "Gaming stations",
+      "Workspaces"
+    ],
+    "relatedIds": [
+      6,
+      12,
+      65
+    ]
+  },
+  {
+    "id": 157,
+    "slug": "strength-greek-sculpture",
+    "title": "STRENGTH | Classical Greek Sculpture",
+    "subtitle": "Not Just a Body, A Mindset · Built Through Hard Work",
+    "category": "Motivation",
+    "collection": "Mindset & Stoicism",
+    "artist": "Studio PINBOARD",
+    "subject": "Monochrome rear view of sculpted Greek statue with STRENGTH typography",
+    "tags": [
+      "motivation",
+      "strength",
+      "greek statue",
+      "sculpture",
+      "gym",
+      "fitness",
+      "stoic",
+      "discipline",
+      "mindset",
+      "physique"
+    ],
+    "keywords": "strength not just a body a mindset built through hard work not luck greek sculpture statue gym fitness stoic motivation poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557749.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "STRENGTH — Classical Greek marble physique depicting stoic endurance, physical mastery, and relentless focus. Printed on 300 GSM museum-grade matte art paper.",
+    "features": [
+      "Chiaroscuro lighting with deep blacks and marble detail",
+      "Printed on 300 GSM premium matte art paper",
+      "Non-reflective archival surface",
+      "Packed flat in a rigid protective tube",
+      "Ideal for gym & stoic aesthetic spaces"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Home gyms",
+      "Fitness studios",
+      "Bedrooms",
+      "Study spaces"
+    ],
+    "relatedIds": [
+      119,
+      122,
+      152
+    ]
+  },
+  {
+    "id": 158,
+    "slug": "focus-arnold-schwarzenegger",
+    "title": "FOCUS | Arnold Schwarzenegger Bodybuilding",
+    "subtitle": "Same Goal, Less Distractions · Focus Turns Effort Into Power",
+    "category": "Motivation",
+    "collection": "Mindset & Stoicism",
+    "artist": "Studio PINBOARD",
+    "subject": "Classic black & white side chest pose of Arnold Schwarzenegger with FOCUS typography",
+    "tags": [
+      "motivation",
+      "focus",
+      "arnold schwarzenegger",
+      "bodybuilding",
+      "gym",
+      "fitness",
+      "discipline",
+      "power",
+      "mr olympia"
+    ],
+    "keywords": "focus same goal less distractions greater results arnold schwarzenegger bodybuilding gym fitness mr olympia motivation poster",
+    "Size": "A4 (210 × 297 mm)",
+    "badge": "NEW",
+    "images": [
+      "poster/opt/1557750.webp"
+    ],
+    "regularPrice": 99,
+    "salePrice": 60,
+    "rating": 0,
+    "reviewCount": 0,
+    "pieces": 1,
+    "material": "300 GSM Premium Matte Sheet",
+    "finish": "Smooth Matte Finish",
+    "frameIncluded": false,
+    "description": "FOCUS — Featuring 7x Mr. Olympia Arnold Schwarzenegger in a golden-era side chest pose. A timeless reminder to eliminate distractions and pursue mastery. Printed on 300 GSM matte art paper.",
+    "features": [
+      "Golden era bodybuilding monochrome aesthetic",
+      "Printed on 300 GSM museum-grade matte art paper",
+      "Anti-glare archival print for deep contrast",
+      "Packed flat in reinforced rigid packaging",
+      "Essential wall art for bodybuilding fans"
+    ],
+    "specifications": {
+      "Size": "A4 (210 × 297 mm)",
+      "Material": "300 GSM Premium Matte Sheet",
+      "Finish": "Smooth Matte Finish",
+      "Pieces": "1",
+      "Frame": "Not Included",
+      "Packaging": "Rigid tube, flat-packed"
+    },
+    "perfectFor": [
+      "Home gyms",
+      "Workspaces",
+      "Bedrooms",
+      "Fitness rooms"
+    ],
+    "relatedIds": [
+      114,
+      122,
+      152
+    ]
   }
 ];
+
+// ---------- COLLECTION PROFILES (NON-SALEABLE SHOWCASE ASSETS) ----------
+var PINBOARD_COLLECTION_PROFILES = [
+  { id: 991, title: "Anime Collection", category: "Anime", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_anime.webp"] },
+  { id: 992, title: "Cars Collection", category: "Cars", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_cars.webp"] },
+  { id: 993, title: "Football Collection", category: "Sports", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_football.webp"] },
+  { id: 994, title: "Gaming Collection", category: "Gaming", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_gaming.webp"] },
+  { id: 995, title: "Motivation Collection", category: "Motivation", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_motivation.webp"] },
+  { id: 996, title: "Movies Collection", category: "Movies", type: "collection-profile", saleable: false, isCollection: true, images: ["cat_movies.webp"] }
+];
+
+function getSaleableProducts(products) {
+  if (!Array.isArray(products)) return [];
+  return products.filter(function(product) {
+    if (!product || typeof product.id === 'undefined') return false;
+    if (product.type === 'collection-profile' || product.saleable === false || product.isCollection === true) return false;
+    var img = (product.images && product.images[0]) ? String(product.images[0]) : '';
+    if (img.includes('cat_') || (product.category && product.category.toLowerCase().includes('cat_'))) return false;
+    return true;
+  });
+}
+
+function getCanonicalArtworkKey(p) {
+  if (!p) return '';
+  var id = p.id;
+  
+  var idArtworkMap = {
+    1: 'art-discipline-ronaldo',
+    114: 'art-discipline-ronaldo',
+    2: 'art-be-yourself',
+    113: 'art-be-yourself',
+    4: 'art-cr7-portugal-crest',
+    16: 'art-cr7-portugal-crest',
+    132: 'art-cr7-portugal-crest',
+    5: 'art-men-are-brave-batman',
+    29: 'art-men-are-brave-batman',
+    6: 'art-spiderman-suit-reveal',
+    83: 'art-spiderman-suit-reveal',
+    7: 'art-peter-parker-nowayhome',
+    47: 'art-peter-parker-nowayhome',
+    8: 'art-doom-hellme',
+    13: 'art-doom-hellme',
+    53: 'art-doom-hellme',
+    9: 'art-porsche-911-gt3rs',
+    107: 'art-porsche-911-gt3rs',
+    109: 'art-porsche-911-gt3rs',
+    10: 'art-messi-goat-ball',
+    133: 'art-messi-goat-ball',
+    11: 'art-messi-crest-kiss',
+    139: 'art-messi-crest-kiss',
+    12: 'art-rebirth-spiderman',
+    18: 'art-rebirth-spiderman',
+    54: 'art-rebirth-spiderman',
+    14: 'art-argentina-worldcup-kiss',
+    130: 'art-argentina-worldcup-kiss',
+    15: 'art-sweater-weather-wave',
+    110: 'art-sweater-weather-wave',
+    17: 'art-miles-morales-ledge',
+    21: 'art-miles-morales-ledge',
+    19: 'art-mcqueen-skyfall',
+    100: 'art-mcqueen-skyfall',
+    20: 'art-doom-sovereign',
+    87: 'art-doom-sovereign',
+    68: 'art-master-jd-halo',
+    98: 'art-master-jd-halo',
+    90: 'art-brotherhood-cadillac',
+    99: 'art-brotherhood-cadillac',
+    127: 'art-arthur-morgan-slab',
+    128: 'art-arthur-morgan-slab'
+  };
+
+  if (id && idArtworkMap[id]) {
+    return idArtworkMap[id];
+  }
+
+  var img = (p.images && p.images[0]) ? String(p.images[0]) : '';
+  if (!img) return 'art-prod-' + p.id;
+
+  var base = img.split('?')[0].split('#')[0].replace(/^.*[\\/]/, '').toLowerCase().trim();
+  base = base
+    .replace(/\.(png|jpe?g|webp|avif|gif|svg)$/i, '')
+    .replace(/\.jpg\.jpeg$/i, '')
+    .replace(/-thumb$/i, '')
+    .replace(/_p\d+$/i, '')
+    .replace(/_\d+$/i, '')
+    .replace(/\s*\(\d+\)$/i, '')
+    .trim();
+
+  if (base.indexOf('cat_') === 0) return 'cat-profile-' + base;
+  return 'art-img-' + base;
+}
+
+function expandQueryAliases(queryStr) {
+  var raw = (queryStr || '').toLowerCase().trim();
+  var normalized = raw.replace(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g, ' ').replace(/\s+/g, ' ').trim();
+  
+  var aliases = [raw];
+  if (normalized && normalized !== raw) aliases.push(normalized);
+
+  if (raw.indexOf('spiderman') !== -1 || raw.indexOf('spider man') !== -1 || raw.indexOf('spider-man') !== -1) {
+    aliases.push('spider-man');
+    aliases.push('spiderman');
+    aliases.push('spider man');
+  }
+  if (raw === 'cr7' || raw === 'ronaldo' || raw === 'cristiano') {
+    aliases.push('cristiano ronaldo');
+    aliases.push('ronaldo');
+    aliases.push('cr7');
+  }
+  if (raw === 'messi' || raw === 'leo messi') {
+    aliases.push('lionel messi');
+    aliases.push('messi');
+    aliases.push('leo messi');
+  }
+  if (raw === 'goggins' || raw === 'stayhard' || raw === 'stay hard') {
+    aliases.push('david goggins');
+    aliases.push('stay hard');
+    aliases.push('goggins');
+  }
+  if (raw === 'batman' || raw === 'dark knight') {
+    aliases.push('the batman');
+    aliases.push('dark knight');
+    aliases.push('batman');
+  }
+
+  var uniqueAliases = [];
+  for (var i = 0; i < aliases.length; i++) {
+    if (uniqueAliases.indexOf(aliases[i]) === -1) {
+      uniqueAliases.push(aliases[i]);
+    }
+  }
+  return uniqueAliases;
+}
 
 // ---------- CLIENT-SIDE SEARCH & FILTER ENGINE ----------
 var PinboardSearch = {
@@ -9381,45 +9992,72 @@ var PinboardSearch = {
     var minPrice = options.minPrice || 0;
     var sort = options.sort || 'relevance';
 
-    var results = this.products.filter(function(p) {
-      if (category && p.category.toLowerCase() !== category.toLowerCase()) return false;
-      if (collection && p.collection.toLowerCase() !== collection.toLowerCase()) return false;
-      var price = p.salePrice || p.regularPrice;
+    var candidates = getSaleableProducts(this.products).filter(function(p) {
+      if (category && (p.category || '').toLowerCase() !== category.toLowerCase()) return false;
+      if (collection && (p.collection || '').toLowerCase().indexOf(collection.toLowerCase()) === -1) return false;
+      var price = p.salePrice || p.regularPrice || 60;
       if (price < minPrice || price > maxPrice) return false;
       return true;
     });
 
     if (!query || query.trim() === '') {
-      return this.sortResults(results, sort);
+      var deduplicated = this.deduplicateProducts(candidates);
+      return this.sortResults(deduplicated, sort);
     }
 
-    var terms = query.toLowerCase().trim().split(/\s+/);
+    var cleanQuery = query.toLowerCase().trim();
+    var aliasTerms = expandQueryAliases(cleanQuery);
+    var queryWords = cleanQuery.replace(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/g, ' ').split(/\s+/).filter(Boolean);
+
     var scored = [];
 
-    for (var i = 0; i < results.length; i++) {
-      var p = results[i];
+    for (var i = 0; i < candidates.length; i++) {
+      var p = candidates[i];
       var score = 0;
-      var titleLower = (p.title || '').toLowerCase();
-      var subtitleLower = (p.subtitle || '').toLowerCase();
-      var artistLower = (p.artist || '').toLowerCase();
-      var subjectLower = (p.subject || '').toLowerCase();
-      var tagsLower = (p.tags || []).join(' ').toLowerCase();
-      var keywordsLower = (p.keywords || '').toLowerCase();
-      var descLower = (p.description || '').toLowerCase();
-      var catLower = (p.category || '').toLowerCase();
-      var colLower = (p.collection || '').toLowerCase();
 
-      for (var t = 0; t < terms.length; t++) {
-        var term = terms[t];
-        if (titleLower.indexOf(term) !== -1) score += 50;
-        if (subjectLower.indexOf(term) !== -1) score += 35;
-        if (keywordsLower.indexOf(term) !== -1) score += 30;
-        if (tagsLower.indexOf(term) !== -1) score += 25;
-        if (artistLower.indexOf(term) !== -1) score += 20;
-        if (catLower.indexOf(term) !== -1) score += 20;
-        if (colLower.indexOf(term) !== -1) score += 15;
-        if (subtitleLower.indexOf(term) !== -1) score += 15;
-        if (descLower.indexOf(term) !== -1) score += 5;
+      var titleLower = (p.title || '').toLowerCase().trim();
+      var subtitleLower = (p.subtitle || '').toLowerCase().trim();
+      var artistLower = (p.artist || '').toLowerCase().trim();
+      var subjectLower = (p.subject || '').toLowerCase().trim();
+      var tags = Array.isArray(p.tags) ? p.tags.map(function(t) { return String(t).toLowerCase(); }) : [];
+      var tagsLower = tags.join(' ');
+      var keywordsLower = (p.keywords || '').toLowerCase().trim();
+      var descLower = (p.description || '').toLowerCase().trim();
+      var catLower = (p.category || '').toLowerCase().trim();
+      var colLower = (p.collection || '').toLowerCase().trim();
+
+      if (titleLower === cleanQuery) {
+        score += 10000;
+      } else if (titleLower.indexOf(cleanQuery) === 0) {
+        score += 5000;
+      } else if (titleLower.indexOf(cleanQuery) !== -1) {
+        score += 2000;
+      }
+
+      for (var a = 0; a < aliasTerms.length; a++) {
+        var alias = aliasTerms[a];
+        if (!alias) continue;
+
+        if (titleLower.indexOf(alias) !== -1) score += 1500;
+        if (keywordsLower.indexOf(alias) !== -1) score += 800;
+        if (tagsLower.indexOf(alias) !== -1) score += 600;
+        if (subjectLower.indexOf(alias) !== -1) score += 400;
+        if (catLower.indexOf(alias) !== -1 || colLower.indexOf(alias) !== -1) score += 300;
+      }
+
+      for (var w = 0; w < queryWords.length; w++) {
+        var qw = queryWords[w];
+        if (!qw || qw.length < 2) continue;
+
+        if (titleLower.indexOf(qw) !== -1) score += 300;
+        if (keywordsLower.indexOf(qw) !== -1) score += 150;
+        if (tagsLower.indexOf(qw) !== -1) score += 120;
+        if (subjectLower.indexOf(qw) !== -1) score += 100;
+        if (artistLower.indexOf(qw) !== -1) score += 80;
+        if (catLower.indexOf(qw) !== -1) score += 50;
+        if (colLower.indexOf(qw) !== -1) score += 40;
+        if (subtitleLower.indexOf(qw) !== -1) score += 30;
+        if (descLower.indexOf(qw) !== -1) score += 10;
       }
 
       if (score > 0) {
@@ -9427,8 +10065,15 @@ var PinboardSearch = {
       }
     }
 
-    scored.sort(function(a, b) { return b.score - a.score; });
-    return scored.map(function(item) { return item.product; });
+    scored.sort(function(a, b) {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+      return a.product.id - b.product.id;
+    });
+
+    var sortedProducts = scored.map(function(item) { return item.product; });
+    return this.deduplicateProducts(sortedProducts);
   },
 
   sortResults: function(list, sortBy) {
@@ -9450,28 +10095,35 @@ var PinboardSearch = {
   },
 
   getByCategory: function(category) {
-    return this.products.filter(function(p) {
-      return p.category.toLowerCase() === category.toLowerCase();
+    var saleable = getSaleableProducts(this.products);
+    var filtered = saleable.filter(function(p) {
+      return (p.category || '').toLowerCase() === category.toLowerCase();
     });
+    return this.deduplicateProducts(filtered);
   },
 
   getByCollection: function(collection) {
-    return this.products.filter(function(p) {
-      return p.collection.toLowerCase() === collection.toLowerCase();
+    var saleable = getSaleableProducts(this.products);
+    var filtered = saleable.filter(function(p) {
+      return (p.collection || '').toLowerCase() === collection.toLowerCase();
     });
+    return this.deduplicateProducts(filtered);
   },
 
   getFeatured: function(limit) {
     limit = limit || 8;
-    return this.products.filter(function(p) {
+    var saleable = getSaleableProducts(this.products);
+    var featured = saleable.filter(function(p) {
       return p.badge === 'HOT' || p.badge === 'BESTSELLER' || p.badge === 'NEW' || p.rating >= 4.9;
-    }).slice(0, limit);
+    });
+    return this.deduplicateProducts(featured).slice(0, limit);
   },
 
   getCategories: function() {
     var map = {};
-    for (var i = 0; i < this.products.length; i++) {
-      var c = this.products[i].category;
+    var saleable = getSaleableProducts(this.products);
+    for (var i = 0; i < saleable.length; i++) {
+      var c = saleable[i].category;
       map[c] = (map[c] || 0) + 1;
     }
     return map;
@@ -9479,23 +10131,95 @@ var PinboardSearch = {
 
   getCollections: function() {
     var map = {};
-    for (var i = 0; i < this.products.length; i++) {
-      var c = this.products[i].collection;
+    var saleable = getSaleableProducts(this.products);
+    for (var i = 0; i < saleable.length; i++) {
+      var c = saleable[i].collection;
       map[c] = (map[c] || 0) + 1;
     }
     return map;
+  },
+
+  getSaleableProducts: getSaleableProducts,
+
+  isDuplicatePoster: function(poster, list) {
+    if (!poster || !Array.isArray(list)) return false;
+    var targetKey = getCanonicalArtworkKey(poster);
+    var targetTitle = (poster.title || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+    var targetImg = (poster.images && poster.images[0]) ? String(poster.images[0]).split('?')[0].replace(/^.*[\\/]/, '').toLowerCase().trim() : '';
+
+    for (var i = 0; i < list.length; i++) {
+      var item = list[i];
+      if (!item) continue;
+
+      if (item.id === poster.id) return true;
+
+      if (targetImg) {
+        var itemImg = (item.images && item.images[0]) ? String(item.images[0]).split('?')[0].replace(/^.*[\\/]/, '').toLowerCase().trim() : '';
+        if (itemImg && itemImg === targetImg) return true;
+      }
+
+      var itemKey = getCanonicalArtworkKey(item);
+      if (targetKey && itemKey && targetKey === itemKey) return true;
+
+      var itemTitle = (item.title || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+      if (targetTitle && itemTitle && targetTitle === itemTitle) return true;
+    }
+
+    return false;
+  },
+
+  deduplicateProducts: function(productsList) {
+    if (!Array.isArray(productsList)) return [];
+    var saleable = getSaleableProducts(productsList);
+    var uniqueList = [];
+
+    for (var i = 0; i < saleable.length; i++) {
+      var p = saleable[i];
+      if (!this.isDuplicatePoster(p, uniqueList)) {
+        uniqueList.push(p);
+      }
+    }
+
+    return uniqueList;
+  },
+
+  getUniqueProducts: function(productsList) {
+    return this.deduplicateProducts(productsList);
   }
 };
 
 // ---------- CLIENT-SIDE ROUTER / HELPER ----------
 var PinboardRouter = {
-  getProduct: function(idOrSlug) {
+    getProduct: function(idOrSlug) {
     if (!idOrSlug) return null;
     var num = parseInt(idOrSlug, 10);
+    var matched = null;
     for (var i = 0; i < PINBOARD_PRODUCTS.length; i++) {
       var p = PINBOARD_PRODUCTS[i];
-      if (!isNaN(num) && p.id === num) return p;
-      if (p.slug === idOrSlug) return p;
+      if (!isNaN(num) && p.id === num) { matched = p; break; }
+      if (p.slug === idOrSlug) { matched = p; break; }
+    }
+    if (matched && (matched.saleable === false || matched.isDuplicateMockup)) {
+      var targetImg = (matched.images && matched.images[0]) ? String(matched.images[0]).replace(/^.*[\\/]/, '').toLowerCase() : '';
+      for (var j = 0; j < PINBOARD_PRODUCTS.length; j++) {
+        var cand = PINBOARD_PRODUCTS[j];
+        if (cand.saleable !== false && !cand.isDuplicateMockup && cand.type !== 'collection-profile') {
+          if (targetImg && cand.images && cand.images[0]) {
+            var candImg = String(cand.images[0]).replace(/^.*[\\/]/, '').toLowerCase();
+            if (candImg === targetImg) return cand;
+          }
+        }
+      }
+    }
+    if (matched) return matched;
+    if (typeof idOrSlug === 'string') {
+      var clean = idOrSlug.toLowerCase().trim();
+      for (var k = 0; k < PINBOARD_PRODUCTS.length; k++) {
+        var item = PINBOARD_PRODUCTS[k];
+        if (item.saleable !== false && !item.isDuplicateMockup && item.type !== 'collection-profile') {
+          if (item.title && item.title.toLowerCase().includes(clean)) return item;
+        }
+      }
     }
     return null;
   },
@@ -9570,6 +10294,7 @@ var PinboardRouter = {
             PINBOARD_PRODUCTS = parsed.data;
             if (typeof window !== 'undefined') {
               window.PINBOARD_PRODUCTS = PINBOARD_PRODUCTS;
+  window.PINBOARD_COLLECTION_PROFILES = PINBOARD_COLLECTION_PROFILES;
             }
             PinboardSearch.products = PINBOARD_PRODUCTS;
             return Promise.resolve(PINBOARD_PRODUCTS);
@@ -9586,6 +10311,7 @@ var PinboardRouter = {
           PINBOARD_PRODUCTS = json.data;
           if (typeof window !== 'undefined') {
             window.PINBOARD_PRODUCTS = PINBOARD_PRODUCTS;
+  window.PINBOARD_COLLECTION_PROFILES = PINBOARD_COLLECTION_PROFILES;
           }
           PinboardSearch.products = PINBOARD_PRODUCTS;
           try {
@@ -9616,6 +10342,7 @@ function getProductById(id) {
 // Global exposure
 if (typeof window !== 'undefined') {
   window.PINBOARD_PRODUCTS = PINBOARD_PRODUCTS;
+  window.PINBOARD_COLLECTION_PROFILES = PINBOARD_COLLECTION_PROFILES;
   window.PinboardSearch = PinboardSearch;
   window.PinboardRouter = PinboardRouter;
   window.getProductById = getProductById;
@@ -9633,6 +10360,7 @@ if (typeof window !== 'undefined') {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     PINBOARD_PRODUCTS: PINBOARD_PRODUCTS,
+    PINBOARD_COLLECTION_PROFILES: PINBOARD_COLLECTION_PROFILES,
     PinboardSearch: PinboardSearch,
     PinboardRouter: PinboardRouter,
     getProductById: getProductById

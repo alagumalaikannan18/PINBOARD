@@ -88,5 +88,5 @@ async function testServer() {
 
 testServer().catch(err => {
   console.error('Test failed:', err);
-  process.exit(1);
+  process.exitCode = 1;
 });

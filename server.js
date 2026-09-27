@@ -15,24 +15,129 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.resolve(__dirname);
 
+// --- Trust Proxy Setup for Load Balancers / Reverse Proxies ---
+app.set('trust proxy', true);
+
+// --- Lifecycle & Health State ---
+let isServerReady = false;
+let isServerLive = true;
+let isShuttingDown = false;
+const activeSockets = new Set();
+
+// --- Rate Limiting Engine (API abuse protection) ---
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 300;
+
+setInterval(() => {
+  const now = Date.now();
+  rateLimitMap.forEach((data, ip) => {
+    if (now - data.startTime > RATE_LIMIT_WINDOW_MS) {
+      rateLimitMap.delete(ip);
+    }
+  });
+}, RATE_LIMIT_WINDOW_MS).unref();
+
+function apiRateLimiter(req, res, next) {
+  // Skip rate limiting for health check endpoints or non-API calls
+  if (req.path.startsWith('/api/health')) return next();
+
+  const clientIp = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
+  const now = Date.now();
+  let record = rateLimitMap.get(clientIp);
+
+  if (!record || now - record.startTime > RATE_LIMIT_WINDOW_MS) {
+    record = { count: 1, startTime: now };
+    rateLimitMap.set(clientIp, record);
+  } else {
+    record.count++;
+  }
+
+  res.setHeader('X-RateLimit-Limit', MAX_REQUESTS_PER_WINDOW);
+  res.setHeader('X-RateLimit-Remaining', Math.max(0, MAX_REQUESTS_PER_WINDOW - record.count));
+
+  if (record.count > MAX_REQUESTS_PER_WINDOW) {
+    return res.status(429).json({
+      success: false,
+      message: 'Too many requests. Please try again later.',
+      retryAfterSeconds: Math.ceil((record.startTime + RATE_LIMIT_WINDOW_MS - now) / 1000)
+    });
+  }
+
+  next();
+}
+
 // --- Middleware ---
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Apply rate limiting to /api routes
+app.use('/api', apiRateLimiter);
 
 // --- API Routes ---
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    database: getIsConnected() ? 'connected' : 'in-memory-fallback',
-    service: 'PINBOARD E-Commerce API'
+// Community Newsletter Subscription Endpoint
+app.post('/api/subscribe', (req, res) => {
+  const { email } = req.body || {};
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || typeof email !== 'string' || !emailRegex.test(email.trim())) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please enter a valid email address.'
+    });
+  }
+  return res.json({
+    success: true,
+    message: "You're on the list! Watch your inbox for secret drops & exhibition restocks.",
+    email: email.toLowerCase().trim()
   });
+});
+
+// --- Enhanced Health Check Endpoints ---
+// Full Health Check
+app.get('/api/health', (req, res) => {
+  const isHealthy = isServerLive && isServerReady && !isShuttingDown;
+  const statusCode = isHealthy ? 200 : 530;
+
+  res.status(statusCode).json({
+    status: isHealthy ? 'HEALTHY' : 'UNHEALTHY',
+    service: 'PINBOARD E-Commerce API',
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+    workerPid: process.pid,
+    port: PORT,
+    database: getIsConnected() ? 'connected' : 'in-memory-fallback',
+    ready: isServerReady,
+    live: isServerLive,
+    memoryUsage: {
+      rssMB: Math.round(process.memoryUsage().rss / (1024 * 1024)),
+      heapUsedMB: Math.round(process.memoryUsage().heapUsed / (1024 * 1024))
+    }
+  });
+});
+
+// Liveness Probe ("Is process alive?")
+app.get('/api/health/liveness', (req, res) => {
+  if (isServerLive) {
+    return res.status(200).json({ status: 'UP', pid: process.pid, timestamp: new Date().toISOString() });
+  }
+  return res.status(500).json({ status: 'DOWN', pid: process.pid });
+});
+
+// Readiness Probe ("Can this instance receive traffic?")
+app.get('/api/health/readiness', (req, res) => {
+  if (isServerReady && !isShuttingDown) {
+    return res.status(200).json({
+      status: 'READY',
+      pid: process.pid,
+      database: getIsConnected() ? 'connected' : 'in-memory-fallback'
+    });
+  }
+  return res.status(503).json({ status: 'NOT_READY', pid: process.pid });
 });
 
 // --- Frontend Route Aliases (Preserve zero-404 navigation) ---
@@ -65,7 +170,7 @@ app.get(['/motivation', '/motivation.html'], (req, res) => {
 });
 
 app.get(['/anime', '/anime.html'], (req, res) => {
-  res.redirect(301, '/motivation.html');
+  res.sendFile(path.join(PUBLIC_DIR, 'anime.html'));
 });
 
 app.get(['/gaming', '/gaming.html'], (req, res) => {
@@ -136,7 +241,11 @@ app.use((req, res) => {
 });
 
 // --- Server Boot & Database Initialization ---
-async function startServer() {
+let serverInstance = null;
+
+async function startServer(portOverride) {
+  const listenPort = portOverride || PORT;
+
   try {
     await connectDB();
     if (getIsConnected()) {
@@ -150,14 +259,75 @@ async function startServer() {
     console.warn('⚠️ MongoDB connection notice on startup:', dbErr.message);
   }
 
-  app.listen(PORT, () => {
-    console.log(`PINBOARD Server running at http://localhost:${PORT}/`);
-    console.log(`API endpoints active at http://localhost:${PORT}/api/`);
+  return new Promise((resolve, reject) => {
+    serverInstance = app.listen(listenPort, () => {
+      isServerReady = true;
+      console.log(`PINBOARD Server PID ${process.pid} running at http://localhost:${listenPort}/`);
+      resolve(serverInstance);
+    });
+
+    serverInstance.on('error', (err) => {
+      isServerReady = false;
+      console.error(`❌ Server PID ${process.pid} error on port ${listenPort}:`, err.message);
+      reject(err);
+    });
+
+    // Track active sockets for clean graceful shutdown
+    serverInstance.on('connection', (socket) => {
+      activeSockets.add(socket);
+      socket.on('close', () => activeSockets.delete(socket));
+    });
   });
+}
+
+function gracefulShutdown(signal, shouldExit = true) {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+  isServerReady = false;
+
+  console.log(`\n🛑 PINBOARD Worker PID ${process.pid} received ${signal}. Starting graceful shutdown...`);
+
+  if (!serverInstance) {
+    if (shouldExit) process.exit(0);
+    return;
+  }
+
+  // 1. Stop accepting new connections
+  serverInstance.close(() => {
+    console.log(`✅ PINBOARD Worker PID ${process.pid} HTTP server closed cleanly.`);
+
+    // 2. Disconnect database cleanly if connected
+    const mongoose = require('mongoose');
+    if (mongoose.connection && mongoose.connection.readyState !== 0) {
+      mongoose.connection.close(false).then(() => {
+        console.log(`✅ DB connection closed for Worker PID ${process.pid}.`);
+        if (shouldExit) process.exit(0);
+      }).catch(() => {
+        if (shouldExit) process.exit(0);
+      });
+    } else {
+      if (shouldExit) process.exit(0);
+    }
+  });
+
+  // 3. Force close idle connections after timeout (3 seconds)
+  setTimeout(() => {
+    activeSockets.forEach((socket) => {
+      try {
+        socket.destroy();
+      } catch (e) {}
+    });
+  }, 3000).unref();
 }
 
 if (require.main === module) {
   startServer();
+  process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+  process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 }
 
-module.exports = app;
+module.exports = {
+  app,
+  startServer,
+  gracefulShutdown
+};

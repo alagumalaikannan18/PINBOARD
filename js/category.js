@@ -75,13 +75,21 @@
   }
 
   function getAllProducts() {
+    var raw = [];
     if (window.PINBOARD_PRODUCTS && Array.isArray(window.PINBOARD_PRODUCTS) && window.PINBOARD_PRODUCTS.length > 0) {
-      return window.PINBOARD_PRODUCTS;
+      raw = window.PINBOARD_PRODUCTS;
+    } else if (window.PinboardRouter && Array.isArray(window.PinboardRouter.products) && window.PinboardRouter.products.length > 0) {
+      raw = window.PinboardRouter.products;
     }
-    if (window.PinboardRouter && Array.isArray(window.PinboardRouter.products) && window.PinboardRouter.products.length > 0) {
-      return window.PinboardRouter.products;
+    if (window.PinboardSearch && typeof window.PinboardSearch.getSaleableProducts === 'function') {
+      return window.PinboardSearch.getSaleableProducts(raw);
     }
-    return [];
+    return raw.filter(function (p) {
+      if (!p) return false;
+      if (p.type === 'collection-profile' || p.saleable === false) return false;
+      var img = (p.images && p.images[0]) ? String(p.images[0]).toLowerCase() : '';
+      return !img.includes('cat_');
+    });
   }
 
   function detectCurrentCategory() {
@@ -164,7 +172,11 @@
       });
     }
 
-    return result;
+    var deduplicated = (window.PinboardSearch && typeof window.PinboardSearch.deduplicateProducts === 'function')
+      ? window.PinboardSearch.deduplicateProducts(result)
+      : result;
+
+    return deduplicated;
   }
 
   /**
@@ -209,7 +221,7 @@
     posters.forEach(function (p) {
       var price = p.salePrice || p.regularPrice || 60;
       var hasSale = p.salePrice && p.salePrice < p.regularPrice;
-      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'New Project 22 [FA6B4A7].png';
+      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
       var optImg = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
         ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
         : rawImg;
@@ -229,25 +241,22 @@
       html +=
         '<div class="cat-poster-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
           '<div class="cat-poster-card">' +
+            '<div class="product-tape"></div>' +
+            badgeHtml +
             '<div class="cat-poster-mat">' +
-              badgeHtml +
               '<div class="cat-poster-artwork">' +
                 '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + rawImg + '\'" />' +
                 '<div class="cat-poster-shadow"></div>' +
               '</div>' +
             '</div>' +
             '<div class="cat-poster-placard">' +
-              '<div class="cat-placard-top">' +
-                '<span class="cat-placard-cat">' + (p.category || CATEGORY_CONFIG[currentCategory].name) + '</span>' +
-                '<span class="cat-placard-size">' + (p.size || 'A3') + '</span>' +
+              '<div class="cat-placard-info-left">' +
+                '<h3 class="cat-placard-title" title="' + p.title + '">' + p.title + '</h3>' +
+                '<div class="cat-placard-sub">' + (p.category || CATEGORY_CONFIG[currentCategory].name) + ' · ' + (p.size || 'A4') + '</div>' +
               '</div>' +
-              '<h3 class="cat-placard-title" title="' + p.title + '">' + p.title + '</h3>' +
-              '<div class="cat-placard-bottom">' +
-                '<div class="cat-placard-prices">' +
-                  '<span class="cat-placard-active-price">₹' + price.toLocaleString() + '</span>' +
-                  regularPriceHtml +
-                '</div>' +
-                '<span class="cat-placard-cta">VIEW PRINT →</span>' +
+              '<div class="cat-placard-prices">' +
+                '<span class="cat-placard-active-price">₹' + price.toLocaleString() + '</span>' +
+                regularPriceHtml +
               '</div>' +
             '</div>' +
           '</div>' +
@@ -420,6 +429,66 @@
   }
 
   /**
+   * Ensure Collection Hero Collage displays strictly relevant category posters
+   */
+  function updateHeroCollageVisuals() {
+    var heroStage = document.getElementById('categoryHeroStage');
+    if (!heroStage) return;
+    var collage = heroStage.querySelector('.hero-3d-collage');
+    if (!collage) return;
+
+    var items = collage.querySelectorAll('.collage-item img');
+    if (!items || items.length === 0) return;
+
+    var allProds = getAllProducts();
+    if (!allProds || allProds.length === 0) return;
+
+    // Filter products strictly matching current category by category property & tags
+    var matchingPosters = allProds.filter(function (p) {
+      if (!p) return false;
+      var cat = (p.category || '').toLowerCase();
+      var tags = Array.isArray(p.tags) ? p.tags.map(function (t) { return String(t).toLowerCase(); }) : [];
+
+      if (currentCategory === 'cars') {
+        return cat === 'cars' || tags.indexOf('cars') !== -1 || tags.indexOf('supercars') !== -1 || tags.indexOf('automotive') !== -1;
+      }
+      if (currentCategory === 'movies') {
+        return cat === 'movies' || tags.indexOf('movies') !== -1 || tags.indexOf('marvel') !== -1 || tags.indexOf('cinema') !== -1;
+      }
+      if (currentCategory === 'motivation') {
+        return cat === 'motivation' || tags.indexOf('motivation') !== -1 || tags.indexOf('discipline') !== -1;
+      }
+      if (currentCategory === 'gaming') {
+        return cat === 'gaming' || tags.indexOf('gaming') !== -1 || tags.indexOf('esports') !== -1;
+      }
+      if (currentCategory === 'sports') {
+        return cat === 'sports' || tags.indexOf('sports') !== -1 || tags.indexOf('football') !== -1 || tags.indexOf('soccer') !== -1;
+      }
+      return cat === currentCategory;
+    });
+
+    if (matchingPosters.length >= 2) {
+      var p2Img = (matchingPosters[0].images && matchingPosters[0].images[0]) ? matchingPosters[0].images[0] : '';
+      var p3Img = (matchingPosters[1].images && matchingPosters[1].images[0]) ? matchingPosters[1].images[0] : '';
+
+      if (items.length >= 3) {
+        if (p2Img && items[1]) {
+          var opt2 = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+            ? window.PinboardRouter.getOptimizedImageUrl(p2Img, true) : p2Img;
+          items[1].src = opt2;
+          items[1].onerror = null;
+        }
+        if (p3Img && items[2]) {
+          var opt3 = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+            ? window.PinboardRouter.getOptimizedImageUrl(p3Img, true) : p3Img;
+          items[2].src = opt3;
+          items[2].onerror = null;
+        }
+      }
+    }
+  }
+
+  /**
    * Initialize Category Exhibition Page
    */
   function initCategoryPage() {
@@ -430,6 +499,7 @@
     setupSearchAndSort();
     init3DHeroTilt();
     renderCategoryGrid();
+    updateHeroCollageVisuals();
 
     // Ensure Filter & Controls Bar scrolls naturally with document flow
     var controlArea = document.querySelector('.category-control-area');
@@ -442,12 +512,14 @@
     if (window.PinboardRouter && typeof window.PinboardRouter.syncFromAPI === 'function') {
       window.PinboardRouter.syncFromAPI().then(function () {
         renderCategoryGrid();
+        updateHeroCollageVisuals();
       });
     }
 
     // React to dynamic product loading
     window.addEventListener('pinboard:productsloaded', function () {
       renderCategoryGrid();
+      updateHeroCollageVisuals();
     });
   }
 
