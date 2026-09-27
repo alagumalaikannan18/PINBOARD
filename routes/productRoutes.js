@@ -5,14 +5,16 @@ const {
   searchProducts,
   getProductById,
   getProductReviews,
-  addProductReview
+  addProductReview,
+  createProduct
 } = require('../controllers/productController');
 
 // Search endpoint (defined before /:id to prevent route shadowing)
 router.get('/search', searchProducts);
 
-// List all products
+// List all products / create product
 router.get('/', getAllProducts);
+router.post('/', createProduct);
 
 // Reviews endpoints (defined before /:id)
 router.get('/:id/reviews', getProductReviews);
@@ -22,3 +24,4 @@ router.post('/:id/reviews', addProductReview);
 router.get('/:id', getProductById);
 
 module.exports = router;
+

@@ -22,7 +22,7 @@ const cartItemSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: 'poster/opt/1551192.webp'
+      default: ''
     }
   },
   {
@@ -60,7 +60,7 @@ cartSchema.methods.addItem = function (item) {
     title: item.title,
     quantity: parseInt(item.quantity, 10) || 1,
     price: Number(item.price),
-    image: item.image || 'poster/opt/1551192.webp'
+    image: item.image || ''
   });
   return { added: true, alreadyInCart: false, cart: this };
 };

@@ -1,7 +1,43 @@
 const Product = require('../models/Product');
+const Review = require('../models/Review');
 const { getIsConnected } = require('../config/database');
 const path = require('path');
 const fs = require('fs');
+
+const DATA_DIR = path.resolve(__dirname, '../data');
+const REVIEWS_FILE = path.join(DATA_DIR, 'reviews.json');
+
+let diskReviewsCache = null;
+
+function loadDiskReviews() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    if (fs.existsSync(REVIEWS_FILE)) {
+      const data = fs.readFileSync(REVIEWS_FILE, 'utf8');
+      diskReviewsCache = JSON.parse(data);
+    } else {
+      diskReviewsCache = {};
+      fs.writeFileSync(REVIEWS_FILE, JSON.stringify(diskReviewsCache, null, 2), 'utf8');
+    }
+  } catch (e) {
+    if (!diskReviewsCache) diskReviewsCache = {};
+  }
+  return diskReviewsCache || {};
+}
+
+function saveDiskReviews(store) {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(REVIEWS_FILE, JSON.stringify(store, null, 2), 'utf8');
+    diskReviewsCache = store;
+  } catch (e) {
+    console.error('Failed to save reviews to disk:', e);
+  }
+}
 
 // In-memory fallback product dataset loaded from products-data.js
 let cachedLocalProducts = null;
@@ -54,25 +90,18 @@ function getCanonicalArtworkKey(p) {
 function deduplicateProductArray(products) {
   if (!Array.isArray(products)) return [];
   const seenIds = new Set();
-  const seenArtworkKeys = new Set();
-  const seenTitles = new Set();
+  const seenHashes = new Set();
   const result = [];
 
   products.forEach(p => {
     if (!p || typeof p.id === 'undefined') return;
     if (p.type === 'collection-profile' || p.saleable === false) return;
-    if (seenIds.has(p.id)) return;
-
-    const artKey = getCanonicalArtworkKey(p);
-    if (artKey && artKey.startsWith('cat-profile-')) return;
-    if (artKey && seenArtworkKeys.has(artKey)) return;
-
-    const normTitle = (p.title || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-    if (normTitle && seenTitles.has(normTitle)) return;
+    
+    const hash = p.imageHash || (p.images && p.images[0]) || p.image;
+    if (seenIds.has(p.id) || (hash && seenHashes.has(hash))) return;
 
     seenIds.add(p.id);
-    if (artKey) seenArtworkKeys.add(artKey);
-    if (normTitle) seenTitles.add(normTitle);
+    if (hash) seenHashes.add(hash);
     result.push(p);
   });
 
@@ -211,25 +240,18 @@ async function searchProducts(req, res) {
       }
     }
 
-    // Fallback search over in-memory products
-    const term = q.toLowerCase();
-    const local = getLocalProducts();
-    const results = deduplicateProductArray(local.filter(p => {
-      const title = (p.title || '').toLowerCase();
-      const sub = (p.subtitle || '').toLowerCase();
-      const cat = (p.category || '').toLowerCase();
-      const col = (p.collection || '').toLowerCase();
-      const artist = (p.artist || '').toLowerCase();
-      const subject = (p.subject || '').toLowerCase();
-      const desc = (p.description || '').toLowerCase();
-      const kw = (p.keywords || '').toLowerCase();
-      const tags = (p.tags || []).map(t => t.toLowerCase());
+    // Fallback search over in-memory products via PinboardSearch engine
+    let searchEngine = (typeof globalScope !== 'undefined' && globalScope.PinboardSearch) ? globalScope.PinboardSearch : (typeof PinboardSearch !== 'undefined' ? PinboardSearch : null);
+    if (!searchEngine) {
+      const sandbox = {};
+      const vm = require('vm');
+      const dataPath = path.resolve(__dirname, '../js/products-data.js');
+      const content = fs.readFileSync(dataPath, 'utf8');
+      vm.runInNewContext(content, sandbox);
+      searchEngine = sandbox.PinboardSearch;
+    }
 
-      if (title.includes(term) || sub.includes(term) || cat.includes(term) || col.includes(term)) return true;
-      if (artist.includes(term) || subject.includes(term) || desc.includes(term) || kw.includes(term)) return true;
-      if (tags.some(t => t.includes(term) || term.includes(t))) return true;
-      return false;
-    })).slice(0, 20);
+    const results = searchEngine ? searchEngine.search(q) : [];
 
     return res.json({
       success: true,
@@ -349,24 +371,51 @@ async function getProductById(req, res) {
   }
 }
 
-// Persistent shared review store per product for API fallback
-const productReviewsStore = new Map();
-
 /**
  * GET /api/products/:id/reviews
  * Fetch reviews for a product
  */
 async function getProductReviews(req, res) {
+  res.setHeader('Content-Type', 'application/json');
   try {
     const strPid = String(req.params.id);
-    const reviews = productReviewsStore.get(strPid) || [];
+    let reviews = [];
+
+    if (getIsConnected()) {
+      try {
+        const dbReviews = await Review.find({ productId: strPid }).sort({ createdAt: -1 }).lean();
+        if (dbReviews && dbReviews.length > 0) {
+          reviews = dbReviews.map(r => ({
+            id: r.reviewId || String(r._id),
+            reviewId: r.reviewId || String(r._id),
+            productId: r.productId,
+            userId: r.userId,
+            userName: r.userName || 'Verified Buyer',
+            userEmail: r.userEmail || '',
+            author: r.userName || 'Verified Buyer',
+            rating: Number(r.rating) || 5,
+            text: r.text || '',
+            createdAt: r.createdAt ? new Date(r.createdAt).toISOString() : new Date().toISOString(),
+            updatedAt: r.updatedAt ? new Date(r.updatedAt).toISOString() : new Date().toISOString()
+          }));
+        }
+      } catch (dbErr) {
+        console.warn('MongoDB review query warning:', dbErr.message);
+      }
+    }
+
+    if (reviews.length === 0) {
+      const store = loadDiskReviews();
+      reviews = (store[strPid] || []).slice();
+      reviews.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    }
 
     const total = reviews.length;
     let sum = 0;
     reviews.forEach(r => { sum += (Number(r.rating) || 0); });
     const ratingAverage = total > 0 ? Number((sum / total).toFixed(1)) : 0.0;
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       productId: strPid,
       reviewCount: total,
@@ -374,73 +423,231 @@ async function getProductReviews(req, res) {
       reviews: reviews
     });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Failed to fetch reviews', error: err.message });
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch reviews',
+      error: err.message
+    });
   }
 }
 
 /**
  * POST /api/products/:id/reviews
- * Submit a product review
+ * Submit or update a product review
  */
 async function addProductReview(req, res) {
+  res.setHeader('Content-Type', 'application/json');
   try {
     const strPid = String(req.params.id);
     const { userId, userName, userEmail, rating, text } = req.body || {};
 
-    if (!userId) {
-      return res.status(401).json({ success: false, message: 'Please login to write a review.' });
+    // 1. Auth check: requires authenticated user identity
+    if (!userId || !String(userId).trim()) {
+      return res.status(401).json({
+        success: false,
+        message: 'Please log in to write a review.'
+      });
     }
 
+    // 2. Validate product existence in canonical catalog (DO NOT MODIFY CATALOG)
+    const localProducts = getLocalProducts();
+    const numPid = parseInt(strPid, 10);
+    const prodMatch = localProducts.find(p => p.id === numPid || String(p.id) === strPid);
+    if (!prodMatch) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid product ID ${strPid}. Poster does not exist in catalog.`
+      });
+    }
+
+    // 3. Input Validation
     const numRating = Number(rating);
-    if (isNaN(numRating) || numRating < 1 || numRating > 5) {
-      return res.status(400).json({ success: false, message: 'Rating must be a number between 1 and 5.' });
+    if (isNaN(numRating) || numRating < 1 || numRating > 5 || !Number.isInteger(numRating)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Rating must be an integer between 1 and 5.'
+      });
     }
 
     const cleanText = String(text || '').trim();
     if (!cleanText) {
-      return res.status(400).json({ success: false, message: 'Review text cannot be empty.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Review text cannot be empty.'
+      });
+    }
+    if (cleanText.length > 1000) {
+      return res.status(400).json({
+        success: false,
+        message: 'Review text must not exceed 1000 characters.'
+      });
     }
 
-    let reviews = productReviewsStore.get(strPid) || [];
-    const existingIndex = reviews.findIndex(r => String(r.userId) === String(userId));
-    const isUpdate = existingIndex !== -1;
+    const cleanUserId = String(userId).trim();
+    const cleanUserName = String(userName || 'Verified Buyer').trim();
+    const cleanUserEmail = String(userEmail || '').trim();
+    const reviewId = `rev_${cleanUserId}_${strPid}`;
 
-    const reviewObj = {
-      id: `rev_${userId}_${strPid}`,
-      reviewId: `rev_${userId}_${strPid}`,
-      productId: strPid,
-      userId: String(userId),
-      userName: String(userName || 'Verified Buyer').trim(),
-      userEmail: String(userEmail || '').trim(),
-      author: String(userName || 'Verified Buyer').trim(),
-      rating: numRating,
-      text: cleanText,
-      createdAt: isUpdate ? reviews[existingIndex].createdAt : new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
+    let isUpdate = false;
+    let reviewObj = null;
 
-    if (isUpdate) {
-      reviews[existingIndex] = reviewObj;
+    // Save/Update in Disk File Store
+    const store = loadDiskReviews();
+    if (!store[strPid]) store[strPid] = [];
+    const reviewsList = store[strPid];
+    const existingIdx = reviewsList.findIndex(r => String(r.userId) === cleanUserId);
+
+    if (existingIdx !== -1) {
+      isUpdate = true;
+      reviewObj = {
+        id: reviewId,
+        reviewId: reviewId,
+        productId: strPid,
+        userId: cleanUserId,
+        userName: cleanUserName,
+        userEmail: cleanUserEmail,
+        author: cleanUserName,
+        rating: numRating,
+        text: cleanText,
+        createdAt: reviewsList[existingIdx].createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      reviewsList[existingIdx] = reviewObj;
     } else {
-      reviews.unshift(reviewObj);
+      isUpdate = false;
+      reviewObj = {
+        id: reviewId,
+        reviewId: reviewId,
+        productId: strPid,
+        userId: cleanUserId,
+        userName: cleanUserName,
+        userEmail: cleanUserEmail,
+        author: cleanUserName,
+        rating: numRating,
+        text: cleanText,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      reviewsList.unshift(reviewObj);
+    }
+    saveDiskReviews(store);
+
+    // Save/Update in MongoDB if connected
+    if (getIsConnected()) {
+      try {
+        await Review.findOneAndUpdate(
+          { productId: strPid, userId: cleanUserId },
+          {
+            reviewId,
+            productId: strPid,
+            userId: cleanUserId,
+            userName: cleanUserName,
+            userEmail: cleanUserEmail,
+            rating: numRating,
+            text: cleanText
+          },
+          { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+      } catch (dbErr) {
+        console.warn('MongoDB review upsert warning:', dbErr.message);
+      }
     }
 
-    productReviewsStore.set(strPid, reviews);
+    // Calculate aggregate stats across all reviews for this product
+    const updatedReviews = store[strPid] || [];
+    updatedReviews.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
     let sum = 0;
-    reviews.forEach(r => { sum += Number(r.rating); });
-    const ratingAverage = Number((sum / reviews.length).toFixed(1));
+    updatedReviews.forEach(r => { sum += Number(r.rating); });
+    const ratingAverage = Number((sum / updatedReviews.length).toFixed(1));
 
-    return res.json({
+    return res.status(isUpdate ? 200 : 201).json({
       success: true,
+      message: isUpdate ? 'Review updated successfully' : 'Review submitted successfully',
+      isUpdate: isUpdate,
       productId: strPid,
-      isUpdate,
-      reviewCount: reviews.length,
+      review: reviewObj,
+      reviewCount: updatedReviews.length,
       ratingAverage: ratingAverage,
-      reviews: reviews
+      reviews: updatedReviews
     });
   } catch (err) {
-    return res.status(500).json({ success: false, message: 'Failed to submit review', error: err.message });
+    return res.status(500).json({
+      success: false,
+      message: 'Unable to save review',
+      error: err.message
+    });
+  }
+}
+
+function validateProductCreation(productData) {
+  const { id, title, description, category, image, imageHash } = productData || {};
+  const validCategories = ['Movies', 'Cars', 'Gaming', 'Sports', 'Motivation'];
+  
+  if (!id) return { isValid: false, error: 'MISSING PRODUCT ID', message: 'Product ID is required.' };
+  if (!title || !String(title).trim()) return { isValid: false, error: 'MISSING TITLE', message: 'Title is required.' };
+  if (!description || !String(description).trim()) return { isValid: false, error: 'MISSING DESCRIPTION', message: 'Description is required.' };
+  if (!category || !validCategories.includes(category)) return { isValid: false, error: 'INVALID CATEGORY', message: `Category must be one of: ${validCategories.join(', ')}.` };
+  if (!image) return { isValid: false, error: 'MISSING IMAGE', message: 'Image path is required.' };
+
+  const existingProducts = getLocalProducts();
+  const idMatch = existingProducts.find(p => p.id === Number(id));
+  if (idMatch) {
+    return { isValid: false, error: 'DUPLICATE PRODUCT ID', message: `Product ID ${id} already exists.` };
+  }
+
+  let targetHash = imageHash;
+  if (!targetHash) {
+    const normPath = String(image).split('?')[0].replace(/\\/g, '/').trim();
+    const absPath = path.isAbsolute(normPath) ? normPath : path.resolve(__dirname, '../', normPath);
+    if (!fs.existsSync(absPath)) {
+      return { isValid: false, error: 'IMAGE FILE NOT FOUND', message: `Image file does not exist at ${normPath}` };
+    }
+    const buf = fs.readFileSync(absPath);
+    const crypto = require('crypto');
+    targetHash = crypto.createHash('sha256').update(buf).digest('hex');
+  }
+
+  const hashMatch = existingProducts.find(p => p.imageHash === targetHash);
+  if (hashMatch) {
+    return {
+      isValid: false,
+      error: 'DUPLICATE POSTER — IMAGE ALREADY EXISTS',
+      message: `Image already exists in catalog under Product ${hashMatch.id} ("${hashMatch.title}"). Duplicate creation rejected.`
+    };
+  }
+
+  return { isValid: true, calculatedHash: targetHash };
+}
+
+async function createProduct(req, res) {
+  try {
+    const validation = validateProductCreation(req.body);
+    if (!validation.isValid) {
+      return res.status(400).json({
+        success: false,
+        error: validation.error,
+        message: validation.message
+      });
+    }
+
+    const newProduct = {
+      ...req.body,
+      id: Number(req.body.id),
+      imageHash: validation.calculatedHash
+    };
+
+    return res.status(201).json({
+      success: true,
+      message: 'Product created successfully',
+      data: newProduct
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'SERVER ERROR',
+      message: err.message
+    });
   }
 }
 
@@ -450,5 +657,8 @@ module.exports = {
   getProductById,
   getLocalProducts,
   getProductReviews,
-  addProductReview
+  addProductReview,
+  validateProductCreation,
+  createProduct
 };
+

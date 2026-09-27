@@ -67,7 +67,7 @@ export async function createOrder(orderPayload) {
       quantity: Math.max(1, parseInt(item.quantity, 10) || 1),
       price: Number(item.price), // Preserves price at purchase time
       size: item.size || "A4",
-      image: item.image || "poster/opt/1551192.webp"
+      image: item.image || ""
     })),
     totalAmount: Number(totalAmount),
     paymentStatus: orderPayload.paymentStatus || "Pending",

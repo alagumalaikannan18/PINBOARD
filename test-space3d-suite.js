@@ -51,11 +51,11 @@ assert(indexHtml.includes('data-mode="focus"'), 'Contains "MINIMAL" mode toggle'
 console.log('\nTest 3: 3D Stage Architecture & Poster Attributes');
 assert(indexHtml.includes('id="space3dViewport"'), 'Viewport container exists');
 assert(indexHtml.includes('id="space3dStage"'), '3D Stage container exists');
-assert(indexHtml.includes('data-product-id="7"'), 'Centerpiece Spider-Man poster exists');
-assert(indexHtml.includes('data-product-id="2"'), 'Bauhaus No.7 card exists');
-assert(indexHtml.includes('data-product-id="14"'), 'Messi Immortal card exists');
-assert(indexHtml.includes('data-product-id="1"'), 'Sunset Ridge card exists');
-assert(indexHtml.includes('data-product-id="8"'), 'Doctor Doom card exists');
+assert(indexHtml.includes('data-product-id="33"'), 'Centerpiece Spider-Man poster exists');
+assert(indexHtml.includes('data-product-id="1"'), 'Miles Morales card exists');
+assert(indexHtml.includes('data-product-id="39"'), 'Messi Immortal card exists');
+assert(indexHtml.includes('data-product-id="34"'), 'Djo Joe Keery card exists');
+assert(indexHtml.includes('data-product-id="44"'), 'Doctor Doom card exists');
 assert(indexHtml.includes('data-base-z='), 'Cards have data-base-z coordinates');
 assert(indexHtml.includes('data-depth='), 'Cards have data-depth parallax multiplier');
 

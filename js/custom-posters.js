@@ -502,7 +502,8 @@
       if (!slot) return '';
       var numDisplay = (slotIdx + 1 < 10 ? '0' : '') + (slotIdx + 1);
       var sizeKey = (slot.size || 'A4').toLowerCase();
-      var imgSrc = slot.image || 'poster/opt/1551192.webp';
+      var _pc = window.PinboardPosterConfig;
+      var imgSrc = slot.image || (_pc ? _pc.getPlaceholder(false) : '');
       var sInfo = PRICING_CONFIG.sizes[slot.size] || PRICING_CONFIG.sizes.A4;
 
       return (
@@ -817,7 +818,7 @@
         title: 'Custom Poster Set (' + state.activeTemplate + ' Prints)',
         subtitle: 'Personalized Wall Collection · ' + summary.sizesSummary,
         totalPrice: summary.totalPrice,
-        coverImage: state.slots[0] ? state.slots[0].image : 'poster/opt/1551192.webp',
+        coverImage: state.slots[0] ? state.slots[0].image : (window.PinboardPosterConfig ? window.PinboardPosterConfig.getPlaceholder(true) : ''),
         sizesSummary: summary.sizesSummary,
         posters: state.slots.map(function (s, i) {
           return {

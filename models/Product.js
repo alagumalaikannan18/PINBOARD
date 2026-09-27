@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema(
     },
     images: {
       type: [String],
-      default: ['poster/opt/1551192.webp']
+      default: []
     },
     regularPrice: {
       type: Number,

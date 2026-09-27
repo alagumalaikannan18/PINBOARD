@@ -221,10 +221,12 @@
     posters.forEach(function (p) {
       var price = p.salePrice || p.regularPrice || 60;
       var hasSale = p.salePrice && p.salePrice < p.regularPrice;
-      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
-      var optImg = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-        ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
-        : rawImg;
+      var _pc = window.PinboardPosterConfig;
+      var rawImg = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : '';
+      var optImg = rawImg
+        ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+        : (_pc ? _pc.getPlaceholder(false) : '');
 
       var badgeHtml = '';
       if (p.badge) {
@@ -245,7 +247,7 @@
             badgeHtml +
             '<div class="cat-poster-mat">' +
               '<div class="cat-poster-artwork">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + rawImg + '\'" />' +
+                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="cat-poster-shadow"></div>' +
               '</div>' +
             '</div>' +
@@ -467,22 +469,28 @@
       return cat === currentCategory;
     });
 
+    var _hpc = window.PinboardPosterConfig;
+    var _hph = _hpc ? _hpc.getPlaceholder(false) : '';
     if (matchingPosters.length >= 2) {
-      var p2Img = (matchingPosters[0].images && matchingPosters[0].images[0]) ? matchingPosters[0].images[0] : '';
-      var p3Img = (matchingPosters[1].images && matchingPosters[1].images[0]) ? matchingPosters[1].images[0] : '';
+      var p2Img = (_hpc && _hpc.hasValidPoster(matchingPosters[0])) ? matchingPosters[0].images[0] : '';
+      var p3Img = (_hpc && _hpc.hasValidPoster(matchingPosters[1])) ? matchingPosters[1].images[0] : '';
 
       if (items.length >= 3) {
-        if (p2Img && items[1]) {
-          var opt2 = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-            ? window.PinboardRouter.getOptimizedImageUrl(p2Img, true) : p2Img;
+        if (items[1]) {
+          var opt2 = p2Img
+            ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+                ? window.PinboardRouter.getOptimizedImageUrl(p2Img, true) : p2Img)
+            : _hph;
           items[1].src = opt2;
-          items[1].onerror = null;
+          items[1].onerror = function() { this.onerror=null; this.src=_hph; };
         }
-        if (p3Img && items[2]) {
-          var opt3 = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-            ? window.PinboardRouter.getOptimizedImageUrl(p3Img, true) : p3Img;
+        if (items[2]) {
+          var opt3 = p3Img
+            ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+                ? window.PinboardRouter.getOptimizedImageUrl(p3Img, true) : p3Img)
+            : _hph;
           items[2].src = opt3;
-          items[2].onerror = null;
+          items[2].onerror = function() { this.onerror=null; this.src=_hph; };
         }
       }
     }

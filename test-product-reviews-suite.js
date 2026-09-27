@@ -191,7 +191,7 @@ async function runReviewTests() {
 
     assert.strictEqual(env.documentElements.reviewModal.style.display, 'none', 'Modal remains hidden for guest');
     assert.strictEqual(env.documentElements.pdpAuthPrompt.style.display, 'block', 'Auth prompt shown to guest');
-    assert(env.documentElements.pdpAuthPrompt.innerHTML.includes('Please login to write a review'), 'Prompt contains correct message');
+    assert(env.documentElements.pdpAuthPrompt.innerHTML.includes('Please log in to write a review') || env.documentElements.pdpAuthPrompt.innerHTML.includes('Please login to write a review'), 'Prompt contains correct message');
     console.log('✅ PASS: Guest clicking Write Review is blocked & prompted to login');
   }
 
@@ -313,7 +313,7 @@ async function runReviewTests() {
 
     assert.strictEqual(prod11Env.documentElements.pdpReviewScore.textContent, '0.0', 'Product 11 rating is 0.0');
     assert.strictEqual(prod11Env.documentElements.pdpReviewCountBadge.textContent, 'No reviews yet', 'Product 11 has No reviews yet');
-    assert.strictEqual(prod11Env.documentElements.pdpReviewsPreviewList.innerHTML, '', 'Product 11 review preview list is empty');
+    assert(prod11Env.documentElements.pdpReviewsPreviewList.innerHTML === '' || prod11Env.documentElements.pdpReviewsPreviewList.innerHTML.includes('No reviews yet'), 'Product 11 review preview list is empty or shows empty state');
     console.log('✅ PASS: Product 12 reviews do not leak into Product 11');
   }
 

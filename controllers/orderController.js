@@ -25,7 +25,7 @@ function getMemoryOrders(userId) {
             subtitle: 'Retro Collection · 3 Prints',
             quantity: 1,
             price: 1399,
-            image: 'poster/opt/1553256_1.webp'
+            image: ''
           }
         ]
       }
@@ -120,14 +120,14 @@ async function createOrder(req, res) {
         let verifiedPrice = 60;
         let verifiedTitle = item.title;
         let verifiedSubtitle = item.subtitle || 'Premium Poster';
-        let verifiedImage = item.image || 'poster/opt/1551192.webp';
+        let verifiedImage = item.image || '';
         let verifiedPid = rawId || item.id || 'custom-' + Math.floor(1000 + Math.random() * 9000);
 
         if (isCustom) {
           verifiedPrice = calculateVerifiedCustomPrice(item);
           verifiedTitle = item.title || `Custom Poster Set (${item.template || 5} Prints)`;
           verifiedSubtitle = item.subtitle || 'Personalized Wall Collection';
-          verifiedImage = item.coverImage || item.image || 'poster/opt/1551192.webp';
+          verifiedImage = item.coverImage || item.image || '';
           customTotal += verifiedPrice * q;
         } else {
           const numId = parseInt(rawId, 10);
@@ -181,7 +181,7 @@ async function createOrder(req, res) {
         quantity: qty,
         size: itemSize,
         price,
-        image: (product && product.images && product.images[0]) ? product.images[0] : 'poster/opt/1551192.webp'
+        image: (product && product.images && product.images[0]) ? product.images[0] : ''
       });
     } else {
       return res.status(400).json({

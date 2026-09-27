@@ -98,6 +98,14 @@
     window.addEventListener('orientationchange', updateCardBaseTransforms, { passive: true });
 
     var isVisible = false;
+    var viewportRect = null;
+
+    function updateViewportRect() {
+      if (viewport) {
+        viewportRect = viewport.getBoundingClientRect();
+      }
+    }
+    updateViewportRect();
 
     // Smooth animation loop using lerp (linear interpolation)
     function updatePhysics() {
@@ -109,24 +117,22 @@
       currentRotX += (targetRotX - currentRotX) * 0.08;
       currentRotY += (targetRotY - currentRotY) * 0.08;
 
-      // Apply overall stage perspective tilt
-      stage.style.transform = 'rotateX(' + currentRotX.toFixed(2) + 'deg) rotateY(' + currentRotY.toFixed(2) + 'deg)';
+      // Apply overall stage perspective tilt with smooth sub-pixel floating point precision
+      stage.style.transform = 'rotateX(' + currentRotX + 'deg) rotateY(' + currentRotY + 'deg)';
 
       var winW = window.innerWidth;
       var parallaxFactor = winW <= 767 ? 0.75 : (winW <= 1024 ? 1.2 : 1.8);
 
-      // Apply parallax depth offset to individual cards
+      // Apply parallax depth offset smoothly to all cards continuously
       cards.forEach(function (card, i) {
-        if (card.classList.contains('is-active-hover')) return; // let hover CSS handle active card
-
         var base = cardBaseTransforms[i];
         var offsetX = -currentRotY * base.depth * parallaxFactor;
         var offsetY = currentRotX * base.depth * parallaxFactor;
 
         card.style.transform =
-          'translate3d(' + (base.x + offsetX).toFixed(1) + 'px, ' + (base.y + offsetY).toFixed(1) + 'px, ' + base.z + 'px) ' +
-          'rotateX(' + (base.rx - currentRotX * 0.35).toFixed(1) + 'deg) ' +
-          'rotateY(' + (base.ry - currentRotY * 0.35).toFixed(1) + 'deg) ' +
+          'translate3d(' + (base.x + offsetX) + 'px, ' + (base.y + offsetY) + 'px, ' + base.z + 'px) ' +
+          'rotateX(' + (base.rx - currentRotX * 0.35) + 'deg) ' +
+          'rotateY(' + (base.ry - currentRotY * 0.35) + 'deg) ' +
           'rotateZ(' + base.rz + 'deg)';
       });
 
@@ -139,6 +145,7 @@
         entries.forEach(function (entry) {
           isVisible = entry.isIntersecting;
           if (isVisible && !rafId) {
+            updateViewportRect();
             rafId = requestAnimationFrame(updatePhysics);
           } else if (!isVisible && rafId) {
             cancelAnimationFrame(rafId);
@@ -152,14 +159,16 @@
       rafId = requestAnimationFrame(updatePhysics);
     }
 
-    // Mouse Move Parallax Handler
+    // Mouse Move Parallax Handler (cached rect for maximum 60fps frame rate)
     function handleMouseMove(e) {
-      var rect = viewport.getBoundingClientRect();
-      var centerX = rect.left + rect.width / 2;
-      var centerY = rect.top + rect.height / 2;
+      if (!viewportRect || viewportRect.width === 0) {
+        updateViewportRect();
+      }
+      var centerX = viewportRect.left + viewportRect.width / 2;
+      var centerY = viewportRect.top + viewportRect.height / 2;
 
-      var normX = (e.clientX - centerX) / (rect.width / 2);
-      var normY = (e.clientY - centerY) / (rect.height / 2);
+      var normX = (e.clientX - centerX) / (viewportRect.width / 2);
+      var normY = (e.clientY - centerY) / (viewportRect.height / 2);
 
       // Clamp between -1 and 1
       normX = Math.max(-1, Math.min(1, normX));
@@ -171,10 +180,11 @@
 
     viewport.addEventListener('mouseenter', function () {
       isHovered = true;
+      updateViewportRect();
     });
 
-    viewport.addEventListener('mousemove', handleMouseMove);
-    viewport.addEventListener('pointermove', handleMouseMove);
+    viewport.addEventListener('mousemove', handleMouseMove, { passive: true });
+    viewport.addEventListener('pointermove', handleMouseMove, { passive: true });
 
     viewport.addEventListener('mouseleave', function () {
       isHovered = false;

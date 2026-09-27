@@ -107,9 +107,14 @@
     var mainImg = document.getElementById('pdpMainImg');
     var thumbsContainer = document.getElementById('pdpThumbs');
     
+    var _pc = window.PinboardPosterConfig;
+    var _ph = _pc ? _pc.getPlaceholder(false) : '';
+    var _phThumb = _pc ? _pc.getPlaceholder(true) : '';
     var rawImages = (product.images && Array.isArray(product.images) && product.images.length > 0)
-      ? product.images
-      : ['poster/opt/1551192.webp'];
+      ? product.images.filter(function(img) {
+          return _pc ? (_pc.POSTER_ROOT && typeof img === 'string' && img.indexOf(_pc.POSTER_ROOT) === 0) : false;
+        })
+      : [];
 
     // Strict deduplication by base filename to prevent duplicate previews/thumbnails
     var seenKeys = new Set();
@@ -122,18 +127,18 @@
         images.push(imgSrc);
       }
     });
-    if (images.length === 0) images = ['poster/opt/1551192.webp'];
+    // No fallback to old posters — leave empty for placeholder
 
     var getOptImg = (router && typeof router.getOptimizedImageUrl === 'function')
       ? router.getOptimizedImageUrl.bind(router)
       : function (s) { return s; };
 
     if (mainImg) {
-      var fullWebP = getOptImg(images[0], false);
+      var fullWebP = images.length > 0 ? getOptImg(images[0], false) : _ph;
       mainImg.src = fullWebP;
       mainImg.onerror = function () {
         this.onerror = null;
-        this.src = images[0];
+        this.src = _ph;
       };
       mainImg.alt = product.title;
     }
@@ -526,7 +531,7 @@
       }
 
       var imgEl = document.getElementById('orderModalItemImg');
-      if (imgEl) imgEl.src = (product.images && product.images[0]) ? product.images[0] : 'poster/opt/1551192.webp';
+      if (imgEl) imgEl.src = (_pc && _pc.hasValidPoster(product)) ? product.images[0] : _ph;
 
       var titleEl = document.getElementById('orderModalItemTitle');
       if (titleEl) titleEl.textContent = product.title || 'Premium Art Poster';
@@ -798,10 +803,10 @@
       var rhtml = '';
       items.forEach(function (rp) {
         var rPrice = rp.salePrice || rp.regularPrice || 60;
-        var rImg = (rp.images && rp.images[0]) ? rp.images[0] : 'poster/opt/1551192.webp';
-        var rThumb = getOptImg(rImg, true);
+        var rImg = (_pc && _pc.hasValidPoster(rp)) ? rp.images[0] : '';
+        var rThumb = rImg ? getOptImg(rImg, true) : _phThumb;
         rhtml += '<a class="pdp-related-card" href="product.html?id=' + rp.id + '">';
-        rhtml += '<div class="pdp-related-card-img"><img src="' + rThumb + '" alt="' + rp.title + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + rImg + '\'" /></div>';
+        rhtml += '<div class="pdp-related-card-img"><img src="' + rThumb + '" alt="' + rp.title + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + (_phThumb) + '\'" /></div>';
         rhtml += '<div class="pdp-related-card-name">' + rp.title + '</div>';
         rhtml += '<div class="pdp-related-card-price">Rs. ' + rPrice.toLocaleString() + '.00</div>';
         rhtml += '</a>';
@@ -811,6 +816,8 @@
 
     // --- REAL DATABASE PRODUCT REVIEW SYSTEM ---
     function initProductReviewSystem() {
+      var currentUserReview = null;
+
       function escapeHtml(str) {
         return String(str || '').replace(/[&<>"']/g, function (m) {
           return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
@@ -859,18 +866,41 @@
         var starsEl = document.getElementById('pdpReviewStars');
         if (starsEl) starsEl.textContent = fullStars + emptyStars;
 
-        // 3. Render preview list of database reviews
+        // 3. Check if active user already reviewed this product
+        currentUserReview = null;
+        var currentUser = window.Auth && typeof window.Auth.getCurrentUser === 'function' ? window.Auth.getCurrentUser() : null;
+        if (currentUser && currentUser.isLoggedIn && Array.isArray(userReviews)) {
+          var activeUid = String(currentUser.uid || currentUser.id || '').trim();
+          if (activeUid) {
+            currentUserReview = userReviews.find(function (r) {
+              return String(r.userId || '').trim() === activeUid;
+            }) || null;
+          }
+        }
+
+        // Update Review Action Button Text based on existing review
+        var openBtn = document.getElementById('pdpOpenReviewModalBtn');
+        if (openBtn) {
+          openBtn.textContent = currentUserReview ? 'Edit Your Review' : 'Write a Review';
+        }
+
+        var submitBtnSpan = (typeof document !== 'undefined' && typeof document.querySelector === 'function') ? document.querySelector('#submitReviewBtn span') : document.getElementById('submitReviewBtn');
+        if (submitBtnSpan) {
+          submitBtnSpan.textContent = currentUserReview ? 'UPDATE REVIEW' : 'SUBMIT REVIEW';
+        }
+
+        // 4. Render preview list of database reviews
         var previewListEl = document.getElementById('pdpReviewsPreviewList');
         if (previewListEl) {
           if (totalReviewsCount === 0) {
-            previewListEl.innerHTML = '';
+            previewListEl.innerHTML = '<p style="color:rgba(17,17,17,0.5);font-size:13px;padding:12px 0;">No reviews yet. Be the first to review this poster.</p>';
           } else {
             var html = '';
             userReviews.forEach(function (r) {
               var rRating = Math.min(5, Math.max(1, Number(r.rating) || 5));
               var rStars = '★'.repeat(rRating) + '☆'.repeat(5 - rRating);
               var authorName = escapeHtml(r.userName || r.author || 'Verified Buyer');
-              var reviewContent = escapeHtml(r.text || '');
+              var reviewContent = escapeHtml(r.text || r.reviewText || '');
 
               html += '<div class="pdp-review-card-item">';
               html += '  <div class="pdp-review-card-header">';
@@ -902,7 +932,10 @@
       function fallbackFetch() {
         if (typeof fetch === 'function') {
           fetch('/api/products/' + String(productId) + '/reviews')
-            .then(function (res) { return res.json(); })
+            .then(function (res) {
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              return res.json();
+            })
             .then(function (data) {
               if (data && data.success && Array.isArray(data.reviews)) {
                 updateReviewSummaryUI(data.reviews);
@@ -919,6 +952,11 @@
       }
 
       fetchAndRenderReviews();
+
+      // Listen for auth state changes to refresh review ownership state
+      window.addEventListener('auth:statechange', function () {
+        fetchAndRenderReviews();
+      });
 
       // --- MODAL & AUTH CONTROLS ---
       var reviewModal = document.getElementById('reviewModal');
@@ -977,28 +1015,52 @@
         if (promptEl) {
           promptEl.innerHTML =
             '<div style="background:#fff3cd;border:1px solid #ffeeba;color:#856404;padding:12px 16px;border-radius:6px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">' +
-              '<span>Please login to write a review.</span>' +
+              '<span>Please log in to write a review.</span>' +
               '<a href="account.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search) + '" style="background:#111;color:#fff;padding:6px 14px;border-radius:4px;text-decoration:none;font-size:12.5px;font-weight:700;">Login Now</a>' +
             '</div>';
           promptEl.style.display = 'block';
           promptEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-          alert('Please login to write a review.');
+          alert('Please log in to write a review.');
           window.location.href = 'account.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
         }
       }
 
       function openReviewModal(user) {
         if (!reviewModal) return;
-        var modalTitleEl = document.getElementById('reviewModalProductTitle');
-        if (modalTitleEl) modalTitleEl.textContent = 'Share your feedback for ' + (product.title || 'this poster');
 
-        var nameInput = document.getElementById('reviewAuthorName');
-        if (nameInput && user && user.name) {
-          nameInput.value = user.name;
+        var modalTitleEl = document.getElementById('reviewModalProductTitle');
+
+        function getSubmitBtnSpan() {
+          if (typeof document === 'undefined') return null;
+          if (typeof document.querySelector === 'function') {
+            return document.querySelector('#submitReviewBtn span');
+          }
+          return document.getElementById('submitReviewBtn');
         }
 
-        setStarRating(5);
+        if (currentUserReview) {
+          if (modalTitleEl) modalTitleEl.textContent = 'Update your review for ' + (product.title || 'this poster');
+          var btnSpanUpdate = getSubmitBtnSpan();
+          if (btnSpanUpdate) btnSpanUpdate.textContent = 'UPDATE REVIEW';
+
+          setStarRating(Number(currentUserReview.rating) || 5);
+          var textInput = document.getElementById('reviewText');
+          if (textInput) textInput.value = currentUserReview.text || currentUserReview.reviewText || '';
+          var nameInput = document.getElementById('reviewAuthorName');
+          if (nameInput) nameInput.value = currentUserReview.userName || (user ? user.name : '');
+        } else {
+          if (modalTitleEl) modalTitleEl.textContent = 'Share your feedback for ' + (product.title || 'this poster');
+          var btnSpanSubmit = getSubmitBtnSpan();
+          if (btnSpanSubmit) btnSpanSubmit.textContent = 'SUBMIT REVIEW';
+
+          setStarRating(5);
+          var textInputClean = document.getElementById('reviewText');
+          if (textInputClean) textInputClean.value = '';
+          var nameInputClean = document.getElementById('reviewAuthorName');
+          if (nameInputClean && user && user.name) nameInputClean.value = user.name;
+        }
+
         if (formError) formError.style.display = 'none';
         if (formSuccess) formSuccess.style.display = 'none';
         if (submitBtn) submitBtn.disabled = false;
@@ -1047,7 +1109,7 @@
           var processSubmission = function (user) {
             if (!user || !user.isLoggedIn) {
               if (formError) {
-                formError.textContent = 'Please login to write a review.';
+                formError.textContent = 'Please log in to write a review.';
                 formError.style.display = 'block';
               }
               closeReviewModal();
@@ -1084,7 +1146,11 @@
             }
 
             if (formError) formError.style.display = 'none';
+
+            // Double submission protection & loading state
+            var submitBtnSpan = (typeof document !== 'undefined' && typeof document.querySelector === 'function') ? document.querySelector('#submitReviewBtn span') : document.getElementById('submitReviewBtn');
             if (submitBtn) submitBtn.disabled = true;
+            if (submitBtnSpan) submitBtnSpan.textContent = 'SUBMITTING...';
 
             var service = window.PinboardReviews;
             var submitFn = (service && typeof service.submitReview === 'function')
@@ -1094,28 +1160,39 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(opts)
-                  }).then(function (r) { return r.json(); });
+                  }).then(function (r) {
+                    if (!r.ok) {
+                      return r.json().then(function(err) { throw new Error(err.message || 'Server error'); });
+                    }
+                    return r.json();
+                  });
                 };
 
             submitFn({
               productId: String(productId),
-              userId: user.uid,
+              userId: user.uid || user.id,
               userName: authorVal,
               userEmail: user.email || '',
               rating: rVal,
-              text: textVal
+              text: textVal,
+              reviewText: textVal
             }).then(function (res) {
-              if (formSuccess) formSuccess.style.display = 'block';
+              if (formSuccess) {
+                formSuccess.textContent = res.isUpdate ? 'Review updated successfully!' : 'Review submitted successfully!';
+                formSuccess.style.display = 'block';
+              }
               fetchAndRenderReviews();
 
               setTimeout(function () {
                 closeReviewModal();
-                var textInput = document.getElementById('reviewText');
-                if (textInput) textInput.value = '';
                 if (submitBtn) submitBtn.disabled = false;
+                if (submitBtnSpan) submitBtnSpan.textContent = 'UPDATE REVIEW';
               }, 1200);
             }).catch(function (err) {
               if (submitBtn) submitBtn.disabled = false;
+              if (submitBtnSpan) {
+                submitBtnSpan.textContent = currentUserReview ? 'UPDATE REVIEW' : 'SUBMIT REVIEW';
+              }
               if (formError) {
                 formError.textContent = err.message || 'Failed to save review. Please try again.';
                 formError.style.display = 'block';

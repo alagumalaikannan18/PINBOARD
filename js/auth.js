@@ -659,7 +659,8 @@ import {
 
       var product = (typeof getProductById === 'function') ? getProductById(id || productId) : null;
       var title = product ? product.title : ('Poster #' + productId);
-      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'poster/opt/1551192.webp';
+      var _pc = window.PinboardPosterConfig;
+      var img = (_pc && _pc.hasValidPoster(product)) ? product.images[0] : (_pc ? _pc.getPlaceholder(true) : '');
 
       var newItem = {
         id: isNaN(id) ? productId : id,
@@ -727,7 +728,7 @@ import {
         subtitle: customOrder.subtitle || ('Custom Wall Layout · ' + (customOrder.sizesSummary || '')),
         quantity: 1,
         price: customOrder.totalPrice || 1499,
-        image: customOrder.coverImage || 'poster/opt/1551192.webp',
+        image: customOrder.coverImage || (window.PinboardPosterConfig ? window.PinboardPosterConfig.getPlaceholder(true) : ''),
         template: customOrder.template || 5,
         posters: customOrder.posters || [],
         sizesSummary: customOrder.sizesSummary || ''
@@ -959,7 +960,8 @@ import {
       var product = (typeof getProductById === 'function') ? getProductById(id) : null;
       var price = product ? (product.salePrice || product.regularPrice) : 60;
       var title = product ? product.title : ('Poster #' + id);
-      var img = (product && product.images && product.images.length > 0) ? product.images[0] : 'poster/opt/1551192.webp';
+      var _pc2 = window.PinboardPosterConfig;
+      var img = (_pc2 && _pc2.hasValidPoster(product)) ? product.images[0] : (_pc2 ? _pc2.getPlaceholder(true) : '');
 
       var now = new Date();
       var est = new Date();

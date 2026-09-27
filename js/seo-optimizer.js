@@ -193,7 +193,7 @@
     var keywords = SEO_KEYWORDS.primary.concat(SEO_KEYWORDS.secondary);
     var canonicalUrl = "http://localhost:3000/";
     var ogType = "website";
-    var ogImage = "http://localhost:3000/poster/opt/1551192.webp";
+    var ogImage = "";
     var structuredData = null;
 
     entityData = entityData || {};
@@ -209,7 +209,7 @@
             "@type": "Organization",
             "name": "PINBOARD",
             "url": "http://localhost:3000/",
-            "logo": "http://localhost:3000/poster/opt/1551192.webp",
+            "logo": "",
             "description": "Curated wall posters printed on 300GSM premium matte paper."
           },
           {

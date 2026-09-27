@@ -24,7 +24,7 @@ const orderItemSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: 'poster/opt/1551192.webp'
+      default: ''
     }
   },
   {

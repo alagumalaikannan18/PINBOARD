@@ -261,16 +261,24 @@
       var qty = Number(item.quantity) || 1;
       var lineTotal = price * qty;
 
-      var rawImg = item.image || (prod && prod.images && prod.images[0] ? prod.images[0] : 'poster/opt/1551192.webp');
-      var optThumb = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-        ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
-        : rawImg;
+      var _pc = window.PinboardPosterConfig;
+      var _phThumb = _pc ? _pc.getPlaceholder(true) : '';
+      var rawImg = '';
+      if (item.image && typeof item.image === 'string' && (item.image.indexOf('all_new_poster_no_repeated_poster') === 0 || item.image.indexOf('poster-library') === 0)) {
+        rawImg = item.image;
+      } else if (prod && _pc && _pc.hasValidPoster(prod)) {
+        rawImg = prod.images[0];
+      }
+      var optThumb = rawImg
+        ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+        : _phThumb;
 
       itemsHtml +=
         '<div class="cart-item-card" data-product-id="' + escapeHtml(id) + '">' +
           '<div class="cart-thumb-wrap">' +
             '<a href="product.html?id=' + encodeURIComponent(id) + '">' +
-              '<img src="' + escapeHtml(optThumb) + '" alt="' + escapeHtml(title) + '" class="cart-poster-img" loading="lazy" decoding="async" width="100" height="140" onerror="this.onerror=null;this.src=\'' + escapeHtml(rawImg) + '\'" />' +
+              '<img src="' + escapeHtml(optThumb) + '" alt="' + escapeHtml(title) + '" class="cart-poster-img" loading="lazy" decoding="async" width="100" height="140" onerror="this.onerror=null;this.src=\'' + escapeHtml(_phThumb) + '\'" />' +
             '</a>' +
           '</div>' +
           '<div class="cart-item-details">' +

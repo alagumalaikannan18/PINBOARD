@@ -203,7 +203,8 @@
 
       results.slice(0, 8).forEach((p) => {
         const price = p.salePrice || p.regularPrice || 60;
-        const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
+        const _pc = window.PinboardPosterConfig;
+        const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(true) : '');
         const pUrl = (window.PinboardRouter && typeof window.PinboardRouter.getProductUrl === 'function')
           ? window.PinboardRouter.getProductUrl(p)
           : ('product.html?id=' + p.id);
@@ -353,7 +354,8 @@
 
     currentResults.slice(0, 6).forEach((p, idx) => {
       const price = p.salePrice || p.regularPrice || 60;
-      const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
+      const _pc = window.PinboardPosterConfig;
+      const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(true) : '');
       html += 
         '<div class="search-result-item" data-product-id="' + p.id + '" data-index="' + idx + '" tabindex="0" role="option">' +
           '<div class="search-result-img">' +
@@ -594,7 +596,8 @@ function filterShopBySearch(query) {
     results.forEach(p => {
       const badgeHtml = p.badge ? '<div class="badge">' + p.badge + '</div>' : '';
       const price = p.salePrice || p.regularPrice || 60;
-      const img = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
+      const _pc = window.PinboardPosterConfig;
+      const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(false) : '');
       cardsHtml +=
         '<div class="product" data-product-id="' + p.id + '" style="cursor: pointer;" tabindex="0" role="link">' +
           '<div class="product-tape"></div>' +
@@ -1070,6 +1073,8 @@ window.toggleCollectionOverlay = toggleCollectionOverlay;
     if (text === 'collections' || text === 'view collections' || href.indexOf('#collections') !== -1 || (href.indexOf('collections') !== -1 && href.indexOf('movies') === -1 && href.indexOf('cars') === -1)) {
       // Collections trigger -> toggle/open overlay
       link.addEventListener('click', function(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        if (e && e.stopPropagation) e.stopPropagation();
         // Close mobile overlay if open
         var mobileOverlay = document.getElementById('mobileOverlay');
         var hamburger = document.getElementById('hamburger');
@@ -1080,7 +1085,6 @@ window.toggleCollectionOverlay = toggleCollectionOverlay;
         }
         var catOverlay = document.getElementById('catOverlay');
         if (catOverlay) {
-          if (e && e.preventDefault) e.preventDefault();
           toggleCollectionOverlay();
         }
       });

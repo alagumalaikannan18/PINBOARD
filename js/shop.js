@@ -89,10 +89,12 @@
     randomized.forEach(function (p) {
       var price = p.salePrice || p.regularPrice || 60;
       var hasSale = p.salePrice && p.salePrice < p.regularPrice;
-      var rawImg = (p.images && p.images[0]) ? p.images[0] : 'poster/opt/1551192.webp';
-      var optImg = (window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-        ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true)
-        : rawImg;
+      var _pc = window.PinboardPosterConfig;
+      var rawImg = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : '';
+      var optImg = rawImg
+        ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+        : (_pc ? _pc.getPlaceholder(false) : '');
       
       var badgeHtml = '';
       if (p.badge) {
@@ -110,7 +112,7 @@
             badgeHtml +
             '<div class="poster-mat-frame">' +
               '<div class="poster-artwork-float">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + rawImg + '\'" />' +
+                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="poster-art-shadow"></div>' +
               '</div>' +
             '</div>' +

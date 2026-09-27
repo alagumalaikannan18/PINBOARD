@@ -65,7 +65,7 @@ export async function addToUserCart(userId, productId, itemData) {
     title: itemData.title || `Poster #${pidStr}`,
     quantity: Math.max(1, parseInt(itemData.quantity, 10) || 1),
     price: Number(itemData.price) || 60,
-    image: itemData.image || "poster/opt/1551192.webp",
+    image: itemData.image || "",
     addedAt: serverTimestamp()
   });
 
