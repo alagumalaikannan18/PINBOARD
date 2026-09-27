@@ -218,15 +218,26 @@
     }
 
     var html = '';
-    posters.forEach(function (p) {
-      var price = p.salePrice || p.regularPrice || 60;
-      var hasSale = p.salePrice && p.salePrice < p.regularPrice;
+    posters.forEach(function (p, idx) {
+      var sizeKey = ((p.size || (p.specs && p.specs.size) || 'A4').toUpperCase().includes('A6')) ? 'A6' : 'A4';
+      var SIZE_SPECS = {
+        A6: { salePrice: 25, regularPrice: 49 },
+        A4: { salePrice: 60, regularPrice: 99 }
+      };
+      var spec = SIZE_SPECS[sizeKey] || SIZE_SPECS.A4;
+      var price = spec.salePrice;
+      var regularPrice = spec.regularPrice;
+      var hasSale = regularPrice > price;
       var _pc = window.PinboardPosterConfig;
       var rawImg = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : '';
       var optImg = rawImg
         ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, false)
+            : (_pc && typeof _pc.getOptimizedImageUrl === 'function' ? _pc.getOptimizedImageUrl(rawImg, false) : rawImg))
         : (_pc ? _pc.getPlaceholder(false) : '');
+
+      var isAboveFold = idx < 8;
+      var loadingAttr = isAboveFold ? 'loading="eager" fetchpriority="high"' : 'loading="lazy" decoding="async"';
 
       var badgeHtml = '';
       if (p.badge) {
@@ -238,7 +249,7 @@
         badgeHtml = '<span class="cat-poster-badge sale">SALE</span>';
       }
 
-      var regularPriceHtml = hasSale ? '<span class="cat-placard-regular-price">₹' + p.regularPrice.toLocaleString() + '</span>' : '';
+      var regularPriceHtml = hasSale ? '<span class="cat-placard-regular-price">₹' + regularPrice.toLocaleString() + '</span>' : '';
 
       html +=
         '<div class="cat-poster-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
@@ -247,7 +258,7 @@
             badgeHtml +
             '<div class="cat-poster-mat">' +
               '<div class="cat-poster-artwork">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
+                '<img src="' + optImg + '" alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="cat-poster-shadow"></div>' +
               '</div>' +
             '</div>' +
@@ -479,7 +490,8 @@
         if (items[1]) {
           var opt2 = p2Img
             ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-                ? window.PinboardRouter.getOptimizedImageUrl(p2Img, true) : p2Img)
+                ? window.PinboardRouter.getOptimizedImageUrl(p2Img, false)
+                : (_hpc && typeof _hpc.getOptimizedImageUrl === 'function' ? _hpc.getOptimizedImageUrl(p2Img, false) : p2Img))
             : _hph;
           items[1].src = opt2;
           items[1].onerror = function() { this.onerror=null; this.src=_hph; };
@@ -487,7 +499,8 @@
         if (items[2]) {
           var opt3 = p3Img
             ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-                ? window.PinboardRouter.getOptimizedImageUrl(p3Img, true) : p3Img)
+                ? window.PinboardRouter.getOptimizedImageUrl(p3Img, false)
+                : (_hpc && typeof _hpc.getOptimizedImageUrl === 'function' ? _hpc.getOptimizedImageUrl(p3Img, false) : p3Img))
             : _hph;
           items[2].src = opt3;
           items[2].onerror = function() { this.onerror=null; this.src=_hph; };

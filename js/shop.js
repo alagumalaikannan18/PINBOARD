@@ -86,15 +86,26 @@
     }
 
     var html = '';
-    randomized.forEach(function (p) {
-      var price = p.salePrice || p.regularPrice || 60;
-      var hasSale = p.salePrice && p.salePrice < p.regularPrice;
+    randomized.forEach(function (p, idx) {
+      var sizeKey = ((p.size || (p.specs && p.specs.size) || 'A4').toUpperCase().includes('A6')) ? 'A6' : 'A4';
+      var SIZE_SPECS = {
+        A6: { salePrice: 25, regularPrice: 49 },
+        A4: { salePrice: 60, regularPrice: 99 }
+      };
+      var spec = SIZE_SPECS[sizeKey] || SIZE_SPECS.A4;
+      var price = spec.salePrice;
+      var regularPrice = spec.regularPrice;
+      var hasSale = regularPrice > price;
       var _pc = window.PinboardPosterConfig;
       var rawImg = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : '';
       var optImg = rawImg
         ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, false)
+            : (_pc && typeof _pc.getOptimizedImageUrl === 'function' ? _pc.getOptimizedImageUrl(rawImg, false) : rawImg))
         : (_pc ? _pc.getPlaceholder(false) : '');
+
+      var isAboveFold = idx < 8;
+      var loadingAttr = isAboveFold ? 'loading="eager" fetchpriority="high"' : 'loading="lazy" decoding="async"';
       
       var badgeHtml = '';
       if (p.badge) {
@@ -103,7 +114,7 @@
         badgeHtml = '<span class="gallery-badge sale">SALE</span>';
       }
 
-      var regularPriceHtml = hasSale ? '<span class="placard-price-regular">₹' + p.regularPrice.toLocaleString() + '</span>' : '';
+      var regularPriceHtml = hasSale ? '<span class="placard-price-regular">₹' + regularPrice.toLocaleString() + '</span>' : '';
 
       html +=
         '<div class="poster-3d-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
@@ -112,7 +123,7 @@
             badgeHtml +
             '<div class="poster-mat-frame">' +
               '<div class="poster-artwork-float">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" loading="lazy" decoding="async" width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
+                '<img src="' + optImg + '" alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="poster-art-shadow"></div>' +
               '</div>' +
             '</div>' +

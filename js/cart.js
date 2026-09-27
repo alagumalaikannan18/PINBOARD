@@ -271,7 +271,8 @@
       }
       var optThumb = rawImg
         ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, true) : rawImg)
+            ? window.PinboardRouter.getOptimizedImageUrl(rawImg, false)
+            : (_pc && typeof _pc.getOptimizedImageUrl === 'function' ? _pc.getOptimizedImageUrl(rawImg, false) : rawImg))
         : _phThumb;
 
       itemsHtml +=

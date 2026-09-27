@@ -148,7 +148,7 @@
       if (images.length > 1) {
         var thumbsHTML = '';
         images.forEach(function (src, idx) {
-          var thumbWebP = getOptImg(src, true);
+          var thumbWebP = getOptImg(src, false);
           thumbsHTML += '<div class="pdp-thumb' + (idx === 0 ? ' active' : '') + '" data-index="' + idx + '">';
           thumbsHTML += '<img src="' + thumbWebP + '" alt="' + product.title + ' view ' + (idx + 1) + '" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'' + src + '\'" />';
           thumbsHTML += '</div>';

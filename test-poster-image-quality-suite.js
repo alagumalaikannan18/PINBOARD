@@ -25,7 +25,7 @@ const sandbox = { window: {}, localStorage: { getItem: () => null, setItem: () =
 vm.createContext(sandbox);
 vm.runInContext(code, sandbox);
 
-const products = sandbox.PINBOARD_PRODUCTS;
+const products = sandbox.window.PINBOARD_PRODUCTS || sandbox.PINBOARD_PRODUCTS;
 assert(Array.isArray(products) && products.length >= 135, 'Catalog contains at least 135 canonical products (found ' + (products ? products.length : 0) + ')');
 
 let missingCount = 0;
@@ -33,7 +33,7 @@ let thumbCount = 0;
 
 products.forEach(p => {
   const rawImg = p.images ? p.images[0] : p.image;
-  const optImg = sandbox.PinboardSearch.getOptimizedImageUrl ? sandbox.PinboardSearch.getOptimizedImageUrl(rawImg, false) : rawImg;
+  const optImg = (sandbox.PinboardSearch && typeof sandbox.PinboardSearch.getOptimizedImageUrl === 'function') ? sandbox.PinboardSearch.getOptimizedImageUrl(rawImg, false) : rawImg;
   const fullPath = path.join(__dirname, optImg.replace(/\//g, path.sep));
 
   if (!fs.existsSync(fullPath)) {

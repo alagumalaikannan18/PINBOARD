@@ -83,6 +83,18 @@ var PinboardPosterConfig = (function () {
     return "this.onerror=null;this.src='" + ph + "'";
   }
 
+  /**
+   * Get highest-quality image URL for a given poster path.
+   * Ensures original high-resolution file is used everywhere without compression or thumb degradation.
+   * @param {string} src
+   * @param {boolean} [isThumb]
+   * @returns {string}
+   */
+  function getOptimizedImageUrl(src, isThumb) {
+    if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
+    return src.replace(/-thumb/g, '');
+  }
+
   return {
     POSTER_ROOT: POSTER_ROOT,
     CATEGORY_DIRS: CATEGORY_DIRS,
@@ -93,7 +105,8 @@ var PinboardPosterConfig = (function () {
     hasValidPoster: hasValidPoster,
     getPlaceholder: getPlaceholder,
     getCategoryDir: getCategoryDir,
-    getOnerrorHandler: getOnerrorHandler
+    getOnerrorHandler: getOnerrorHandler,
+    getOptimizedImageUrl: getOptimizedImageUrl
   };
 })();
 

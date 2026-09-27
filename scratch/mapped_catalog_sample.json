@@ -1,0 +1,92 @@
+[
+  {
+    "catalogId": "poster-001",
+    "productId": 1,
+    "title": "DISCIPLINE MAKES YOU UNFORGETTABLE | Cristiano Ronaldo",
+    "category": "Motivation",
+    "filename": "1513605.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513605.png",
+    "rating": 4.8
+  },
+  {
+    "catalogId": "poster-002",
+    "productId": 2,
+    "title": "BE YOURSELF | Mindset Stage Print",
+    "category": "Motivation",
+    "filename": "1513609.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513609.png",
+    "rating": 4.9
+  },
+  {
+    "catalogId": "poster-003",
+    "productId": 3,
+    "title": "PARASITE | Bong Joon-ho Oscar Winner",
+    "category": "Movies",
+    "filename": "1513618.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513618.png",
+    "rating": 4.9
+  },
+  {
+    "catalogId": "poster-004",
+    "productId": 4,
+    "title": "CRISTIANO RONALDO | Portugal #7",
+    "category": "Sports",
+    "filename": "1513632.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513632.png",
+    "rating": 4.7
+  },
+  {
+    "catalogId": "poster-005",
+    "productId": 5,
+    "title": "MEN ARE BRAVE | Minimalist Dark Knight Emblem",
+    "category": "Movies",
+    "filename": "1513633.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513633.png",
+    "rating": 4.8
+  },
+  {
+    "catalogId": "poster-006",
+    "productId": 6,
+    "title": "SPIDER-MAN | The Suit Reveal",
+    "category": "Movies",
+    "filename": "1513635.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513635.png",
+    "rating": 4.9
+  },
+  {
+    "catalogId": "poster-007",
+    "productId": 7,
+    "title": "PETER PARKER | No Way Home Crowd",
+    "category": "Movies",
+    "filename": "1513638.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513638.png",
+    "rating": 4.7
+  },
+  {
+    "catalogId": "poster-008",
+    "productId": 8,
+    "title": "ANSWERS TO HELL ME | Latverian Sovereign Doom",
+    "category": "Movies",
+    "filename": "1513639.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513639.png",
+    "rating": 4.8
+  },
+  {
+    "catalogId": "poster-009",
+    "productId": 9,
+    "title": "PORSCHE 911 GT3 RS | Monochrome Racecar",
+    "category": "Cars",
+    "filename": "1513641.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513641.png",
+    "rating": 4.9
+  },
+  {
+    "catalogId": "poster-010",
+    "productId": 10,
+    "title": "THE GREATEST PLAYER OF ALL TIME | Leo Messi 10",
+    "category": "Sports",
+    "filename": "1513642.png",
+    "imagePath": "all_new_poster_no_repeated_poster/1513642.png",
+    "rating": 4.8
+  }
+]
