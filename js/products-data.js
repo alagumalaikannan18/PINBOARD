@@ -4182,6 +4182,21 @@ if (typeof module !== 'undefined' && module.exports) {
         return p.badge === 'HOT' || p.badge === 'BESTSELLER' || p.badge === 'NEW' || (p.rating && p.rating >= 4.9);
       });
       return this.deduplicateProducts(featured).slice(0, limit);
+    },
+
+    sortResults: function (list, sortType) {
+      if (!Array.isArray(list)) return [];
+      var arr = list.slice();
+      if (sortType === 'price-low') {
+        arr.sort(function (a, b) { return (a.price || 0) - (b.price || 0); });
+      } else if (sortType === 'price-high') {
+        arr.sort(function (a, b) { return (b.price || 0) - (a.price || 0); });
+      } else if (sortType === 'rating') {
+        arr.sort(function (a, b) { return (b.rating || 0) - (a.rating || 0); });
+      } else if (sortType === 'newest') {
+        arr.sort(function (a, b) { return (b.id || 0) - (a.id || 0); });
+      }
+      return this.deduplicateProducts(arr);
     }
   };
 
@@ -4190,5 +4205,11 @@ if (typeof module !== 'undefined' && module.exports) {
   }
   if (typeof window !== 'undefined') {
     window.PinboardSearch = PinboardSearch;
+  }
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      PINBOARD_PRODUCTS: globalScope.PINBOARD_PRODUCTS,
+      PinboardSearch: PinboardSearch
+    };
   }
 })();

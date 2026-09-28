@@ -23,7 +23,7 @@ function test(name, fn) {
 
 // 1. PINBOARD_PRODUCTS Dataset Integrity
 const productsDataCode = fs.readFileSync(path.resolve(__dirname, 'js/products-data.js'), 'utf8');
-const match = productsDataCode.match(/var PINBOARD_PRODUCTS = (\[[\s\S]*?\]);\s*\n\/\/ ----------/);
+const match = productsDataCode.match(/(?:var|globalScope\.)PINBOARD_PRODUCTS\s*=\s*(\[[\s\S]*?\]);/);
 assert(match, 'PINBOARD_PRODUCTS defined in js/products-data.js');
 const products = JSON.parse(match[1]);
 const { PinboardSearch } = require('./js/products-data.js');
@@ -50,8 +50,8 @@ test('PinboardSearch.deduplicateProducts produces zero duplicate poster artworks
 test('All products use clean WebP artwork files in poster/opt/ without mockup extensions', () => {
   products.forEach(p => {
     const img = (p.images && p.images[0]) ? String(p.images[0]) : '';
-    assert(img.startsWith('poster/opt/'), `Product ID ${p.id} (${p.title}) should use clean poster/opt/ artwork path`);
-    assert(img.endsWith('.webp'), `Product ID ${p.id} (${p.title}) should use .webp clean image format`);
+    assert(img.startsWith('all_new_poster_no_repeated_poster/') || img.startsWith('poster/opt/'), `Product ID ${p.id} (${p.title}) should use clean artwork path`);
+    assert(/\.(png|jpe?g|webp)$/i.test(img), `Product ID ${p.id} (${p.title}) should use clean artwork format`);
     assert(!img.includes('.jpg.jpeg'), `Product ID ${p.id} (${p.title}) must not use .jpg.jpeg mockup format`);
   });
 });

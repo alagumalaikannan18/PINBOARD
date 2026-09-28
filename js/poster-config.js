@@ -95,6 +95,53 @@ var PinboardPosterConfig = (function () {
     return src.replace(/-thumb/g, '');
   }
 
+  /**
+   * Get responsive variant URL for a poster path.
+   * @param {string} src - Base image path
+   * @param {string} [variant='md'] - 'sm' (400w), 'md' (800w), 'lg' (1200w), 'xl' (2000w), 'thumb'
+   * @returns {string}
+   */
+  function getVariantUrl(src, variant) {
+    if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
+    var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
+    var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
+    var targetVariant = variant || 'md';
+    return baseNoExt + '-' + targetVariant + '.webp';
+  }
+
+  /**
+   * Get responsive srcset attribute string for a poster.
+   * @param {string} src - Base image path
+   * @returns {string}
+   */
+  function getResponsiveSrcset(src) {
+    if (!src || typeof src !== 'string' || src.indexOf(POSTER_ROOT) !== 0) return '';
+    var baseNoExt = src.replace(/\.[^.]+$/, '');
+    return baseNoExt + '-sm.webp 400w, ' +
+           baseNoExt + '-md.webp 800w, ' +
+           baseNoExt + '-lg.webp 1200w, ' +
+           baseNoExt + '-xl.webp 2000w';
+  }
+
+  /**
+   * Get responsive sizes attribute string.
+   * @param {string} [context='card'] - 'card', 'pdp', 'hero', 'cart'
+   * @returns {string}
+   */
+  function getResponsiveSizes(context) {
+    if (context === 'pdp' || context === 'zoom') {
+      return '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 600px';
+    }
+    if (context === 'hero') {
+      return '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 400px';
+    }
+    if (context === 'cart') {
+      return '100px';
+    }
+    // Default gallery card size
+    return '(max-width: 480px) 45vw, (max-width: 768px) 33vw, (max-width: 1200px) 25vw, 280px';
+  }
+
   return {
     POSTER_ROOT: POSTER_ROOT,
     CATEGORY_DIRS: CATEGORY_DIRS,
@@ -106,7 +153,10 @@ var PinboardPosterConfig = (function () {
     getPlaceholder: getPlaceholder,
     getCategoryDir: getCategoryDir,
     getOnerrorHandler: getOnerrorHandler,
-    getOptimizedImageUrl: getOptimizedImageUrl
+    getOptimizedImageUrl: getOptimizedImageUrl,
+    getVariantUrl: getVariantUrl,
+    getResponsiveSrcset: getResponsiveSrcset,
+    getResponsiveSizes: getResponsiveSizes
   };
 })();
 

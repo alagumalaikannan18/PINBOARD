@@ -67,7 +67,41 @@ function apiRateLimiter(req, res, next) {
   next();
 }
 
+const zlib = require('zlib');
+
+// --- Native Gzip Compression Middleware ---
+function gzipCompressionMiddleware(req, res, next) {
+  const acceptEncoding = req.headers['accept-encoding'] || '';
+  if (!acceptEncoding.includes('gzip')) return next();
+
+  // Skip images, media, and binary formats
+  if (/\.(webp|png|jpe?g|gif|ico|woff2?|ttf|eot)$/i.test(req.path)) {
+    return next();
+  }
+
+  const origWrite = res.write;
+  const origEnd = res.end;
+  const gzip = zlib.createGzip({ level: 6 });
+
+  res.setHeader('Content-Encoding', 'gzip');
+  res.removeHeader('Content-Length');
+
+  gzip.on('data', (chunk) => origWrite.call(res, chunk));
+  gzip.on('end', () => origEnd.call(res));
+
+  res.write = function (chunk, encoding) {
+    return gzip.write(chunk, encoding);
+  };
+  res.end = function (chunk, encoding) {
+    if (chunk) gzip.write(chunk, encoding);
+    return gzip.end();
+  };
+
+  next();
+}
+
 // --- Middleware ---
+app.use(gzipCompressionMiddleware);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

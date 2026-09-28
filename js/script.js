@@ -598,12 +598,15 @@ function filterShopBySearch(query) {
       const price = p.salePrice || p.regularPrice || 60;
       const _pc = window.PinboardPosterConfig;
       const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(false) : '');
+      const srcsetAttr = (_pc && typeof _pc.getResponsiveSrcset === 'function') ? _pc.getResponsiveSrcset(img) : '';
+      const sizesAttr = (_pc && typeof _pc.getResponsiveSizes === 'function') ? _pc.getResponsiveSizes('card') : '';
+      const responsiveImgAttr = srcsetAttr ? 'srcset="' + srcsetAttr + '" sizes="' + sizesAttr + '" ' : '';
       cardsHtml +=
         '<div class="product" data-product-id="' + p.id + '" style="cursor: pointer;" tabindex="0" role="link">' +
           '<div class="product-tape"></div>' +
           badgeHtml +
           '<div class="product-img">' +
-            '<img src="' + img + '" alt="' + p.title + '" />' +
+            '<img src="' + img + '" ' + responsiveImgAttr + 'alt="' + p.title + '" loading="lazy" decoding="async" />' +
           '</div>' +
           '<div class="product-info">' +
             '<div>' +

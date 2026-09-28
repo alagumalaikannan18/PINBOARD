@@ -1194,7 +1194,7 @@ body {
     width: 100%;
     box-sizing: border-box;
   }
-  .pdp-related-card {
+.pdp-related-card {
     padding: 10px 10px 12px;
   }
 
@@ -1525,5 +1525,93 @@ body {
 .btn-submit-review:hover {
   background: #282828;
   transform: translateY(-1px);
+}
+
+/* High-Resolution Poster Zoom Lightbox Modal */
+.pdp-frame-container {
+  cursor: zoom-in;
+}
+
+.poster-zoom-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.poster-zoom-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.poster-zoom-container {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-zoom-close {
+  position: absolute;
+  top: -42px;
+  right: -10px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 36px;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 10001;
+  padding: 4px 12px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.poster-zoom-close:hover {
+  transform: scale(1.18);
+  color: #f59e0b;
+}
+
+.poster-zoom-image-wrapper {
+  max-width: 85vw;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.poster-zoom-image-wrapper img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+}
+
+.poster-zoom-caption {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-transform: uppercase;
 }
 

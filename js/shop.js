@@ -116,6 +116,10 @@
 
       var regularPriceHtml = hasSale ? '<span class="placard-price-regular">₹' + regularPrice.toLocaleString() + '</span>' : '';
 
+      var srcsetAttr = (_pc && typeof _pc.getResponsiveSrcset === 'function') ? _pc.getResponsiveSrcset(optImg) : '';
+      var sizesAttr = (_pc && typeof _pc.getResponsiveSizes === 'function') ? _pc.getResponsiveSizes('card') : '';
+      var responsiveImgAttr = srcsetAttr ? 'srcset="' + srcsetAttr + '" sizes="' + sizesAttr + '" ' : '';
+
       html +=
         '<div class="poster-3d-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
           '<div class="poster-3d-card">' +
@@ -123,7 +127,7 @@
             badgeHtml +
             '<div class="poster-mat-frame">' +
               '<div class="poster-artwork-float">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
+                '<img src="' + optImg + '" ' + responsiveImgAttr + 'alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="poster-art-shadow"></div>' +
               '</div>' +
             '</div>' +

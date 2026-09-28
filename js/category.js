@@ -251,6 +251,10 @@
 
       var regularPriceHtml = hasSale ? '<span class="cat-placard-regular-price">₹' + regularPrice.toLocaleString() + '</span>' : '';
 
+      var srcsetAttr = (_pc && typeof _pc.getResponsiveSrcset === 'function') ? _pc.getResponsiveSrcset(optImg) : '';
+      var sizesAttr = (_pc && typeof _pc.getResponsiveSizes === 'function') ? _pc.getResponsiveSizes('card') : '';
+      var responsiveImgAttr = srcsetAttr ? 'srcset="' + srcsetAttr + '" sizes="' + sizesAttr + '" ' : '';
+
       html +=
         '<div class="cat-poster-wrap" data-product-id="' + p.id + '" tabindex="0" role="link" aria-label="' + p.title + '">' +
           '<div class="cat-poster-card">' +
@@ -258,7 +262,7 @@
             badgeHtml +
             '<div class="cat-poster-mat">' +
               '<div class="cat-poster-artwork">' +
-                '<img src="' + optImg + '" alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
+                '<img src="' + optImg + '" ' + responsiveImgAttr + 'alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
                 '<div class="cat-poster-shadow"></div>' +
               '</div>' +
             '</div>' +

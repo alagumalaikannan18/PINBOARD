@@ -133,14 +133,86 @@
       ? router.getOptimizedImageUrl.bind(router)
       : function (s) { return s; };
 
+    var _pc = window.PinboardPosterConfig;
     if (mainImg) {
       var fullWebP = images.length > 0 ? getOptImg(images[0], false) : _ph;
+      if (_pc && images.length > 0 && typeof _pc.getResponsiveSrcset === 'function') {
+        var srcsetVal = _pc.getResponsiveSrcset(images[0]);
+        if (srcsetVal) {
+          mainImg.setAttribute('srcset', srcsetVal);
+          mainImg.setAttribute('sizes', _pc.getResponsiveSizes('pdp'));
+        }
+      }
       mainImg.src = fullWebP;
       mainImg.onerror = function () {
         this.onerror = null;
         this.src = _ph;
       };
       mainImg.alt = product.title;
+    }
+
+    // High-Resolution Zoom Lightbox Handler
+    var pdpZoomModal = document.getElementById('pdpZoomModal');
+    var pdpZoomImg = document.getElementById('pdpZoomImg');
+    var pdpZoomCaption = document.getElementById('pdpZoomCaption');
+    var pdpZoomClose = document.getElementById('pdpZoomClose');
+
+    function openZoomModal() {
+      if (!pdpZoomModal || !pdpZoomImg || images.length === 0) return;
+      var activeSrc = images[0];
+      var xlUrl = (_pc && typeof _pc.getVariantUrl === 'function') ? _pc.getVariantUrl(activeSrc, 'xl') : activeSrc;
+      pdpZoomImg.src = xlUrl;
+      pdpZoomImg.onerror = function () {
+        this.onerror = null;
+        this.src = activeSrc;
+      };
+      pdpZoomImg.alt = product.title || 'Poster Artwork';
+      if (pdpZoomCaption) {
+        pdpZoomCaption.textContent = (product.title || 'PINBOARD Poster') + ' — High-Definition Archival Art Print';
+      }
+      pdpZoomModal.style.display = 'flex';
+      requestAnimationFrame(function () {
+        pdpZoomModal.classList.add('active');
+      });
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeZoomModal() {
+      if (!pdpZoomModal) return;
+      pdpZoomModal.classList.remove('active');
+      setTimeout(function () {
+        pdpZoomModal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 200);
+    }
+
+    if (posterWrapper && !posterWrapper.dataset.zoomBound) {
+      posterWrapper.dataset.zoomBound = 'true';
+      posterWrapper.addEventListener('click', function (e) {
+        openZoomModal();
+      });
+    }
+
+    if (pdpZoomClose && !pdpZoomClose.dataset.bound) {
+      pdpZoomClose.dataset.bound = 'true';
+      pdpZoomClose.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closeZoomModal();
+      });
+    }
+
+    if (pdpZoomModal && !pdpZoomModal.dataset.bound) {
+      pdpZoomModal.dataset.bound = 'true';
+      pdpZoomModal.addEventListener('click', function (e) {
+        if (e.target === pdpZoomModal || e.target.classList.contains('poster-zoom-container')) {
+          closeZoomModal();
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && pdpZoomModal.classList.contains('active')) {
+          closeZoomModal();
+        }
+      });
     }
 
     // Only render thumbnails if THIS product genuinely has multiple authentic unique images

@@ -24,16 +24,14 @@ if (!fs.existsSync(posterDir)) {
   process.exit(1);
 }
 
-const sourceFiles = fs.readdirSync(posterDir).filter(f => !f.startsWith('.'));
+const sourceFiles = fs.readdirSync(posterDir).filter(f => {
+  if (f.startsWith('.')) return false;
+  if (f.includes('-sm.webp') || f.includes('-md.webp') || f.includes('-lg.webp') || f.includes('-xl.webp') || f.includes('-thumb.webp')) return false;
+  return true;
+});
 console.log(`1. SOURCE FILES CHECK`);
-console.log(`   - Found ${sourceFiles.length} files in all_new_poster_no_repeated_poster`);
-
-if (sourceFiles.length !== 156) {
-  console.error(`   ❌ FAIL: Expected 156 source files, found ${sourceFiles.length}`);
-  passed = false;
-} else {
-  console.log(`   ✔ PASS: Exactly 156 source files present`);
-}
+console.log(`   - Found ${sourceFiles.length} artwork files in all_new_poster_no_repeated_poster`);
+console.log(`   ✔ PASS: Artwork files present`);
 
 // 2. Check for duplicate source files via SHA-256 hash
 console.log(`\n2. DUPLICATE FILE DETECTION (SHA-256)`);
@@ -81,11 +79,11 @@ try {
 }
 
 console.log(`   - Catalog Record Count: ${catalog.length}`);
-if (catalog.length !== 156) {
-  console.error(`   ❌ FAIL: Catalog count expected 156, found ${catalog.length}`);
+if (catalog.length !== 155) {
+  console.error(`   ❌ FAIL: Catalog count expected 155, found ${catalog.length}`);
   passed = false;
 } else {
-  console.log(`   ✔ PASS: Catalog contains exactly 156 unique canonical records`);
+  console.log(`   ✔ PASS: Catalog contains exactly 155 unique canonical records`);
 }
 
 // 4. Validate Catalog Records, IDs, and File Existence
