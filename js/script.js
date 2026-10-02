@@ -210,7 +210,7 @@
       results.slice(0, 8).forEach((p) => {
         const price = p.salePrice || p.regularPrice || 60;
         const _pc = window.PinboardPosterConfig;
-        const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(true) : '');
+        const img = (_pc && _pc.hasValidPoster(p)) ? _pc.getOptimizedImageUrl(p.images[0], true) : (_pc ? _pc.getPlaceholder(true) : '');
         const pUrl = (window.PinboardRouter && typeof window.PinboardRouter.getProductUrl === 'function')
           ? window.PinboardRouter.getProductUrl(p)
           : ('product.html?id=' + p.id);
@@ -361,7 +361,7 @@
     currentResults.slice(0, 6).forEach((p, idx) => {
       const price = p.salePrice || p.regularPrice || 60;
       const _pc = window.PinboardPosterConfig;
-      const img = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : (_pc ? _pc.getPlaceholder(true) : '');
+      const img = (_pc && _pc.hasValidPoster(p)) ? _pc.getOptimizedImageUrl(p.images[0], true) : (_pc ? _pc.getPlaceholder(true) : '');
       html += 
         '<div class="search-result-item" data-product-id="' + p.id + '" data-index="' + idx + '" tabindex="0" role="option">' +
           '<div class="search-result-img">' +
@@ -1084,17 +1084,28 @@ window.toggleCollectionOverlay = toggleCollectionOverlay;
       link.addEventListener('click', function(e) {
         if (e && e.preventDefault) e.preventDefault();
         if (e && e.stopPropagation) e.stopPropagation();
-        // Close mobile overlay if open
+        // Close mobile overlay completely if open
         var mobileOverlay = document.getElementById('mobileOverlay');
         var hamburger = document.getElementById('hamburger');
-        if (mobileOverlay && mobileOverlay.classList.contains('open')) {
+        if (mobileOverlay && (mobileOverlay.classList.contains('open') || mobileOverlay.classList.contains('is-active'))) {
           mobileOverlay.classList.remove('open');
-          if (hamburger) hamburger.classList.remove('active');
+          mobileOverlay.classList.remove('is-active');
+          mobileOverlay.setAttribute('aria-hidden', 'true');
+          if (hamburger) {
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
           document.body.style.overflow = '';
         }
         var catOverlay = document.getElementById('catOverlay');
         if (catOverlay) {
-          toggleCollectionOverlay();
+          if (typeof window.toggleCollectionOverlay === 'function') {
+            window.toggleCollectionOverlay();
+          } else {
+            catOverlay.classList.toggle('open');
+            catOverlay.setAttribute('aria-hidden', catOverlay.classList.contains('open') ? 'false' : 'true');
+            document.body.style.overflow = catOverlay.classList.contains('open') ? 'hidden' : '';
+          }
         }
       });
     } else {

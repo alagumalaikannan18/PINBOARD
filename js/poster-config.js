@@ -1,5 +1,5 @@
 // =============================================
-// PINBOARD — Central Poster Configuration
+// PINBOARD — Central Poster Configuration & Base Path Engine
 // Single source of truth for all poster image paths.
 // All poster loading across the website flows through this module.
 // =============================================
@@ -8,7 +8,6 @@ var PinboardPosterConfig = (function () {
   'use strict';
 
   // --- APPROVED POSTER ROOT ---
-  // The authoritative single source directory for all 156 unique posters.
   var POSTER_ROOT = 'all_new_poster_no_repeated_poster';
 
   // --- CATEGORY DIRECTORY MAPPING ---
@@ -27,6 +26,56 @@ var PinboardPosterConfig = (function () {
   var PLACEHOLDER_THUMB_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='140' viewBox='0 0 100 140'%3E%3Crect width='100' height='140' fill='%23f5f4f0'/%3E%3Crect x='8' y='8' width='84' height='124' rx='3' fill='%23eae8e3' stroke='%23d5d2cb' stroke-width='1' stroke-dasharray='6 3'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-family='sans-serif' font-size='18' fill='%23c5c1b8'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3Ctext x='50' y='82' text-anchor='middle' font-family='sans-serif' font-size='8' font-weight='600' letter-spacing='1' fill='%23a09c94'%3EPOSTER%3C/text%3E%3C/svg%3E";
 
   /**
+   * Programmatically detect deployment base path ('/' for localhost, '/PINBOARD/' for GitHub Pages).
+   * @returns {string}
+   */
+  function getBasePath() {
+    if (typeof window === 'undefined') return '/';
+    if (window.PINBOARD_BASE_PATH) {
+      var b = window.PINBOARD_BASE_PATH;
+      return b.endsWith('/') ? b : b + '/';
+    }
+    var hostname = (window.location.hostname || '').toLowerCase();
+    var pathname = window.location.pathname || '';
+    if (hostname.indexOf('github.io') !== -1 || pathname.toLowerCase().indexOf('/pinboard') === 0) {
+      return '/PINBOARD/';
+    }
+    return '/';
+  }
+
+  /**
+   * Environment-agnostic Asset Path Resolver
+   * Adjusts local relative paths for localhost or GitHub Pages subpath deployments (/PINBOARD/).
+   * Leaves external URLs, Firebase URLs, data URIs, and absolute HTTPS URLs untouched.
+   * @param {string} url
+   * @returns {string}
+   */
+  function getAssetPath(url) {
+    if (!url || typeof url !== 'string') return url || '';
+    if (
+      url.indexOf('http://') === 0 ||
+      url.indexOf('https://') === 0 ||
+      url.indexOf('data:') === 0 ||
+      url.indexOf('blob:') === 0 ||
+      url.indexOf('//') === 0
+    ) {
+      return url;
+    }
+    var basePath = getBasePath();
+    var cleanUrl = url;
+    if (cleanUrl.indexOf('/') === 0) {
+      cleanUrl = cleanUrl.substring(1);
+    }
+    if (cleanUrl.indexOf('PINBOARD/') === 0 || cleanUrl.indexOf('pinboard/') === 0) {
+      cleanUrl = cleanUrl.substring(9);
+    }
+    if (basePath === '/') {
+      return cleanUrl;
+    }
+    return basePath + cleanUrl;
+  }
+
+  /**
    * Get the poster image source for a product.
    * @param {Object} product - Product object with images array
    * @param {boolean} [isThumb] - If true, returns thumbnail-sized placeholder if missing
@@ -36,7 +85,7 @@ var PinboardPosterConfig = (function () {
     if (product && product.images && Array.isArray(product.images) && product.images.length > 0) {
       var img = product.images[0];
       if (typeof img === 'string' && img.length > 0 && img.indexOf(POSTER_ROOT) === 0) {
-        return img;
+        return getAssetPath(img);
       }
     }
     return isThumb ? PLACEHOLDER_THUMB_SVG : PLACEHOLDER_SVG;
@@ -51,7 +100,7 @@ var PinboardPosterConfig = (function () {
     if (product && product.images && Array.isArray(product.images) && product.images.length > 0) {
       var img = product.images[0];
       if (typeof img === 'string' && img.length > 0 && img.indexOf(POSTER_ROOT) === 0) {
-        return img;
+        return getAssetPath(img);
       }
     }
     return '';
@@ -92,7 +141,7 @@ var PinboardPosterConfig = (function () {
    */
   function getOptimizedImageUrl(src, isThumb) {
     if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
-    if (src.indexOf(POSTER_ROOT) !== 0) return src;
+    if (src.indexOf('data:') === 0 || src.indexOf('http') === 0) return src;
     var variant = isThumb ? 'thumb' : 'md';
     return getVariantUrl(src, variant);
   }
@@ -105,10 +154,11 @@ var PinboardPosterConfig = (function () {
    */
   function getVariantUrl(src, variant) {
     if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
+    if (src.indexOf('data:') === 0 || src.indexOf('http') === 0) return src;
     var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
     var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
     var targetVariant = variant || 'md';
-    return baseNoExt + '-' + targetVariant + '.webp';
+    return getAssetPath(baseNoExt + '-' + targetVariant + '.webp');
   }
 
   /**
@@ -117,13 +167,13 @@ var PinboardPosterConfig = (function () {
    * @returns {string}
    */
   function getResponsiveSrcset(src) {
-    if (!src || typeof src !== 'string' || src.indexOf(POSTER_ROOT) !== 0) return '';
+    if (!src || typeof src !== 'string' || src.indexOf('data:') === 0) return '';
     var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
     var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
-    return baseNoExt + '-sm.webp 400w, ' +
-           baseNoExt + '-md.webp 800w, ' +
-           baseNoExt + '-lg.webp 1200w, ' +
-           baseNoExt + '-xl.webp 2000w';
+    return getAssetPath(baseNoExt + '-sm.webp') + ' 400w, ' +
+           getAssetPath(baseNoExt + '-md.webp') + ' 800w, ' +
+           getAssetPath(baseNoExt + '-lg.webp') + ' 1200w, ' +
+           getAssetPath(baseNoExt + '-xl.webp') + ' 2000w';
   }
 
   /**
@@ -141,8 +191,34 @@ var PinboardPosterConfig = (function () {
     if (context === 'cart') {
       return '100px';
     }
-    // Default gallery card size
     return '(max-width: 480px) 45vw, (max-width: 768px) 33vw, (max-width: 1200px) 25vw, 280px';
+  }
+
+  /**
+   * Auto-resolve all static HTML <img> and <source> tag asset paths for GitHub Pages
+   */
+  function autoResolveStaticAssets() {
+    if (typeof document === 'undefined') return;
+    var basePath = getBasePath();
+    if (basePath === '/') return;
+
+    var elements = document.querySelectorAll('img[src], source[srcset]');
+    elements.forEach(function (el) {
+      if (el.tagName.toLowerCase() === 'img') {
+        var src = el.getAttribute('src');
+        if (src && !src.startsWith('http') && !src.startsWith('data:') && !src.startsWith('blob:') && !src.startsWith('/PINBOARD/')) {
+          el.setAttribute('src', getAssetPath(src));
+        }
+      }
+    });
+  }
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', autoResolveStaticAssets);
+    } else {
+      autoResolveStaticAssets();
+    }
   }
 
   return {
@@ -150,6 +226,8 @@ var PinboardPosterConfig = (function () {
     CATEGORY_DIRS: CATEGORY_DIRS,
     PLACEHOLDER: PLACEHOLDER_SVG,
     PLACEHOLDER_THUMB: PLACEHOLDER_THUMB_SVG,
+    getBasePath: getBasePath,
+    getAssetPath: getAssetPath,
     getProductImage: getProductImage,
     getRawImagePath: getRawImagePath,
     hasValidPoster: hasValidPoster,
@@ -165,4 +243,6 @@ var PinboardPosterConfig = (function () {
 
 if (typeof window !== 'undefined') {
   window.PinboardPosterConfig = PinboardPosterConfig;
+  window.getAssetPath = PinboardPosterConfig.getAssetPath;
+  window.getBasePath = PinboardPosterConfig.getBasePath;
 }
