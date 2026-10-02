@@ -97,7 +97,7 @@
       var regularPrice = spec.regularPrice;
       var hasSale = regularPrice > price;
       var _pc = window.PinboardPosterConfig;
-      var rawImg = (_pc && _pc.hasValidPoster(p)) ? p.images[0] : '';
+      var rawImg = p.image || (p.images && p.images[0]) || '';
       var optImg = rawImg
         ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
             ? window.PinboardRouter.getOptimizedImageUrl(rawImg, false)
@@ -127,7 +127,7 @@
             badgeHtml +
             '<div class="poster-mat-frame">' +
               '<div class="poster-artwork-float">' +
-                '<img src="' + optImg + '" ' + responsiveImgAttr + 'alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (_pc ? _pc.getPlaceholder(false) : '') + '\'" />' +
+                '<img src="' + optImg + '" ' + responsiveImgAttr + 'alt="' + p.title + '" ' + loadingAttr + ' width="280" height="380" onerror="this.onerror=null;this.src=\'' + (rawImg || (_pc ? _pc.getPlaceholder(false) : '')) + '\'" />' +
                 '<div class="poster-art-shadow"></div>' +
               '</div>' +
             '</div>' +

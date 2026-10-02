@@ -79,22 +79,71 @@ function gzipCompressionMiddleware(req, res, next) {
     return next();
   }
 
+  const origSetHeader = res.setHeader;
+  const origWriteHead = res.writeHead;
   const origWrite = res.write;
   const origEnd = res.end;
-  const gzip = zlib.createGzip({ level: 6 });
+
+  let gzip = null;
+
+  function initGzip() {
+    if (gzip) return;
+    gzip = zlib.createGzip({ level: 6 });
+
+    gzip.on('data', (chunk) => {
+      if (origWrite.call(res, chunk) === false) {
+        gzip.pause();
+      }
+    });
+
+    res.on('drain', () => {
+      if (gzip) gzip.resume();
+    });
+
+    gzip.on('drain', () => {
+      res.emit('drain');
+    });
+
+    gzip.on('end', () => {
+      origEnd.call(res);
+    });
+  }
+
+  res.setHeader = function (name, value) {
+    if (name && String(name).toLowerCase() === 'content-length') {
+      return;
+    }
+    return origSetHeader.apply(this, arguments);
+  };
+
+  res.writeHead = function (statusCode, statusMessage, headers) {
+    res.removeHeader('Content-Length');
+    if (headers) {
+      if (Array.isArray(headers)) {
+        headers = headers.filter(h => Array.isArray(h) && String(h[0]).toLowerCase() !== 'content-length');
+      } else if (typeof headers === 'object') {
+        Object.keys(headers).forEach(k => {
+          if (k.toLowerCase() === 'content-length') delete headers[k];
+        });
+      }
+    }
+    return origWriteHead.apply(this, arguments);
+  };
 
   res.setHeader('Content-Encoding', 'gzip');
   res.removeHeader('Content-Length');
 
-  gzip.on('data', (chunk) => origWrite.call(res, chunk));
-  gzip.on('end', () => origEnd.call(res));
-
-  res.write = function (chunk, encoding) {
-    return gzip.write(chunk, encoding);
+  res.write = function (chunk, encoding, cb) {
+    initGzip();
+    return gzip.write(chunk, encoding, cb);
   };
-  res.end = function (chunk, encoding) {
-    if (chunk) gzip.write(chunk, encoding);
-    return gzip.end();
+
+  res.end = function (chunk, encoding, cb) {
+    initGzip();
+    if (chunk) {
+      gzip.write(chunk, encoding);
+    }
+    return gzip.end(cb);
   };
 
   next();

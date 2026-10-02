@@ -1079,7 +1079,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 476,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1105,7 +1105,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 479,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1287,7 +1287,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 350,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1313,7 +1313,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 353,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1339,7 +1339,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 356,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1365,7 +1365,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 359,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1391,7 +1391,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 362,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1417,7 +1417,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 365,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1443,7 +1443,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 368,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1469,7 +1469,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 371,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1495,7 +1495,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 374,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1521,7 +1521,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 377,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -1573,7 +1573,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 383,
     "stock": 50,
-    "category": "Movies",
+    "category": "Motivation",
     "collection": "Mindset & Stoicism",
     "badge": null,
     "images": [
@@ -1807,7 +1807,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 410,
     "stock": 50,
-    "category": "Movies",
+    "category": "Gaming",
     "collection": "Red Dead & GTA Legends",
     "badge": null,
     "images": [
@@ -1833,7 +1833,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 413,
     "stock": 50,
-    "category": "Movies",
+    "category": "Gaming",
     "collection": "Red Dead & GTA Legends",
     "badge": null,
     "images": [
@@ -2015,7 +2015,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 434,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -2041,7 +2041,7 @@ globalScope.PINBOARD_PRODUCTS = [
     "rating": 4.9,
     "reviewCount": 437,
     "stock": 50,
-    "category": "Movies",
+    "category": "Sports",
     "collection": "Football Legends",
     "badge": null,
     "images": [
@@ -4143,11 +4143,24 @@ if (typeof module !== 'undefined' && module.exports) {
       var seenHashes = new Set();
       var uniqueList = [];
 
+      var ARTWORK_ALIASES = {
+        '1556996.png': '1556996.png',
+        'file_00000000d1a482118837991a9779439a.png': '1556996.png',
+        'file_00000000d1a482118837991a9779439a.webp': '1556996.png',
+        'file_00000000d1a482118837991a9779439a-md.webp': '1556996.png',
+        'poster/opt/file_00000000d1a482118837991a9779439a.webp': '1556996.png'
+      };
+
       for (var i = 0; i < productsList.length; i++) {
         var p = productsList[i];
         if (!p || typeof p.id === 'undefined') continue;
 
-        var imgHash = p.imageHash || (p.images && p.images[0]) || p.image;
+        var rawImg = (p.images && p.images[0]) || p.image || '';
+        var baseImg = String(rawImg).split('/').pop().replace(/-md|-sm|-lg|-thumb|-xl/g, '');
+        var canonicalImg = ARTWORK_ALIASES[baseImg] || ARTWORK_ALIASES[rawImg] || baseImg;
+
+        var imgHash = ARTWORK_ALIASES[baseImg] || ARTWORK_ALIASES[rawImg] || p.imageHash || canonicalImg;
+
         if (!seenIds.has(p.id) && (!imgHash || !seenHashes.has(imgHash))) {
           seenIds.add(p.id);
           if (imgHash) seenHashes.add(imgHash);

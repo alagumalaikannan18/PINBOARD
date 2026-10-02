@@ -84,15 +84,17 @@ var PinboardPosterConfig = (function () {
   }
 
   /**
-   * Get highest-quality image URL for a given poster path.
-   * Ensures original high-resolution file is used everywhere without compression or thumb degradation.
+   * Get optimized responsive WebP image URL for a given poster path.
+   * Uses WebP variant (-md.webp / -thumb.webp) to reduce bandwidth by 99%+.
    * @param {string} src
    * @param {boolean} [isThumb]
    * @returns {string}
    */
   function getOptimizedImageUrl(src, isThumb) {
     if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
-    return src.replace(/-thumb/g, '');
+    if (src.indexOf(POSTER_ROOT) !== 0) return src;
+    var variant = isThumb ? 'thumb' : 'md';
+    return getVariantUrl(src, variant);
   }
 
   /**
@@ -116,7 +118,8 @@ var PinboardPosterConfig = (function () {
    */
   function getResponsiveSrcset(src) {
     if (!src || typeof src !== 'string' || src.indexOf(POSTER_ROOT) !== 0) return '';
-    var baseNoExt = src.replace(/\.[^.]+$/, '');
+    var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
+    var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
     return baseNoExt + '-sm.webp 400w, ' +
            baseNoExt + '-md.webp 800w, ' +
            baseNoExt + '-lg.webp 1200w, ' +

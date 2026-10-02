@@ -1094,23 +1094,37 @@ import {
         }
       });
 
-      // Update mobile navigation overlay My Account menu item with authenticated user's photo or fallback
+      // Update mobile navigation overlay Account menu item with authenticated user's photo or fallback
       var mobAccountImgs = document.querySelectorAll('.mob-nav-link[href="account.html"] .mob-link-icon img, .mob-account-avatar-img');
+      var mobAccountTitles = document.querySelectorAll('.mob-account-title');
+      var mobAccountSubs = document.querySelectorAll('.mob-account-sub');
+
       mobAccountImgs.forEach(function (img) {
         if (user && user.isLoggedIn && user.photoURL) {
           img.src = user.photoURL;
           img.setAttribute('referrerpolicy', 'no-referrer');
+          img.style.borderRadius = '50%';
+          img.style.objectFit = 'cover';
           img.onerror = function () {
             this.onerror = null;
-            this.src = 'images/mob-menu-account.jpg';
+            this.src = 'images/mob-menu-account.svg';
+            this.style.borderRadius = '0';
           };
         } else {
-          img.src = 'images/mob-menu-account.jpg';
+          img.src = 'images/mob-menu-account.svg';
+          img.style.borderRadius = '0';
           img.onerror = function () {
             this.onerror = null;
-            this.src = 'cat_motivation-thumb.webp';
           };
         }
+      });
+
+      mobAccountTitles.forEach(function (el) {
+        el.textContent = (user && user.isLoggedIn && user.name) ? user.name : 'Account';
+      });
+
+      mobAccountSubs.forEach(function (el) {
+        el.textContent = (user && user.isLoggedIn && user.email) ? user.email : 'View your profile & orders';
       });
     },
 

@@ -36,9 +36,14 @@
     function closeMobileMenuIfOpen() {
       var mobileOverlay = document.getElementById('mobileOverlay');
       var hamburger = document.getElementById('hamburger');
-      if (mobileOverlay && mobileOverlay.classList.contains('open')) {
+      if (mobileOverlay && (mobileOverlay.classList.contains('open') || mobileOverlay.classList.contains('is-active'))) {
         mobileOverlay.classList.remove('open');
-        if (hamburger) hamburger.classList.remove('active');
+        mobileOverlay.classList.remove('is-active');
+        mobileOverlay.setAttribute('aria-hidden', 'true');
+        if (hamburger) {
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
         document.body.style.overflow = '';
       }
     }
@@ -118,18 +123,22 @@
       }
 
       if (collectionsTrigger) {
+        e.preventDefault();
+        if (e.stopPropagation) e.stopPropagation();
+        closeMobileMenuIfOpen();
         var catOverlay = document.getElementById('catOverlay');
         if (catOverlay) {
-          e.preventDefault();
-          closeMobileMenuIfOpen();
           if (typeof window.toggleCollectionOverlay === 'function') {
             window.toggleCollectionOverlay();
           } else {
             catOverlay.classList.toggle('open');
             document.body.style.overflow = catOverlay.classList.contains('open') ? 'hidden' : '';
           }
-          return;
+        } else {
+          var targetHref = collectionsTrigger.getAttribute('href') || 'index.html#collections';
+          window.location.href = targetHref;
         }
+        return;
       }
 
       // 5. Category Card Clicks (.cat-card inside collection overlay or page)

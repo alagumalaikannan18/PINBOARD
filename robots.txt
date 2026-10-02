@@ -6,6 +6,7 @@ Allow: /cars.html
 Allow: /motivation.html
 Allow: /gaming.html
 Allow: /sports.html
+Allow: /anime.html
 Allow: /custom-posters.html
 Allow: /product.html
 Disallow: /cart.html
@@ -13,4 +14,4 @@ Disallow: /account.html
 Disallow: /checkout
 Disallow: /api/private/
 
-Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: https://pinboard-art.com/sitemap.xml

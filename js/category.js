@@ -455,12 +455,15 @@
     if (!collage) return;
 
     var items = collage.querySelectorAll('.collage-item img');
-    if (!items || items.length === 0) return;
+    if (!items || items.length < 3) return;
+
+    var mainSrc = items[0].getAttribute('src') || '';
+    var mainClean = mainSrc.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '').replace(/\.[^.]+$/, '');
 
     var allProds = getAllProducts();
     if (!allProds || allProds.length === 0) return;
 
-    // Filter products strictly matching current category by category property & tags
+    // Filter products strictly matching current category
     var matchingPosters = allProds.filter(function (p) {
       if (!p) return false;
       var cat = (p.category || '').toLowerCase();
@@ -484,31 +487,29 @@
       return cat === currentCategory;
     });
 
+    // Filter out main poster to guarantee 3 unique, non-repeating posters in hero
+    var distinctCandidates = matchingPosters.filter(function (p) {
+      if (!p) return false;
+      var pImg = p.image || (p.images && p.images[0]) || '';
+      var pClean = pImg.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '').replace(/\.[^.]+$/, '');
+      return pClean !== mainClean;
+    });
+
     var _hpc = window.PinboardPosterConfig;
     var _hph = _hpc ? _hpc.getPlaceholder(false) : '';
-    if (matchingPosters.length >= 2) {
-      var p2Img = (_hpc && _hpc.hasValidPoster(matchingPosters[0])) ? matchingPosters[0].images[0] : '';
-      var p3Img = (_hpc && _hpc.hasValidPoster(matchingPosters[1])) ? matchingPosters[1].images[0] : '';
+    if (distinctCandidates.length >= 2) {
+      var p2Img = (_hpc && _hpc.hasValidPoster(distinctCandidates[0])) ? distinctCandidates[0].images[0] : (distinctCandidates[0].image || '');
+      var p3Img = (_hpc && _hpc.hasValidPoster(distinctCandidates[1])) ? distinctCandidates[1].images[0] : (distinctCandidates[1].image || '');
 
-      if (items.length >= 3) {
-        if (items[1]) {
-          var opt2 = p2Img
-            ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-                ? window.PinboardRouter.getOptimizedImageUrl(p2Img, false)
-                : (_hpc && typeof _hpc.getOptimizedImageUrl === 'function' ? _hpc.getOptimizedImageUrl(p2Img, false) : p2Img))
-            : _hph;
-          items[1].src = opt2;
-          items[1].onerror = function() { this.onerror=null; this.src=_hph; };
-        }
-        if (items[2]) {
-          var opt3 = p3Img
-            ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
-                ? window.PinboardRouter.getOptimizedImageUrl(p3Img, false)
-                : (_hpc && typeof _hpc.getOptimizedImageUrl === 'function' ? _hpc.getOptimizedImageUrl(p3Img, false) : p3Img))
-            : _hph;
-          items[2].src = opt3;
-          items[2].onerror = function() { this.onerror=null; this.src=_hph; };
-        }
+      if (items[1] && p2Img) {
+        var opt2 = (_hpc && typeof _hpc.getOptimizedImageUrl === 'function') ? _hpc.getOptimizedImageUrl(p2Img, false) : p2Img;
+        items[1].src = opt2;
+        items[1].onerror = function() { this.onerror=null; this.src=p2Img; };
+      }
+      if (items[2] && p3Img) {
+        var opt3 = (_hpc && typeof _hpc.getOptimizedImageUrl === 'function') ? _hpc.getOptimizedImageUrl(p3Img, false) : p3Img;
+        items[2].src = opt3;
+        items[2].onerror = function() { this.onerror=null; this.src=p3Img; };
       }
     }
   }
