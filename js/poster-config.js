@@ -147,6 +147,26 @@ var PinboardPosterConfig = (function () {
   }
 
   /**
+   * Derive the base stem for a poster image path, handling double extensions and special stems.
+   * @param {string} src
+   * @returns {string}
+   */
+  function deriveBaseStem(src) {
+    if (!src || typeof src !== 'string') return '';
+    var clean = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
+    clean = clean.replace(/\.jpg\.jpeg$/i, '.jpg');
+    if (/\.jpg$/i.test(clean) && (
+      clean.indexOf('1790968658867.jpg') !== -1 ||
+      clean.indexOf('file_00000000e300821184cb8d6b2db50b05.jpg') !== -1 ||
+      clean.indexOf('file_00000000541c81faa8025d2d7cdd86d4.jpg') !== -1 ||
+      clean.indexOf('1790967878731.jpg') !== -1
+    )) {
+      return clean;
+    }
+    return clean.replace(/\.[^.]+$/, '');
+  }
+
+  /**
    * Get responsive variant URL for a poster path.
    * @param {string} src - Base image path
    * @param {string} [variant='md'] - 'sm' (400w), 'md' (800w), 'lg' (1200w), 'xl' (2000w), 'thumb'
@@ -155,10 +175,9 @@ var PinboardPosterConfig = (function () {
   function getVariantUrl(src, variant) {
     if (!src || typeof src !== 'string') return PLACEHOLDER_SVG;
     if (src.indexOf('data:') === 0 || src.indexOf('http') === 0) return src;
-    var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
-    var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
     var targetVariant = variant || 'md';
-    return getAssetPath(baseNoExt + '-' + targetVariant + '.webp');
+    var stem = deriveBaseStem(src);
+    return getAssetPath(stem + '-' + targetVariant + '.webp');
   }
 
   /**
@@ -168,12 +187,11 @@ var PinboardPosterConfig = (function () {
    */
   function getResponsiveSrcset(src) {
     if (!src || typeof src !== 'string' || src.indexOf('data:') === 0) return '';
-    var cleanSrc = src.replace(/-(sm|md|lg|xl|thumb)\.webp$/i, '');
-    var baseNoExt = cleanSrc.replace(/\.[^.]+$/, '');
-    return getAssetPath(baseNoExt + '-sm.webp') + ' 400w, ' +
-           getAssetPath(baseNoExt + '-md.webp') + ' 800w, ' +
-           getAssetPath(baseNoExt + '-lg.webp') + ' 1200w, ' +
-           getAssetPath(baseNoExt + '-xl.webp') + ' 2000w';
+    var stem = deriveBaseStem(src);
+    return getAssetPath(stem + '-sm.webp') + ' 400w, ' +
+           getAssetPath(stem + '-md.webp') + ' 800w, ' +
+           getAssetPath(stem + '-lg.webp') + ' 1200w, ' +
+           getAssetPath(stem + '-xl.webp') + ' 2000w';
   }
 
   /**

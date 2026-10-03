@@ -79,11 +79,11 @@ try {
 }
 
 console.log(`   - Catalog Record Count: ${catalog.length}`);
-if (catalog.length !== 155) {
-  console.error(`   ❌ FAIL: Catalog count expected 155, found ${catalog.length}`);
+if (catalog.length !== 164) {
+  console.error(`   ❌ FAIL: Catalog count expected 164, found ${catalog.length}`);
   passed = false;
 } else {
-  console.log(`   ✔ PASS: Catalog contains exactly 155 unique canonical records`);
+  console.log(`   ✔ PASS: Catalog contains exactly 164 unique canonical records`);
 }
 
 // 4. Validate Catalog Records, IDs, and File Existence

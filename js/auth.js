@@ -564,7 +564,7 @@ import {
      */
     getCart: function (targetUid) {
       var user = this.getUser();
-      var uid = targetUid || (user ? user.uid : null);
+      var uid = targetUid || (user ? user.uid : 'guest_session');
       if (!uid) {
         return [];
       }
@@ -711,14 +711,10 @@ import {
      */
     addCustomPostersToCart: function (customOrder) {
       var user = this.getUser();
-      if (!user || !user.uid) {
-        console.warn('[PINBOARD Auth] User must be authenticated to add custom posters to cart.');
-        return { success: false, requireAuth: true, message: 'Please log in to add your custom poster collection to cart.', cart: [] };
-      }
+      var uid = user ? user.uid : 'guest_session';
 
-      var uid = user.uid;
       var cart = this.getCart(uid);
-      var customId = 'custom-' + Date.now();
+      var customId = 'custom-poster-set';
 
       var newItem = {
         id: customId,
@@ -727,14 +723,23 @@ import {
         title: customOrder.title || ('Custom Poster Set (' + (customOrder.template || 5) + ' Prints)'),
         subtitle: customOrder.subtitle || ('Custom Wall Layout · ' + (customOrder.sizesSummary || '')),
         quantity: 1,
-        price: customOrder.totalPrice || 1499,
+        price: customOrder.totalPrice || 250,
         image: customOrder.coverImage || (window.PinboardPosterConfig ? window.PinboardPosterConfig.getPlaceholder(true) : ''),
         template: customOrder.template || 5,
         posters: customOrder.posters || [],
         sizesSummary: customOrder.sizesSummary || ''
       };
 
-      cart.push(newItem);
+      // Strict duplicate prevention: update existing custom item in cart if already present
+      var existingIndex = cart.findIndex(function (item) {
+        return item && (item.isCustom || String(item.id || item.productId).indexOf('custom') !== -1);
+      });
+
+      if (existingIndex !== -1) {
+        cart[existingIndex] = newItem;
+      } else {
+        cart.push(newItem);
+      }
 
       try {
         localStorage.setItem(getCartStorageKey(uid), JSON.stringify(cart));
@@ -745,9 +750,9 @@ import {
       this.updateNavbar();
       this._emitCartChange();
 
-      // Sync with backend API
+      // Sync with backend API if available
       try {
-        if (typeof fetch === 'function') {
+        if (typeof fetch === 'function' && user && user.uid) {
           fetch('/api/cart', {
             method: 'POST',
             headers: this._getAuthHeaders(),

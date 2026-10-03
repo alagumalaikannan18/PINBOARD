@@ -33,7 +33,7 @@ const products = sandboxWin.PINBOARD_PRODUCTS || sandboxMod.exports.PINBOARD_PRO
 
 // 1. Catalog Integrity
 console.log(`--- 1. CATALOG INTEGRITY CHECKS ---`);
-assert(products.length === 155, `Catalog Total Canonical Products`, `Expected 155, got ${products.length}`);
+assert(products.length === 164, `Catalog Total Canonical Products`, `Expected 164, got ${products.length}`);
 
 const idSet = new Set();
 const hashSet = new Set();

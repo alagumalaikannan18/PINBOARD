@@ -19,7 +19,7 @@ const getProductById = global.getProductById;
 assert(PinboardSearch, 'PinboardSearch module must be defined');
 assert(typeof PinboardSearch.search === 'function', 'PinboardSearch.search must be a function');
 
-let totalProducts = 155;
+let totalProducts = 164;
 let searchIndexProducts = PinboardSearch.getSaleableProducts().length;
 let searchTestsPassed = 0;
 let searchTestsFailed = 0;
@@ -32,8 +32,8 @@ let consoleErrors = 0;
 console.log(`1. SEARCH INDEX COVERAGE CHECK`);
 console.log(`   - Total Products in Catalog: ${totalProducts}`);
 console.log(`   - Products Indexed in Search: ${searchIndexProducts}`);
-assert.strictEqual(searchIndexProducts, 155, 'Search index must contain all 155 canonical products');
-console.log('   ✔ PASS: 100% catalog coverage confirmed (155/155 products)\n');
+assert.strictEqual(searchIndexProducts, 164, 'Search index must contain all 164 canonical products');
+console.log('   ✔ PASS: 100% catalog coverage confirmed (164/164 products)\n');
 
 // 2. COMPREHENSIVE SEARCH QUERY SUITE
 console.log('2. EXECUTING TEST QUERIES');
@@ -127,7 +127,7 @@ allSaleable.forEach(p => {
   }
 });
 
-console.log(`   - Product Link Tests Passed: ${productLinkTestsPassed} / 155`);
+console.log(`   - Product Link Tests Passed: ${productLinkTestsPassed} / 164`);
 console.log(`   - Broken Product Links: ${brokenProductLinks}\n`);
 
 // 4. FINAL REPORT SUMMARY
@@ -136,7 +136,7 @@ console.log('FINAL AUDIT REPORT');
 console.log('======================================================');
 
 const searchStatus = (
-  searchIndexProducts === 155 &&
+  searchIndexProducts === 164 &&
   searchTestsFailed === 0 &&
   brokenProductLinks === 0 &&
   duplicateResults === 0 &&

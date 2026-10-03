@@ -802,6 +802,95 @@
   /**
    * Checkout & Cart Integration Action
    */
+  /**
+   * Validate Google Drive Link URL
+   */
+  function isValidGoogleDriveUrl(urlStr) {
+    if (!urlStr || typeof urlStr !== 'string') return false;
+    var trimmed = urlStr.trim();
+    if (!trimmed) return false;
+    var parsed = null;
+    try {
+      parsed = new URL(trimmed);
+    } catch (e) {
+      try {
+        parsed = new URL('https://' + trimmed);
+      } catch (e2) {
+        return false;
+      }
+    }
+    if (!parsed || !parsed.hostname) return false;
+    var host = parsed.hostname.toLowerCase();
+    return host === 'drive.google.com' || host.endsWith('.drive.google.com') || host === 'docs.google.com' || host.endsWith('.docs.google.com');
+  }
+
+  function openCustomOrderModal() {
+    var summary = calculateSummary();
+    if (!summary.isComplete) {
+      alert('Please upload all ' + summary.totalRequired + ' photos and select their sizes before proceeding.');
+      return;
+    }
+
+    var modalTitle = document.getElementById('customModalItemTitle');
+    var modalSize = document.getElementById('customModalItemSize');
+    var modalPrice = document.getElementById('customModalItemPrice');
+    var modalSubtotal = document.getElementById('customModalSubtotal');
+    var modalFinalTotal = document.getElementById('customModalFinalTotal');
+    var modalImg = document.getElementById('customModalItemImg');
+
+    if (modalTitle) modalTitle.textContent = state.activeTemplate + ' Custom Posters Set';
+    if (modalSize) modalSize.textContent = 'Sizes: ' + summary.sizesSummary;
+    if (modalPrice) modalPrice.textContent = '₹' + summary.totalPrice.toLocaleString();
+    if (modalSubtotal) modalSubtotal.textContent = '₹' + summary.totalPrice.toLocaleString();
+    if (modalFinalTotal) modalFinalTotal.textContent = '₹' + summary.totalPrice.toLocaleString();
+    if (modalImg && state.slots[0] && state.slots[0].image) {
+      modalImg.src = state.slots[0].image;
+    }
+
+    // Prefill details if user logged in
+    try {
+      if (window.Auth && typeof window.Auth.getCurrentUser === 'function') {
+        var user = window.Auth.getCurrentUser();
+        if (user) {
+          if (user.displayName && document.getElementById('customCustName') && !document.getElementById('customCustName').value) {
+            document.getElementById('customCustName').value = user.displayName;
+          }
+          if (user.email && document.getElementById('customCustEmail') && !document.getElementById('customCustEmail').value) {
+            document.getElementById('customCustEmail').value = user.email;
+          }
+          if (user.phone && document.getElementById('customCustPhone') && !document.getElementById('customCustPhone').value) {
+            document.getElementById('customCustPhone').value = user.phone;
+          }
+        }
+      }
+    } catch (e) {}
+
+    var errBox = document.getElementById('customFormError');
+    if (errBox) {
+      errBox.style.display = 'none';
+      errBox.textContent = '';
+    }
+
+    var modal = document.getElementById('customOrderModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeCustomOrderModal() {
+    var modal = document.getElementById('customOrderModal');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  }
+
+  /**
+   * Add Custom Poster Set to Cart Action
+   */
   function setupCheckoutAction() {
     var btn = document.getElementById('customCheckoutBtn');
     if (!btn) return;
@@ -813,68 +902,52 @@
         return;
       }
 
+      var count = state.activeTemplate || 5;
+
       var customOrder = {
-        template: state.activeTemplate,
-        title: 'Custom Poster Set (' + state.activeTemplate + ' Prints)',
+        id: 'custom-poster-set',
+        productId: 'custom-poster-set',
+        isCustom: true,
+        title: 'Custom Poster Set (' + count + ' Prints)',
         subtitle: 'Personalized Wall Collection · ' + summary.sizesSummary,
+        quantity: 1,
         totalPrice: summary.totalPrice,
         coverImage: state.slots[0] ? state.slots[0].image : (window.PinboardPosterConfig ? window.PinboardPosterConfig.getPlaceholder(true) : ''),
         sizesSummary: summary.sizesSummary,
+        template: count,
         posters: state.slots.map(function (s, i) {
+          var sizeKey = (s.size === 'A6') ? 'A6' : 'A4';
+          var unitPrice = Math.round((CUSTOM_PRICING_MATRIX[sizeKey][count] || 250) / count);
           return {
             slot: i + 1,
-            size: s.size,
-            price: s.price,
+            size: sizeKey,
+            price: unitPrice,
             image: s.image
           };
         })
       };
 
-      // Add to Auth Cart (enforces auth check)
+      // Add to user cart (handles guest_session & duplicate prevention)
       if (window.Auth && typeof window.Auth.addCustomPostersToCart === 'function') {
-        var res = window.Auth.addCustomPostersToCart(customOrder);
-        if (res.requireAuth) {
-          // If login required, save pending action and redirect
-          if (typeof window.Auth.setPendingAction === 'function') {
-            window.Auth.setPendingAction({
-              type: 'custom-posters',
-              order: customOrder
-            });
-          }
-          window.location.href = 'account.html?action=cart&redirect=custom-posters.html';
-          return;
-        }
+        window.Auth.addCustomPostersToCart(customOrder);
       }
 
-      var orderData = {
-        items: [{
-          title: 'Custom Poster Set (' + state.activeTemplate + ' Prints)',
-          size: summary.sizesSummary || 'A4',
-          quantity: 1,
-          unitPrice: summary.totalPrice,
-          total: summary.totalPrice,
-          isCustom: true,
-          customText: state.activeTemplate + ' posters (' + summary.sizesSummary + ')'
-        }],
-        grandTotal: summary.totalPrice
-      };
-
-      if (typeof window.openWhatsAppOrderForAllRecipients === 'function') {
-        window.openWhatsAppOrderForAllRecipients(orderData);
+      if (window.Auth && typeof window.Auth.updateNavbar === 'function') {
+        window.Auth.updateNavbar();
       }
 
       // Show celebration modal
       var modal = document.getElementById('customSuccessModal');
       var modalDesc = document.getElementById('modalSuccessDesc');
       if (modalDesc) {
-        modalDesc.textContent = 'Your personalized ' + state.activeTemplate + '-poster collection (' + summary.sizesSummary + ') has been added to your cart for ₹' + summary.totalPrice.toLocaleString() + '.';
+        modalDesc.textContent = 'Your personalized ' + count + '-poster collection (' + summary.sizesSummary + ') has been added to your cart for ₹' + summary.totalPrice.toLocaleString() + '.';
       }
       if (modal) {
         modal.classList.add('open');
       }
     });
 
-    // Close Modal Button
+    // Close Celebration Modal Button
     var modalClose = document.getElementById('modalCloseBtn');
     if (modalClose) {
       modalClose.addEventListener('click', function () {

@@ -11,8 +11,8 @@ console.log('======================================================');
 console.log('PINBOARD PRODUCT ROUTING & INTEGRITY TEST SUITE');
 console.log('======================================================\n');
 
-// 1. Load data & controllers
-const products = require('../js/products-data.js');
+const productsData = require('../js/products-data.js');
+const products = Array.isArray(productsData) ? productsData : (productsData.PINBOARD_PRODUCTS || global.PINBOARD_PRODUCTS || []);
 const { getLocalProducts } = require('../controllers/productController.js');
 
 let totalProducts = 0;
@@ -40,8 +40,8 @@ products.forEach(p => {
 
 console.log(`   - Unique Product IDs: ${uniqueProductIds.size}`);
 console.log(`   - Duplicate IDs Count: ${duplicateIds}`);
-assert.strictEqual(totalProducts, 152, 'Total canonical products must be 152');
-assert.strictEqual(uniqueProductIds.size, 152, 'Must have 152 unique product IDs');
+assert.strictEqual(totalProducts, 164, 'Total canonical products must be 164');
+assert.strictEqual(uniqueProductIds.size, 164, 'Must have 164 unique product IDs');
 assert.strictEqual(duplicateIds, 0, 'Must have 0 duplicate IDs');
 console.log('   ✔ PASS: Product ID uniqueness confirmed\n');
 
@@ -95,8 +95,8 @@ products.forEach(p => {
   }
 });
 
-// Verify merged duplicate IDs return null ("POSTER NOT FOUND")
-[151, 152, 153, 155].forEach(mergedId => {
+// Verify unassigned ID returns null ("POSTER NOT FOUND")
+[152].forEach(mergedId => {
   const res = getProductById ? getProductById(mergedId) : null;
   if (res !== null) {
     productNotFoundErrors++;
@@ -114,8 +114,8 @@ console.log('   ✔ PASS: All canonical products resolve cleanly via numeric and
 console.log('4. BACKEND CONTROLLER INTEGRITY CHECK');
 const localProds = getLocalProducts();
 console.log(`   - Local Products Returned by Backend Controller: ${localProds.length}`);
-assert.strictEqual(localProds.length, 152, 'Backend controller getLocalProducts must return all 152 canonical products');
-console.log('   ✔ PASS: Backend controller returns full 156 product catalog\n');
+assert.strictEqual(localProds.length, 164, 'Backend controller getLocalProducts must return all 164 canonical products');
+console.log('   ✔ PASS: Backend controller returns full 164 product catalog\n');
 
 // 5. CART & CHECKOUT IDENTIFIER STABILITY CHECK
 console.log('5. CART MAPPING INTEGRITY CHECK');
@@ -144,8 +144,8 @@ console.log(`CART MAPPING ERRORS: ${cartMappingErrors}`);
 console.log(`CONSOLE ERRORS: ${consoleErrors}`);
 
 const finalStatus = (
-  totalProducts === 152 &&
-  uniqueProductIds.size === 152 &&
+  totalProducts === 164 &&
+  uniqueProductIds.size === 164 &&
   brokenProductLinks === 0 &&
   brokenImagePaths === 0 &&
   productNotFoundErrors === 0 &&

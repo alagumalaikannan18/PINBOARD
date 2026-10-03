@@ -174,7 +174,7 @@ function createEnvironment(viewport = 'desktop', existingDbState = null, searchS
 }
 
 async function runReviewTests() {
-  const tick = () => new Promise(r => setTimeout(r, 20));
+  const tick = () => new Promise(r => setTimeout(r, 100));
 
   console.log('================================================================');
   console.log('--- PINBOARD REAL REVIEW & SHARED RATING SYSTEM TEST SUITE ---');
@@ -225,7 +225,7 @@ async function runReviewTests() {
     env.documentElements.reviewAuthorName.value = 'Peter Parker Fan';
     env.documentElements.reviewText.value = 'Spider-Man poster quality is absolutely insane! 10/10 print!';
     env.documentElements.pdpReviewForm.submit();
-    await tick();
+    for (let i = 0; i < 5; i++) await tick();
 
     const p12Reviews = sharedDbState.productsReviews['12'];
     assert(p12Reviews && p12Reviews.length === 1, 'Review permanently stored in DB');

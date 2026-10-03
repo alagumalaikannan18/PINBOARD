@@ -19,14 +19,6 @@
     return '₹' + Number(num || 0).toLocaleString('en-IN');
   }
 
-  function getDeliveryDateString() {
-    var d = new Date();
-    d.setDate(d.getDate() + 4);
-    var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
-  }
-
   function getFullProduct(item) {
     var id = parseInt(item.id || item.productId, 10);
     var full = null;
@@ -71,12 +63,23 @@
     }, { passive: true });
   }
 
+  function isCustomPosterItem(item) {
+    if (!item) return false;
+    if (item.isCustom === true) return true;
+    if (item.type === 'custom-poster' || item.category === 'Custom Posters' || item.category === 'CUSTOM POSTER SET') return true;
+    var idStr = String(item.id || item.productId || '').toLowerCase();
+    return idStr.indexOf('custom') !== -1;
+  }
+
   /**
    * Authoritative calculation engine for cart subtotal, 3 Posters for ₹150 combo offer, and final totals
+   * Excludes Custom Poster prices from checkout subtotal
    */
   function calculateCartPricing(cart, discountRate) {
     var rate = Number(discountRate) || 0;
     var cartCount = 0;
+    var normalCount = 0;
+    var customCount = 0;
     var rawSubtotal = 0;
     var standardA4Qty = 0;
     var customSubtotal = 0;
@@ -85,11 +88,12 @@
       var qty = Number(item.quantity) || 1;
       cartCount += qty;
 
-      if (item.isCustom) {
+      if (isCustomPosterItem(item)) {
+        customCount += qty;
         var cPrice = Number(item.price) || 0;
         customSubtotal += cPrice * qty;
-        rawSubtotal += cPrice * qty;
       } else {
+        normalCount += qty;
         var itemSize = (item.size || 'A4').toUpperCase();
         var price = (itemSize === 'A6') ? 25 : 60;
         if (itemSize === 'A4') {
@@ -99,7 +103,7 @@
       }
     });
 
-    // Combo Offer for A4 ONLY: 3 A4 Posters for ₹150 (₹30 savings per 3 A4 posters)
+    // Combo Offer for normal A4 posters ONLY: 3 A4 Posters for ₹150 (₹30 savings per 3 A4 posters)
     var comboSets = Math.floor(standardA4Qty / 3);
     var comboSavings = comboSets * 30;
     var subtotalAfterCombo = Math.max(0, rawSubtotal - comboSavings);
@@ -108,10 +112,13 @@
 
     return {
       cartCount: cartCount,
+      normalCount: normalCount,
+      customCount: customCount,
       standardPosterQty: standardA4Qty,
       comboSets: comboSets,
       comboSavings: comboSavings,
       rawSubtotal: rawSubtotal,
+      customSubtotal: customSubtotal,
       subtotalAfterCombo: subtotalAfterCombo,
       promoDiscountAmount: promoDiscountAmount,
       finalTotal: finalTotal
@@ -135,7 +142,10 @@
     var subtotalValEl = document.getElementById('cartSummarySubtotalVal');
     var subtotalLabelEl = document.getElementById('cartSummarySubtotalLabel');
     if (subtotalValEl) subtotalValEl.textContent = formatCurrency(pricing.rawSubtotal);
-    if (subtotalLabelEl) subtotalLabelEl.textContent = 'Subtotal (' + pricing.cartCount + (pricing.cartCount === 1 ? ' item' : ' items') + ')';
+    if (subtotalLabelEl) {
+      var itemLabel = pricing.customCount > 0 ? (pricing.normalCount === 1 ? ' normal item' : ' normal items') : (pricing.normalCount === 1 ? ' item' : ' items');
+      subtotalLabelEl.textContent = 'Subtotal (' + pricing.normalCount + itemLabel + ')';
+    }
 
     // Update Combo Offer Row
     var comboRowEl = document.getElementById('cartSummaryComboRow');
@@ -250,52 +260,64 @@
 
     // Populated Cart Layout: Grid with Items & Summary
     var itemsHtml = '';
+    var hasCustomItem = pricing.customCount > 0;
+    var hasNormalItem = pricing.normalCount > 0;
 
     cart.forEach(function (item) {
       var prod = getFullProduct(item);
       var id = item.id || item.productId;
+      var isCustom = isCustomPosterItem(item);
       var title = item.title || (prod ? prod.title : 'Premium Poster #' + id);
-      var category = (prod && (prod.category || prod.collection)) ? (prod.category || prod.collection) : 'Curated Poster';
-      var price = item.isCustom ? (Number(item.price) || 1499) : 60;
-      var regPrice = item.isCustom ? (price + 500) : 99;
+      var category = isCustom ? 'CUSTOM POSTER SET' : ((prod && (prod.category || prod.collection)) ? (prod.category || prod.collection) : 'Curated Poster');
+      var price = isCustom ? (Number(item.price) || 250) : 60;
+      var regPrice = isCustom ? (price + 500) : 99;
       var qty = Number(item.quantity) || 1;
       var lineTotal = price * qty;
 
       var _pc = window.PinboardPosterConfig;
       var _phThumb = _pc ? _pc.getPlaceholder(true) : '';
       var rawImg = '';
-      if (item.image && typeof item.image === 'string' && (item.image.indexOf('all_new_poster_no_repeated_poster') === 0 || item.image.indexOf('poster-library') === 0)) {
+      if (item.image && typeof item.image === 'string' && (item.image.indexOf('all_new_poster_no_repeated_poster') === 0 || item.image.indexOf('poster-library') === 0 || item.image.indexOf('data:image') === 0)) {
         rawImg = item.image;
       } else if (prod && _pc && _pc.hasValidPoster(prod)) {
         rawImg = prod.images[0];
       }
       var optThumb = rawImg
-        ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function')
+        ? ((window.PinboardRouter && typeof window.PinboardRouter.getOptimizedImageUrl === 'function' && rawImg.indexOf('data:image') !== 0)
             ? window.PinboardRouter.getOptimizedImageUrl(rawImg, false)
-            : (_pc && typeof _pc.getOptimizedImageUrl === 'function' ? _pc.getOptimizedImageUrl(rawImg, false) : rawImg))
+            : (_pc && typeof _pc.getOptimizedImageUrl === 'function' && rawImg.indexOf('data:image') !== 0 ? _pc.getOptimizedImageUrl(rawImg, false) : rawImg))
         : _phThumb;
+
+      var specsHtml = isCustom
+        ? '<span>' + escapeHtml(item.subtitle || item.sizesSummary || ((item.template || 5) + ' Custom Prints')) + '</span><span class="cart-subtitle-dot"></span><span style="color:#b45309;font-weight:600;">ORDERED SEPARATELY</span>'
+        : '<span>A3 (29.7 &times; 42 cm)</span><span class="cart-subtitle-dot"></span><span>300 GSM Archival Matte</span>';
+
+      var customNoticeHtml = isCustom
+        ? '<div class="cart-item-custom-notice" style="margin-top:8px;padding:8px 10px;background:#fffbeb;border:1px solid #fef3c7;border-radius:6px;font-size:11.5px;color:#b45309;line-height:1.4;">' +
+            'ℹ️ Custom posters are ordered through the <a href="custom-posters.html" style="color:#b45309;font-weight:600;text-decoration:underline;">Custom Poster page</a>. They are not included in online checkout.' +
+          '</div>'
+        : '';
 
       itemsHtml +=
         '<div class="cart-item-card" data-product-id="' + escapeHtml(id) + '">' +
           '<div class="cart-thumb-wrap">' +
-            '<a href="product.html?id=' + encodeURIComponent(id) + '">' +
+            '<a href="' + (isCustom ? 'custom-posters.html' : ('product.html?id=' + encodeURIComponent(id))) + '">' +
               '<img src="' + escapeHtml(optThumb) + '" alt="' + escapeHtml(title) + '" class="cart-poster-img" loading="lazy" decoding="async" width="100" height="140" onerror="this.onerror=null;this.src=\'' + escapeHtml(_phThumb) + '\'" />' +
             '</a>' +
           '</div>' +
           '<div class="cart-item-details">' +
             '<span class="cart-item-category mono">' + escapeHtml(category) + '</span>' +
-            '<a href="product.html?id=' + encodeURIComponent(id) + '" class="cart-item-title display">' +
+            '<a href="' + (isCustom ? 'custom-posters.html' : ('product.html?id=' + encodeURIComponent(id))) + '" class="cart-item-title display">' +
               escapeHtml(title) +
             '</a>' +
             '<div class="cart-item-specs mono">' +
-              '<span>A3 (29.7 &times; 42 cm)</span>' +
-              '<span class="cart-subtitle-dot"></span>' +
-              '<span>300 GSM Archival Matte</span>' +
+              specsHtml +
             '</div>' +
             '<div class="cart-item-price-row">' +
               '<span class="cart-item-price">' + formatCurrency(price) + '</span>' +
               (regPrice && regPrice > price ? '<span class="cart-item-original-price">' + formatCurrency(regPrice) + '</span>' : '') +
             '</div>' +
+            customNoticeHtml +
           '</div>' +
           '<div class="cart-item-actions">' +
             '<div class="cart-item-total" id="cartItemTotal_' + escapeHtml(id) + '">' + formatCurrency(lineTotal) + '</div>' +
@@ -315,7 +337,85 @@
         '</div>';
     });
 
-    var deliveryEstimate = getDeliveryDateString();
+    var deliveryEstimate = '3–5 days';
+
+    // Customer Details Form HTML
+    var customerFormHtml =
+      '<div class="cart-customer-form-card" style="margin-top:24px;padding:24px;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.03);">' +
+        '<div style="margin-bottom:18px;">' +
+          '<span class="mono" style="font-size:11px;letter-spacing:1px;color:#d97706;font-weight:600;">CUSTOMER &amp; DELIVERY DETAILS</span>' +
+          '<h3 class="display" style="font-size:18px;margin-top:2px;color:#111827;">ORDER REQUEST DETAILS</h3>' +
+        '</div>' +
+        '<form id="cartCustomerForm" novalidate>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">' +
+            '<div style="grid-column: span 2;">' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">FULL NAME <span style="color:#dc2626;">*</span></label>' +
+              '<input type="text" id="cartCustName" placeholder="Enter your full name" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div>' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">EMAIL ADDRESS <span style="color:#dc2626;">*</span></label>' +
+              '<input type="email" id="cartCustEmail" placeholder="name@gmail.com" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div>' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">PHONE NUMBER <span style="color:#dc2626;">*</span></label>' +
+              '<input type="tel" id="cartCustPhone" placeholder="10-digit mobile number" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div style="grid-column: span 2;">' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">DELIVERY ADDRESS <span style="color:#dc2626;">*</span></label>' +
+              '<input type="text" id="cartCustAddress" placeholder="Flat / House No., Street, Landmark" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div>' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">CITY <span style="color:#dc2626;">*</span></label>' +
+              '<input type="text" id="cartCustCity" placeholder="City" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div>' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">STATE <span style="color:#dc2626;">*</span></label>' +
+              '<input type="text" id="cartCustState" placeholder="State" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div style="grid-column: span 2;">' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">PIN CODE <span style="color:#dc2626;">*</span></label>' +
+              '<input type="text" id="cartCustPincode" placeholder="6-digit PIN code" maxlength="6" style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;" required />' +
+            '</div>' +
+            '<div style="grid-column: span 2;">' +
+              '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">ORDER NOTES (OPTIONAL)</label>' +
+              '<textarea id="cartCustNotes" rows="2" placeholder="Special delivery instructions or order notes..." style="width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical;"></textarea>' +
+            '</div>' +
+          '</div>' +
+          '<div id="cartFormError" style="display:none;margin-top:14px;padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;color:#dc2626;font-size:12.5px;"></div>' +
+        '</form>' +
+      '</div>';
+
+    // Summary Notices depending on cart composition
+    var summaryNoticeHtml = '';
+    if (!hasNormalItem && hasCustomItem) {
+      summaryNoticeHtml =
+        '<div class="cart-custom-summary-notice" style="margin-bottom:14px;padding:10px 12px;background:#fffbeb;border:1px solid #fef3c7;border-radius:6px;font-size:12px;color:#b45309;line-height:1.4;">' +
+          'ℹ️ Custom posters are ordered through the Custom Poster page and are not processed through online checkout.' +
+        '</div>';
+    } else if (hasNormalItem && hasCustomItem) {
+      summaryNoticeHtml =
+        '<div class="cart-mixed-summary-notice" style="margin-bottom:14px;padding:10px 12px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#4b5563;line-height:1.4;">' +
+          'ℹ️ <strong>Note:</strong> Custom Poster Set is ordered through the Custom Poster page and is excluded from online checkout.' +
+        '</div>';
+    }
+
+    var checkoutButtonHtml = '';
+    if (!hasNormalItem && hasCustomItem) {
+      checkoutButtonHtml =
+        '<a href="custom-posters.html" class="cart-checkout-btn display" id="btnCartCustomRedirect" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#2563eb;color:#ffffff;text-decoration:none;cursor:pointer;">' +
+          '<span>CUSTOM POSTER ORDER &rarr;</span>' +
+        '</a>' +
+        '<p class="cart-custom-only-note mono" style="font-size:11px;color:#6b7280;margin-top:8px;text-align:center;">' +
+          'Please use the Custom Poster page to submit your order request.' +
+        '</p>';
+    } else {
+      checkoutButtonHtml =
+        '<button type="button" class="cart-checkout-btn display" id="btnCartCheckout">' +
+          '<span>PROCEED ORDER REQUEST &rarr;</span>' +
+        '</button>';
+    }
+
+    var subtotalLabel = hasCustomItem ? ('Subtotal (' + pricing.normalCount + (pricing.normalCount === 1 ? ' normal item' : ' normal items') + ')') : ('Subtotal (' + pricing.cartCount + (pricing.cartCount === 1 ? ' item' : ' items') + ')');
 
     var summaryHtml =
       '<div class="cart-summary-card">' +
@@ -323,36 +423,18 @@
           '<span class="cart-summary-tag mono">SUMMARY</span>' +
           '<h3 class="cart-summary-title display">ORDER TOTAL</h3>' +
         '</div>' +
-        '<div class="cart-combo-tip" id="cartComboOfferTip" style="' + ((pricing.standardPosterQty > 0) ? 'display:block;margin-bottom:12px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#dc2626;' : 'display:none;margin-bottom:12px;padding:8px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#dc2626;') + '">' +
-          (pricing.comboSets > 0
-            ? '🎉 <strong>Combo Applied:</strong> 3 Posters for ₹150 offer active!'
-            : (pricing.standardPosterQty > 0 && pricing.standardPosterQty < 3
-                ? '⚡ <strong>Offer:</strong> Add ' + (3 - pricing.standardPosterQty) + ' more poster' + (3 - pricing.standardPosterQty > 1 ? 's' : '') + ' to get 3 Posters for ₹150!'
-                : '')) +
-        '</div>' +
+        summaryNoticeHtml +
         '<div class="cart-summary-rows">' +
           '<div class="cart-summary-row">' +
-            '<span id="cartSummarySubtotalLabel">Subtotal (' + pricing.cartCount + (pricing.cartCount === 1 ? ' item' : ' items') + ')</span>' +
+            '<span id="cartSummarySubtotalLabel">' + subtotalLabel + '</span>' +
             '<span class="val" id="cartSummarySubtotalVal">' + formatCurrency(pricing.rawSubtotal) + '</span>' +
           '</div>' +
-          '<div class="cart-summary-row" id="cartSummaryComboRow" style="' + (pricing.comboSets > 0 ? 'display:flex;color:#108A44;font-weight:600;' : 'display:none;color:#108A44;font-weight:600;') + '">' +
-            '<span class="combo-label">3 Posters for ₹150 Combo</span>' +
-            '<span class="val" style="color:#108A44;">&minus;' + formatCurrency(pricing.comboSavings) + '</span>' +
-          '</div>' +
-          '<div class="cart-summary-row" id="cartSummaryDiscountRow" style="' + (pricing.promoDiscountAmount > 0 ? 'display:flex;color:#108A44;' : 'display:none;color:#108A44;') + '">' +
-            '<span class="disc-label">Promo Discount (' + Math.round(appliedDiscount * 100) + '%)</span>' +
-            '<span class="val" style="color:#108A44;">&minus;' + formatCurrency(pricing.promoDiscountAmount) + '</span>' +
-          '</div>' +
           '<div class="cart-summary-row">' +
-            '<span>Express Delivery</span>' +
+            '<span>Packaging Fees</span>' +
             '<span class="cart-free-tag mono">FREE</span>' +
           '</div>' +
           '<div class="cart-summary-row">' +
-            '<span>Archival Hard-Tube Packaging</span>' +
-            '<span class="cart-free-tag mono">FREE</span>' +
-          '</div>' +
-          '<div class="cart-summary-row">' +
-            '<span>Est. Delivery</span>' +
+            '<span>Estimated Delivery</span>' +
             '<span class="val mono" style="font-size:12px;">' + deliveryEstimate + '</span>' +
           '</div>' +
           '<div class="cart-summary-divider"></div>' +
@@ -364,45 +446,28 @@
             '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="cart-coupon-box">' +
-          '<input type="text" class="cart-coupon-input" id="cartCouponInput" placeholder="PROMO CODE (e.g. PINBOARD10)" value="' + escapeHtml(appliedCouponCode) + '" />' +
-          '<button type="button" class="cart-coupon-btn" id="btnApplyCoupon">' + (appliedDiscount > 0 ? 'APPLIED ✓' : 'APPLY') + '</button>' +
+        '<div class="cart-no-promo-box" style="margin-top:14px;margin-bottom:14px;padding:10px 12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#6b7280;text-align:center;">' +
+          '<span>No promo code available</span>' +
         '</div>' +
-        '<div class="cart-coupon-msg ' + (appliedDiscount > 0 ? 'success' : '') + '" id="cartCouponMsg">' +
-          (appliedDiscount > 0 ? '✨ Promo code ' + escapeHtml(appliedCouponCode) + ' applied! (' + Math.round(appliedDiscount * 100) + '% Off)' : '') +
-        '</div>' +
-        '<button type="button" class="cart-checkout-btn" id="btnCartCheckout">' +
-          '<span>PROCEED TO CHECKOUT</span>' +
-          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-            '<line x1="5" y1="12" x2="19" y2="12"></line>' +
-            '<polyline points="12 5 19 12 12 19"></polyline>' +
-          '</svg>' +
-        '</button>' +
-        '<div class="cart-trust-badges">' +
-          '<div class="cart-trust-item">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>' +
-            '<span>Archival 300 GSM Matte Paper with 100-Year Ink</span>' +
-          '</div>' +
-          '<div class="cart-trust-item">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>' +
-            '<span>Reinforced Crush-Proof Hard Tube Packaging</span>' +
-          '</div>' +
-          '<div class="cart-trust-item">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
-            '<span>7-Day Replacement Guarantee if Damaged</span>' +
-          '</div>' +
-        '</div>' +
+        checkoutButtonHtml +
       '</div>';
 
     cartContainer.innerHTML =
       '<div class="cart-layout-grid">' +
         '<div class="cart-items-container" id="cartItemsList">' +
           itemsHtml +
+          (hasNormalItem ? customerFormHtml : '') +
         '</div>' +
         '<aside class="cart-summary-column">' +
           summaryHtml +
         '</aside>' +
       '</div>';
+
+    // Prefill customer details if user logged in
+    if (user) {
+      if (user.name && document.getElementById('cartCustName')) document.getElementById('cartCustName').value = user.name;
+      if (user.email && document.getElementById('cartCustEmail')) document.getElementById('cartCustEmail').value = user.email;
+    }
 
     // Attach 3D parallax hover to cards
     var cards = cartContainer.querySelectorAll('.cart-item-card');
@@ -434,10 +499,9 @@
           var newQtyPlus = currentQtyPlus + 1;
           var updatedCartPlus = authInstance.updateCartQuantity(pidPlus, newQtyPlus);
 
-          // Targeted DOM Update: update only this card's qty and total
           var qtyEl = document.getElementById('cartQtyValue_' + pidPlus);
           var totalEl = document.getElementById('cartItemTotal_' + pidPlus);
-          var price = (itemPlus && itemPlus.isCustom) ? (Number(itemPlus.price) || 1499) : 60;
+          var price = (itemPlus && isCustomPosterItem(itemPlus)) ? (Number(itemPlus.price) || 250) : 60;
 
           if (qtyEl) qtyEl.textContent = newQtyPlus;
           if (totalEl) totalEl.textContent = formatCurrency(price * newQtyPlus);
@@ -460,17 +524,15 @@
           var newQtyMinus = currentQtyMinus - 1;
           var updatedCartMinus = authInstance.updateCartQuantity(pidMinus, newQtyMinus);
 
-          // Targeted DOM Update
           var qtyElMinus = document.getElementById('cartQtyValue_' + pidMinus);
           var totalElMinus = document.getElementById('cartItemTotal_' + pidMinus);
-          var priceMinus = (itemMinus && itemMinus.isCustom) ? (Number(itemMinus.price) || 1499) : 60;
+          var priceMinus = (itemMinus && isCustomPosterItem(itemMinus)) ? (Number(itemMinus.price) || 250) : 60;
 
           if (qtyElMinus) qtyElMinus.textContent = newQtyMinus;
           if (totalElMinus) totalElMinus.textContent = formatCurrency(priceMinus * newQtyMinus);
 
           updateSummaryAndHeaderDOM(updatedCartMinus);
         } else if (currentQtyMinus === 1) {
-          // Remove item with smooth animation
           var cardMinus = minusBtn.closest('.cart-item-card');
           if (cardMinus) {
             cardMinus.classList.add('is-removing');
@@ -480,16 +542,12 @@
               if (!remainingCart || remainingCart.length === 0) {
                 renderCartPage();
               } else {
-                updateSummaryAndHeaderDOM(remainingCart);
+                renderCartPage();
               }
             }, 200);
           } else {
             var remCart = authInstance.removeFromCart(pidMinus);
-            if (!remCart || remCart.length === 0) {
-              renderCartPage();
-            } else {
-              updateSummaryAndHeaderDOM(remCart);
-            }
+            renderCartPage();
           }
         }
         return;
@@ -506,19 +564,11 @@
           setTimeout(function () {
             var rem = authInstance.removeFromCart(pidRemove);
             if (cardRemove.parentNode) cardRemove.parentNode.removeChild(cardRemove);
-            if (!rem || rem.length === 0) {
-              renderCartPage();
-            } else {
-              updateSummaryAndHeaderDOM(rem);
-            }
+            renderCartPage();
           }, 200);
         } else {
-          var rem2 = authInstance.removeFromCart(pidRemove);
-          if (!rem2 || rem2.length === 0) {
-            renderCartPage();
-          } else {
-            updateSummaryAndHeaderDOM(rem2);
-          }
+          authInstance.removeFromCart(pidRemove);
+          renderCartPage();
         }
         return;
       }
@@ -580,7 +630,7 @@
         return;
       }
 
-      // 5. Checkout Button
+      // 5. Checkout Button for Normal Posters
       var checkoutBtn = e.target.closest('#btnCartCheckout');
       if (checkoutBtn) {
         e.preventDefault();
@@ -592,76 +642,159 @@
     });
   }
 
-  // --- CHECKOUT LOGIC & CONFIRMATION MODAL ---
+  // --- CHECKOUT LOGIC FOR NORMAL POSTERS ONLY ---
   function handleCheckout(cart, total) {
     if (!cart || cart.length === 0) return;
 
-    var authInstance = window.PinboardAuth || window.Auth;
-    var user = authInstance ? authInstance.getUser() : null;
+    var normalItems = (cart || []).filter(function (item) {
+      return !isCustomPosterItem(item);
+    });
 
-    if (!user || !user.isLoggedIn) {
-      if (authInstance && typeof authInstance.setPendingAction === 'function') {
-        authInstance.setPendingAction({
-          action: 'checkout',
-          returnUrl: 'cart.html'
-        });
-      }
-      window.location.href = 'account.html?redirect=cart.html';
+    if (normalItems.length === 0) {
+      window.location.href = 'custom-posters.html';
       return;
     }
 
-    var items = (cart || []).map(function (item) {
-      var prod = getFullProduct(item);
-      var itemSize = (item.size || 'A4').toUpperCase();
-      var qty = Math.max(1, Number(item.quantity) || 1);
-      var unitPrice = item.isCustom ? (Number(item.price) || 1499) : (itemSize === 'A6' ? 25 : 60);
-      var lineTotal = unitPrice * qty;
+    // 1. Get Customer Details Form inputs
+    var nameEl = document.getElementById('cartCustName');
+    var emailEl = document.getElementById('cartCustEmail');
+    var phoneEl = document.getElementById('cartCustPhone');
+    var addressEl = document.getElementById('cartCustAddress');
+    var cityEl = document.getElementById('cartCustCity');
+    var stateEl = document.getElementById('cartCustState');
+    var pincodeEl = document.getElementById('cartCustPincode');
+    var notesEl = document.getElementById('cartCustNotes');
 
-      return {
-        id: item.id || item.productId,
-        title: item.title || (prod ? prod.title : ('Poster #' + (item.id || item.productId))),
-        size: itemSize,
-        quantity: qty,
-        unitPrice: unitPrice,
-        total: lineTotal,
-        isCustom: Boolean(item.isCustom)
-      };
-    });
+    var name = (nameEl ? nameEl.value : '').trim();
+    var email = (emailEl ? emailEl.value : '').trim();
+    var phone = (phoneEl ? phoneEl.value : '').trim();
+    var address = (addressEl ? addressEl.value : '').trim();
+    var city = (cityEl ? cityEl.value : '').trim();
+    var state = (stateEl ? stateEl.value : '').trim();
+    var pincode = (pincodeEl ? pincodeEl.value : '').trim();
+    var notes = (notesEl ? notesEl.value : '').trim();
 
-    var orderData = {
-      items: items,
-      grandTotal: total
-    };
+    // 2. Validate required fields
+    var fields = [
+      { el: nameEl, val: name, label: 'Full Name' },
+      { el: emailEl, val: email, label: 'Email Address' },
+      { el: phoneEl, val: phone, label: 'Phone Number' },
+      { el: addressEl, val: address, label: 'Delivery Address' },
+      { el: cityEl, val: city, label: 'City' },
+      { el: stateEl, val: state, label: 'State' },
+      { el: pincodeEl, val: pincode, label: 'PIN Code' }
+    ];
 
-    if (typeof window.openWhatsAppOrderForAllRecipients === 'function') {
-      window.openWhatsAppOrderForAllRecipients(orderData);
-    }
-
-    var lastOrder = null;
-    cart.forEach(function (item) {
-      if (authInstance && typeof authInstance.createOrder === 'function') {
-        lastOrder = authInstance.createOrder(item.id || item.productId, item.quantity || 1);
+    var invalidFields = [];
+    fields.forEach(function (f) {
+      if (f.el) {
+        if (!f.val) {
+          invalidFields.push(f.label);
+          f.el.style.borderColor = '#dc2626';
+          f.el.style.backgroundColor = '#fef2f2';
+        } else {
+          f.el.style.borderColor = '#d1d5db';
+          f.el.style.backgroundColor = '#ffffff';
+        }
       }
     });
 
-    if (authInstance && typeof authInstance.clearCart === 'function') {
-      authInstance.clearCart();
+    var errorBox = document.getElementById('cartFormError');
+    if (invalidFields.length > 0) {
+      if (errorBox) {
+        errorBox.style.display = 'block';
+        errorBox.innerHTML = '<strong>Validation Error:</strong> Please fill in all required fields: ' + invalidFields.join(', ') + '.';
+        errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    } else {
+      if (errorBox) {
+        errorBox.style.display = 'none';
+      }
     }
 
-    // Show Confirmation Modal
-    var orderId = lastOrder ? lastOrder.orderId : ('PB-2026-' + Math.floor(1000 + Math.random() * 9000));
-    var modalOverlay = document.getElementById('cartModalOverlay');
-    var modalOrderId = document.getElementById('cartModalOrderId');
+    // 3. Build WhatsApp Message
+    var pricing = calculateCartPricing(normalItems, appliedDiscount);
+    var subtotalAmount = pricing.subtotalAfterCombo;
+    var packagingFeesAmount = 0;
+    var totalAmount = pricing.finalTotal;
 
-    if (modalOrderId) {
-      modalOrderId.textContent = 'ORDER #' + orderId;
+    var msgLines = [
+      'Hello PINBOARD,',
+      '',
+      'I would like to place an order request.',
+      '',
+      'CUSTOMER DETAILS',
+      'Name: ' + name,
+      'Email: ' + email,
+      'Phone: ' + phone,
+      '',
+      'DELIVERY DETAILS',
+      'Address: ' + address,
+      'City: ' + city,
+      'State: ' + state,
+      'PIN Code: ' + pincode,
+      '',
+      'ORDER DETAILS'
+    ];
+
+    normalItems.forEach(function (item, idx) {
+      var prod = getFullProduct(item);
+      var itemTitle = item.title || (prod ? prod.title : ('Poster #' + (item.id || item.productId)));
+      var itemId = item.id || item.productId;
+      var qty = Math.max(1, Number(item.quantity) || 1);
+      var itemSize = (item.size || 'A4').toUpperCase();
+      var unitPrice = (itemSize === 'A6' ? 25 : (Number(item.price) || 60));
+      var lineTotal = unitPrice * qty;
+
+      if (idx > 0) {
+        msgLines.push('');
+      }
+      msgLines.push('Product: ' + itemTitle);
+      msgLines.push('Product ID: ' + itemId);
+      msgLines.push('Quantity: ' + qty);
+      msgLines.push('Price: ₹' + lineTotal);
+    });
+
+    msgLines.push('');
+    msgLines.push('Subtotal: ₹' + subtotalAmount);
+    msgLines.push('Packaging Fees: ₹0');
+    msgLines.push('Total Amount: ₹' + totalAmount);
+    msgLines.push('');
+    msgLines.push('Order Notes:');
+    msgLines.push(notes ? notes : '');
+    msgLines.push('');
+    msgLines.push('Please confirm my order request.');
+
+    var fullMessage = msgLines.join('\n');
+
+    var targetPhone = "919342302872";
+    if (window.PinboardWhatsApp && window.PinboardWhatsApp.WHATSAPP_ORDER_NUMBER) {
+      targetPhone = window.PinboardWhatsApp.WHATSAPP_ORDER_NUMBER;
     }
-    if (modalOverlay) {
-      modalOverlay.classList.add('is-active');
+
+    var waUrl = "https://wa.me/" + targetPhone + "?text=" + encodeURIComponent(fullMessage);
+
+    try {
+      var win = window.open(waUrl, '_blank');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = waUrl;
+      }
+    } catch (e) {
+      window.location.href = waUrl;
+    }
+
+    var authInstance = window.PinboardAuth || window.Auth;
+    if (authInstance && typeof authInstance.removeFromCart === 'function') {
+      normalItems.forEach(function (item) {
+        authInstance.removeFromCart(item.id || item.productId);
+      });
     }
 
     appliedDiscount = 0;
     appliedCouponCode = '';
+
+    renderCartPage();
   }
 
   // --- FAST SYNCHRONOUS INITIALIZATION ---

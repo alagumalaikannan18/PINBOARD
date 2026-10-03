@@ -950,10 +950,14 @@
           }
         }
 
-        // Update Review Action Button Text based on existing review
+        // Update Review Action Button Text based on zero-reviews / existing review state
         var openBtn = document.getElementById('pdpOpenReviewModalBtn');
         if (openBtn) {
-          openBtn.textContent = currentUserReview ? 'Edit Your Review' : 'Write a Review';
+          if (totalReviewsCount === 0) {
+            openBtn.textContent = 'Be the first to review';
+          } else {
+            openBtn.textContent = currentUserReview ? 'Edit Your Review' : 'Write a Review';
+          }
         }
 
         var submitBtnSpan = (typeof document !== 'undefined' && typeof document.querySelector === 'function') ? document.querySelector('#submitReviewBtn span') : document.getElementById('submitReviewBtn');
@@ -961,18 +965,44 @@
           submitBtnSpan.textContent = currentUserReview ? 'UPDATE REVIEW' : 'SUBMIT REVIEW';
         }
 
-        // 4. Render preview list of database reviews
+        // Helper to check if a reviewer is a verified buyer of this product
+        function isVerifiedBuyer(review) {
+          if (review && review.isVerifiedBuyer === true) return true;
+          if (!review || !review.userId) return false;
+          try {
+            var userId = String(review.userId).trim();
+            var raw = localStorage.getItem('pinboard_customer_orders_' + userId) || localStorage.getItem('pinboard_orders_' + userId);
+            if (raw) {
+              var orders = JSON.parse(raw);
+              if (Array.isArray(orders)) {
+                return orders.some(function (o) {
+                  return Array.isArray(o.items) && o.items.some(function (item) {
+                    return String(item.id || item.productId) === String(productId);
+                  });
+                });
+              }
+            }
+          } catch (e) { }
+          return false;
+        }
+
+        // 4. Render preview list of database reviews (with pagination for >3 reviews)
         var previewListEl = document.getElementById('pdpReviewsPreviewList');
         if (previewListEl) {
           if (totalReviewsCount === 0) {
             previewListEl.innerHTML = '<p style="color:rgba(17,17,17,0.5);font-size:13px;padding:12px 0;">No reviews yet. Be the first to review this poster.</p>';
           } else {
+            var isExpanded = (typeof previewListEl.getAttribute === 'function' && previewListEl.getAttribute('data-expanded') === 'true');
+            var visibleReviews = (totalReviewsCount > 3 && !isExpanded) ? userReviews.slice(0, 3) : userReviews;
+
             var html = '';
-            userReviews.forEach(function (r) {
+            visibleReviews.forEach(function (r) {
               var rRating = Math.min(5, Math.max(1, Number(r.rating) || 5));
               var rStars = '★'.repeat(rRating) + '☆'.repeat(5 - rRating);
-              var authorName = escapeHtml(r.userName || r.author || 'Verified Buyer');
+              var authorName = escapeHtml(r.userName || r.author || 'Customer Review');
               var reviewContent = escapeHtml(r.text || r.reviewText || '');
+              var isVerified = isVerifiedBuyer(r);
+              var dateStr = r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
               html += '<div class="pdp-review-card-item">';
               html += '  <div class="pdp-review-card-header">';
@@ -980,10 +1010,36 @@
               html += '    <span class="pdp-review-card-stars">' + rStars + '</span>';
               html += '  </div>';
               html += '  <p class="pdp-review-card-text">' + reviewContent + '</p>';
-              html += '  <div class="pdp-review-card-date">Verified Buyer</div>';
+              html += '  <div class="pdp-review-card-date">';
+              if (isVerified) {
+                html += '<span class="verified-buyer-tag" style="color:#059669;font-weight:700;margin-right:6px;">✓ Verified Buyer</span>';
+              }
+              if (dateStr) {
+                html += '<span class="review-date-text">' + escapeHtml(dateStr) + '</span>';
+              }
+              html += '  </div>';
               html += '</div>';
             });
+
+            if (totalReviewsCount > 3) {
+              var toggleBtnText = isExpanded ? 'Show Less' : 'View All Reviews (' + totalReviewsCount + ')';
+              html += '<div style="margin-top:14px;text-align:center;">';
+              html += '  <button type="button" id="pdpViewAllReviewsBtn" style="background:#f5f4f0;border:1px solid #111;color:#111;padding:8px 18px;border-radius:4px;font-size:12.5px;font-weight:700;cursor:pointer;">' + toggleBtnText + '</button>';
+              html += '</div>';
+            }
+
             previewListEl.innerHTML = html;
+
+            var viewAllBtn = document.getElementById('pdpViewAllReviewsBtn');
+            if (viewAllBtn) {
+              viewAllBtn.addEventListener('click', function () {
+                var currentExpanded = (typeof previewListEl.getAttribute === 'function' && previewListEl.getAttribute('data-expanded') === 'true');
+                if (typeof previewListEl.setAttribute === 'function') {
+                  previewListEl.setAttribute('data-expanded', currentExpanded ? 'false' : 'true');
+                }
+                updateReviewSummaryUI(userReviews);
+              });
+            }
           }
         }
       }
