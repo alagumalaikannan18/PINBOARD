@@ -432,7 +432,7 @@
     if (checkoutBtn) {
       if (summary.isComplete) {
         checkoutBtn.disabled = false;
-        checkoutBtn.innerHTML = '<span>ADD TO CART — ₹' + summary.totalPrice.toLocaleString() + '</span> <span>→</span>';
+        checkoutBtn.innerHTML = '<span>BUY YOUR CUSTOM POSTER — ₹' + summary.totalPrice.toLocaleString() + '</span> <span>→</span>';
       } else {
         checkoutBtn.disabled = true;
         checkoutBtn.innerHTML = '<span>UPLOAD ' + (summary.totalRequired - summary.totalUploaded) + ' MORE TO PROCEED</span>';
@@ -821,7 +821,91 @@
     }
     if (!parsed || !parsed.hostname) return false;
     var host = parsed.hostname.toLowerCase();
-    return host === 'drive.google.com' || host.endsWith('.drive.google.com') || host === 'docs.google.com' || host.endsWith('.docs.google.com');
+    var isDriveHost = (host === 'drive.google.com' || host.endsWith('.drive.google.com') || host === 'docs.google.com' || host.endsWith('.docs.google.com'));
+    return isDriveHost;
+  }
+
+  function validateCustomOrderForm() {
+    var nameEl = document.getElementById('customCustName');
+    var emailEl = document.getElementById('customCustEmail');
+    var phoneEl = document.getElementById('customCustPhone');
+    var addressEl = document.getElementById('customCustAddress');
+    var cityEl = document.getElementById('customCustCity');
+    var stateEl = document.getElementById('customCustState');
+    var pincodeEl = document.getElementById('customCustPincode');
+    var driveLinkEl = document.getElementById('customDriveLink');
+    var errBox = document.getElementById('customFormError');
+
+    var name = (nameEl ? nameEl.value : '').trim();
+    var email = (emailEl ? emailEl.value : '').trim();
+    var phone = (phoneEl ? phoneEl.value : '').trim();
+    var address = (addressEl ? addressEl.value : '').trim();
+    var city = (cityEl ? cityEl.value : '').trim();
+    var state = (stateEl ? stateEl.value : '').trim();
+    var pincode = (pincodeEl ? pincodeEl.value : '').trim();
+    var driveLink = (driveLinkEl ? driveLinkEl.value : '').trim();
+
+    // Reset highlights
+    [nameEl, emailEl, phoneEl, addressEl, cityEl, stateEl, pincodeEl, driveLinkEl].forEach(function (el) {
+      if (el) {
+        el.style.borderColor = '#d1d5db';
+        el.style.backgroundColor = '#ffffff';
+      }
+    });
+
+    var showError = function (msg, targetEl) {
+      if (errBox) {
+        errBox.style.display = 'block';
+        errBox.textContent = msg;
+      }
+      if (targetEl) {
+        targetEl.style.borderColor = '#dc2626';
+        targetEl.style.backgroundColor = '#fef2f2';
+        targetEl.focus();
+      }
+      return false;
+    };
+
+    if (!name) return showError('Full Name is required.', nameEl);
+
+    if (!email) return showError('Email Address is required.', emailEl);
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return showError('Please enter a valid Email Address.', emailEl);
+
+    if (!phone) return showError('Phone Number is required.', phoneEl);
+    var cleanPhone = phone.replace(/[^0-9]/g, '');
+    if (cleanPhone.length < 10) return showError('Please enter a valid Phone Number.', phoneEl);
+
+    if (!address) return showError('Delivery Address is required.', addressEl);
+    if (!city) return showError('City is required.', cityEl);
+    if (!state) return showError('State is required.', stateEl);
+
+    if (!pincode) return showError('PIN Code is required.', pincodeEl);
+    var cleanPin = pincode.replace(/[^0-9]/g, '');
+    if (cleanPin.length !== 6) return showError('Please enter a valid PIN Code.', pincodeEl);
+
+    if (!driveLink) return showError('Google Drive link is required for custom poster orders.', driveLinkEl);
+
+    if (!isValidGoogleDriveUrl(driveLink)) {
+      return showError('Please enter a valid Google Drive sharing link.', driveLinkEl);
+    }
+
+    if (errBox) {
+      errBox.style.display = 'none';
+      errBox.textContent = '';
+    }
+
+    return {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+      city: city,
+      state: state,
+      pincode: pincode,
+      driveLink: driveLink,
+      notes: (document.getElementById('customCustNotes') ? document.getElementById('customCustNotes').value : '').trim()
+    };
   }
 
   function openCustomOrderModal() {
@@ -889,70 +973,118 @@
   }
 
   /**
-   * Add Custom Poster Set to Cart Action
+   * Custom Poster Order Action (Opens Order Details Form & Hands off to WhatsApp)
    */
   function setupCheckoutAction() {
     var btn = document.getElementById('customCheckoutBtn');
-    if (!btn) return;
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var summary = calculateSummary();
+        if (!summary.isComplete) {
+          alert('Please upload all ' + summary.totalRequired + ' photos and select their sizes before proceeding.');
+          return;
+        }
+        openCustomOrderModal();
+      });
+    }
 
-    btn.addEventListener('click', function () {
-      var summary = calculateSummary();
-      if (!summary.isComplete) {
-        alert('Please upload all ' + summary.totalRequired + ' photos and select their sizes before proceeding.');
-        return;
-      }
+    var previewCheckoutBtn = document.getElementById('wallPreviewCheckoutBtn');
+    if (previewCheckoutBtn) {
+      previewCheckoutBtn.addEventListener('click', function () {
+        closeWallPreviewModal();
+        openCustomOrderModal();
+      });
+    }
 
-      var count = state.activeTemplate || 5;
+    var orderForm = document.getElementById('customOrderForm');
+    if (orderForm && !orderForm.dataset.submitBound) {
+      orderForm.dataset.submitBound = 'true';
+      orderForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var formData = validateCustomOrderForm();
+        if (!formData) return;
 
-      var customOrder = {
-        id: 'custom-poster-set',
-        productId: 'custom-poster-set',
-        isCustom: true,
-        title: 'Custom Poster Set (' + count + ' Prints)',
-        subtitle: 'Personalized Wall Collection · ' + summary.sizesSummary,
-        quantity: 1,
-        totalPrice: summary.totalPrice,
-        coverImage: state.slots[0] ? state.slots[0].image : (window.PinboardPosterConfig ? window.PinboardPosterConfig.getPlaceholder(true) : ''),
-        sizesSummary: summary.sizesSummary,
-        template: count,
-        posters: state.slots.map(function (s, i) {
-          var sizeKey = (s.size === 'A6') ? 'A6' : 'A4';
-          var unitPrice = Math.round((CUSTOM_PRICING_MATRIX[sizeKey][count] || 250) / count);
-          return {
-            slot: i + 1,
-            size: sizeKey,
-            price: unitPrice,
-            image: s.image
-          };
-        })
-      };
+        var count = state.activeTemplate || 5;
+        var summary = calculateSummary();
+        var productName = 'Custom Poster Set (' + count + ' Prints)';
+        var productId = 'custom-poster-set';
+        var sizeStr = summary.sizesSummary;
+        var qtyStr = count;
+        var priceStr = summary.totalPrice.toLocaleString();
 
-      // Add to user cart (handles guest_session & duplicate prevention)
-      if (window.Auth && typeof window.Auth.addCustomPostersToCart === 'function') {
-        window.Auth.addCustomPostersToCart(customOrder);
-      }
+        var msgLines = [
+          'Hello PINBOARD,',
+          '',
+          'I would like to place a Custom Poster order.',
+          '',
+          'CUSTOM POSTER DETAILS',
+          'Product: ' + productName,
+          'Product ID: ' + productId,
+          'Size: ' + sizeStr,
+          'Quantity: ' + qtyStr,
+          'Price: ₹' + priceStr,
+          '',
+          'CUSTOMER DETAILS',
+          'Name: ' + formData.name,
+          'Email: ' + formData.email,
+          'Phone: ' + formData.phone,
+          '',
+          'DELIVERY DETAILS',
+          'Address: ' + formData.address,
+          'City: ' + formData.city,
+          'State: ' + formData.state,
+          'PIN Code: ' + formData.pincode,
+          '',
+          'GOOGLE DRIVE LINK',
+          formData.driveLink,
+          ''
+        ];
 
-      if (window.Auth && typeof window.Auth.updateNavbar === 'function') {
-        window.Auth.updateNavbar();
-      }
+        if (formData.notes) {
+          msgLines.push('ORDER NOTES');
+          msgLines.push(formData.notes);
+          msgLines.push('');
+        }
 
-      // Show celebration modal
-      var modal = document.getElementById('customSuccessModal');
-      var modalDesc = document.getElementById('modalSuccessDesc');
-      if (modalDesc) {
-        modalDesc.textContent = 'Your personalized ' + count + '-poster collection (' + summary.sizesSummary + ') has been added to your cart for ₹' + summary.totalPrice.toLocaleString() + '.';
-      }
-      if (modal) {
-        modal.classList.add('open');
-      }
-    });
+        msgLines.push('Estimated Delivery: 3–5 days');
+        msgLines.push('');
+        msgLines.push('Please confirm my Custom Poster order request.');
 
-    // Close Celebration Modal Button
-    var modalClose = document.getElementById('modalCloseBtn');
+        var fullMessage = msgLines.join('\n');
+
+        var targetPhone = "919342302872";
+        if (window.PinboardWhatsApp && window.PinboardWhatsApp.WHATSAPP_ORDER_NUMBER) {
+          targetPhone = window.PinboardWhatsApp.WHATSAPP_ORDER_NUMBER;
+        }
+
+        var waUrl = "https://wa.me/" + targetPhone + "?text=" + encodeURIComponent(fullMessage);
+
+        try {
+          var win = window.open(waUrl, '_blank');
+          if (!win || win.closed || typeof win.closed === 'undefined') {
+            window.location.href = waUrl;
+          }
+        } catch (err) {
+          window.location.href = waUrl;
+        }
+
+        closeCustomOrderModal();
+      });
+    }
+
+    var modalClose = document.getElementById('closeCustomOrderModal');
     if (modalClose) {
       modalClose.addEventListener('click', function () {
-        var modal = document.getElementById('customSuccessModal');
-        if (modal) modal.classList.remove('open');
+        closeCustomOrderModal();
+      });
+    }
+
+    var orderModal = document.getElementById('customOrderModal');
+    if (orderModal) {
+      orderModal.addEventListener('click', function (e) {
+        if (e.target === orderModal) {
+          closeCustomOrderModal();
+        }
       });
     }
   }

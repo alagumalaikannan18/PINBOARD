@@ -23,11 +23,11 @@ function test(description, fn) {
 const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
 const styleCss = fs.readFileSync(path.join(__dirname, 'css/style.css'), 'utf8');
 
-// 1. Verify Card 01: AFTER HOURS
-test('Card 01: Product 27 (After Hours) has title AFTER HOURS', () => {
-  assert(indexHtml.includes('data-product-id="27"'), 'Card 01 data-product-id is 27');
-  assert(indexHtml.includes('alt="AFTER HOURS"'), 'Card 01 image alt is AFTER HOURS');
-  assert(indexHtml.includes('<span class="name">AFTER HOURS</span>'), 'Card 01 title is AFTER HOURS');
+// 1. Verify Card 01: THALA
+test('Card 01: Featured collection card has title THALA and links to Product 157', () => {
+  assert(indexHtml.includes('data-product-id="157"'), 'Card 01 data-product-id is 157');
+  assert(indexHtml.includes('alt="THALA"'), 'Card 01 image alt is THALA');
+  assert(indexHtml.includes('<span class="name">THALA</span>'), 'Card 01 title is THALA');
 });
 
 // 2. Verify Card 02: PETER PARKER

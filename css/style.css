@@ -1149,6 +1149,17 @@ body.is-collections-page .hero {
   line-height: 1;
 }
 
+.collection-label .desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 4px;
+  display: block;
+  white-space: normal;
+}
+
 /* ---------- CAROUSEL BUTTONS (shared) ---------- */
 .carousel-btn {
   position: absolute;

@@ -9,8 +9,8 @@
 ## 1. Shop the Wall Bug Root Cause
 
 - **Location:** [index.html](file:///d:/PINBOARD-GIT/index.html#L378) (Line 378)
-- **Root Cause:** The Hero CTA button `"Shop the Wall"` was configured with `href="#shop"`, which targeted an in-page section anchor pointing to the Best Sellers row instead of linking to the dedicated Shop All page.
-- **Impact:** Clicking `"Shop the Wall"` scrolled the user down to Best Sellers rather than displaying the complete 164-poster catalog on `shop.html`.
+- **Root Cause:** The Hero CTA button `"Shop the Wall"` was configured with `href="#shop"`, which targeted an in-page section anchor pointing to the Best Sellers row (`02 — FRESH OFF THE PRESS BEST SELLERS`) instead of linking to the dedicated Shop All page.
+- **Impact:** Clicking `"Shop the Wall"` on homepage scrolled down to Best Sellers rather than displaying the complete 164-poster catalog on `shop.html`.
 
 ---
 
@@ -18,7 +18,8 @@
 
 - **File Modified:** [index.html](file:///d:/PINBOARD-GIT/index.html#L378)
 - **Change Implemented:** Updated line 378 from `href="#shop"` to `href="shop.html"`.
-- **Verification:** Verified navigation on desktop, laptop, tablet, and mobile. Refresh and direct navigation both properly land on `shop.html`.
+- **Navigation Flow Verified:** Home → Shop the Wall CTA → `shop.html` (Shop All page displaying complete 164-poster catalog).
+- **Multi-Device Verification:** Verified navigation on desktop, laptop, tablet, and mobile. Refresh and direct navigation both properly land on `shop.html`.
 
 ---
 
@@ -26,7 +27,7 @@
 
 - **Files Modified:** [custom-posters.html](file:///d:/PINBOARD-GIT/custom-posters.html#L591) and [js/custom-posters.js](file:///d:/PINBOARD-GIT/js/custom-posters.js#L435)
 - **Button Text Updated:**
-  - Initial / Complete State text updated from `ADD TO CART — ₹250 →` to `BUY YOUR CUSTOM POSTER — ₹250 →`.
+  - Initial & Complete State text updated from `ADD TO CART — ₹250 →` to `BUY YOUR CUSTOM POSTER — ₹250 →`.
 - **Dynamic Pricing Preservation:**
   - The displayed price is dynamically rendered in `updateSummaryPanel()` using `summary.totalPrice.toLocaleString()`.
   - Selecting A6 sizes dynamically updates the text to `BUY YOUR CUSTOM POSTER — ₹80 →`.
@@ -83,7 +84,7 @@
 - **Integration:** Reused existing `PinboardWhatsApp` module ([js/whatsapp-order.js](file:///d:/PINBOARD-GIT/js/whatsapp-order.js)) targeting official number `919342302872`.
 - **Structured Message Format Generated:**
 
-```
+```text
 PINBOARD — CUSTOM POSTER ORDER REQUEST
 
 Customer:
@@ -165,14 +166,14 @@ Verified non-overlapping, scrollable modal UX with zero horizontal overflow acro
 ## 11. Normal Shop All Purchase Regression Result
 
 - **Shop All Page (`shop.html`):** Product grid, filtering, searching, modal previews, and cart drawer remain 100% functional.
-- **Catalog Buy Now (`product.html`):** standard poster purchase flow remains 100% untouched.
+- **Catalog Buy Now (`product.html`):** Standard poster purchase flow remains 100% untouched.
 
 ---
 
 ## 12. Custom Poster Flow Result
 
 - **Upload & Sizing Studio:** Drag-and-drop uploads, per-poster size selection (A6 / A4), live subtotal calculation, and 3D wall preview modal function cleanly.
-- **Order Handoff:** Click `"BUY YOUR CUSTOM POSTER — ₹PRICE"` opens customer form, enforces valid Google Drive link, and hands off to WhatsApp.
+- **Order Handoff:** Clicking `"BUY YOUR CUSTOM POSTER — ₹PRICE"` opens customer form, enforces valid Google Drive link, and hands off to WhatsApp.
 
 ---
 
@@ -199,7 +200,7 @@ Ran 5 automated test suites:
 
 ## FINAL STATUS SUMMARY
 
-```
+```text
 SHOP THE WALL → SHOP ALL                       : PASS
 CUSTOM POSTER ORDER FLOW                       : PASS
 MANDATORY DRIVE LINK VALIDATION                : PASS
